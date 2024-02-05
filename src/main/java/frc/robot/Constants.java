@@ -98,6 +98,15 @@ public final class Constants {
         public static final double kArmMaxSpeed = 0.3;
         public static final double kShooterArmMaxSpeed = 0.3;
 
+        // Manual Arm movement speeds
+        public static final double kArmRaiseSpeed = .15;
+        public static final double kArmLowerSpeed = .15;
+
+        public static final double kShooterArmRaiseSpeed = .15;
+        public static final double kShooterArmLowerSpeed = .15;
+
+
+
         // PIDS
         // Arm PID coefficients
         public static final int kArmPIDSlot = 0;

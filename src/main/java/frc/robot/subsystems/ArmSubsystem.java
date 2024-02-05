@@ -5,9 +5,11 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
@@ -36,10 +38,28 @@ public class ArmSubsystem extends SubsystemBase {
     double kArmP = ArmConstants.kArmP;
     double kArmI = ArmConstants.kArmI;
     double kArmD = ArmConstants.kArmD;
+    double kArmFF = ArmConstants.kArmFF;
+    double kArmMaxOutput = ArmConstants.kArmMaxOutput;
+    double kArmMinOutput = ArmConstants.kArmMinOutput;
 
-    double kShooterP = ArmConstants.kShooterArmP;
-    double kShooterI = ArmConstants.kShooterArmI;
-    double kShooterD = ArmConstants.kShooterArmD;
+    double kShooterArmP = ArmConstants.kShooterArmP;
+    double kShooterArmI = ArmConstants.kShooterArmI;
+    double kShooterArmD = ArmConstants.kShooterArmD;
+    double kShooterArmFF = ArmConstants.kShooterArmFF;
+    double kShooterArmMaxOutput = ArmConstants.kShooterArmMaxOutput;
+    double kShooterArmMinOutput = ArmConstants.kShooterArmMinOutput;
+
+    // limit switches
+    private SparkLimitSwitch m_armLowerLimit;
+    private SparkLimitSwitch m_armRaiseLimit;
+
+    public boolean ArmLowerLimitHit() {
+        return isArmLowerLimitHit();
+    }
+
+    public boolean ArmRaiseLimitHit() {
+        return isArmRaiseLimitHit();
+    }
 
     /** Creates a new ExampleSubsystem. */
     public ArmSubsystem() {
@@ -87,9 +107,7 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterArmPIDController
                 .setPositionPIDWrappingMaxInput(ArmConstants.kShooterArmEncoderPositionPIDMaxInput);
 
-        // Set the PID gains for the turning motor. Note these are example gains, and
-        // you
-        // may need to tune them for your own robot!
+        // Set the PID gains for the turning motor. 
         m_armPIDController.setP(ArmConstants.kArmP);
         m_armPIDController.setI(ArmConstants.kArmI);
         m_armPIDController.setD(ArmConstants.kArmD);
@@ -113,6 +131,10 @@ public class ArmSubsystem extends SubsystemBase {
 
         m_shooterArmMotor.setIdleMode(ArmConstants.kShooterArmMotorIdleMode);
         m_shooterArmMotor.setSmartCurrentLimit(ArmConstants.kShooterArmMotorCurrentLimit);
+
+        //Limit switches
+        m_armLowerLimit = m_armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+        m_armRaiseLimit = m_armMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
         // Save the SPARK MAX configurations. If a SPARK MAX browns out during
         // operation, it will maintain the above configurations.
@@ -167,8 +189,10 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("kArmP", kArmP);
         SmartDashboard.putNumber("kArmI", kArmI);
         SmartDashboard.putNumber("kArmD", kArmD);
-        SmartDashboard.putNumber("kShooterP", kShooterP);
-        SmartDashboard.putNumber("kShooterI", kShooterI);
+        SmartDashboard.putNumber("kShooterArmP", kShooterArmP);
+        SmartDashboard.putNumber("kShooterArmI", kShooterArmI);
+        SmartDashboard.putNumber("kShooterArmD", kShooterArmD);
+
     }
 
     public void tunePIDs() {
@@ -179,10 +203,71 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("kArmI", kArmI);
         SmartDashboard.putNumber("kArmD", kArmD);
 
-        kShooterP = SmartDashboard.getNumber("kShooterP", 0);
-        kShooterI = SmartDashboard.getNumber("kShooterI", 0);
-        SmartDashboard.putNumber("kShooterP", kShooterP);
-        SmartDashboard.putNumber("kShooterI", kShooterI);
+        kShooterArmP = SmartDashboard.getNumber("kShooterArmP", 0);
+        kShooterArmI = SmartDashboard.getNumber("kShooterArmI", 0);
+        kShooterArmD = SmartDashboard.getNumber("kShooterArmD", 0);
+        SmartDashboard.putNumber("kShooterArmP", kShooterArmP);
+        SmartDashboard.putNumber("kShooterArmI", kShooterArmI);
+        SmartDashboard.putNumber("kShooterArmD", kShooterArmD);
     }
 
+    // Limit Switches
+
+    public boolean isArmLowerLimitHit() {
+        return m_armLowerLimit.isPressed();
+    }
+
+    public boolean isArmRaiseLimitHit() {
+        return m_armRaiseLimit.isPressed();
+    }
+
+    // Arm Motor Movements
+
+    public void armRaise() {
+        m_armMotor.set(ArmConstants.kArmRaiseSpeed);
+    }
+
+    public void armLower() {
+        m_armMotor.set(-ArmConstants.kArmLowerSpeed);
+    }
+
+    public void armStop() {
+        m_armMotor.set(0);
+    }
+
+    public double getCurrentArmPosition() {
+        return m_armEncoder.getPosition();
+    }
+
+    public void keepArmPosition(double armPosition) {
+        m_armPIDController.setReference(armPosition,ControlType.kPosition);
+        if (TUNING_MODE) {
+            SmartDashboard.putNumber("Desired Arm Position", armPosition);
+            System.out.println("Keep ARM Position " + armPosition);
+        }
+    }
+
+    public void shooterArmRaise() {
+        m_shooterArmMotor.set(ArmConstants.kShooterArmRaiseSpeed);
+    }
+
+    public void shooterArmLower() {
+        m_shooterArmMotor.set(-ArmConstants.kShooterArmLowerSpeed);
+    }
+
+    public void shooterArmStop() {
+        m_shooterArmMotor.set(0);
+    }
+
+    public double getCurrentShooterArmPosition() {
+        return m_shooterArmEncoder.getPosition();
+    }
+
+    public void keepShooterArmPosition(double shooterArmPosition) {
+        m_armPIDController.setReference(shooterArmPosition,ControlType.kPosition);
+        if (TUNING_MODE) {
+            SmartDashboard.putNumber("Desired Shooter Arm Position", shooterArmPosition);
+            System.out.println("Keep SHOOTER ARM Position " + shooterArmPosition);
+        }
+    }
 }

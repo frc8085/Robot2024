@@ -100,6 +100,13 @@ public class RobotContainer {
         final Trigger moveToTrapScore = m_operatorController.povRight();
         final Trigger moveToTrapClimb = m_operatorController.povDown();
 
+        // manual arm and shooter movement - arm left joystick, shooter right joystick
+        final Trigger ArmRaiseButton = m_operatorController.axisLessThan(1,-.25);
+        final Trigger ArmLowerButton = m_operatorController.axisGreaterThan(1, .25);
+        final Trigger ShooterArmRaiseButton = m_operatorController.axisLessThan(5,-.25);
+        final Trigger ShooterArmLowerButton = m_operatorController.axisGreaterThan(1, .25);
+
+
         intake.whileTrue(new InstantCommand(m_intake::forward))
                 .whileFalse(new InstantCommand(m_intake::stop));
 
@@ -137,7 +144,30 @@ public class RobotContainer {
         moveToSubwoofer.and(alternatePosition).whileTrue(
                 new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kHighSubwooferArm)));
 
-    }
+
+        // Manual Arm and Shooter Movements
+
+        ArmRaiseButton.whileTrue (new InstantCommand(m_arm::armRaise, m_arm))
+        .onFalse(new InstantCommand(
+                () -> m_arm.keepArmPosition(
+                        m_arm.getCurrentArmPosition())));
+
+        ArmLowerButton.whileTrue (new InstantCommand(m_arm::armLower, m_arm))
+        .onFalse(new InstantCommand(
+                () -> m_arm.keepArmPosition(
+                        m_arm.getCurrentArmPosition())));
+
+        ShooterArmRaiseButton.whileTrue (new InstantCommand(m_arm::shooterArmRaise, m_arm))
+        .onFalse(new InstantCommand(
+                () -> m_arm.keepArmPosition(
+                        m_arm.getCurrentArmPosition())));
+
+        ShooterArmLowerButton.whileTrue (new InstantCommand(m_arm::shooterArmLower, m_arm))
+        .onFalse(new InstantCommand(
+                () -> m_arm.keepArmPosition(
+                        m_arm.getCurrentArmPosition())));
+
+}
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
