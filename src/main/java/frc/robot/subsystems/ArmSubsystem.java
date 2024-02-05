@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
@@ -25,10 +26,15 @@ public class ArmSubsystem extends SubsystemBase {
     private final CANSparkMax m_shooterArmMotor = new CANSparkMax(
             ArmConstants.kShooterArmCanId, MotorType.kBrushless);
 
+    /** Temporarily use relative encoders since we don't have the right cables
     // Encoders
     private AbsoluteEncoder m_armEncoder;
     private AbsoluteEncoder m_shooterArmEncoder;
+    */
 
+    private RelativeEncoder m_armEncoder;
+    private RelativeEncoder m_shooterArmEncoder;
+    
     // PID Controllers
 
     private SparkPIDController m_armPIDController = m_armMotor.getPIDController();
@@ -70,11 +76,14 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterArmMotor.restoreFactoryDefaults();
 
         // Setup encoders and PID controllers for the arm and shooter arms.
-        m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
+//temporarily use relative encoders
+//        m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        m_armEncoder = m_armMotor.getEncoder();
         m_armPIDController = m_armMotor.getPIDController();
         m_armPIDController.setFeedbackDevice(m_armEncoder);
 
-        m_shooterArmEncoder = m_shooterArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
+//        m_shooterArmEncoder = m_shooterArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        m_shooterArmEncoder = m_shooterArmMotor.getEncoder();
         m_shooterArmPIDController = m_shooterArmMotor.getPIDController();
         m_shooterArmPIDController.setFeedbackDevice(m_armEncoder);
 
