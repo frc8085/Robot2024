@@ -46,7 +46,7 @@ public final class Constants {
         public static final int kShooter1CanId = 26;
         public static final int kShooter2CanId = 27;
         public static final int kShooterMotor2CurrentLimit = 0;
-        public static final IdleMode kShooterMotor2IdleMode = null;
+        public static final IdleMode kShooterMotor2IdleMode = IdleMode.kBrake;
         public static final int kShooterMotor1CurrentLimit = 0;
         public static IdleMode kShooterMotor1IdleMode = IdleMode.kBrake;
         public static double kShooter2MaxOutput = 0.8;
@@ -104,8 +104,6 @@ public final class Constants {
 
         public static final double kShooterArmRaiseSpeed = .15;
         public static final double kShooterArmLowerSpeed = .15;
-
-
 
         // PIDS
         // Arm PID coefficients
