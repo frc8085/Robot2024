@@ -26,15 +26,16 @@ public class ArmSubsystem extends SubsystemBase {
     private final CANSparkMax m_shooterArmMotor = new CANSparkMax(
             ArmConstants.kShooterArmCanId, MotorType.kBrushless);
 
-    /** Temporarily use relative encoders since we don't have the right cables
-    // Encoders
-    private AbsoluteEncoder m_armEncoder;
-    private AbsoluteEncoder m_shooterArmEncoder;
-    */
+    /**
+     * Temporarily use relative encoders since we don't have the right cables
+     * // Encoders
+     * private AbsoluteEncoder m_armEncoder;
+     * private AbsoluteEncoder m_shooterArmEncoder;
+     */
 
     private RelativeEncoder m_armEncoder;
     private RelativeEncoder m_shooterArmEncoder;
-    
+
     // PID Controllers
 
     private SparkPIDController m_armPIDController = m_armMotor.getPIDController();
@@ -76,16 +77,16 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterArmMotor.restoreFactoryDefaults();
 
         // Setup encoders and PID controllers for the arm and shooter arms.
-//temporarily use relative encoders
-//        m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        // temporarily use relative encoders
+        // m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
         m_armEncoder = m_armMotor.getEncoder();
         m_armPIDController = m_armMotor.getPIDController();
         m_armPIDController.setFeedbackDevice(m_armEncoder);
 
-//        m_shooterArmEncoder = m_shooterArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        // m_shooterArmEncoder = m_shooterArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
         m_shooterArmEncoder = m_shooterArmMotor.getEncoder();
         m_shooterArmPIDController = m_shooterArmMotor.getPIDController();
-        m_shooterArmPIDController.setFeedbackDevice(m_armEncoder);
+        m_shooterArmPIDController.setFeedbackDevice(m_shooterArmEncoder);
 
         // Apply position and velocity conversion factors for the encoders. We
         // want these in radians and radians per second to use with WPILib's swerve
@@ -97,10 +98,9 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterArmEncoder.setVelocityConversionFactor(ArmConstants.kShooterArmEncoderVelocityFactor);
 
         // Invert the encoders, since the output shaft rotates in the opposite
-        // direction of
-        // the steering motor in the MAXSwerve Module.
-        m_armEncoder.setInverted(ArmConstants.kArmEncoderInverted);
-        m_shooterArmEncoder.setInverted(ArmConstants.kShooterArmEncoderInverted);
+        // direction of the steering motor in the MAXSwerve Module.
+        // m_armEncoder.setInverted(ArmConstants.kArmEncoderInverted);
+        // m_shooterArmEncoder.setInverted(ArmConstants.kShooterArmEncoderInverted);
 
         // Enable PID wrap around for the turning motor. This will allow the PID
         // controller to go through 0 to get to the setpoint i.e. going from 350 degrees
@@ -116,7 +116,7 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterArmPIDController
                 .setPositionPIDWrappingMaxInput(ArmConstants.kShooterArmEncoderPositionPIDMaxInput);
 
-        // Set the PID gains for the turning motor. 
+        // Set the PID gains for the turning motor.
         m_armPIDController.setP(ArmConstants.kArmP);
         m_armPIDController.setI(ArmConstants.kArmI);
         m_armPIDController.setD(ArmConstants.kArmD);
@@ -141,7 +141,7 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterArmMotor.setIdleMode(ArmConstants.kShooterArmMotorIdleMode);
         m_shooterArmMotor.setSmartCurrentLimit(ArmConstants.kShooterArmMotorCurrentLimit);
 
-        //Limit switches
+        // Limit switches
         m_armLowerLimit = m_armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
         m_armRaiseLimit = m_armMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
@@ -249,7 +249,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void keepArmPosition(double armPosition) {
-        m_armPIDController.setReference(armPosition,ControlType.kPosition);
+        m_armPIDController.setReference(armPosition, ControlType.kPosition);
         if (TUNING_MODE) {
             SmartDashboard.putNumber("Desired Arm Position", armPosition);
             System.out.println("Keep ARM Position " + armPosition);
@@ -273,7 +273,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void keepShooterArmPosition(double shooterArmPosition) {
-        m_armPIDController.setReference(shooterArmPosition,ControlType.kPosition);
+        m_armPIDController.setReference(shooterArmPosition, ControlType.kPosition);
         if (TUNING_MODE) {
             SmartDashboard.putNumber("Desired Shooter Arm Position", shooterArmPosition);
             System.out.println("Keep SHOOTER ARM Position " + shooterArmPosition);
