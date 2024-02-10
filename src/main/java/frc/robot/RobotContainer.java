@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.List;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -13,36 +15,23 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClimberSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.IntakeStop;
-import frc.robot.commands.MoveToAmp;
-import frc.robot.commands.MoveToPodium;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.OIConstants;
 import frc.robot.commands.MoveToPosition;
-import frc.robot.commands.MoveToSubwooferLow;
-import frc.robot.commands.MoveToTrapApproach;
-import frc.robot.commands.MoveToTrapClimb;
-import frc.robot.commands.MoveToTrapScore;
-import frc.robot.commands.MoveToTravel;
-
-import java.util.List;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -127,40 +116,9 @@ public class RobotContainer {
         intake.whileTrue(new InstantCommand(m_intake::run))
                 .whileFalse(new InstantCommand(m_intake::stop));
 
-        // moveToTravel.whileTrue(new MoveToTravel(m_arm));
-        // moveToSubwoofer.whileTrue(new MoveToSubwooferLow(m_arm));
-        // moveToAmp.whileTrue(new MoveToAmp(m_arm));
-        // moveToPodium.whileTrue(new MoveToPodium(m_arm));
-        // moveToTrapApproach.whileTrue(new MoveToTrapApproach(m_arm));
-        // moveToTrapScore.whileTrue(new MoveToTrapScore(m_arm));
-        // moveToTrapClimb.whileTrue(new MoveToTrapClimb(m_arm));
-
-        /**
-         * Alternate positions.
-         * For these, you need to hold down the Left Bumper too.
-         **/
-
-        // Move to HIGH Podium
-        // moveToPodium.and(alternatePosition).whileTrue(
-        // new InstantCommand(() ->
-        // m_arm.setArmPositionDegrees(ArmConstants.kHighPodiumArm)));
-
-        // Move to BACK Podium
-        // moveToAmp.and(alternatePosition).whileTrue(
-        // new InstantCommand(() ->
-        // m_arm.setArmPositionDegrees(ArmConstants.kBackPodiumArm)));
-
-        // Move to HIGH Subwoofer
-        // moveToSubwoofer.and(alternatePosition).whileTrue(
-        // new InstantCommand(() ->
-        // m_arm.setArmPositionDegrees(ArmConstants.kHighSubwooferArm)));
-
-        // TODO: Test the "ENUM approach" by pressing X here.
-
         /**
          * Move arms to predefined positions
          **/
-
         moveToTravel.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.TRAVEL));
         moveToSubwoofer.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.LOW_SUBWOOFER));
         moveToAmp.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.AMP));
@@ -172,12 +130,11 @@ public class RobotContainer {
         /**
          * Alternate positions. For these, you need to hold down the Left Bumper too.
          **/
-
-        // Move to HIGH Podium
+        // HIGH Podium
         moveToPodium.and(alternatePosition).whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.HIGH_PODIUM));
-        // Move to BACK Podium
+        // BACK Podium
         moveToAmp.and(alternatePosition).whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.BACK_PODIUM));
-        // Move to HIGH Subwoofer
+        // HIGH Subwoofer
         moveToSubwoofer.and(alternatePosition)
                 .whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.HIGH_SUBWOOFER));
 
