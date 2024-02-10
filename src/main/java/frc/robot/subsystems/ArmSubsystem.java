@@ -11,6 +11,7 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.TuningModeConstants;
 
@@ -182,6 +183,11 @@ public class ArmSubsystem extends SubsystemBase {
         if (TUNING_MODE) {
             tunePIDs();
         }
+    }
+
+    public void moveToPosition(Position position) {
+        setArmPositionDegrees(position.armPosition);
+        setShooterArmPositionDegrees(position.shooterArmPosition);
     }
 
     public void log() {

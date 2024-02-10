@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -68,6 +69,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
+        addToDashboard();
 
         // Configure default commands
         m_drive.setDefaultCommand(
@@ -80,6 +82,11 @@ public class RobotContainer {
                         true,
                         true),
                         m_drive));
+    }
+
+    private void addToDashboard() {
+        SmartDashboard.putData("Move to Podium", new MoveToPosition(m_arm, ArmConstants.Position.PODIUM));
+
     }
 
     /**
