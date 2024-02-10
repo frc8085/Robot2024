@@ -89,7 +89,8 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // DRIVER controlled buttons
-        final Trigger shoot = m_driverController.a();
+        final Trigger shoot = m_driverController.x();
+        final Trigger stopShooting = m_driverController.b();
 
         // OPERATOR controlled buttons
         final Trigger intake = m_operatorController.leftTrigger();
@@ -115,6 +116,9 @@ public class RobotContainer {
         final Trigger WinchBackButton = m_operatorController.axisGreaterThan(5, .25);
 
         final Trigger ClimberWinchButton = m_operatorController.povDown();
+
+        shoot.whileTrue(new InstantCommand(m_shooter::run));
+        stopShooting.whileTrue(new InstantCommand(m_shooter::stop));
 
         intake.whileTrue(new InstantCommand(m_intake::run))
                 .whileFalse(new InstantCommand(m_intake::stop));
