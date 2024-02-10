@@ -23,6 +23,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -54,6 +55,7 @@ public class RobotContainer {
     private final ShooterSubsystem m_shooter = new ShooterSubsystem();
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
     private final ArmSubsystem m_arm = new ArmSubsystem();
+    private final ClimberSubsystem m_climb = new ClimberSubsystem();
 
     // The driver's controller
     CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
@@ -100,10 +102,12 @@ public class RobotContainer {
         final Trigger moveToTrapClimb = m_operatorController.povDown();
 
         // manual arm and shooter movement - arm left joystick, shooter right joystick
-        final Trigger ArmRaiseButton = m_operatorController.axisLessThan(1, -.25);
-        final Trigger ArmLowerButton = m_operatorController.axisGreaterThan(1, .25);
+        // final Trigger ArmRaiseButton = m_operatorController.axisLessThan(1, -.25);
+        // final Trigger ArmLowerButton = m_operatorController.axisGreaterThan(1, .25);
         final Trigger ShooterArmRaiseButton = m_operatorController.axisLessThan(5, -.25);
         final Trigger ShooterArmLowerButton = m_operatorController.axisGreaterThan(1, .25);
+
+        final Trigger ClimberWinchButton = m_operatorController.axisLessThan(1, -.25);
 
         intake.whileTrue(new InstantCommand(m_intake::forward))
                 .whileFalse(new InstantCommand(m_intake::stop));
@@ -144,15 +148,18 @@ public class RobotContainer {
 
         // Manual Arm and Shooter Movements
 
-        ArmRaiseButton.whileTrue(new InstantCommand(m_arm::armRaise, m_arm))
-                .onFalse(new InstantCommand(
-                        () -> m_arm.keepArmPosition(
-                                m_arm.getCurrentArmPosition())));
+        // ArmRaiseButton.whileTrue(new InstantCommand(m_arm::armRaise, m_arm))
+        // .onFalse(new InstantCommand(
+        // () -> m_arm.keepArmPosition(
+        // m_arm.getCurrentArmPosition())));
 
-        ArmLowerButton.whileTrue(new InstantCommand(m_arm::armLower, m_arm))
-                .onFalse(new InstantCommand(
-                        () -> m_arm.keepArmPosition(
-                                m_arm.getCurrentArmPosition())));
+        // ArmLowerButton.whileTrue(new InstantCommand(m_arm::armLower, m_arm))
+        // .onFalse(new InstantCommand(
+        // () -> m_arm.keepArmPosition(
+        // m_arm.getCurrentArmPosition())));
+
+        ClimberWinchButton.whileTrue(new InstantCommand(m_climb::start))
+                .onFalse(new InstantCommand(m_climb::stop));
 
         ShooterArmRaiseButton.whileTrue(new InstantCommand(m_arm::shooterArmRaise, m_arm))
                 .onFalse(new InstantCommand(
