@@ -14,7 +14,8 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TuningModeConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-    DigitalInput lightSensor = new DigitalInput(ShooterConstants.kIRPort);
+    DigitalInput lightSensor1 = new DigitalInput(ShooterConstants.kIRPort1);
+    DigitalInput lightSensor2 = new DigitalInput(ShooterConstants.kIRPort2);
 
     // imports motor id
     private final CANSparkMax m_shooter1Motor = new CANSparkMax(
@@ -108,7 +109,9 @@ public class ShooterSubsystem extends SubsystemBase {
     public void log() {
         // SmartDashboard.putNumber("Arm Position", getArmPosition());
         // SmartDashboard.putNumber("Shooter Arm Position", getShooterArmPosition());
-        SmartDashboard.putBoolean("Note detected", isNoteDetected());
+        SmartDashboard.putBoolean("Both sensors note detected", isNoteDetected());
+        SmartDashboard.putBoolean("Sensor 1 note detected", lightSensor1.get());
+        SmartDashboard.putBoolean("Sensor 2 note detected", lightSensor2.get());
     }
 
     public void addPIDToDashboard() {
@@ -152,7 +155,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public Boolean isNoteDetected() {
-        return lightSensor.get();
+        return lightSensor1.get() || lightSensor2.get();
     }
 
     public void StopShooterIfNote() {
