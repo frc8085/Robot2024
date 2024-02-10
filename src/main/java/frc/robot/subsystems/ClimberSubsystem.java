@@ -1,19 +1,34 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import frc.robot.Constants.ClimberConstants;
 
-public class ClimberSubsystem {
-    int Winchmotorcanid = ClimberConstants.kWinchCanId;
-    CANSparkMax WinchMotor = new CANSparkMax(Winchmotorcanid, MotorType.kBrushless);
+public class ClimberSubsystem extends SubsystemBase {
+    int winchMotorcanid = ClimberConstants.kWinchCanId;
+    CANSparkMax winchMotor = new CANSparkMax(winchMotorcanid, MotorType.kBrushless);
 
-    public void start() {
-        WinchMotor.set(.5);
+    public ClimberSubsystem() {
+        winchMotor.restoreFactoryDefaults();
+        winchMotor.setIdleMode(IdleMode.kBrake);
+        winchMotor.burnFlash();
+    }
+
+    public void forward() {
+        winchMotor.set(ClimberConstants.kSpeed);
+    }
+
+    public void back() {
+        winchMotor.set(-ClimberConstants.kSpeed);
     }
 
     public void stop() {
-        WinchMotor.set(0);
+        winchMotor.set(0);
     }
 }

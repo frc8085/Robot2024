@@ -232,6 +232,7 @@ public final class Constants {
 
     public static final class ClimberConstants {
         public static final int kWinchCanId = 22;
+        public static final double kSpeed = 0.25;
     }
 
     public static final class FeederConstants {
