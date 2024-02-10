@@ -94,7 +94,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // This method will be called once per scheduler run
     public void periodic() {
-        isNoteDetected();
+        StopShooterIfNote();
 
         if (LoggingConstants.kLogging) {
             log();
@@ -153,5 +153,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public Boolean isNoteDetected() {
         return lightSensor.get();
+    }
+
+    public void StopShooterIfNote() {
+        if (isNoteDetected()) {
+            stop();
+        }
     }
 }
