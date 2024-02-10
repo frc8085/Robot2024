@@ -12,9 +12,13 @@ public class MoveToPosition extends SequentialCommandGroup {
             ArmSubsystem m_arm,
             Position position) {
         addCommands(
-                new InstantCommand(() -> System.out.println("**START Move to " + position.label + " Position**")),
-                new ParallelCommandGroup(
-                        new InstantCommand(() -> m_arm.moveToPosition(position))));
+                new InstantCommand(() -> System.out.println("**START Move to " + position.label + " Position** ")),
+                new InstantCommand(() -> System.out.println(position.label + "ARM:" + position.armPosition)),
+                new InstantCommand(
+                        () -> System.out.println(position.label + "SHOOTER ARM:" + position.shooterArmPosition))
+        // new ParallelCommandGroup(
+        // new InstantCommand(() -> m_arm.moveToPosition(position)))
+        );
     }
 
 }
