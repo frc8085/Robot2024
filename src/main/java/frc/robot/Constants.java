@@ -45,8 +45,8 @@ public final class Constants {
         public static final int kShooter1CanId = 26;
         public static final int kShooter2CanId = 27;
 
-        public static final int kIRPort = 1;
-        public static final int kIRPort2 = 2;
+        public static final int kIRPort = 0;
+        public static final int kIRPort2 = 1;
 
         public static final int kShooterMotor2CurrentLimit = 0;
         public static final IdleMode kShooterMotor2IdleMode = IdleMode.kBrake;
