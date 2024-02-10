@@ -37,7 +37,6 @@ public final class Constants {
     }
 
     public static final class IntakeConstants {
-        public static final int kIRPort = 1;
         public static final int kIntakeCanId = 21;
         public static final double speed = .5;
     }
@@ -45,6 +44,9 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final int kShooter1CanId = 26;
         public static final int kShooter2CanId = 27;
+
+        public static final int kIRPort = 1;
+
         public static final int kShooterMotor2CurrentLimit = 0;
         public static final IdleMode kShooterMotor2IdleMode = IdleMode.kBrake;
         public static final int kShooterMotor1CurrentLimit = 0;
