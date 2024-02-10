@@ -134,7 +134,14 @@ public final class Constants {
         public enum Position {
             TRAVEL("Travel", 35 - kAdjustmentFactor, 83),
             PODIUM("Podium", 46 - kAdjustmentFactor, 79),
-            LOW_SUBWOOFER("LowSubwoofer", 75 - kAdjustmentFactor, 75);
+            LOW_SUBWOOFER("LowSubwoofer", 75 - kAdjustmentFactor, 75),
+            AMP("Amp", 114 - kAdjustmentFactor, -39),
+            TRAP_APPROACH("Trap Approach", 132 - kAdjustmentFactor, -42),
+            TRAP_CLIMB("Trap Climb", 130 - kAdjustmentFactor, -40),
+            TRAP_SCORE("Trap Score", 130 - kAdjustmentFactor, -55),
+            HIGH_PODIUM("High Podium", 127 - kAdjustmentFactor, -40),
+            BACK_PODIUM("Back Podium", 127 - kAdjustmentFactor, 166),
+            HIGH_SUBWOOFER("High Subwoofer", 127 - kAdjustmentFactor, 23);
 
             private static final Map<String, Position> BY_LABEL = new HashMap<>();
             private static final Map<Double, Position> BY_ARM_POSITION = new HashMap<>();

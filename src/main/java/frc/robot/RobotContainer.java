@@ -127,22 +127,13 @@ public class RobotContainer {
         intake.whileTrue(new InstantCommand(m_intake::run))
                 .whileFalse(new InstantCommand(m_intake::stop));
 
-        moveToTravel.whileTrue(new MoveToTravel(m_arm));
-
-        moveToSubwoofer.whileTrue(new MoveToSubwooferLow(m_arm));
-
-        moveToAmp.whileTrue(new MoveToAmp(m_arm));
-
-        moveToPodium.whileTrue(new MoveToPodium(m_arm));
-
-        // TODO: Test the "ENUM approach" by pressing X here.
-        moveToPodium.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.PODIUM));
-
-        moveToTrapApproach.whileTrue(new MoveToTrapApproach(m_arm));
-
-        moveToTrapScore.whileTrue(new MoveToTrapScore(m_arm));
-
-        moveToTrapClimb.whileTrue(new MoveToTrapClimb(m_arm));
+        // moveToTravel.whileTrue(new MoveToTravel(m_arm));
+        // moveToSubwoofer.whileTrue(new MoveToSubwooferLow(m_arm));
+        // moveToAmp.whileTrue(new MoveToAmp(m_arm));
+        // moveToPodium.whileTrue(new MoveToPodium(m_arm));
+        // moveToTrapApproach.whileTrue(new MoveToTrapApproach(m_arm));
+        // moveToTrapScore.whileTrue(new MoveToTrapScore(m_arm));
+        // moveToTrapClimb.whileTrue(new MoveToTrapClimb(m_arm));
 
         /**
          * Alternate positions.
@@ -150,19 +141,49 @@ public class RobotContainer {
          **/
 
         // Move to HIGH Podium
-        moveToPodium.and(alternatePosition).whileTrue(
-                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kHighPodiumArm)));
+        // moveToPodium.and(alternatePosition).whileTrue(
+        // new InstantCommand(() ->
+        // m_arm.setArmPositionDegrees(ArmConstants.kHighPodiumArm)));
 
         // Move to BACK Podium
-        moveToAmp.and(alternatePosition).whileTrue(
-                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kBackPodiumArm)));
+        // moveToAmp.and(alternatePosition).whileTrue(
+        // new InstantCommand(() ->
+        // m_arm.setArmPositionDegrees(ArmConstants.kBackPodiumArm)));
 
         // Move to HIGH Subwoofer
-        moveToSubwoofer.and(alternatePosition).whileTrue(
-                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kHighSubwooferArm)));
+        // moveToSubwoofer.and(alternatePosition).whileTrue(
+        // new InstantCommand(() ->
+        // m_arm.setArmPositionDegrees(ArmConstants.kHighSubwooferArm)));
 
-        // Manual Arm and Shooter Movements
+        // TODO: Test the "ENUM approach" by pressing X here.
 
+        /**
+         * Move arms to predefined positions
+         **/
+
+        moveToTravel.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.TRAVEL));
+        moveToSubwoofer.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.LOW_SUBWOOFER));
+        moveToAmp.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.AMP));
+        moveToPodium.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.PODIUM));
+        moveToTrapApproach.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.TRAP_APPROACH));
+        moveToTrapScore.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.TRAP_SCORE));
+        moveToTrapClimb.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.TRAP_CLIMB));
+
+        /**
+         * Alternate positions. For these, you need to hold down the Left Bumper too.
+         **/
+
+        // Move to HIGH Podium
+        moveToPodium.and(alternatePosition).whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.HIGH_PODIUM));
+        // Move to BACK Podium
+        moveToAmp.and(alternatePosition).whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.BACK_PODIUM));
+        // Move to HIGH Subwoofer
+        moveToSubwoofer.and(alternatePosition)
+                .whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.HIGH_SUBWOOFER));
+
+        /**
+         * Manual Arm raise and lower
+         **/
         ArmRaiseButton.whileTrue(new InstantCommand(m_arm::armRaise, m_arm))
                 .onFalse(new InstantCommand(
                         () -> m_arm.keepArmPosition(

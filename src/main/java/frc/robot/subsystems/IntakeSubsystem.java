@@ -19,14 +19,13 @@ public class IntakeSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("intake speed", speed);
     }
 
-    public void forward() {
+    public void run() {
         m_intakeMotor.set(speed);
     }
 
     public void stop() {
         m_intakeMotor.set(0);
     }
-
 
     @Override
     public void periodic() {
@@ -38,8 +37,6 @@ public class IntakeSubsystem extends SubsystemBase {
         if (LoggingConstants.kLogging) {
         }
     }
-
-
 
     public void tuneSpeeds() {
         speed = SmartDashboard.getNumber("Intake speed", IntakeConstants.speed);

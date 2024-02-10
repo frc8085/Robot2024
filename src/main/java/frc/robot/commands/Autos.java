@@ -20,23 +20,16 @@ public final class Autos {
                 // 1. AimAndShoot1()
                 new AutoAimAndShoot(m_arm, m_shooter, ArmConstants.Position.LOW_SUBWOOFER),
                 // 2. Drive(FirstPickup)
-
                 // 3. Pickup
                 new Intake(m_intake),
                 // 4. Drive(Diagonal)
-
                 // 5. AimAndShoot2()
-
                 // 6. Drive(Pickup)
-
                 // 7. Pickup
                 new Intake(m_intake),
                 // 8. Drive(Diagonal)
-
                 // 9. AimAndShoot3()
-
                 // 10. Drive(Pickup)
-
                 // 11. Pickup
                 new Intake(m_intake)
         // 12. AimAndShoot4()
