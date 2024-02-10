@@ -14,7 +14,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TuningModeConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-    DigitalInput breakBeam = new DigitalInput(ShooterConstants.kIRPort);
+    DigitalInput lightSensor = new DigitalInput(ShooterConstants.kIRPort);
 
     // imports motor id
     private final CANSparkMax m_shooter1Motor = new CANSparkMax(
@@ -152,6 +152,6 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public Boolean isNoteDetected() {
-        return !breakBeam.get();
+        return lightSensor.get();
     }
 }
