@@ -99,7 +99,7 @@ public final class Constants {
         public static final double kShooterArmMaxSpeed = 0.3;
 
         // Manual Arm movement speeds
-        public static final double kArmRaiseSpeed = .15;
+        public static final double kArmRaiseSpeed = 1;
         public static final double kArmLowerSpeed = .15;
 
         public static final double kShooterArmRaiseSpeed = .15;
