@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LoggingConstants;
@@ -13,6 +14,8 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TuningModeConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
+    DigitalInput lightSensor = new DigitalInput(ShooterConstants.kIRPort);
+
     // imports motor id
     private final CANSparkMax m_shooter1Motor = new CANSparkMax(
             ShooterConstants.kShooter1CanId, MotorType.kBrushless);
@@ -42,7 +45,6 @@ public class ShooterSubsystem extends SubsystemBase {
     public ShooterSubsystem() {
         // Factory reset, so we get the SPARKS MAX to a known state before configuring
         // them. This is useful in case a SPARK MAX is swapped out.
-
         m_shooter1Motor.restoreFactoryDefaults();
         m_shooter2Motor.restoreFactoryDefaults();
 
@@ -90,20 +92,23 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2Motor.setSmartCurrentLimit(ShooterConstants.kShooterMotor2CurrentLimit);
     }
 
+    // This method will be called once per scheduler run
     public void periodic() {
-        // This method will be called once per scheduler run
-        log();
+        isNoteDetected();
+
+        if (LoggingConstants.kLogging) {
+            log();
+        }
+
         if (TuningModeConstants.kTuning) {
             tunePIDs();
         }
     }
 
     public void log() {
-        if (LoggingConstants.kLogging) {
-            // SmartDashboard.putNumber("Arm Position", getArmPosition());
-            // SmartDashboard.putNumber("Shooter Arm Position", getShooterArmPosition());
-            //
-        }
+        // SmartDashboard.putNumber("Arm Position", getArmPosition());
+        // SmartDashboard.putNumber("Shooter Arm Position", getShooterArmPosition());
+        SmartDashboard.putBoolean("Note detected", isNoteDetected());
     }
 
     public void addPIDToDashboard() {
@@ -146,4 +151,7 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkMax.ControlType.kVelocity);
     }
 
+    public Boolean isNoteDetected() {
+        return lightSensor.get();
+    }
 }
