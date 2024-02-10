@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -77,8 +78,10 @@ public class RobotContainer {
     }
 
     private void addToDashboard() {
-        SmartDashboard.putData("Move to Podium", new MoveToPosition(m_arm, ArmConstants.Position.PODIUM));
-
+        // Put a button on the dashboard for each setpoint
+        for (Position pos : Position.values()) {
+            SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, pos));
+        }
     }
 
     /**
@@ -119,24 +122,24 @@ public class RobotContainer {
         /**
          * Move arms to predefined positions
          **/
-        moveToTravel.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.TRAVEL));
-        moveToSubwoofer.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.LOW_SUBWOOFER));
-        moveToAmp.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.AMP));
-        moveToPodium.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.PODIUM));
-        moveToTrapApproach.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.TRAP_APPROACH));
-        moveToTrapScore.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.TRAP_SCORE));
-        moveToTrapClimb.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.TRAP_CLIMB));
+        moveToTravel.whileTrue(new MoveToPosition(m_arm, Position.TRAVEL));
+        moveToSubwoofer.whileTrue(new MoveToPosition(m_arm, Position.LOW_SUBWOOFER));
+        moveToAmp.whileTrue(new MoveToPosition(m_arm, Position.AMP));
+        moveToPodium.whileTrue(new MoveToPosition(m_arm, Position.PODIUM));
+        moveToTrapApproach.whileTrue(new MoveToPosition(m_arm, Position.TRAP_APPROACH));
+        moveToTrapScore.whileTrue(new MoveToPosition(m_arm, Position.TRAP_SCORE));
+        moveToTrapClimb.whileTrue(new MoveToPosition(m_arm, Position.TRAP_CLIMB));
 
         /**
          * Alternate positions. For these, you need to hold down the Left Bumper too.
          **/
         // HIGH Podium
-        moveToPodium.and(alternatePosition).whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.HIGH_PODIUM));
+        moveToPodium.and(alternatePosition).whileTrue(new MoveToPosition(m_arm, Position.HIGH_PODIUM));
         // BACK Podium
-        moveToAmp.and(alternatePosition).whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.BACK_PODIUM));
+        moveToAmp.and(alternatePosition).whileTrue(new MoveToPosition(m_arm, Position.BACK_PODIUM));
         // HIGH Subwoofer
         moveToSubwoofer.and(alternatePosition)
-                .whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.HIGH_SUBWOOFER));
+                .whileTrue(new MoveToPosition(m_arm, Position.HIGH_SUBWOOFER));
 
         /**
          * Manual Arm raise and lower
