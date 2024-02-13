@@ -2,7 +2,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.ctre.phoenix.motorcontrol.MotorCommutation;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -10,8 +9,9 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.FeederConstants;
+import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.LoggingConstants;
+import frc.robot.Constants.MotorDefaultsConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TuningModeConstants;
 
@@ -21,15 +21,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // imports motor id
     private final CANSparkMax m_shooter1Motor = new CANSparkMax(
-            ShooterConstants.kShooter1CanId, MotorType.kBrushless);
+            CanIdConstants.kShooter1CanId, MotorType.kBrushless);
     private final CANSparkMax m_shooter2Motor = new CANSparkMax(
-            ShooterConstants.kShooter2CanId, MotorType.kBrushless);
-    private final CANSparkMax m_feederMotor = new CANSparkMax(FeederConstants.kFeederCanId, MotorType.kBrushless);
+            CanIdConstants.kShooter2CanId, MotorType.kBrushless);
+    private final CANSparkMax m_feederMotor = new CANSparkMax(CanIdConstants.kFeederCanId, MotorType.kBrushless);
 
     // Encoders
     private RelativeEncoder m_shooter1Encoder;
     private RelativeEncoder m_shooter2Encoder;
-    private RelativeEncoder m_feederEncoder;
 
     // PID Controllers
     private SparkPIDController m_shooter1PIDController = m_shooter1Motor.getPIDController();
@@ -92,10 +91,10 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2PIDController.setSmartMotionMaxVelocity(0.5, 0);
 
         m_shooter1Motor.setIdleMode(ShooterConstants.kShooterMotor1IdleMode);
-        m_shooter1Motor.setSmartCurrentLimit(ShooterConstants.kShooterMotor1CurrentLimit);
+        m_shooter1Motor.setSmartCurrentLimit(MotorDefaultsConstants.NeoCurrentLimit);
 
         m_shooter2Motor.setIdleMode(ShooterConstants.kShooterMotor2IdleMode);
-        m_shooter2Motor.setSmartCurrentLimit(ShooterConstants.kShooterMotor2CurrentLimit);
+        m_shooter2Motor.setSmartCurrentLimit(MotorDefaultsConstants.NeoCurrentLimit);
     }
 
     // This method will be called once per scheduler run
@@ -142,12 +141,19 @@ public class ShooterSubsystem extends SubsystemBase {
     public void stop() {
         m_shooter1Motor.set(0);
         m_shooter2Motor.set(0);
-        m_feederMotor.set(0);
     }
 
     public void run() {
         m_shooter1Motor.set(1);
         m_shooter2Motor.set(.8);
+    }
+
+
+    public void feederstop() {
+        m_feederMotor.set(0);
+    }
+
+    public void feederrun() {
         m_feederMotor.set(1);
     }
     // public void run() {

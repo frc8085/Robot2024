@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LoggingConstants;
 import frc.utils.SwerveUtils;
@@ -47,7 +48,7 @@ public class DriveSubsystem extends SubsystemBase {
     // private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
     // private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 
-    private final Pigeon2 m_gyro = new Pigeon2(DriveConstants.kGyroDeviceNumber);
+    private final Pigeon2 m_gyro = new Pigeon2(CanIdConstants.kGyroCanId);
 
     // Slew rate filter variables for controlling lateral acceleration
     private double m_currentRotation = 0.0;

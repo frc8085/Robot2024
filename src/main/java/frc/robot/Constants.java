@@ -28,29 +28,39 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+    public static final class CanIdConstants {
+        public static final int kGyroCanId = 15;
+        public static final int kIntakeCanId = 21;
+        public static final int kWinchCanId = 22;
+        public static final int kArmCanId = 23;
+        public static final int kShooterArmCanId = 24;
+        public static final int kFeederCanId = 25;
+        public static final int kShooter1CanId = 26;
+        public static final int kShooter2CanId = 27;
+    }
+
     public static final class LoggingConstants {
         public static final boolean kLogging = true;
     }
 
+    public static final class MotorDefaultsConstants {
+        public static final int NeoCurrentLimit = 40;
+        public static final int NeoVortexCurrentLimit = 40;
+        public static final int Neo550CurrentLimit = 20;
+    }
     public static final class TuningModeConstants {
         public static final boolean kTuning = true;
     }
 
     public static final class IntakeConstants {
-        public static final int kIntakeCanId = 21;
         public static final double speed = .5;
     }
 
     public static final class ShooterConstants {
-        public static final int kShooter1CanId = 26;
-        public static final int kShooter2CanId = 27;
-
         public static final int kIRPort1 = 0;
         public static final int kIRPort2 = 1;
 
-        public static final int kShooterMotor2CurrentLimit = 0;
         public static final IdleMode kShooterMotor2IdleMode = IdleMode.kBrake;
-        public static final int kShooterMotor1CurrentLimit = 0;
         public static IdleMode kShooterMotor1IdleMode = IdleMode.kBrake;
         public static double kShooter2MaxOutput = 0.8;
         public static double kShooter2MinOutput = -0.8;
@@ -71,15 +81,10 @@ public final class Constants {
     }
 
     public static final class ArmConstants {
-        public static final int kArmCanId = 23;
-        public static final int kShooterArmCanId = 24;
 
-        public static final int kArmMotorCurrentLimit = 20; // amps
-        public static final int kShooterArmMotorCurrentLimit = 20; // amps
-
+        // TODO: Check on whether the encoders should be inverted
         // Invert the encoder, since the output shaft rotates in the opposite
-        // direction of
-        // the steering motor in the MAXSwerve Module.
+        // direction of the steering motor in the MAXSwerve Module.
         public static final boolean kArmEncoderInverted = true;
         public static final boolean kShooterArmEncoderInverted = true;
 
@@ -238,12 +243,7 @@ public final class Constants {
     }
 
     public static final class ClimberConstants {
-        public static final int kWinchCanId = 22;
         public static final double kSpeed = 0.25;
-    }
-
-    public static final class FeederConstants {
-        public static final int kFeederCanId = 25;
     }
 
     public static final class DriveConstants {
@@ -285,7 +285,6 @@ public final class Constants {
         public static final int kRearRightTurningCanId = 14;
 
         // Gyro Constants
-        public static final int kGyroDeviceNumber = 15;
         public static final boolean kGyroReversed = false;
     }
 

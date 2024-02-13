@@ -11,18 +11,20 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.LoggingConstants;
+import frc.robot.Constants.MotorDefaultsConstants;
 import frc.robot.Constants.TuningModeConstants;
 
 public class ArmSubsystem extends SubsystemBase {
     private boolean TUNING_MODE = TuningModeConstants.kTuning;
 
-    // Motors
+    // Motors - Arm uses a vortex, shooterArm uses a 550
     private final CANSparkFlex m_armMotor = new CANSparkFlex(
-            ArmConstants.kArmCanId, MotorType.kBrushless);
+            CanIdConstants.kArmCanId, MotorType.kBrushless);
     private final CANSparkMax m_shooterArmMotor = new CANSparkMax(
-            ArmConstants.kShooterArmCanId, MotorType.kBrushless);
+            CanIdConstants.kShooterArmCanId, MotorType.kBrushless);
 
     /**
      * Temporarily use relative encoders since we don't have the right cables
@@ -134,10 +136,10 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterArmPIDController.setSmartMotionMaxVelocity(0.5, 0);
 
         m_armMotor.setIdleMode(ArmConstants.kArmMotorIdleMode);
-        m_armMotor.setSmartCurrentLimit(ArmConstants.kArmMotorCurrentLimit);
+        m_armMotor.setSmartCurrentLimit(MotorDefaultsConstants.NeoVortexCurrentLimit);
 
         m_shooterArmMotor.setIdleMode(ArmConstants.kShooterArmMotorIdleMode);
-        m_shooterArmMotor.setSmartCurrentLimit(ArmConstants.kShooterArmMotorCurrentLimit);
+        m_shooterArmMotor.setSmartCurrentLimit(MotorDefaultsConstants.Neo550CurrentLimit);
 
         // Limit switches
         m_armLowerLimit = m_armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);

@@ -6,12 +6,13 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.LoggingConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
     // imports motor id
-    private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeCanId, MotorType.kBrushless);
+    private final CANSparkMax m_intakeMotor = new CANSparkMax(CanIdConstants.kIntakeCanId, MotorType.kBrushless);
 
     private double speed = IntakeConstants.speed;
 
