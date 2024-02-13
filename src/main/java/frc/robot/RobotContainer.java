@@ -28,7 +28,9 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.IntakeRun;
 import frc.robot.commands.IntakeStop;
+import frc.robot.commands.MoveToPodium;
 import frc.robot.commands.MoveToPosition;
+import frc.robot.commands.MoveToTravel;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -83,9 +85,11 @@ public class RobotContainer {
 
     private void addToDashboard() {
         // Put a button on the dashboard for each setpoint
-        for (Position pos : Position.values()) {
-            SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, pos));
-        }
+        // for (Position pos : Position.values()) {
+        //     SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, pos));
+                SmartDashboard.putData("Travel", new MoveToTravel(m_arm));
+                SmartDashboard.putData("Podium", new MoveToPodium(m_arm));
+// }
     }
 
     /**

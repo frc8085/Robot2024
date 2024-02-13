@@ -166,6 +166,11 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     // Maintain arm position in degrees
+    public void setArmPosition(double testPosition) {
+        m_armPIDController.setReference(testPosition, ControlType.kPosition);
+    }
+
+    // Maintain arm position in degrees
     public void setArmPositionDegrees(double degreesArm) {
         // set degrees for arm, convert to encoder value
         double positionArm = degreesArm * ArmConstants.kArmRevolutionsPerDegree;
