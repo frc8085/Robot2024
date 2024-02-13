@@ -165,7 +165,7 @@ public class ArmSubsystem extends SubsystemBase {
         return m_shooterArmEncoder.getPosition();
     }
 
-    // Maintain arm position in degrees
+    // Maintain arm position
     public void setArmPosition(double testPosition) {
         m_armPIDController.setReference(testPosition, ControlType.kPosition);
     }

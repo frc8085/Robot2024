@@ -145,6 +145,10 @@ public final class Constants {
 
         public static final double kAdjustmentFactor = 90;
 
+        // Temporary Arm PID configuration
+        public static final double travelArmPosition = 50;
+        public static final double podiumArmPosition = 100;
+
         public enum Position {
             TRAVEL("Travel", 35 - kAdjustmentFactor, 83),
             PODIUM("Podium", 46 - kAdjustmentFactor, 79),

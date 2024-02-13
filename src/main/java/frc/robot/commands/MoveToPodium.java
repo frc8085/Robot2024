@@ -10,8 +10,7 @@ import static frc.robot.Constants.ArmConstants.Position;
 
 public class MoveToPodium extends SequentialCommandGroup {
     public MoveToPodium(
-            ArmSubsystem m_arm,
-            Position position) {
+            ArmSubsystem m_arm) {
         addCommands(
             new InstantCommand(() -> m_arm.keepArmPosition(ArmConstants.podiumArmPosition)));
     }

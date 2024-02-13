@@ -11,8 +11,7 @@ import static frc.robot.Constants.ArmConstants.Position;
 
 public class MoveToTravel extends SequentialCommandGroup {
     public MoveToTravel(
-            ArmSubsystem m_arm,
-            Position position) {
+            ArmSubsystem m_arm) {
         addCommands(
             new InstantCommand(() -> m_arm.keepArmPosition(ArmConstants.travelArmPosition)));
     }
