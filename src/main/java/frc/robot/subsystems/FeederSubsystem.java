@@ -14,6 +14,7 @@ import frc.robot.Constants.MotorDefaultsConstants;
 import frc.robot.Constants.ShooterConstants;
 
 public class FeederSubsystem extends SubsystemBase {
+
     DigitalInput lightSensor1 = new DigitalInput(ShooterConstants.kIRPort1);
     DigitalInput lightSensor2 = new DigitalInput(ShooterConstants.kIRPort2);
 
@@ -67,7 +68,7 @@ public class FeederSubsystem extends SubsystemBase {
 
     public void StopShooterIfNote() {
         if (isNoteDetected()) {
-            stop();
+            System.out.println("Note Detected");
         }
     }
 }

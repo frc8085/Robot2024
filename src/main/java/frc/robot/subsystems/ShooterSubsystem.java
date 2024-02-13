@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanIdConstants;
@@ -15,8 +14,6 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TuningModeConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-    DigitalInput lightSensor1 = new DigitalInput(ShooterConstants.kIRPort1);
-    DigitalInput lightSensor2 = new DigitalInput(ShooterConstants.kIRPort2);
 
     // imports motor id
     private final CANSparkMax m_shooter1Motor = new CANSparkMax(
