@@ -21,10 +21,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // imports motor id
     private final CANSparkMax m_shooter1Motor = new CANSparkMax(
-            CanIdConstants.kShooter1CanId, MotorType.kBrushless);
+        CanIdConstants.kShooter1CanId, MotorDefaultsConstants.NeoMotorType);
     private final CANSparkMax m_shooter2Motor = new CANSparkMax(
-            CanIdConstants.kShooter2CanId, MotorType.kBrushless);
-    private final CANSparkMax m_feederMotor = new CANSparkMax(CanIdConstants.kFeederCanId, MotorType.kBrushless);
+        CanIdConstants.kShooter2CanId, MotorDefaultsConstants.NeoMotorType);
+    private final CANSparkMax m_feederMotor = new CANSparkMax(
+        CanIdConstants.kFeederCanId, MotorDefaultsConstants.Neo550MotorType);
 
     // Encoders
     private RelativeEncoder m_shooter1Encoder;

@@ -9,10 +9,11 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.ClimberConstants;
+import frc.robot.Constants.MotorDefaultsConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
     int winchMotorcanid = CanIdConstants.kWinchCanId;
-    CANSparkMax winchMotor = new CANSparkMax(winchMotorcanid, MotorType.kBrushless);
+    CANSparkMax winchMotor = new CANSparkMax(winchMotorcanid, MotorDefaultsConstants.NeoVortexMotorType);
 
     public ClimberSubsystem() {
         winchMotor.restoreFactoryDefaults();

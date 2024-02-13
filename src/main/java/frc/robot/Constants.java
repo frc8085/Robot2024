@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -47,7 +48,10 @@ public final class Constants {
         public static final int NeoCurrentLimit = 40;
         public static final int NeoVortexCurrentLimit = 40;
         public static final int Neo550CurrentLimit = 20;
-    }
+        public static final MotorType NeoMotorType = MotorType.kBrushless;
+        public static final MotorType Neo550MotorType = MotorType.kBrushless;
+        public static final MotorType NeoVortexMotorType = MotorType.kBrushless;
+        }
     public static final class TuningModeConstants {
         public static final boolean kTuning = true;
     }

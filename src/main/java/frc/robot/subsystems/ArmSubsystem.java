@@ -22,9 +22,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     // Motors - Arm uses a vortex, shooterArm uses a 550
     private final CANSparkFlex m_armMotor = new CANSparkFlex(
-            CanIdConstants.kArmCanId, MotorType.kBrushless);
+            CanIdConstants.kArmCanId, MotorDefaultsConstants.NeoVortexMotorType);
     private final CANSparkMax m_shooterArmMotor = new CANSparkMax(
-            CanIdConstants.kShooterArmCanId, MotorType.kBrushless);
+            CanIdConstants.kShooterArmCanId, MotorDefaultsConstants.Neo550MotorType);
 
     /**
      * Temporarily use relative encoders since we don't have the right cables
