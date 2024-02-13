@@ -76,45 +76,22 @@ public class ArmSubsystem extends SubsystemBase {
         m_armMotor.restoreFactoryDefaults();
         m_shooterArmMotor.restoreFactoryDefaults();
 
+        m_armMotor.setIdleMode(ArmConstants.kArmMotorIdleMode);
+        m_armMotor.setSmartCurrentLimit(MotorDefaultsConstants.NeoVortexCurrentLimit);
+
+        m_shooterArmMotor.setIdleMode(ArmConstants.kShooterArmMotorIdleMode);
+        m_shooterArmMotor.setSmartCurrentLimit(MotorDefaultsConstants.Neo550CurrentLimit);
+
+
         // Setup encoders and PID controllers for the arm and shooter arms.
         // temporarily use relative encoders
         // m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
         m_armEncoder = m_armMotor.getEncoder();
-        m_armPIDController = m_armMotor.getPIDController();
         m_armPIDController.setFeedbackDevice(m_armEncoder);
 
         // m_shooterArmEncoder = m_shooterArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
         m_shooterArmEncoder = m_shooterArmMotor.getEncoder();
-        m_shooterArmPIDController = m_shooterArmMotor.getPIDController();
         m_shooterArmPIDController.setFeedbackDevice(m_shooterArmEncoder);
-
-        // Apply position and velocity conversion factors for the encoders. We
-        // want these in radians and radians per second to use with WPILib's swerve
-        // APIs.
-        m_armEncoder.setPositionConversionFactor(ArmConstants.kArmEncoderPositionFactor);
-        m_armEncoder.setVelocityConversionFactor(ArmConstants.kArmEncoderVelocityFactor);
-
-        m_shooterArmEncoder.setPositionConversionFactor(ArmConstants.kShooterArmEncoderPositionFactor);
-        m_shooterArmEncoder.setVelocityConversionFactor(ArmConstants.kShooterArmEncoderVelocityFactor);
-
-        // Invert the encoders, since the output shaft rotates in the opposite
-        // direction of the steering motor in the MAXSwerve Module.
-        // m_armEncoder.setInverted(ArmConstants.kArmEncoderInverted);
-        // m_shooterArmEncoder.setInverted(ArmConstants.kShooterArmEncoderInverted);
-
-        // Enable PID wrap around for the turning motor. This will allow the PID
-        // controller to go through 0 to get to the setpoint i.e. going from 350 degrees
-        // to 10 degrees will go through 0 rather than the other direction which is a
-        // longer route.
-        m_armPIDController.setPositionPIDWrappingEnabled(true);
-        m_armPIDController.setPositionPIDWrappingMinInput(ArmConstants.kArmEncoderPositionPIDMinInput);
-        m_armPIDController.setPositionPIDWrappingMaxInput(ArmConstants.kArmEncoderPositionPIDMaxInput);
-
-        m_shooterArmPIDController.setPositionPIDWrappingEnabled(true);
-        m_shooterArmPIDController
-                .setPositionPIDWrappingMinInput(ArmConstants.kShooterArmEncoderPositionPIDMinInput);
-        m_shooterArmPIDController
-                .setPositionPIDWrappingMaxInput(ArmConstants.kShooterArmEncoderPositionPIDMaxInput);
 
         // Set the PID gains for the turning motor.
         m_armPIDController.setP(ArmConstants.kArmP);
@@ -134,12 +111,6 @@ public class ArmSubsystem extends SubsystemBase {
                 ArmConstants.kShooterArmMaxOutput);
         m_shooterArmPIDController.setSmartMotionMaxAccel(0.5, 0);
         m_shooterArmPIDController.setSmartMotionMaxVelocity(0.5, 0);
-
-        m_armMotor.setIdleMode(ArmConstants.kArmMotorIdleMode);
-        m_armMotor.setSmartCurrentLimit(MotorDefaultsConstants.NeoVortexCurrentLimit);
-
-        m_shooterArmMotor.setIdleMode(ArmConstants.kShooterArmMotorIdleMode);
-        m_shooterArmMotor.setSmartCurrentLimit(MotorDefaultsConstants.Neo550CurrentLimit);
 
         // Limit switches
         m_armLowerLimit = m_armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
