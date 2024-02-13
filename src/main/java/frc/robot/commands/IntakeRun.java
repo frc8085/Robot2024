@@ -5,12 +5,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeStop extends SequentialCommandGroup{
-    public IntakeStop(
+public class IntakeRun extends SequentialCommandGroup {
+    public IntakeRun(
         IntakeSubsystem m_intake, FeederSubsystem m_feeder
     ){
-    addCommands(
-        new InstantCommand(m_intake::stop),
-        new InstantCommand(m_feeder::stop));
+        addCommands(
+                new InstantCommand(m_intake::run),
+                new InstantCommand(m_feeder::run));
     }
 }

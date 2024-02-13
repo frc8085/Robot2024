@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,7 +17,16 @@ public class IntakeSubsystem extends SubsystemBase {
     private double speed = IntakeConstants.speed;
 
     public IntakeSubsystem() {
-        SmartDashboard.putNumber("intake speed", speed);
+
+        // Factory reset, so we get the SPARK MAX to a known state before configuring
+        // them. This is useful in case a SPARK MAX is swapped out.
+
+        m_intakeMotor.restoreFactoryDefaults();
+        m_intakeMotor.setIdleMode(IdleMode.kBrake);
+        m_intakeMotor.setSmartCurrentLimit(MotorDefaultsConstants.NeoCurrentLimit);
+
+        m_intakeMotor.burnFlash();
+
     }
 
     public void run() {

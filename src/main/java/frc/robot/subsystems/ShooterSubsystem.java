@@ -1,7 +1,6 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -24,10 +23,8 @@ public class ShooterSubsystem extends SubsystemBase {
         CanIdConstants.kShooter1CanId, MotorDefaultsConstants.NeoMotorType);
     private final CANSparkMax m_shooter2Motor = new CANSparkMax(
         CanIdConstants.kShooter2CanId, MotorDefaultsConstants.NeoMotorType);
-    private final CANSparkMax m_feederMotor = new CANSparkMax(
-        CanIdConstants.kFeederCanId, MotorDefaultsConstants.Neo550MotorType);
 
-    // Encoders
+        // Encoders
     private RelativeEncoder m_shooter1Encoder;
     private RelativeEncoder m_shooter2Encoder;
 
@@ -96,11 +93,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
         m_shooter2Motor.setIdleMode(ShooterConstants.kShooterMotor2IdleMode);
         m_shooter2Motor.setSmartCurrentLimit(MotorDefaultsConstants.NeoCurrentLimit);
+
+        m_shooter1Motor.burnFlash();
+        m_shooter2Motor.burnFlash();
+
     }
 
     // This method will be called once per scheduler run
     public void periodic() {
-        StopShooterIfNote();
 
         if (LoggingConstants.kLogging) {
             log();
@@ -112,12 +112,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void log() {
-        // SmartDashboard.putNumber("Arm Position", getArmPosition());
-        // SmartDashboard.putNumber("Shooter Arm Position", getShooterArmPosition());
-        SmartDashboard.putBoolean("Both sensors note detected", isNoteDetected());
-        SmartDashboard.putBoolean("Sensor 1 note detected", lightSensor1.get());
-        SmartDashboard.putBoolean("Sensor 2 note detected", lightSensor2.get());
-    }
+        // SmartDashboard.putNumber("Description", item);
+      }
 
     public void addPIDToDashboard() {
         SmartDashboard.putNumber("kShooter1P", kShooter1P);
@@ -149,14 +145,6 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2Motor.set(-0.8);
     }
 
-
-    public void feederstop() {
-        m_feederMotor.set(0);
-    }
-
-    public void feederrun() {
-        m_feederMotor.set(1);
-    }
     // public void run() {
     // setShooter1SetPoint(kShooter1SetPoint);
     // setShooter2SetPoint(kShooter2SetPoint);
@@ -172,13 +160,4 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkMax.ControlType.kVelocity);
     }
 
-    public Boolean isNoteDetected() {
-        return lightSensor1.get() || lightSensor2.get();
-    }
-
-    public void StopShooterIfNote() {
-        if (isNoteDetected()) {
-            stop();
-        }
-    }
 }

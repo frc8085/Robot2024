@@ -60,6 +60,11 @@ public final class Constants {
         public static final double speed = .5;
     }
 
+    public static final class FeederConstants {
+        public static final double speed = 1;
+    }
+
+
     public static final class ShooterConstants {
         public static final int kIRPort1 = 0;
         public static final int kIRPort2 = 1;

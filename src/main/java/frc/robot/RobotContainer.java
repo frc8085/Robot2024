@@ -26,6 +26,8 @@ import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.IntakeRun;
+import frc.robot.commands.IntakeStop;
 import frc.robot.commands.MoveToPosition;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -117,11 +119,11 @@ public class RobotContainer {
         final Trigger WinchForwardButton = m_operatorController.povDown();
         final Trigger WinchBackButton = m_operatorController.povUp();
 
-        shoot.onTrue(new InstantCommand(m_shooter::feederrun))
-                .onFalse(new InstantCommand(m_shooter::feederstop));
+        shoot.whileTrue(new InstantCommand(m_feeder::run))
+                .whileFalse(new InstantCommand(m_feeder::stop));
 
-        intake.whileTrue(new InstantCommand(m_intake::run))
-                .whileFalse(new InstantCommand(m_intake::stop));
+        intake.whileTrue(new IntakeRun(m_intake, m_feeder))
+                .whileFalse(new IntakeStop(m_intake, m_feeder));
 
         turnOnShooter.onTrue(new InstantCommand(m_shooter::run));
         turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
