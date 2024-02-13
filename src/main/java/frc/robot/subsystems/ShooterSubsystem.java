@@ -146,7 +146,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void run() {
         m_shooter1Motor.set(1);
-        m_shooter2Motor.set(.8);
+        m_shooter2Motor.set(-0.8);
     }
 
 

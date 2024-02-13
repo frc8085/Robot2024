@@ -88,11 +88,16 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // DRIVER controlled buttons
-        final Trigger shoot = m_driverController.x();
-        final Trigger stopShooting = m_driverController.b();
+        final Trigger shoot = m_driverController.a();
+        final Trigger turnOnShooter = m_driverController.x();
+        final Trigger turnOffShooter = m_driverController.b();
 
         // OPERATOR controlled buttons
         final Trigger intake = m_operatorController.leftTrigger();
+
+        // eventually the operator will control the shooter wheels
+        // final Trigger turnOnShooter = m_operatorController.rightTrigger();
+
         final Trigger alternatePosition = m_operatorController.leftBumper();
 
         final Trigger moveToTravel = m_operatorController.y();
@@ -112,12 +117,18 @@ public class RobotContainer {
         final Trigger WinchForwardButton = m_operatorController.povDown();
         final Trigger WinchBackButton = m_operatorController.povUp();
 
-        shoot.whileTrue(new InstantCommand(m_shooter::run));
-        stopShooting.whileTrue(new InstantCommand(m_shooter::stop));
+        shoot.onTrue(new InstantCommand(m_shooter::feederrun))
+                .onFalse(new InstantCommand(m_shooter::feederstop));
 
         intake.whileTrue(new InstantCommand(m_intake::run))
                 .whileFalse(new InstantCommand(m_intake::stop));
 
+        turnOnShooter.onTrue(new InstantCommand(m_shooter::run));
+        turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
+
+        // eventually the operator will hold the trigger to turn the shooter wheels
+        // turnOnShooter.whileTrue(new InstantCommand(m_shooter::run))
+        //         .whileFalse(new InstantCommand(m_shooter::stop));
         /**
          * Move arms to predefined positions
          **/
