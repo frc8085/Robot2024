@@ -68,7 +68,8 @@ public class FeederSubsystem extends SubsystemBase {
 
     public void StopShooterIfNote() {
         if (isNoteDetected()) {
-            System.out.println("Note Detected");
+//TODO: Right now the note is detected when there is no input to the IR sensor :(
+            //            System.out.println("Note Detected");
         }
     }
 }
