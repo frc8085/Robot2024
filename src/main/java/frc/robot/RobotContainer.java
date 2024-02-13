@@ -69,6 +69,7 @@ public class RobotContainer {
                 // The left stick controls translation of the robot.
                 // Turning is controlled by the X axis of the right stick.
                 new RunCommand(() -> m_drive.drive(
+                        m_driverController.getRightTriggerAxis(),
                         -MathUtil.applyDeadband(m_driverController.getLeftY(),
                                 OIConstants.kDriveDeadband),
                         -MathUtil.applyDeadband(m_driverController.getLeftX(),
@@ -95,6 +96,14 @@ public class RobotContainer {
         final Trigger shoot = m_driverController.a();
         final Trigger turnOnShooter = m_driverController.x();
         final Trigger turnOffShooter = m_driverController.b();
+        final Trigger lockWheels = m_driverController.povDown();
+
+        lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
+        m_drive));
+
+        final Trigger zeroHeadingButton = m_driverController.start();
+
+        zeroHeadingButton.onTrue(new InstantCommand(() -> m_drive.zeroHeading(), m_drive));
 
         // OPERATOR controlled buttons
         final Trigger intake = m_operatorController.leftTrigger();
@@ -108,9 +117,11 @@ public class RobotContainer {
         final Trigger moveToSubwoofer = m_operatorController.b();
         final Trigger moveToAmp = m_operatorController.a();
         final Trigger moveToPodium = m_operatorController.x();
-        final Trigger moveToTrapApproach = m_operatorController.povUp();
-        final Trigger moveToTrapScore = m_operatorController.povRight();
-        final Trigger moveToTrapClimb = m_operatorController.povDown();
+
+        // Climb Controls TBD
+        // final Trigger moveToTrapApproach = m_operatorController.povUp();
+        // final Trigger moveToTrapScore = m_operatorController.povRight();
+        // final Trigger moveToTrapClimb = m_operatorController.povDown();
 
         // manual arm and shooter movement - arm left joystick, shooter right joystick
         final Trigger ArmRaiseButton = m_operatorController.axisLessThan(1, -.25);
@@ -140,9 +151,9 @@ public class RobotContainer {
         moveToSubwoofer.whileTrue(new MoveToPosition(m_arm, Position.LOW_SUBWOOFER));
         moveToAmp.whileTrue(new MoveToPosition(m_arm, Position.AMP));
         moveToPodium.whileTrue(new MoveToPosition(m_arm, Position.PODIUM));
-        moveToTrapApproach.whileTrue(new MoveToPosition(m_arm, Position.TRAP_APPROACH));
-        moveToTrapScore.whileTrue(new MoveToPosition(m_arm, Position.TRAP_SCORE));
-        moveToTrapClimb.whileTrue(new MoveToPosition(m_arm, Position.TRAP_CLIMB));
+        // moveToTrapApproach.whileTrue(new MoveToPosition(m_arm, Position.TRAP_APPROACH));
+        // moveToTrapScore.whileTrue(new MoveToPosition(m_arm, Position.TRAP_SCORE));
+        // moveToTrapClimb.whileTrue(new MoveToPosition(m_arm, Position.TRAP_CLIMB));
 
         /**
          * Alternate positions. For these, you need to hold down the Left Bumper too.
@@ -233,6 +244,6 @@ public class RobotContainer {
         m_drive.resetOdometry(exampleTrajectory.getInitialPose());
 
         // Run path following command, then stop at the end.
-        return swerveControllerCommand.andThen(() -> m_drive.drive(0, 0, 0, false, false));
+        return swerveControllerCommand.andThen(() -> m_drive.drive(0, 0, 0, 0, false, false));
     }
 }

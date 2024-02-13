@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -124,9 +125,18 @@ public class DriveSubsystem extends SubsystemBase {
                 pose);
     }
 
+    public void stop() {
+        drive (0,0,0,0,false,false);
+    }
+
+    public void turn(double speed) {
+        drive(0,0,0,speed,true, false);
+    }
+
     /**
      * Method to drive the robot using joystick info.
      *
+     * @param speed         Speed of the robot
      * @param xSpeed        Speed of the robot in the x direction (forward).
      * @param ySpeed        Speed of the robot in the y direction (sideways).
      * @param rot           Angular rate of the robot.
@@ -134,10 +144,11 @@ public class DriveSubsystem extends SubsystemBase {
      *                      field.
      * @param rateLimit     Whether to enable rate limiting for smoother control.
      */
-    public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
+    public void drive(double speed, double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
 
         double xSpeedCommanded;
         double ySpeedCommanded;
+
 
         if (rateLimit) {
             // Convert XY to polar for rate limiting
@@ -207,7 +218,7 @@ public class DriveSubsystem extends SubsystemBase {
     /**
      * Sets the wheels into an X formation to prevent movement.
      */
-    public void setX() {
+    public void lock() {
         m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
         m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
         m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
@@ -249,6 +260,16 @@ public class DriveSubsystem extends SubsystemBase {
     public double getHeading() {
         return m_gyro.getRotation2d().getDegrees();
     }
+
+    /**
+     * Returns the heading of the robot.
+     * 
+     * @return the robot's heading in degrees, from -180 to 180
+     */
+
+    public double getHeadingWrappedDegrees() {
+        return MathUtil.inputModulus(m_gyro.getRotation2d().getDegrees(), -180, 180);
+  }
 
     /**
      * Returns the turn rate of the robot.
