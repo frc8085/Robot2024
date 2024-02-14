@@ -6,13 +6,12 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeRun extends SequentialCommandGroup {
-    public IntakeRun(
-        IntakeSubsystem m_intake, FeederSubsystem m_feeder
-    ){
+public class PickUpNote extends SequentialCommandGroup {
+    public PickUpNote(
+            IntakeSubsystem m_intake, FeederSubsystem m_feeder) {
         addCommands(
-            new ParallelCommandGroup(
-                new InstantCommand(m_intake::run),
-                new InstantCommand(m_feeder::run)));
+                new ParallelCommandGroup(
+                        new InstantCommand(m_intake::run),
+                        new InstantCommand(m_feeder::run)));
     }
 }

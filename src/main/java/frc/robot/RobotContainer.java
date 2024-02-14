@@ -29,10 +29,11 @@ import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.IntakeRun;
-import frc.robot.commands.IntakeStop;
+import frc.robot.commands.PickUpNote;
+import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.MoveToPodium;
-import frc.robot.commands.MoveToPositionFromHome;
+import frc.robot.commands.MoveToPositionWithNote;
+import frc.robot.commands.MoveToPositionWithNote;
 import frc.robot.commands.MoveToPosition;
 import frc.robot.commands.MoveToTravel;
 import frc.robot.subsystems.ArmSubsystem;
@@ -143,11 +144,11 @@ public class RobotContainer {
                 shoot.whileTrue(new InstantCommand(m_feeder::run))
                                 .whileFalse(new InstantCommand(m_feeder::stop));
 
-                intake.onTrue(new IntakeRun(m_intake, m_feeder))
-                        .onFalse(new SequentialCommandGroup(
-                                new WaitUntilCommand(
-                                        () -> m_feeder.isNoteDetected()),
-                                new IntakeStop(m_intake, m_feeder)));
+                intake.onTrue(new PickUpNote(m_intake, m_feeder))
+                                .onFalse(new SequentialCommandGroup(
+                                                new WaitUntilCommand(
+                                                                () -> m_feeder.isNoteDetected()),
+                                                new PickUpNoteCompleted(m_intake, m_feeder)));
 
                 turnOnShooter.onTrue(new InstantCommand(m_shooter::run));
                 turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
@@ -160,9 +161,9 @@ public class RobotContainer {
                  **/
                 moveToTravel.whileTrue(new MoveToPosition(m_arm, Position.TRAVEL));
                 moveToSubwoofer.whileTrue(
-                                new MoveToPositionFromHome(m_arm, m_intake, m_shooter, Position.LOW_SUBWOOFER));
-                moveToAmp.whileTrue(new MoveToPositionFromHome(m_arm, m_intake, m_shooter, Position.AMP));
-                moveToPodium.whileTrue(new MoveToPositionFromHome(m_arm, m_intake, m_shooter, Position.PODIUM));
+                                new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.LOW_SUBWOOFER));
+                moveToAmp.whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.AMP));
+                moveToPodium.whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.PODIUM));
                 // moveToTrapApproach.whileTrue(new MoveToPosition(m_arm,
                 // Position.TRAP_APPROACH));
                 // moveToTrapScore.whileTrue(new MoveToPosition(m_arm, Position.TRAP_SCORE));
@@ -173,13 +174,13 @@ public class RobotContainer {
                  **/
                 // HIGH Podium
                 moveToPodium.and(alternatePosition).whileTrue(
-                                new MoveToPositionFromHome(m_arm, m_intake, m_shooter, Position.HIGH_PODIUM));
+                                new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.HIGH_PODIUM));
                 // BACK Podium
                 moveToAmp.and(alternatePosition).whileTrue(
-                                new MoveToPositionFromHome(m_arm, m_intake, m_shooter, Position.BACK_PODIUM));
+                                new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.BACK_PODIUM));
                 // HIGH Subwoofer
                 moveToSubwoofer.and(alternatePosition)
-                                .whileTrue(new MoveToPositionFromHome(m_arm, m_intake, m_shooter,
+                                .whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter,
                                                 Position.HIGH_SUBWOOFER));
 
                 /**
