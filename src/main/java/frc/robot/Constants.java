@@ -301,6 +301,9 @@ public final class Constants {
 
         // Gyro Constants
         public static final boolean kGyroReversed = false;
+        // for auto alignment commands.
+        public static final double[] templatePosition = null;
+        public static final double templateID = 0;
     }
 
     public static final class ModuleConstants {
