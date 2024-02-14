@@ -57,16 +57,6 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2PIDController = m_shooter2Motor.getPIDController();
         m_shooter2PIDController.setFeedbackDevice(m_shooter2Encoder);
 
-        // Apply position and velocity conversion factors for the encoders. We
-        // want these in radians and radians per second to use with WPILib's swerve
-        // APIs.
-        m_shooter1Encoder.setPositionConversionFactor(ShooterConstants.kshooterEncoder1PositionFactor);
-        m_shooter1Encoder.setVelocityConversionFactor(ShooterConstants.kshooterEncoder1VelocityFactor);
-
-        m_shooter2Encoder.setPositionConversionFactor(ShooterConstants.kShooterEncoder2PositionFactor);
-        m_shooter2Encoder.setVelocityConversionFactor(ShooterConstants.kShooterEncoder2VelocityFactor);
-        // Didn't invert the encoders
-
         m_shooter1PIDController.setP(ShooterConstants.kShooter1P);
         m_shooter1PIDController.setI(ShooterConstants.kShooter1I);
         m_shooter1PIDController.setD(ShooterConstants.kShooter1D);
