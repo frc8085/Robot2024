@@ -36,7 +36,7 @@ public class FeederSubsystem extends SubsystemBase {
 
     // This method will be called once per scheduler run
     public void periodic() {
-        StopShooterIfNote();
+        StopFeederIfNote();
 
         if (LoggingConstants.kLogging) {
             log();
@@ -66,10 +66,9 @@ public class FeederSubsystem extends SubsystemBase {
         return lightSensor1.get() || lightSensor2.get();
     }
 
-    public void StopShooterIfNote() {
+    public void StopFeederIfNote() {
         if (isNoteDetected()) {
-//TODO: Right now the note is detected when there is no input to the IR sensor :(
-            //            System.out.println("Note Detected");
+        // m_feederMotor.set(0);
         }
     }
 }
