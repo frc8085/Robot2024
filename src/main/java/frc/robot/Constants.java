@@ -34,7 +34,7 @@ public final class Constants {
         public static final int kIntakeCanId = 21;
         public static final int kWinchCanId = 22;
         public static final int kArmCanId = 23;
-        public static final int kShooterArmCanId = 24;
+        public static final int kShooterPivotCanId = 24;
         public static final int kFeederCanId = 25;
         public static final int kShooter1CanId = 26;
         public static final int kShooter2CanId = 27;
@@ -102,20 +102,20 @@ public final class Constants {
         // Invert the encoder, since the output shaft rotates in the opposite
         // direction of the steering motor in the MAXSwerve Module.
         public static final boolean kArmEncoderInverted = true;
-        public static final boolean kShooterArmEncoderInverted = false;
+        public static final boolean kShooterPivotEncoderInverted = false;
 
         public static final IdleMode kArmMotorIdleMode = IdleMode.kBrake;
-        public static final IdleMode kShooterArmMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode kShooterPivotMotorIdleMode = IdleMode.kBrake;
 
         public static final double kArmMaxSpeed = .6;
-        public static final double kShooterArmMaxSpeed = 0.3;
+        public static final double kShooterPivotMaxSpeed = 0.3;
 
         // Manual Arm movement speeds
         public static final double kArmRaiseSpeed = .25;
         public static final double kArmLowerSpeed = .15;
 
-        public static final double kShooterArmRaiseSpeed = .05;
-        public static final double kShooterArmLowerSpeed = .05;
+        public static final double kShooterPivotRaiseSpeed = .05;
+        public static final double kShooterPivotLowerSpeed = .05;
 
         // PIDS
         // Arm PID coefficients
@@ -127,14 +127,14 @@ public final class Constants {
         public static final double kArmMaxOutput = kArmMaxSpeed;
         public static final double kArmMinOutput = -kArmMaxSpeed;
 
-        // Shooter PID coefficients
-        public static final int kShooterArmPIDSlot = 0;
-        public static final double kShooterArmP = 20;
-        public static final double kShooterArmI = 0;
-        public static final double kShooterArmD = 0;
-        public static final double kShooterArmFF = 0;
-        public static final double kShooterArmMaxOutput = kShooterArmMaxSpeed;
-        public static final double kShooterArmMinOutput = -kShooterArmMaxSpeed;
+        // Shooter Pivot PID coefficients
+        public static final int kShooterPivotPIDSlot = 0;
+        public static final double kShooterPivotP = 1;
+        public static final double kShooterPivotI = 0;
+        public static final double kShooterPivotD = 0;
+        public static final double kShooterPivotFF = 0;
+        public static final double kShooterPivotMaxOutput = kShooterPivotMaxSpeed;
+        public static final double kShooterPivotMinOutput = -kShooterPivotMaxSpeed;
 
         // SETPOINTS
 
@@ -160,18 +160,18 @@ public final class Constants {
                 for (Position e : values()) {
                     BY_LABEL.put(e.label, e);
                     BY_ARM_POSITION.put(e.armPosition, e);
-                    BY_SHOOTER_ARM_POSITION.put(e.shooterArmPosition, e);
+                    BY_SHOOTER_ARM_POSITION.put(e.ShooterPivotPosition, e);
                 }
             }
 
             public final String label;
             public final double armPosition;
-            public final double shooterArmPosition;
+            public final double ShooterPivotPosition;
 
-            private Position(String label, double armPosition, double shooterArmPosition) {
+            private Position(String label, double armPosition, double ShooterPivotPosition) {
                 this.label = label;
                 this.armPosition = armPosition;
-                this.shooterArmPosition = shooterArmPosition;
+                this.ShooterPivotPosition = ShooterPivotPosition;
             }
 
             public static Position valueOfLabel(String label) {
@@ -182,8 +182,8 @@ public final class Constants {
                 return BY_ARM_POSITION.get(armPosition);
             }
 
-            public static Position valueOfShooterArmPosition(double shooterArmPosition) {
-                return BY_SHOOTER_ARM_POSITION.get(shooterArmPosition);
+            public static Position valueOfShooterPivotPosition(double ShooterPivotPosition) {
+                return BY_SHOOTER_ARM_POSITION.get(ShooterPivotPosition);
             }
 
         }
@@ -237,24 +237,24 @@ public final class Constants {
                 / kArmTotalDegrees;
 
         // Estimates, fix this once we get exact measurements
-        public static final double kShooterArmTotalDegrees = 360;
-        public static final double kShooterArmTotalRevolutions = 1;
+        public static final double kShooterPivotTotalDegrees = 360;
+        public static final double kShooterPivotTotalRevolutions = 1;
 
         // Convert angle of travel to encoder rotations
-        public static final double kShooterArmRevolutionsPerDegree = (kShooterArmTotalRevolutions)
-                / kShooterArmTotalDegrees;
+        public static final double kShooterPivotRevolutionsPerDegree = (kShooterPivotTotalRevolutions)
+                / kShooterPivotTotalDegrees;
 
         // Temporary Arm PID configuration
         public static final double travelArmPosition = 10;
         public static final double podiumArmPosition = 150;
 
-        // public static final double travelShooterArmPosition = -2;
-        // public static final double podiumShooterArmPosition = 4;
+        // public static final double travelShooterPivotPosition = -2;
+        // public static final double podiumShooterPivotPosition = 4;
 
-        public static final double travelShooterArmPosition = 9 *
-                kShooterArmRevolutionsPerDegree;
-        public static final double podiumShooterArmPosition = 90 *
-                kShooterArmRevolutionsPerDegree;
+        public static final double travelShooterPivotPosition = 0 *
+                kShooterPivotRevolutionsPerDegree;
+        public static final double podiumShooterPivotPosition = 90 *
+                kShooterPivotRevolutionsPerDegree;
     }
 
     public static final class ClimberConstants {
