@@ -19,7 +19,7 @@ import frc.robot.Constants.MotorDefaultsConstants;
 import frc.robot.Constants.TuningModeConstants;
 
 public class ArmSubsystem extends SubsystemBase {
-    private boolean TUNING_MODE = TuningModeConstants.kTuning;
+    private boolean TUNING_MODE = TuningModeConstants.kArmTuning;
 
     // Motors - Arm uses a vortex, shooterArm uses a 550
     private final CANSparkFlex m_armMotor = new CANSparkFlex(

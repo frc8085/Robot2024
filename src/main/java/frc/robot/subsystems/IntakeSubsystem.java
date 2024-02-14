@@ -9,8 +9,13 @@ import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.MotorDefaultsConstants;
+import frc.robot.Constants.TuningModeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
+
+        private boolean TUNING_MODE = TuningModeConstants.kIntakeTuning;
+
+
     // imports motor id
     private final CANSparkMax m_intakeMotor = new CANSparkMax(CanIdConstants.kIntakeCanId, MotorDefaultsConstants.NeoMotorType);
 

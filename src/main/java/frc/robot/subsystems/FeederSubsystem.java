@@ -12,8 +12,11 @@ import frc.robot.Constants.FeederConstants;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.MotorDefaultsConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.TuningModeConstants;
 
 public class FeederSubsystem extends SubsystemBase {
+
+    private boolean TUNING_MODE = TuningModeConstants.kFeederTuning;
 
     DigitalInput lightSensor1 = new DigitalInput(ShooterConstants.kIRPort1);
     DigitalInput lightSensor2 = new DigitalInput(ShooterConstants.kIRPort2);

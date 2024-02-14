@@ -15,6 +15,8 @@ import frc.robot.Constants.TuningModeConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
+    private boolean TUNING_MODE = TuningModeConstants.kShooterTuning;
+
     // imports motor id
     private final CANSparkMax m_shooter1Motor = new CANSparkMax(
             CanIdConstants.kShooter1CanId, MotorDefaultsConstants.NeoMotorType);
@@ -93,7 +95,7 @@ public class ShooterSubsystem extends SubsystemBase {
             log();
         }
 
-        if (TuningModeConstants.kTuning) {
+        if (TUNING_MODE) {
             tunePIDs();
         }
     }
