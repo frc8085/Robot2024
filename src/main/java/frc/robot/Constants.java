@@ -51,7 +51,8 @@ public final class Constants {
         public static final MotorType NeoMotorType = MotorType.kBrushless;
         public static final MotorType Neo550MotorType = MotorType.kBrushless;
         public static final MotorType NeoVortexMotorType = MotorType.kBrushless;
-        }
+    }
+
     public static final class TuningModeConstants {
         public static final boolean kTuning = true;
     }
@@ -63,7 +64,6 @@ public final class Constants {
     public static final class FeederConstants {
         public static final double speed = 1;
     }
-
 
     public static final class ShooterConstants {
         public static final int kIRPort1 = 0;
@@ -112,11 +112,11 @@ public final class Constants {
         public static final IdleMode kArmMotorIdleMode = IdleMode.kBrake;
         public static final IdleMode kShooterArmMotorIdleMode = IdleMode.kBrake;
 
-        public static final double kArmMaxSpeed = 0.3;
+        public static final double kArmMaxSpeed = .6;
         public static final double kShooterArmMaxSpeed = 0.3;
 
         // Manual Arm movement speeds
-        public static final double kArmRaiseSpeed = 1;
+        public static final double kArmRaiseSpeed = .25;
         public static final double kArmLowerSpeed = .15;
 
         public static final double kShooterArmRaiseSpeed = .15;
@@ -125,9 +125,9 @@ public final class Constants {
         // PIDS
         // Arm PID coefficients
         public static final int kArmPIDSlot = 0;
-        public static final double kArmP = 1;
-        public static final double kArmI = 0.0001;
-        public static final double kArmD = 0.1;
+        public static final double kArmP = 0.1;
+        public static final double kArmI = 0;
+        public static final double kArmD = 0;
         public static final double kArmFF = 0;
         public static final double kArmMaxOutput = kArmMaxSpeed;
         public static final double kArmMinOutput = -kArmMaxSpeed;
@@ -146,8 +146,8 @@ public final class Constants {
         public static final double kAdjustmentFactor = 90;
 
         // Temporary Arm PID configuration
-        public static final double travelArmPosition = 50;
-        public static final double podiumArmPosition = 100;
+        public static final double travelArmPosition = 10;
+        public static final double podiumArmPosition = 150;
 
         public enum Position {
             TRAVEL("Travel", 35 - kAdjustmentFactor, 83),
