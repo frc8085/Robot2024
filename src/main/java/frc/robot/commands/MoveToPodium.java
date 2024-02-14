@@ -9,7 +9,8 @@ public class MoveToPodium extends SequentialCommandGroup {
     public MoveToPodium(
             ArmSubsystem m_arm) {
         addCommands(
-                new InstantCommand(() -> m_arm.keepArmPosition(ArmConstants.podiumArmPosition)),
+                // new ParallelCommandGroup(
+                // new InstantCommand(() -> m_arm.keepArmPosition(ArmConstants.podiumArmPosition)),
                 new InstantCommand(() -> m_arm.keepShooterArmPosition(ArmConstants.podiumShooterArmPosition)));
     }
 
