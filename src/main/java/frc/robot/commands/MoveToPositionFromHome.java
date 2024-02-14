@@ -22,7 +22,7 @@ public class MoveToPositionFromHome extends SequentialCommandGroup {
                 //         () -> System.out.println(position.label + "SHOOTER ARM:" + position.shooterArmPosition))
         new ParallelCommandGroup(
             new InstantCommand(() -> m_arm.moveToPosition(position)),
-            new InstantCommand(() -> m_intake.runMove()))
+            new InstantCommand(() -> m_intake.runArmMove()))
         );
     }
 

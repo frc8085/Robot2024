@@ -15,7 +15,6 @@ public class IntakeSubsystem extends SubsystemBase {
     private final CANSparkMax m_intakeMotor = new CANSparkMax(CanIdConstants.kIntakeCanId, MotorDefaultsConstants.NeoMotorType);
 
     private double speed = IntakeConstants.speed;
-    private double moveSpeed = IntakeConstants.moveSpeed;
 
     public IntakeSubsystem() {
 
@@ -38,8 +37,8 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeMotor.set(0);
     }
 
-    public void runMove() {
-        m_intakeMotor.set(moveSpeed);
+    public void runArmMove() {
+        m_intakeMotor.set(IntakeConstants.armMoveSpeed);
     }
     @Override
     public void periodic() {
