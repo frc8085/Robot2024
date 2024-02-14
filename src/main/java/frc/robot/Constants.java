@@ -96,19 +96,7 @@ public final class Constants {
         // Invert the encoder, since the output shaft rotates in the opposite
         // direction of the steering motor in the MAXSwerve Module.
         public static final boolean kArmEncoderInverted = true;
-        public static final boolean kShooterArmEncoderInverted = true;
-
-        public static final double kArmEncoderPositionFactor = (2 * Math.PI); // radians
-        public static final double kArmEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
-
-        public static final double kArmEncoderPositionPIDMinInput = 0; // radians
-        public static final double kArmEncoderPositionPIDMaxInput = kArmEncoderPositionFactor; // radians
-
-        public static final double kShooterArmEncoderPositionFactor = (2 * Math.PI); // radians
-        public static final double kShooterArmEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
-
-        public static final double kShooterArmEncoderPositionPIDMinInput = 0; // radians
-        public static final double kShooterArmEncoderPositionPIDMaxInput = kShooterArmEncoderPositionFactor; // radians
+        public static final boolean kShooterArmEncoderInverted = false;
 
         public static final IdleMode kArmMotorIdleMode = IdleMode.kBrake;
         public static final IdleMode kShooterArmMotorIdleMode = IdleMode.kBrake;
@@ -120,8 +108,8 @@ public final class Constants {
         public static final double kArmRaiseSpeed = .25;
         public static final double kArmLowerSpeed = .15;
 
-        public static final double kShooterArmRaiseSpeed = .15;
-        public static final double kShooterArmLowerSpeed = .15;
+        public static final double kShooterArmRaiseSpeed = .05;
+        public static final double kShooterArmLowerSpeed = .05;
 
         // PIDS
         // Arm PID coefficients
@@ -135,9 +123,9 @@ public final class Constants {
 
         // Shooter PID coefficients
         public static final int kShooterArmPIDSlot = 0;
-        public static final double kShooterArmP = .5;
-        public static final double kShooterArmI = 0.0001;
-        public static final double kShooterArmD = 0.1;
+        public static final double kShooterArmP = 20;
+        public static final double kShooterArmI = 0;
+        public static final double kShooterArmD = 0;
         public static final double kShooterArmFF = 0;
         public static final double kShooterArmMaxOutput = kShooterArmMaxSpeed;
         public static final double kShooterArmMinOutput = -kShooterArmMaxSpeed;
@@ -145,10 +133,6 @@ public final class Constants {
         // SETPOINTS
 
         public static final double kAdjustmentFactor = 90;
-
-        // Temporary Arm PID configuration
-        public static final double travelArmPosition = 10;
-        public static final double podiumArmPosition = 150;
 
         public enum Position {
             TRAVEL("Travel", 35 - kAdjustmentFactor, 83),
@@ -247,13 +231,24 @@ public final class Constants {
                 / kArmTotalDegrees;
 
         // Estimates, fix this once we get exact measurements
-        public static final double kShooterArmTotalDegrees = 72.4; // TODO
-        public static final double kShooterArmTotalRevolutions = 5.488; // TODO
+        public static final double kShooterArmTotalDegrees = 360;
+        public static final double kShooterArmTotalRevolutions = 1;
 
-        // Convert angle of travel to encoder rotations, where encoder reading of .1 is
-        // 0 degrees and reading of 5.5 is 90 degrees
-        public static final double kShooterArmRevolutionsPerDegree = -(kShooterArmTotalRevolutions)
+        // Convert angle of travel to encoder rotations
+        public static final double kShooterArmRevolutionsPerDegree = (kShooterArmTotalRevolutions)
                 / kShooterArmTotalDegrees;
+
+        // Temporary Arm PID configuration
+        public static final double travelArmPosition = 10;
+        public static final double podiumArmPosition = 150;
+
+        // public static final double travelShooterArmPosition = -2;
+        // public static final double podiumShooterArmPosition = 4;
+
+        public static final double travelShooterArmPosition = 9 *
+                kShooterArmRevolutionsPerDegree;
+        public static final double podiumShooterArmPosition = 90 *
+                kShooterArmRevolutionsPerDegree;
     }
 
     public static final class ClimberConstants {

@@ -1,10 +1,11 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
 
@@ -34,8 +35,7 @@ public class ArmSubsystem extends SubsystemBase {
      */
 
     private RelativeEncoder m_armEncoder;
-    private RelativeEncoder m_shooterArmEncoder;
-
+    private AbsoluteEncoder m_shooterArmEncoder;
     // PID Controllers
 
     private SparkPIDController m_armPIDController = m_armMotor.getPIDController();
@@ -82,15 +82,14 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterArmMotor.setIdleMode(ArmConstants.kShooterArmMotorIdleMode);
         m_shooterArmMotor.setSmartCurrentLimit(MotorDefaultsConstants.Neo550CurrentLimit);
 
-
         // Setup encoders and PID controllers for the arm and shooter arms.
         // temporarily use relative encoders
         // m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
         m_armEncoder = m_armMotor.getEncoder();
         m_armPIDController.setFeedbackDevice(m_armEncoder);
 
-        // m_shooterArmEncoder = m_shooterArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
-        m_shooterArmEncoder = m_shooterArmMotor.getEncoder();
+        m_shooterArmEncoder = m_shooterArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        // m_shooterArmEncoder = m_shooterArmMotor.getEncoder();
         m_shooterArmPIDController.setFeedbackDevice(m_shooterArmEncoder);
 
         // Set the PID gains for the turning motor.
@@ -111,6 +110,12 @@ public class ArmSubsystem extends SubsystemBase {
                 ArmConstants.kShooterArmMaxOutput);
         m_shooterArmPIDController.setSmartMotionMaxAccel(0.5, 0);
         m_shooterArmPIDController.setSmartMotionMaxVelocity(0.5, 0);
+
+        // Enable PID wrap around for the shooterarm motor. This will allow the PID
+        // controller to go through 0 to get to the setpoint i.e. going from 350 degrees
+        // to 10 degrees will go through 0 rather than the other direction which is a
+        // longer route.
+        m_shooterArmPIDController.setPositionPIDWrappingEnabled(true);
 
         // Limit switches
         m_armLowerLimit = m_armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
@@ -146,6 +151,11 @@ public class ArmSubsystem extends SubsystemBase {
         // set degrees for arm, convert to encoder value
         double positionArm = degreesArm * ArmConstants.kArmRevolutionsPerDegree;
         m_armPIDController.setReference(positionArm, ControlType.kPosition);
+    }
+
+    // Maintain shooter arm position
+    public void setShooterArmPosition(double testShooterArmPosition) {
+        m_shooterArmPIDController.setReference(testShooterArmPosition, ControlType.kPosition);
     }
 
     // Maintain shooter arm position in degrees

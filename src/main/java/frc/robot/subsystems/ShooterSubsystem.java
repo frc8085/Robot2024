@@ -17,11 +17,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // imports motor id
     private final CANSparkMax m_shooter1Motor = new CANSparkMax(
-        CanIdConstants.kShooter1CanId, MotorDefaultsConstants.NeoMotorType);
+            CanIdConstants.kShooter1CanId, MotorDefaultsConstants.NeoMotorType);
     private final CANSparkMax m_shooter2Motor = new CANSparkMax(
-        CanIdConstants.kShooter2CanId, MotorDefaultsConstants.NeoMotorType);
+            CanIdConstants.kShooter2CanId, MotorDefaultsConstants.NeoMotorType);
 
-        // Encoders
+    // Encoders
     private RelativeEncoder m_shooter1Encoder;
     private RelativeEncoder m_shooter2Encoder;
 
@@ -110,7 +110,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void log() {
         // SmartDashboard.putNumber("Description", item);
-      }
+    }
 
     public void addPIDToDashboard() {
         SmartDashboard.putNumber("kShooter1P", kShooter1P);
