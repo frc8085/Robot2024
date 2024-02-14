@@ -34,10 +34,12 @@ public class ArmSubsystem extends SubsystemBase {
      * private AbsoluteEncoder m_shooterArmEncoder;
      */
 
+
+     // Encoders
     private RelativeEncoder m_armEncoder;
     private AbsoluteEncoder m_shooterArmEncoder;
+   
     // PID Controllers
-
     private SparkPIDController m_armPIDController = m_armMotor.getPIDController();
     private SparkPIDController m_shooterArmPIDController = m_shooterArmMotor.getPIDController();
 
@@ -83,12 +85,18 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterArmMotor.setSmartCurrentLimit(MotorDefaultsConstants.Neo550CurrentLimit);
 
         // Setup encoders and PID controllers for the arm and shooter arms.
-        // temporarily use relative encoders
+   
+        // absolute encoder
         // m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    
+        // relative encoder
         m_armEncoder = m_armMotor.getEncoder();
         m_armPIDController.setFeedbackDevice(m_armEncoder);
 
+        // absolute encoder
         m_shooterArmEncoder = m_shooterArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
+
+        // relative encoder
         // m_shooterArmEncoder = m_shooterArmMotor.getEncoder();
         m_shooterArmPIDController.setFeedbackDevice(m_shooterArmEncoder);
 
