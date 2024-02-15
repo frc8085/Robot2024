@@ -124,6 +124,10 @@ public class ArmSubsystem extends SubsystemBase {
         // longer route.
         m_shooterPivotPIDController.setPositionPIDWrappingEnabled(true);
 
+        // no clue if this works
+        m_shooterPivotPIDController.setPositionPIDWrappingMaxInput(1.0); // it can't be resolved to variable?
+        m_shooterPivotPIDController.setPositionPIDWrappingMinInput(0.6);
+
         // Limit switches
         m_armLowerLimit = m_armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
         m_armRaiseLimit = m_armMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
