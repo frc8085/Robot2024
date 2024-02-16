@@ -205,10 +205,17 @@ public class ArmSubsystem extends SubsystemBase {
     // Arm Mechanics using Trapezoidal Profile
     public void runArmProfile() {
         m_armPIDController.setConstraints(armConstraints);
+        m_armPIDController.setGoal(new TrapezoidProfile.State(m_armSetpoint,0.0));
+        double pidOutput = m_armPIDController.calculate(getCurrentArmPosition(), new TrapezoidProfile.State(m_armSetpoint,0.0));
+        m_armMotor.set(pidOutput);
+    
     }
 
     public void keepArmPosition(double armPosition) {
-        m_armPIDController.setGoal(armPosition);
+        m_armPIDController.setConstraints(armConstraints);
+        m_armPIDController.setGoal(new TrapezoidProfile.State(armPosition,0.0));
+        double armPIDOutput = m_armPIDController.calculate(getCurrentArmPosition(), new TrapezoidProfile.State(armPosition,0.0));
+        m_armMotor.set(armPIDOutput);
         if (TUNING_MODE) {
             SmartDashboard.putNumber("Desired Arm Position", armPosition);
             System.out.println("Keep ARM Position " + armPosition);
@@ -240,6 +247,7 @@ public class ArmSubsystem extends SubsystemBase {
     public void shooterPivotStop() {
         m_shooterPivotMotor.set(0);
     }
+
 
     public void keepShooterPivotPosition(double shooterPivotPosition) {
         m_shooterPivotPIDController.setSetpoint(shooterPivotPosition);
