@@ -123,18 +123,14 @@ public final class Constants {
         public static final double kArmP = 0.1;
         public static final double kArmI = 0;
         public static final double kArmD = 0;
-        public static final double kArmFF = 0;
-        public static final double kArmMaxOutput = kArmMaxSpeed;
-        public static final double kArmMinOutput = -kArmMaxSpeed;
+        public static final double kArmMaxVelocity = 1;
+        public static final double kArmMaxAcceleration = 0.5;
 
         // Shooter Pivot PID coefficients
         public static final int kShooterPivotPIDSlot = 0;
         public static final double kShooterPivotP = 1;
         public static final double kShooterPivotI = 0;
         public static final double kShooterPivotD = 0;
-        public static final double kShooterPivotFF = 0;
-        public static final double kShooterPivotMaxOutput = kShooterPivotMaxSpeed;
-        public static final double kShooterPivotMinOutput = -kShooterPivotMaxSpeed;
 
         // SETPOINTS
 

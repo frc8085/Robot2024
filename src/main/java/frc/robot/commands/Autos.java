@@ -20,7 +20,7 @@ public final class Autos {
 
         return Commands.sequence(
                 // 1. AimAndShoot1()
-                new AutoAimAndShoot(m_arm, m_shooter, ArmConstants.Position.LOW_SUBWOOFER),
+                // new AutoAimAndShoot(m_arm, m_shooter, ArmConstants.Position.LOW_SUBWOOFER),
                 // 2. Drive(FirstPickup)
                 // 3. Pickup
                 new PickUpNote(m_intake, m_feeder),

@@ -32,9 +32,6 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.MoveToPodium;
-import frc.robot.commands.MoveToPositionWithNote;
-import frc.robot.commands.MoveToPositionWithNote;
-import frc.robot.commands.MoveToPosition;
 import frc.robot.commands.MoveToTravel;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -159,11 +156,11 @@ public class RobotContainer {
                 /**
                  * Move arms to predefined positions
                  **/
-                moveToTravel.whileTrue(new MoveToPosition(m_arm, Position.TRAVEL));
-                moveToSubwoofer.whileTrue(
-                                new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.LOW_SUBWOOFER));
-                moveToAmp.whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.AMP));
-                moveToPodium.whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.PODIUM));
+                // moveToTravel.whileTrue(new MoveToPosition(m_arm, Position.TRAVEL));
+                // moveToSubwoofer.whileTrue(
+                //                 new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.LOW_SUBWOOFER));
+                // moveToAmp.whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.AMP));
+                // moveToPodium.whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.PODIUM));
                 // moveToTrapApproach.whileTrue(new MoveToPosition(m_arm,
                 // Position.TRAP_APPROACH));
                 // moveToTrapScore.whileTrue(new MoveToPosition(m_arm, Position.TRAP_SCORE));
@@ -173,15 +170,15 @@ public class RobotContainer {
                  * Alternate positions. For these, you need to hold down the Left Bumper too.
                  **/
                 // HIGH Podium
-                moveToPodium.and(alternatePosition).whileTrue(
-                                new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.HIGH_PODIUM));
-                // BACK Podium
-                moveToAmp.and(alternatePosition).whileTrue(
-                                new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.BACK_PODIUM));
-                // HIGH Subwoofer
-                moveToSubwoofer.and(alternatePosition)
-                                .whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter,
-                                                Position.HIGH_SUBWOOFER));
+                // moveToPodium.and(alternatePosition).whileTrue(
+                //                 new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.HIGH_PODIUM));
+                // // BACK Podium
+                // moveToAmp.and(alternatePosition).whileTrue(
+                //                 new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.BACK_PODIUM));
+                // // HIGH Subwoofer
+                // moveToSubwoofer.and(alternatePosition)
+                //                 .whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter,
+                //                                 Position.HIGH_SUBWOOFER));
 
                 /**
                  * Manual Arm raise and lower
