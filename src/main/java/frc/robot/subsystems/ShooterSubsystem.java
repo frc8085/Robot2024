@@ -34,11 +34,10 @@ public class ShooterSubsystem extends SubsystemBase {
     // PID Constants for tuning
     double kShooter1P = ShooterConstants.kShooter1P;
     double kShooter1I = ShooterConstants.kShooter1I;
-    double kShooter1D = ShooterConstants.kShooter1D;
 
     double kShooter2P = ShooterConstants.kShooter2P;
     double kShooter2I = ShooterConstants.kShooter2I;
-    double kShooter2D = ShooterConstants.kShooter2D;
+
     // Shooter Set Points
     private double kShooter1SetPoint;
     private double kShooter2SetPoint;
@@ -65,8 +64,6 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter1PIDController.setFF(ShooterConstants.kShooter1FF);
         m_shooter1PIDController.setOutputRange(ShooterConstants.kShooter1MinOutput,
                 ShooterConstants.kShooter1MaxOutput);
-        m_shooter1PIDController.setSmartMotionMaxAccel(0.5, 0);
-        m_shooter1PIDController.setSmartMotionMaxVelocity(0.5, 0);
 
         m_shooter2PIDController.setP(ShooterConstants.kShooter2P);
         m_shooter2PIDController.setI(ShooterConstants.kShooter2I);
@@ -74,8 +71,6 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2PIDController.setFF(ShooterConstants.kShooter2FF);
         m_shooter2PIDController.setOutputRange(ShooterConstants.kShooter2MinOutput,
                 ShooterConstants.kShooter2MaxOutput);
-        m_shooter2PIDController.setSmartMotionMaxAccel(0.5, 0);
-        m_shooter2PIDController.setSmartMotionMaxVelocity(0.5, 0);
 
         m_shooter1Motor.setIdleMode(ShooterConstants.kShooterMotor1IdleMode);
         m_shooter1Motor.setSmartCurrentLimit(MotorDefaultsConstants.NeoCurrentLimit);
@@ -112,16 +107,31 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void tunePIDs() {
-        kShooter1P = SmartDashboard.getNumber("kShooter1P", 0);
-        kShooter1I = SmartDashboard.getNumber("kShooter1I", 0);
-        SmartDashboard.putNumber("kShooter1P", kShooter1P);
-        SmartDashboard.putNumber("kShooter1I", kShooter1I);
+        double shooter1P = SmartDashboard.getNumber("kShooter1P", 0);
+        double shooter1I = SmartDashboard.getNumber("kShooter1I", 0);
+        double shooter2P = SmartDashboard.getNumber("kShooter2P", 0);
+        double shooter2I = SmartDashboard.getNumber("kShooter2I", 0);
 
-        kShooter2P = SmartDashboard.getNumber("kShooter2P", 0);
-        kShooter2I = SmartDashboard.getNumber("kShooter2I", 0);
-        SmartDashboard.putNumber("kShooterP", kShooter2P);
-        SmartDashboard.putNumber("kShooterI", kShooter2I);
+        // if PID coefficients on dashboard have changed, write new values to controller
+        if ((shooter1P != kShooter1P)) {
+            kShooter1P = shooter1P;
+            m_shooter1PIDController.setP(ShooterConstants.kShooter1P);
+        }
+        if ((shooter1I != kShooter1I)) {
+            kShooter1I = shooter1I;
+            m_shooter1PIDController.setI(ShooterConstants.kShooter1I);
+        }
+        if ((shooter2P != kShooter2P)) {
+            kShooter2P = shooter2P;
+            m_shooter2PIDController.setP(ShooterConstants.kShooter2P);
+        }
+        if ((shooter2I != kShooter2I)) {
+            kShooter2I = shooter2I;
+            m_shooter2PIDController.setI(ShooterConstants.kShooter2I);
+        }
+     
     }
+
 
     // Stop the Shooter
     public void stop() {

@@ -60,7 +60,7 @@ public final class Constants {
         public static final boolean kFeederTuning = true;
         public static final boolean kIntakeTuning = true;
         public static final boolean kLimelightTuning = true;
-        public static final boolean kShooterTuning = true;
+        public static final boolean kShooterTuning = false;
     }
 
     public static final class IntakeConstants {
