@@ -105,6 +105,8 @@ public class ArmSubsystem extends SubsystemBase {
 
         m_shooterPivotPIDController = new PIDController(kShooterPivotP, kShooterPivotI, kShooterPivotD);
 
+        m_shooterPivotPIDController.reset();
+
         if (TUNING_MODE) {
             // addPIDToDashboard();
         }
@@ -213,6 +215,18 @@ public class ArmSubsystem extends SubsystemBase {
     
     }
 
+    // Arm Motor Manual Movement
+    public void armRaise() {
+        m_armMotor.set(ArmConstants.kArmRaiseSpeed);
+    }
+
+    public void armLower() {
+        m_armMotor.set(-ArmConstants.kArmLowerSpeed);
+    }
+
+    public void armStop() {
+        m_armMotor.set(0);
+    }
 
     // Try to see what values are being reported for PID output
 
@@ -228,19 +242,6 @@ public class ArmSubsystem extends SubsystemBase {
         }
     }
 
-    // Arm Motor Manual Movement
-    public void armRaise() {
-        m_armMotor.set(ArmConstants.kArmRaiseSpeed);
-    }
-
-    public void armLower() {
-        m_armMotor.set(-ArmConstants.kArmLowerSpeed);
-    }
-
-    public void armStop() {
-        m_armMotor.set(0);
-    }
-
     // Shooter Pivot Manual Movement
     public void shooterPivotRaise() {
         m_shooterPivotMotor.set(ArmConstants.kShooterPivotRaiseSpeed);
@@ -254,15 +255,29 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterPivotMotor.set(0);
     }
 
+    // See what values are being reported for PID Output
 
     public void keepShooterPivotPosition(double shooterPivotPosition) {
         m_shooterPivotPIDController.setSetpoint(shooterPivotPosition);
-
+        double shooterPivotPIDOutput = m_shooterPivotPIDController.calculate(m_shooterPivotEncoder.getPosition(), shooterPivotPosition);
+        // useShooterPivotOutput(shooterPivotPIDOutput);
         if (TUNING_MODE) {
             SmartDashboard.putNumber("Desired Shooter Pivot Position", shooterPivotPosition);
             System.out.println("Keep S_PIVOT Position " + shooterPivotPosition);
+            SmartDashboard.putNumber("Shooter Pivot PID Output", shooterPivotPIDOutput);
+            System.out.println("PID Output " + shooterPivotPIDOutput);
         }
     }
+
+    public void useShooterPivotOutput(double output) {
+        m_shooterPivotMotor.setVoltage(output);
+    }
+
+    public boolean atShooterPivotPosition() {
+        return m_shooterPivotPIDController.atSetpoint();
+    }
+
+    
 }
 
 // // Maintain arm position
