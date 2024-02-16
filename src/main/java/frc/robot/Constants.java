@@ -98,12 +98,6 @@ public final class Constants {
 
     public static final class ArmConstants {
 
-        // TODO: Check on whether the encoders should be inverted
-        // Invert the encoder, since the output shaft rotates in the opposite
-        // direction of the steering motor in the MAXSwerve Module.
-        public static final boolean kArmEncoderInverted = true;
-        public static final boolean kShooterPivotEncoderInverted = false;
-
         public static final IdleMode kArmMotorIdleMode = IdleMode.kBrake;
         public static final IdleMode kShooterPivotMotorIdleMode = IdleMode.kBrake;
 
@@ -228,8 +222,8 @@ public final class Constants {
         public static final double kHighSubwooferShooter = 23;
 
         // Estimates, fix this once we get exact measurements
-        public static final double kArmTotalDegrees = 72.4; // TODO
-        public static final double kArmTotalRevolutions = 5.488; // TODO
+        public static final double kArmTotalDegrees = 360;
+        public static final double kArmTotalRevolutions = 1;
 
         // Convert angle of travel to encoder rotations, where encoder reading of .1 is
         // 0 degrees and reading of 5.5 is 90 degrees
@@ -245,11 +239,8 @@ public final class Constants {
                 / kShooterPivotTotalDegrees;
 
         // Temporary Arm PID configuration
-        public static final double travelArmPosition = 10;
-        public static final double podiumArmPosition = 150;
-
-        // public static final double travelShooterPivotPosition = -2;
-        // public static final double podiumShooterPivotPosition = 4;
+        public static final double travelArmPosition = 10 * kArmRevolutionsPerDegree;
+        public static final double podiumArmPosition = 100 * kArmRevolutionsPerDegree;
 
         public static final double travelShooterPivotPosition = 0 *
                 kShooterPivotRevolutionsPerDegree;

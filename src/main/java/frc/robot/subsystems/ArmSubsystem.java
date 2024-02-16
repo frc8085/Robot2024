@@ -27,15 +27,8 @@ public class ArmSubsystem extends SubsystemBase {
     private final CANSparkMax m_shooterPivotMotor = new CANSparkMax(
             CanIdConstants.kShooterPivotCanId, MotorDefaultsConstants.Neo550MotorType);
 
-    /**
-     * Temporarily use relative encoders since we don't have the right cables
-     * // Encoders
-     * private AbsoluteEncoder m_armEncoder;
-     * private AbsoluteEncoder m_shooterPivotEncoder;
-     */
-
     // Encoders
-    private RelativeEncoder m_armEncoder;
+    private AbsoluteEncoder m_armEncoder;
     private AbsoluteEncoder m_shooterPivotEncoder;
 
     // PID Controllers
@@ -86,10 +79,10 @@ public class ArmSubsystem extends SubsystemBase {
         // Setup encoders and PID controllers for the arm and shooter arms.
 
         // absolute encoder
-        // m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
         // relative encoder
-        m_armEncoder = m_armMotor.getEncoder();
+        // m_armEncoder = m_armMotor.getEncoder();
         m_armPIDController.setFeedbackDevice(m_armEncoder);
 
         // absolute encoder
@@ -123,9 +116,7 @@ public class ArmSubsystem extends SubsystemBase {
         // to 10 degrees will go through 0 rather than the other direction which is a
         // longer route.
         m_shooterPivotPIDController.setPositionPIDWrappingEnabled(true);
-
-        // no clue if this works
-        m_shooterPivotPIDController.setPositionPIDWrappingMaxInput(1.0); // it can't be resolved to variable?
+        m_shooterPivotPIDController.setPositionPIDWrappingMaxInput(0.8);
         m_shooterPivotPIDController.setPositionPIDWrappingMinInput(0.6);
 
         // Limit switches
@@ -181,7 +172,6 @@ public class ArmSubsystem extends SubsystemBase {
         log();
         if (TUNING_MODE) {
             tunePIDs();
-            SmartDashboard.putBoolean("ShooterPivot Wrap", m_shooterPivotPIDController.getPositionPIDWrappingEnabled());
         }
     }
 
@@ -214,6 +204,10 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("kArmP", kArmP);
         SmartDashboard.putNumber("kArmI", kArmI);
         SmartDashboard.putNumber("kArmD", kArmD);
+        m_armPIDController.setP(kArmP);
+        m_armPIDController.setI(kArmI);
+        m_armPIDController.setD(kArmD);
+
 
         kShooterPivotP = SmartDashboard.getNumber("kShooterPivotP", 0);
         kShooterPivotI = SmartDashboard.getNumber("kShooterPivotI", 0);
@@ -221,7 +215,9 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("kShooterPivotP", kShooterPivotP);
         SmartDashboard.putNumber("kShooterPivotI", kShooterPivotI);
         SmartDashboard.putNumber("kShooterPivotD", kShooterPivotD);
-
+        m_shooterPivotPIDController.setP(kShooterPivotP);
+        m_shooterPivotPIDController.setI(kShooterPivotI);
+        m_shooterPivotPIDController.setD(kShooterPivotD);
     }
 
     // Limit Switches
