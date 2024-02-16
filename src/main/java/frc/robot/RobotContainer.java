@@ -158,9 +158,12 @@ public class RobotContainer {
                  **/
                 // moveToTravel.whileTrue(new MoveToPosition(m_arm, Position.TRAVEL));
                 // moveToSubwoofer.whileTrue(
-                //                 new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.LOW_SUBWOOFER));
-                // moveToAmp.whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.AMP));
-                // moveToPodium.whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.PODIUM));
+                // new MoveToPositionWithNote(m_arm, m_intake, m_shooter,
+                // Position.LOW_SUBWOOFER));
+                // moveToAmp.whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter,
+                // Position.AMP));
+                // moveToPodium.whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter,
+                // Position.PODIUM));
                 // moveToTrapApproach.whileTrue(new MoveToPosition(m_arm,
                 // Position.TRAP_APPROACH));
                 // moveToTrapScore.whileTrue(new MoveToPosition(m_arm, Position.TRAP_SCORE));
@@ -171,27 +174,31 @@ public class RobotContainer {
                  **/
                 // HIGH Podium
                 // moveToPodium.and(alternatePosition).whileTrue(
-                //                 new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.HIGH_PODIUM));
+                // new MoveToPositionWithNote(m_arm, m_intake, m_shooter,
+                // Position.HIGH_PODIUM));
                 // // BACK Podium
                 // moveToAmp.and(alternatePosition).whileTrue(
-                //                 new MoveToPositionWithNote(m_arm, m_intake, m_shooter, Position.BACK_PODIUM));
+                // new MoveToPositionWithNote(m_arm, m_intake, m_shooter,
+                // Position.BACK_PODIUM));
                 // // HIGH Subwoofer
                 // moveToSubwoofer.and(alternatePosition)
-                //                 .whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter,
-                //                                 Position.HIGH_SUBWOOFER));
+                // .whileTrue(new MoveToPositionWithNote(m_arm, m_intake, m_shooter,
+                // Position.HIGH_SUBWOOFER));
 
                 /**
                  * Manual Arm raise and lower
                  **/
                 ArmRaiseButton.whileTrue(new InstantCommand(m_arm::armRaise, m_arm))
-                                .onFalse(new InstantCommand(
-                                                () -> m_arm.keepArmPosition(
-                                                                m_arm.getCurrentArmPosition())));
+                                .onFalse((new InstantCommand(m_arm::armStop, m_arm)));
+                // .onFalse(new InstantCommand(
+                // () -> m_arm.keepArmPosition(
+                // m_arm.getCurrentArmPosition())));
 
                 ArmLowerButton.whileTrue(new InstantCommand(m_arm::armLower, m_arm))
                                 .onFalse(new InstantCommand(
-                                                () -> m_arm.keepArmPosition(
-                                                                m_arm.getCurrentArmPosition())));
+                                                () -> m_arm.keepArmPosition(m_arm.getCurrentArmPosition())));
+
+                // .onFalse(new InstantCommand(m_arm::armStop, m_arm));
 
                 ShooterPivotRaiseButton.whileTrue(new InstantCommand(m_arm::shooterPivotRaise, m_arm))
                                 .onFalse(new InstantCommand(

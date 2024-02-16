@@ -98,12 +98,6 @@ public final class Constants {
 
     public static final class ArmConstants {
 
-        // TODO: Check on whether the encoders should be inverted
-        // Invert the encoder, since the output shaft rotates in the opposite
-        // direction of the steering motor in the MAXSwerve Module.
-        public static final boolean kArmEncoderInverted = true;
-        public static final boolean kShooterPivotEncoderInverted = false;
-
         public static final IdleMode kArmMotorIdleMode = IdleMode.kBrake;
         public static final IdleMode kShooterPivotMotorIdleMode = IdleMode.kBrake;
 
@@ -120,7 +114,7 @@ public final class Constants {
         // PIDS
         // Arm PID coefficients
         public static final int kArmPIDSlot = 0;
-        public static final double kArmP = 0.1;
+        public static final double kArmP = 1;
         public static final double kArmI = 0;
         public static final double kArmD = 0;
         public static final double kArmMaxVelocity = 1;
@@ -128,7 +122,7 @@ public final class Constants {
 
         // Shooter Pivot PID coefficients
         public static final int kShooterPivotPIDSlot = 0;
-        public static final double kShooterPivotP = 1;
+        public static final double kShooterPivotP = 0;
         public static final double kShooterPivotI = 0;
         public static final double kShooterPivotD = 0;
 
@@ -241,8 +235,8 @@ public final class Constants {
                 / kShooterPivotTotalDegrees;
 
         // Temporary Arm PID configuration
-        public static final double travelArmPosition = 10;
-        public static final double podiumArmPosition = 150;
+        public static final double travelArmPosition = 0.1;
+        public static final double podiumArmPosition = 0.2;
 
         // public static final double travelShooterPivotPosition = -2;
         // public static final double podiumShooterPivotPosition = 4;

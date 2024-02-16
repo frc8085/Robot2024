@@ -32,17 +32,9 @@ public class ArmSubsystem extends SubsystemBase {
     private final CANSparkMax m_shooterPivotMotor = new CANSparkMax(
             CanIdConstants.kShooterPivotCanId, MotorDefaultsConstants.Neo550MotorType);
 
-    /**
-     * Temporarily use relative encoders since we don't have the right cables
-     * // Encoders
-     * private AbsoluteEncoder m_armEncoder;
-     * private AbsoluteEncoder m_shooterPivotEncoder;
-     */
-
     // Encoders
     private AbsoluteEncoder m_armEncoder;
     private AbsoluteEncoder m_shooterPivotEncoder;
-
 
     // PID Controllers
     private ProfiledPIDController m_armPIDController;
@@ -66,7 +58,7 @@ public class ArmSubsystem extends SubsystemBase {
     double kShooterPivotI = ArmConstants.kShooterPivotI;
     double kShooterPivotD = ArmConstants.kShooterPivotD;
 
-     // Limit Switches
+    // Limit Switches
     private SparkLimitSwitch m_armLowerLimit;
     private SparkLimitSwitch m_armRaiseLimit;
 
@@ -77,219 +69,215 @@ public class ArmSubsystem extends SubsystemBase {
     public boolean ArmRaiseLimitHit() {
         return isArmRaiseLimitHit();
     }
-  
+
     /** Creates a new ArmSubsystem */
     public ArmSubsystem() {
 
-    // Factory Reset motor controllers to a known state before configuring them.
+        // Factory Reset motor controllers to a known state before configuring them.
 
-    // Arm Spark Flex
-    m_armMotor.restoreFactoryDefaults();
-    
-    m_armMotor.setIdleMode(ArmConstants.kArmMotorIdleMode);
-    m_armMotor.setSmartCurrentLimit(MotorDefaultsConstants.NeoVortexCurrentLimit);
+        // Arm Spark Flex
+        m_armMotor.restoreFactoryDefaults();
 
-    m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
-    // m_armEncoder = m_armMotor.getEncoder();
+        m_armMotor.setIdleMode(ArmConstants.kArmMotorIdleMode);
+        m_armMotor.setSmartCurrentLimit(MotorDefaultsConstants.NeoVortexCurrentLimit);
 
-    m_armLowerLimit = m_armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-    m_armRaiseLimit = m_armMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
+        m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        // m_armEncoder = m_armMotor.getEncoder();
 
-    // Define constraints
-    armConstraints = new TrapezoidProfile.Constraints(ArmConstants.kArmMaxVelocity, ArmConstants.kArmMaxAcceleration);
+        m_armLowerLimit = m_armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+        m_armRaiseLimit = m_armMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
-    // Shooter Pivot Spark Max
-    m_shooterPivotMotor.restoreFactoryDefaults();
+        // Define constraints
+        armConstraints = new TrapezoidProfile.Constraints(ArmConstants.kArmMaxVelocity,
+                ArmConstants.kArmMaxAcceleration);
 
-    m_shooterPivotMotor.setIdleMode(ArmConstants.kShooterPivotMotorIdleMode);
-    m_shooterPivotMotor.setSmartCurrentLimit(MotorDefaultsConstants.Neo550CurrentLimit);
+        // Shooter Pivot Spark Max
+        m_shooterPivotMotor.restoreFactoryDefaults();
 
-    m_shooterPivotEncoder = m_shooterPivotMotor.getAbsoluteEncoder(Type.kDutyCycle);
-    // m_shooterPivotEncoder = m_shooterPivotMotor.getEncoder();
-    
-    m_armPIDController = new ProfiledPIDController (kArmP, kArmI, kArmD, armConstraints);
-    m_shooterPivotPIDController = new PIDController (kShooterPivotP, kShooterPivotI, kShooterPivotD);
+        m_shooterPivotMotor.setIdleMode(ArmConstants.kShooterPivotMotorIdleMode);
+        m_shooterPivotMotor.setSmartCurrentLimit(MotorDefaultsConstants.Neo550CurrentLimit);
 
-    if (TUNING_MODE) {
-        addPIDToDashboard();
+        m_shooterPivotEncoder = m_shooterPivotMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        // m_shooterPivotEncoder = m_shooterPivotMotor.getEncoder();
+
+        m_armPIDController = new ProfiledPIDController(kArmP, kArmI, kArmD, armConstraints);
+        m_armPIDController.reset(0);
+
+        m_shooterPivotPIDController = new PIDController(kShooterPivotP, kShooterPivotI, kShooterPivotD);
+
+        if (TUNING_MODE) {
+            // addPIDToDashboard();
+        }
+
+        // Save the configuration to the motor controllers
+        m_armMotor.burnFlash();
+        m_shooterPivotMotor.burnFlash();
+
     }
-
-    // Save the configuration to the motor controllers
-    m_armMotor.burnFlash();
-    m_shooterPivotMotor.burnFlash();
- 
-}
 
     public void periodic() {
         // This method will be called once per scheduler run
         log();
         if (TUNING_MODE) {
-            tunePIDs();
+            // tunePIDs();
         }
     }
 
-        public void tunePIDs() {
-        kArmP = SmartDashboard.getNumber("kArmP", 0);
-        kArmI = SmartDashboard.getNumber("kArmI", 0);
-        kArmD = SmartDashboard.getNumber("kArmD", 0);
-        kArmMaxVelocity = SmartDashboard.getNumber("kArmMaxVelocity", 0);
-        kArmMaxAcceleration = SmartDashboard.getNumber("kArmMaxAcceleration", 0);
-        m_armSetpoint = SmartDashboard.getNumber("Arm Setpoint", 0);
-        SmartDashboard.putNumber("kArmP", kArmP);
-        SmartDashboard.putNumber("kArmI", kArmI);
-        SmartDashboard.putNumber("kArmD", kArmD);
-        SmartDashboard.putNumber("Arm Setpoint", m_armSetpoint);
+    // public void tunePIDs() {
+    // kArmP = SmartDashboard.getNumber("kArmP", 0);
+    // kArmI = SmartDashboard.getNumber("kArmI", 0);
+    // kArmD = SmartDashboard.getNumber("kArmD", 0);
+    // kArmMaxVelocity = SmartDashboard.getNumber("kArmMaxVelocity", 0);
+    // kArmMaxAcceleration = SmartDashboard.getNumber("kArmMaxAcceleration", 0);
+    // m_armSetpoint = SmartDashboard.getNumber("Arm Setpoint", 0);
+    // SmartDashboard.putNumber("kArmP", kArmP);
+    // SmartDashboard.putNumber("kArmI", kArmI);
+    // SmartDashboard.putNumber("kArmD", kArmD);
+    // SmartDashboard.putNumber("Arm Setpoint", m_armSetpoint);
 
-        kShooterPivotP = SmartDashboard.getNumber("kShooterPivotP", 0);
-        kShooterPivotI = SmartDashboard.getNumber("kShooterPivotI", 0);
-        kShooterPivotD = SmartDashboard.getNumber("kShooterPivotD", 0);
-        m_shooterPivotSetpoint = SmartDashboard.getNumber("Shooter Pivot Setpoint", 0);
-        SmartDashboard.putNumber("kShooterPivotP", kShooterPivotP);
-        SmartDashboard.putNumber("kShooterPivotI", kShooterPivotI);
-        SmartDashboard.putNumber("kShooterPivotD", kShooterPivotD);
-        SmartDashboard.putNumber("Shooter Pivot Setpoint", m_shooterPivotSetpoint);
+    // kShooterPivotP = SmartDashboard.getNumber("kShooterPivotP", 0);
+    // kShooterPivotI = SmartDashboard.getNumber("kShooterPivotI", 0);
+    // kShooterPivotD = SmartDashboard.getNumber("kShooterPivotD", 0);
+    // m_shooterPivotSetpoint = SmartDashboard.getNumber("Shooter Pivot Setpoint",
+    // 0);
+    // SmartDashboard.putNumber("kShooterPivotP", kShooterPivotP);
+    // SmartDashboard.putNumber("kShooterPivotI", kShooterPivotI);
+    // SmartDashboard.putNumber("kShooterPivotD", kShooterPivotD);
+    // SmartDashboard.putNumber("Shooter Pivot Setpoint", m_shooterPivotSetpoint);
 
-        m_armPIDController.setP(kArmP);
-        m_armPIDController.setI(kArmI);
-        m_armPIDController.setD(kArmD);
-        m_armPIDController.setConstraints(new TrapezoidProfile.Constraints(kArmMaxVelocity, kArmMaxAcceleration));
-        m_armPIDController.setGoal(new TrapezoidProfile.State(m_armSetpoint, 0.0));
+    // m_armPIDController.setP(kArmP);
+    // m_armPIDController.setI(kArmI);
+    // m_armPIDController.setD(kArmD);
+    // m_armPIDController.setConstraints(new
+    // TrapezoidProfile.Constraints(kArmMaxVelocity, kArmMaxAcceleration));
+    // m_armPIDController.setGoal(new TrapezoidProfile.State(m_armSetpoint, 0.0));
 
-        m_shooterPivotPIDController.setP(kShooterPivotP);
-        m_shooterPivotPIDController.setI(kShooterPivotI);
-        m_shooterPivotPIDController.setD(kShooterPivotD);
-        m_shooterPivotPIDController.setSetpoint(m_shooterPivotSetpoint);
+    // m_shooterPivotPIDController.setP(kShooterPivotP);
+    // m_shooterPivotPIDController.setI(kShooterPivotI);
+    // m_shooterPivotPIDController.setD(kShooterPivotD);
+    // m_shooterPivotPIDController.setSetpoint(m_shooterPivotSetpoint);
 
-    }
+    // }
 
-        public void addPIDToDashboard() {
-        SmartDashboard.putNumber("kArmP", kArmP);
-        SmartDashboard.putNumber("kArmI", kArmI);
-        SmartDashboard.putNumber("kArmD", kArmD);
-        SmartDashboard.putNumber("Arm Setpoint", m_armSetpoint);
-        SmartDashboard.putNumber("kShooterPivotP", kShooterPivotP);
-        SmartDashboard.putNumber("kShooterPivotI", kShooterPivotI);
-        SmartDashboard.putNumber("kShooterPivotD", kShooterPivotD);
-        SmartDashboard.putNumber("Shooter Pivot Setpoint", m_shooterPivotSetpoint);
+    // public void addPIDToDashboard() {
+    // SmartDashboard.putNumber("kArmP", kArmP);
+    // SmartDashboard.putNumber("kArmI", kArmI);
+    // SmartDashboard.putNumber("kArmD", kArmD);
+    // SmartDashboard.putNumber("Arm Setpoint", m_armSetpoint);
+    // SmartDashboard.putNumber("kShooterPivotP", kShooterPivotP);
+    // SmartDashboard.putNumber("kShooterPivotI", kShooterPivotI);
+    // SmartDashboard.putNumber("kShooterPivotD", kShooterPivotD);
+    // SmartDashboard.putNumber("Shooter Pivot Setpoint", m_shooterPivotSetpoint);
 
-        }
+    // }
 
-        public void log() {
+    public void log() {
         if (LoggingConstants.kLogging) {
             SmartDashboard.putNumber("Arm Position", getCurrentArmPosition());
             SmartDashboard.putNumber("Shooter Pivot Position", getCurrentShooterPivotPosition());
         }
 
-        }
+    }
 
-        // Limit switches - determine if they have been hit
-        public boolean isArmLowerLimitHit() {
-            return m_armLowerLimit.isPressed();
-        }
+    // Limit switches - determine if they have been hit
+    public boolean isArmLowerLimitHit() {
+        return m_armLowerLimit.isPressed();
+    }
 
-        public boolean isArmRaiseLimitHit() {
-            return m_armRaiseLimit.isPressed();
-        }
+    public boolean isArmRaiseLimitHit() {
+        return m_armRaiseLimit.isPressed();
+    }
 
-        // Returns the arm position
-        public double getCurrentArmPosition() {
-            return m_armEncoder.getPosition();
-        }
+    // Returns the arm position
+    public double getCurrentArmPosition() {
+        return m_armEncoder.getPosition();
+    }
 
-        // Returns the shooter pivot position
-        public double getCurrentShooterPivotPosition() {
-            return m_shooterPivotEncoder.getPosition();
-        }
+    // Returns the shooter pivot position
+    public double getCurrentShooterPivotPosition() {
+        return m_shooterPivotEncoder.getPosition();
+    }
 
-        // Set up Timers
-        double lastArmSpeed = 0;
-        double lastArmTime = Timer.getFPGATimestamp();
+    // // Set up Timers
+    // double lastArmSpeed = 0;
+    // double lastArmTime = Timer.getFPGATimestamp();
 
+    // Arm Mechanics using Trapezoidal Profile
+    public void runArmProfile() {
+        m_armPIDController.setConstraints(armConstraints);
+    }
 
-        // Arm Mechanics using Trapezoidal Profile
-        public void runArmProfile() {
-            m_armPIDController.setConstraints(null);
-        }
-
-
-        public void keepArmPosition(double armPosition) {
-            m_armPIDController.setGoal(new TrapezoidProfile.State(getCurrentArmPosition(), 0.0));
+    public void keepArmPosition(double armPosition) {
+        m_armPIDController.setGoal(armPosition);
         if (TUNING_MODE) {
-                SmartDashboard.putNumber("Desired Arm Position", armPosition);
-                System.out.println("Keep ARM Position " + armPosition);
-            }
+            SmartDashboard.putNumber("Desired Arm Position", armPosition);
+            System.out.println("Keep ARM Position " + armPosition);
         }
+    }
 
-        // Arm Motor Manual Movement
-        public void armRaise() {
-            m_armMotor.set(ArmConstants.kArmRaiseSpeed);
-        }
+    // Arm Motor Manual Movement
+    public void armRaise() {
+        m_armMotor.set(ArmConstants.kArmRaiseSpeed);
+    }
 
-        public void armLower() {
-            m_armMotor.set(-ArmConstants.kArmLowerSpeed);
-        }
+    public void armLower() {
+        m_armMotor.set(-ArmConstants.kArmLowerSpeed);
+    }
 
-        public void armStop() {
-            m_armMotor.set(0);
-        }
+    public void armStop() {
+        m_armMotor.set(0);
+    }
 
-        // Shooter Pivot Manual Movement
-        public void shooterPivotRaise() {
-            m_shooterPivotMotor.set(ArmConstants.kShooterPivotRaiseSpeed);
-        }
+    // Shooter Pivot Manual Movement
+    public void shooterPivotRaise() {
+        m_shooterPivotMotor.set(ArmConstants.kShooterPivotRaiseSpeed);
+    }
 
-        public void shooterPivotLower() {
-            m_shooterPivotMotor.set(-ArmConstants.kShooterPivotLowerSpeed);
-        }
+    public void shooterPivotLower() {
+        m_shooterPivotMotor.set(-ArmConstants.kShooterPivotLowerSpeed);
+    }
 
-        public void shooterPivotStop() {
-            m_shooterPivotMotor.set(0);
-        }
+    public void shooterPivotStop() {
+        m_shooterPivotMotor.set(0);
+    }
 
-        public void keepShooterPivotPosition(double shooterPivotPosition) {
-            m_armPIDController.setGoal(new TrapezoidProfile.State(getCurrentShooterPivotPosition(), 0.0));
+    public void keepShooterPivotPosition(double shooterPivotPosition) {
+        m_shooterPivotPIDController.setSetpoint(shooterPivotPosition);
+
         if (TUNING_MODE) {
-                SmartDashboard.putNumber("Desired Shooter Pivot Position", shooterPivotPosition);
-                System.out.println("Keep S_PIVOT Position " + shooterPivotPosition);
-            }
+            SmartDashboard.putNumber("Desired Shooter Pivot Position", shooterPivotPosition);
+            System.out.println("Keep S_PIVOT Position " + shooterPivotPosition);
         }
-
-
-
+    }
 }
 
+// // Maintain arm position
+// public void setArmPosition(double testPosition) {
+// m_armPIDController.setReference(testPosition, ControlType.kPosition);
+// }
 
+// // Maintain arm position in degrees
+// public void setArmPositionDegrees(double degreesArm) {
+// // set degrees for arm, convert to encoder value
+// double positionArm = degreesArm * ArmConstants.kArmRevolutionsPerDegree;
+// m_armPIDController.setReference(positionArm, ControlType.kPosition);
+// }
 
+// // Maintain shooter arm position
+// public void setShooterPivotPosition(double testShooterPivotPosition) {
+// m_shooterPivotPIDController.setReference(testShooterPivotPosition,
+// ControlType.kPosition);
+// }
 
+// // Maintain shooter arm position in degrees
+// public void setShooterPivotPositionDegrees(double degreesShooterPivot) {
+// // set degrees for arm, convert to encoder value)
+// double positionShooterPivot = degreesShooterPivot *
+// ArmConstants.kShooterPivotRevolutionsPerDegree;
+// m_armPIDController.setReference(positionShooterPivot, ControlType.kPosition);
+// }
 
-
-//     // Maintain arm position
-//     public void setArmPosition(double testPosition) {
-//         m_armPIDController.setReference(testPosition, ControlType.kPosition);
-//     }
-
-//     // Maintain arm position in degrees
-//     public void setArmPositionDegrees(double degreesArm) {
-//         // set degrees for arm, convert to encoder value
-//         double positionArm = degreesArm * ArmConstants.kArmRevolutionsPerDegree;
-//         m_armPIDController.setReference(positionArm, ControlType.kPosition);
-//     }
-
-//     // Maintain shooter arm position
-//     public void setShooterPivotPosition(double testShooterPivotPosition) {
-//         m_shooterPivotPIDController.setReference(testShooterPivotPosition, ControlType.kPosition);
-//     }
-
-//     // Maintain shooter arm position in degrees
-//     public void setShooterPivotPositionDegrees(double degreesShooterPivot) {
-//         // set degrees for arm, convert to encoder value)
-//         double positionShooterPivot = degreesShooterPivot * ArmConstants.kShooterPivotRevolutionsPerDegree;
-//         m_armPIDController.setReference(positionShooterPivot, ControlType.kPosition);
-//     }
-
-
-//     public void moveToPosition(Position position) {
-//         setArmPositionDegrees(position.armPosition);
-//         setShooterPivotPositionDegrees(position.ShooterPivotPosition);
-//     }
-
+// public void moveToPosition(Position position) {
+// setArmPositionDegrees(position.armPosition);
+// setShooterPivotPositionDegrees(position.ShooterPivotPosition);
+// }
