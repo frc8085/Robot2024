@@ -89,6 +89,9 @@ public class ArmSubsystem extends SubsystemBase {
         // absolute encoder
         m_shooterPivotEncoder = m_shooterPivotMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
+        // adjust the encoder offset so we don't have to go below 0
+        m_shooterPivotEncoder.setZeroOffset(0.2);
+
         // relative encoder
         // m_shooterPivotEncoder = m_shooterPivotMotor.getEncoder();
         m_shooterPivotPIDController.setFeedbackDevice(m_shooterPivotEncoder);
@@ -116,9 +119,9 @@ public class ArmSubsystem extends SubsystemBase {
         // controller to go through 0 to get to the setpoint i.e. going from 350 degrees
         // to 10 degrees will go through 0 rather than the other direction which is a
         // longer route.
-        m_shooterPivotPIDController.setPositionPIDWrappingEnabled(true);
-        m_shooterPivotPIDController.setPositionPIDWrappingMaxInput(0.8);
-        m_shooterPivotPIDController.setPositionPIDWrappingMinInput(0.6);
+        m_shooterPivotPIDController.setPositionPIDWrappingEnabled(false);
+        m_shooterPivotPIDController.setPositionPIDWrappingMaxInput(.8);
+        m_shooterPivotPIDController.setPositionPIDWrappingMinInput(0.0);
 
         // Limit switches
         m_armLowerLimit = m_armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
@@ -295,4 +298,6 @@ public class ArmSubsystem extends SubsystemBase {
             System.out.println("Keep SHOOTER ARM Position " + ShooterPivotPosition);
         }
     }
+
+
 }
