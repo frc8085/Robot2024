@@ -198,6 +198,8 @@ public class ArmSubsystem extends SubsystemBase {
         return m_shooterPivotEncoder.getPosition();
     }
 
+
+
     // // Set up Timers
     // double lastArmSpeed = 0;
     // double lastArmTime = Timer.getFPGATimestamp();
@@ -211,14 +213,18 @@ public class ArmSubsystem extends SubsystemBase {
     
     }
 
+
+    // Try to see what values are being reported for PID output
+
     public void keepArmPosition(double armPosition) {
         m_armPIDController.setConstraints(armConstraints);
         m_armPIDController.setGoal(new TrapezoidProfile.State(armPosition,0.0));
         double armPIDOutput = m_armPIDController.calculate(getCurrentArmPosition(), new TrapezoidProfile.State(armPosition,0.0));
-        m_armMotor.set(armPIDOutput);
         if (TUNING_MODE) {
             SmartDashboard.putNumber("Desired Arm Position", armPosition);
             System.out.println("Keep ARM Position " + armPosition);
+            SmartDashboard.putNumber("PID Output", armPIDOutput);
+            System.out.println("PID Output " + armPIDOutput);
         }
     }
 

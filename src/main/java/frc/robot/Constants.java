@@ -111,6 +111,23 @@ public final class Constants {
         public static final double kShooterPivotRaiseSpeed = .05;
         public static final double kShooterPivotLowerSpeed = .05;
 
+        // Estimates, fix this once we get exact measurements
+        public static final double kArmTotalDegrees = 360; // TODO
+        public static final double kArmTotalRevolutions = 1; // TODO
+
+        // Convert angle of travel to encoder rotations, where encoder reading of .1 is
+        // 0 degrees and reading of 5.5 is 90 degrees
+        public static final double kArmRevolutionsPerDegree = -(kArmTotalRevolutions)
+                / kArmTotalDegrees;
+
+        // Estimates, fix this once we get exact measurements
+        public static final double kShooterPivotTotalDegrees = 360;
+        public static final double kShooterPivotTotalRevolutions = 1;
+
+        // Convert angle of travel to encoder rotations
+        public static final double kShooterPivotRevolutionsPerDegree = (kShooterPivotTotalRevolutions)
+                / kShooterPivotTotalDegrees;
+
         // PIDS
         // Arm PID coefficients
         public static final int kArmPIDSlot = 0;
@@ -125,6 +142,18 @@ public final class Constants {
         public static final double kShooterPivotP = 0;
         public static final double kShooterPivotI = 0;
         public static final double kShooterPivotD = 0;
+
+        // Temporary Arm PID configuration
+        public static final double travelArmPosition = 0.1;
+        public static final double podiumArmPosition = 0.2;
+
+        // public static final double travelShooterPivotPosition = -2;
+        // public static final double podiumShooterPivotPosition = 4;
+
+        public static final double travelShooterPivotPosition = 0 *
+                kShooterPivotRevolutionsPerDegree;
+        public static final double podiumShooterPivotPosition = 90 *
+                kShooterPivotRevolutionsPerDegree;
 
         // SETPOINTS
 
@@ -216,35 +245,7 @@ public final class Constants {
         // high subwoofer
         public static final double kHighSubwooferArm = 127 - kAdjustmentFactor;
         public static final double kHighSubwooferShooter = 23;
-
-        // Estimates, fix this once we get exact measurements
-        public static final double kArmTotalDegrees = 72.4; // TODO
-        public static final double kArmTotalRevolutions = 5.488; // TODO
-
-        // Convert angle of travel to encoder rotations, where encoder reading of .1 is
-        // 0 degrees and reading of 5.5 is 90 degrees
-        public static final double kArmRevolutionsPerDegree = -(kArmTotalRevolutions)
-                / kArmTotalDegrees;
-
-        // Estimates, fix this once we get exact measurements
-        public static final double kShooterPivotTotalDegrees = 360;
-        public static final double kShooterPivotTotalRevolutions = 1;
-
-        // Convert angle of travel to encoder rotations
-        public static final double kShooterPivotRevolutionsPerDegree = (kShooterPivotTotalRevolutions)
-                / kShooterPivotTotalDegrees;
-
-        // Temporary Arm PID configuration
-        public static final double travelArmPosition = 0.1;
-        public static final double podiumArmPosition = 0.2;
-
-        // public static final double travelShooterPivotPosition = -2;
-        // public static final double podiumShooterPivotPosition = 4;
-
-        public static final double travelShooterPivotPosition = 0 *
-                kShooterPivotRevolutionsPerDegree;
-        public static final double podiumShooterPivotPosition = 90 *
-                kShooterPivotRevolutionsPerDegree;
+ 
     }
 
     public static final class ClimberConstants {
