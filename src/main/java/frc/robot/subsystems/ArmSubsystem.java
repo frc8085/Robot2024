@@ -144,27 +144,27 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     // Maintain arm position
-    public void setArmPosition(double testPosition) {
-        m_armPIDController.setReference(testPosition, ControlType.kPosition);
+    public void setArmPosition(double armPosition) {
+        m_armPIDController.setReference(armPosition, ControlType.kPosition);
     }
 
     // Maintain arm position in degrees
-    public void setArmPositionDegrees(double degreesArm) {
+    public void setArmPositionDegrees(double armPositionDegrees) {
         // set degrees for arm, convert to encoder value
-        double positionArm = degreesArm * ArmConstants.kArmRevolutionsPerDegree;
-        m_armPIDController.setReference(positionArm, ControlType.kPosition);
+        double armPosition = armPositionDegrees * ArmConstants.kArmRevolutionsPerDegree;
+        m_armPIDController.setReference(armPosition, ControlType.kPosition);
     }
 
     // Maintain shooter arm position
-    public void setShooterPivotPosition(double testShooterPivotPosition) {
-        m_shooterPivotPIDController.setReference(testShooterPivotPosition, ControlType.kPosition);
+    public void setShooterPivotPosition(double shooterPivotPosition) {
+        m_shooterPivotPIDController.setReference(shooterPivotPosition, ControlType.kPosition);
     }
 
     // Maintain shooter arm position in degrees
-    public void setShooterPivotPositionDegrees(double degreesShooterPivot) {
+    public void setShooterPivotPositionDegrees(double shooterPivotPositionDegrees) {
         // set degrees for arm, convert to encoder value)
-        double positionShooterPivot = degreesShooterPivot * ArmConstants.kShooterPivotRevolutionsPerDegree;
-        m_armPIDController.setReference(positionShooterPivot, ControlType.kPosition);
+        double shooterPivotPosition = shooterPivotPositionDegrees * ArmConstants.kShooterPivotRevolutionsPerDegree;
+        m_armPIDController.setReference(shooterPivotPosition, ControlType.kPosition);
     }
 
     public void periodic() {
