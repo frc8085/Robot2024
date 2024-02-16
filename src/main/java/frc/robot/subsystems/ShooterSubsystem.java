@@ -115,19 +115,19 @@ public class ShooterSubsystem extends SubsystemBase {
         // if PID coefficients on dashboard have changed, write new values to controller
         if ((shooter1P != kShooter1P)) {
             kShooter1P = shooter1P;
-            m_shooter1PIDController.setP(ShooterConstants.kShooter1P);
+            m_shooter1PIDController.setP(kShooter1P);
         }
         if ((shooter1I != kShooter1I)) {
             kShooter1I = shooter1I;
-            m_shooter1PIDController.setI(ShooterConstants.kShooter1I);
+            m_shooter1PIDController.setI(kShooter1I);
         }
         if ((shooter2P != kShooter2P)) {
             kShooter2P = shooter2P;
-            m_shooter2PIDController.setP(ShooterConstants.kShooter2P);
+            m_shooter2PIDController.setP(kShooter2P);
         }
         if ((shooter2I != kShooter2I)) {
             kShooter2I = shooter2I;
-            m_shooter2PIDController.setI(ShooterConstants.kShooter2I);
+            m_shooter2PIDController.setI(kShooter2I);
         }
      
     }

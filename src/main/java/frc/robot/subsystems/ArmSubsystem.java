@@ -16,6 +16,7 @@ import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.MotorDefaultsConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TuningModeConstants;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -198,27 +199,42 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void tunePIDs() {
-        kArmP = SmartDashboard.getNumber("kArmP", 0);
-        kArmI = SmartDashboard.getNumber("kArmI", 0);
-        kArmD = SmartDashboard.getNumber("kArmD", 0);
-        SmartDashboard.putNumber("kArmP", kArmP);
-        SmartDashboard.putNumber("kArmI", kArmI);
-        SmartDashboard.putNumber("kArmD", kArmD);
-        m_armPIDController.setP(kArmP);
-        m_armPIDController.setI(kArmI);
-        m_armPIDController.setD(kArmD);
+        double armP = SmartDashboard.getNumber("kArmP", 0);
+        double armI = SmartDashboard.getNumber("kArmI", 0);
+        double armD = SmartDashboard.getNumber("kArmD", 0);
 
+        // if PID coefficients on dashboard have changed, write new values to controller
+        if ((armP != kArmP)) {
+            kArmP = armP;
+            m_armPIDController.setP(kArmP);
+        }
+        if ((armI != kArmI)) {
+            kArmI = armI;
+            m_armPIDController.setI(kArmI);
+        }
+        if ((armD != kArmD)) {
+            kArmD = armD;
+            m_armPIDController.setD(kArmD);
+        }
 
-        kShooterPivotP = SmartDashboard.getNumber("kShooterPivotP", 0);
-        kShooterPivotI = SmartDashboard.getNumber("kShooterPivotI", 0);
-        kShooterPivotD = SmartDashboard.getNumber("kShooterPivotD", 0);
-        SmartDashboard.putNumber("kShooterPivotP", kShooterPivotP);
-        SmartDashboard.putNumber("kShooterPivotI", kShooterPivotI);
-        SmartDashboard.putNumber("kShooterPivotD", kShooterPivotD);
-        m_shooterPivotPIDController.setP(kShooterPivotP);
-        m_shooterPivotPIDController.setI(kShooterPivotI);
-        m_shooterPivotPIDController.setD(kShooterPivotD);
-    }
+        double shooterPivotP = SmartDashboard.getNumber("kShooterPivotP", 0);
+        double shooterPivotI = SmartDashboard.getNumber("kShooterPivotI", 0);
+        double shooterPivotD = SmartDashboard.getNumber("kShooterPivotD", 0);
+ 
+        // if PID coefficients on dashboard have changed, write new values to controller
+        if ((shooterPivotP != kShooterPivotP)) {
+            kShooterPivotP = shooterPivotP;
+            m_shooterPivotPIDController.setP(kShooterPivotP);
+        }
+        if ((shooterPivotI != kShooterPivotI)) {
+            kShooterPivotI = shooterPivotI;
+            m_shooterPivotPIDController.setI(kShooterPivotI);
+        }
+        if ((shooterPivotD != kShooterPivotD)) {
+            kShooterPivotD = shooterPivotD;
+            m_shooterPivotPIDController.setD(kShooterPivotD);
+        }
+   }
 
     // Limit Switches
 
