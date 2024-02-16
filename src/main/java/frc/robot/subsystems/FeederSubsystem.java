@@ -39,7 +39,6 @@ public class FeederSubsystem extends SubsystemBase {
 
     // This method will be called once per scheduler run
     public void periodic() {
-        StopFeederIfNote();
 
         if (LoggingConstants.kLogging) {
             log();
@@ -65,13 +64,16 @@ public class FeederSubsystem extends SubsystemBase {
         m_feederMotor.set(1);
     }
 
+    public void runBackwards() {
+        m_feederMotor.set(-.25);
+    }
+
     public Boolean isNoteDetected() {
         return lightSensor1.get() || lightSensor2.get();
     }
 
-    public void StopFeederIfNote() {
-        if (isNoteDetected()) {
-        // m_feederMotor.set(0);
-        }
+    public boolean isNoteNotDetected() {
+        return !lightSensor1.get() || !lightSensor2.get();
     }
+
 }
