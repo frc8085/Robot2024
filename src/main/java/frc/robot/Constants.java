@@ -70,6 +70,7 @@ public final class Constants {
 
     public static final class FeederConstants {
         public static final double speed = 1;
+        public static final double kLoadWaitTime = .5;
     }
 
     public static final class ShooterConstants {
