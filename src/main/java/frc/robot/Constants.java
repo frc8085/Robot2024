@@ -115,9 +115,9 @@ public final class Constants {
         // PIDS
         // Arm PID coefficients
         public static final int kArmPIDSlot = 0;
-        public static final double kArmP = 5;
-        public static final double kArmI = 0.005;
-        public static final double kArmD = 0.1;
+        public static final double kArmP = .0138889;
+        public static final double kArmI = .000014;
+        public static final double kArmD = .000278;
         public static final double kArmFF = 0;
         public static final double kArmMaxOutput = kArmMaxSpeed;
         public static final double kArmMinOutput = -kArmMaxSpeed;
@@ -133,19 +133,27 @@ public final class Constants {
 
         // SETPOINTS
 
-        public static final double kAdjustmentFactor = 90;
+        // We are zeroing the arm at the top limit, so all our positions should be adjusted 
+        public static final double kArmPositionShift = 239;
+
+        public static final double kArmAdjustmentFactor = 90 + kArmPositionShift;
+
+        // Zeroing the shooter pivot at the far limit, so all our positions should be adjusted
+        public static final double kShooterPivotPositionShift = 0;
+
+        public static final double kShooterPivotAdjustmentFactor = 0 + kShooterPivotPositionShift;
 
         public enum Position {
-            TRAVEL("Travel", 35 - kAdjustmentFactor, 83),
-            PODIUM("Podium", 46 - kAdjustmentFactor, 79),
-            LOW_SUBWOOFER("LowSubwoofer", 75 - kAdjustmentFactor, 75),
-            AMP("Amp", 114 - kAdjustmentFactor, -39),
-            TRAP_APPROACH("Trap Approach", 132 - kAdjustmentFactor, -42),
-            TRAP_CLIMB("Trap Climb", 130 - kAdjustmentFactor, -40),
-            TRAP_SCORE("Trap Score", 130 - kAdjustmentFactor, -55),
-            HIGH_PODIUM("High Podium", 127 - kAdjustmentFactor, -40),
-            BACK_PODIUM("Back Podium", 127 - kAdjustmentFactor, 166),
-            HIGH_SUBWOOFER("High Subwoofer", 127 - kAdjustmentFactor, 23);
+            TRAVEL("Travel", 35 - kArmAdjustmentFactor, 83 - kShooterPivotPositionAdjustmentFactor),
+            PODIUM("Podium", 46 - kArmAdjustmentFactor, 79 - kShooterPivotPositionAdjustmentFactor),
+            LOW_SUBWOOFER("LowSubwoofer", 75 - kArmAdjustmentFactor, 75 - kShooterPivotPositionAdjustmentFactor),
+            AMP("Amp", 114 - kArmAdjustmentFactor, -39 - kShooterPivotPositionAdjustmentFactor),
+            TRAP_APPROACH("Trap Approach", 132 - kArmAdjustmentFactor, -42 - kShooterPivotPositionAdjustmentFactor),
+            TRAP_CLIMB("Trap Climb", 130 - kArmAdjustmentFactor, -40 - kShooterPivotPositionAdjustmentFactor),
+            TRAP_SCORE("Trap Score", 130 - kArmAdjustmentFactor, -55 - kShooterPivotPositionAdjustmentFactor),
+            HIGH_PODIUM("High Podium", 127 - kArmAdjustmentFactor, -40 - kShooterPivotPositionAdjustmentFactor),
+            BACK_PODIUM("Back Podium", 127 - kArmAdjustmentFactor, 166 - kShooterPivotPositionAdjustmentFactor),
+            HIGH_SUBWOOFER("High Subwoofer", 127 - kArmAdjustmentFactor, 23 - kShooterPivotPositionAdjustmentFactor);
 
             private static final Map<String, Position> BY_LABEL = new HashMap<>();
             private static final Map<Double, Position> BY_ARM_POSITION = new HashMap<>();
@@ -183,45 +191,6 @@ public final class Constants {
 
         }
 
-        public static final double kTravelArm = 35 - kAdjustmentFactor;
-        public static final double kTravelShooter = 83;
-
-        // podium
-        public static final double kPodiumArm = 46 - kAdjustmentFactor;
-        public static final double kPodiumShooter = 79;
-
-        // low subwoofer
-        public static final double kLowSubwooferArm = 75 - kAdjustmentFactor;
-        public static final double kLowSubwooferShooter = 75;
-
-        // amp
-        public static final double kAmpArm = 114 - kAdjustmentFactor;
-        public static final double kAmpShooter = -39;
-
-        // trap approach
-        public static final double kTrapApproachArm = 132 - kAdjustmentFactor;
-        public static final double kTrapApproachShooter = -42;
-
-        // trap climb
-        public static final double kTrapClimbArm = 130 - kAdjustmentFactor;
-        public static final double kTrapClimbShooter = -40;
-
-        // trap score
-        public static final double kTrapScoreArm = 130 - kAdjustmentFactor;
-        public static final double kTrapScoreShooter = -55;
-
-        // high podium
-        public static final double kHighPodiumArm = 127 - kAdjustmentFactor;
-        public static final double kHighPodiumShooter = -40;
-
-        // back podium
-        public static final double kBackPodiumArm = 127 - kAdjustmentFactor;
-        public static final double kBackPodiumShooter = 166;
-
-        // high subwoofer
-        public static final double kHighSubwooferArm = 127 - kAdjustmentFactor;
-        public static final double kHighSubwooferShooter = 23;
-
         // Estimates, fix this once we get exact measurements
         public static final double kArmTotalDegrees = 360;
         public static final double kArmTotalRevolutions = 1;
@@ -244,8 +213,8 @@ public final class Constants {
         public static final double kShooterPivotPositionAdjustmentFactor = 1 / kShooterPivotRevolutionsPerDegree;
 
         // Temporary Arm PID configuration
-        public static final double travelArmPosition = 10;
-        public static final double podiumArmPosition = 50;
+        public static final double travelArmPosition = 10 + kArmPositionShift;
+        public static final double podiumArmPosition = 50 + kArmPositionShift;
 
         public static final double travelShooterPivotPosition = 0;
         public static final double podiumShooterPivotPosition = 90;
