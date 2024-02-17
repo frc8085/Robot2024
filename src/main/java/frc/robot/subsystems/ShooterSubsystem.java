@@ -86,7 +86,13 @@ public class ShooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     public void periodic() {
 
-        if (LoggingConstants.kLogging) {
+        SmartDashboard.putBoolean("Shooter1 at SetPoint", shooter1AtSetpoint());
+        SmartDashboard.putBoolean("Shooter2 at SetPoint", shooter2AtSetpoint());
+        SmartDashboard.putBoolean("Ready To Shoot", readyToShoot());
+
+        if (LoggingConstants.kLogging)
+
+        {
             log();
         }
 
@@ -96,7 +102,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void log() {
-        // SmartDashboard.putNumber("Description", item);
+        SmartDashboard.putNumber("Shooter1 Velocity", m_shooter1Encoder.getVelocity());
+        SmartDashboard.putNumber("Shooter2 Velocity", m_shooter2Encoder.getVelocity());
     }
 
     public void addPIDToDashboard() {
@@ -170,4 +177,44 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkMax.ControlType.kVelocity);
     }
 
+    public boolean shooter1AtSetpoint() {
+        double encoderValue = m_shooter1Encoder.getVelocity();
+        // double tolerance = Math.abs(kShooterToleranceRPMPercent * kSetPoint);
+        double tolerance = 300;
+        double setpoint = kShooter1SetPoint;
+        double minLimit = setpoint - tolerance;
+        double maxLimit = setpoint + tolerance;
+
+        boolean withinLimits =
+                // Don't consider us at setpoint for the 'motor off' case
+                setpoint != 0 &&
+                // Otherwise check if we're within limits
+                        encoderValue >= minLimit
+                        && encoderValue <= maxLimit;
+
+        return withinLimits;
+    }
+
+    public boolean shooter2AtSetpoint() {
+        double encoderValue = m_shooter2Encoder.getVelocity();
+        // double tolerance = Math.abs(kShooterToleranceRPMPercent * kSetPoint);
+        double tolerance = 300;
+        double setpoint = kShooter2SetPoint;
+        double minLimit = setpoint - tolerance;
+        double maxLimit = setpoint + tolerance;
+
+        boolean shooter2WithinLimits =
+                // Don't consider us at setpoint for the 'motor off' case
+                setpoint != 0 &&
+                // Otherwise check if we're within limits
+                        encoderValue >= minLimit
+                        && encoderValue <= maxLimit;
+
+        return shooter2WithinLimits;
+    }
+
+    public boolean readyToShoot() {
+        return shooter1AtSetpoint() || shooter2AtSetpoint();
+
+    }
 }
