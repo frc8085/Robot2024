@@ -152,12 +152,11 @@ public final class Constants {
         public static final double kShooterPivotAdjustmentFactor = 0 + kShooterPivotPositionShift;
 
         public enum Position {
-            TRAVEL("Travel",
+            HOME("Home",
                     240.5,
                     45.5,
                     false,
                     false),
-
             AMP("Amp",
                     325.5,
                     205,
@@ -249,10 +248,10 @@ public final class Constants {
         public static final double kShooterPivotPositionAdjustmentFactor = 1 / kShooterPivotRevolutionsPerDegree;
 
         // Temporary Arm PID configuration
-        public static final double travelArmPosition = 50 + kArmPositionShift;
+        public static final double homeArmPosition = 50 + kArmPositionShift;
         public static final double podiumArmPosition = 50 + kArmPositionShift;
 
-        public static final double travelShooterPivotPosition = 40;
+        public static final double homeShooterPivotPosition = 40;
         public static final double podiumShooterPivotPosition = 124;
     }
 

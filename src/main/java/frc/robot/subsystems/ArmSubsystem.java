@@ -154,12 +154,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     }
 
-    // Maintain arm position
     public void setArmPosition(double armPosition) {
-        m_armPIDController.setReference(armPosition, ControlType.kPosition);
-    }
-
-    public void keepArmPosition(double armPosition) {
         double armPositionDisplay = armPosition - kArmPositionShift;
         m_armPIDController.setReference(armPosition, ControlType.kPosition);
         if (TUNING_MODE) {
@@ -170,12 +165,7 @@ public class ArmSubsystem extends SubsystemBase {
         }
     }
 
-    // Maintain shooter pivot position
     public void setShooterPivotPosition(double shooterPivotPosition) {
-        m_shooterPivotPIDController.setReference(shooterPivotPosition, ControlType.kPosition);
-    }
-
-    public void keepShooterPivotPosition(double shooterPivotPosition) {
         double shooterPivotPositionDisplay = shooterPivotPosition - kShooterPivotPositionShift;
         m_shooterPivotPIDController.setReference(shooterPivotPosition, ControlType.kPosition);
 
@@ -188,8 +178,8 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void moveToPosition(Position position) {
-        keepArmPosition(position.armPosition);
-        keepShooterPivotPosition(position.shooterPivotPosition);
+        setArmPosition(position.armPosition);
+        setShooterPivotPosition(position.shooterPivotPosition);
     }
 
     public boolean atArmSetpoint(double setpoint) {
