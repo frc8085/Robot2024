@@ -39,8 +39,8 @@ public class ShooterSubsystem extends SubsystemBase {
     double kShooter2I = ShooterConstants.kShooter2I;
 
     // Shooter Set Points
-    private double kShooter1SetPoint;
-    private double kShooter2SetPoint;
+    double kShooter1SetPoint = ShooterConstants.kShooter1SetPoint;
+    double kShooter2SetPoint = ShooterConstants.kShooter2SetPoint;
 
     /** Creates a new ExampleSubsystem. */
     public ShooterSubsystem() {
@@ -104,6 +104,8 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("kShooter1I", kShooter1I);
         SmartDashboard.putNumber("kShooter2P", kShooter2P);
         SmartDashboard.putNumber("kShooter2I", kShooter2I);
+        SmartDashboard.putNumber("kShooter1SetPoint", kShooter1SetPoint);
+        SmartDashboard.putNumber("kShooter2SetPoint", kShooter2SetPoint);
     }
 
     public void tunePIDs() {
@@ -111,6 +113,8 @@ public class ShooterSubsystem extends SubsystemBase {
         double shooter1I = SmartDashboard.getNumber("kShooter1I", 0);
         double shooter2P = SmartDashboard.getNumber("kShooter2P", 0);
         double shooter2I = SmartDashboard.getNumber("kShooter2I", 0);
+        double shooter1SetPoint = SmartDashboard.getNumber("kShooter1SetPoint", 0);
+        double shooter2SetPoint = SmartDashboard.getNumber("kShooter2SetPoint", 0);
 
         // if PID coefficients on dashboard have changed, write new values to controller
         if ((shooter1P != kShooter1P)) {
@@ -129,9 +133,16 @@ public class ShooterSubsystem extends SubsystemBase {
             kShooter2I = shooter2I;
             m_shooter2PIDController.setI(kShooter2I);
         }
-     
-    }
+        if ((shooter1SetPoint != kShooter1SetPoint)) {
+            kShooter1SetPoint = shooter1SetPoint;
+            m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkMax.ControlType.kVelocity);
+        }
+        if ((shooter2SetPoint != kShooter2SetPoint)) {
+            kShooter2SetPoint = shooter2SetPoint;
+            m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkMax.ControlType.kVelocity);
+        }
 
+    }
 
     // Stop the Shooter
     public void stop() {
@@ -139,15 +150,15 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2Motor.set(0);
     }
 
-    public void run() {
-        m_shooter1Motor.set(1);
-        m_shooter2Motor.set(-0.8);
-    }
-
     // public void run() {
-    // setShooter1SetPoint(kShooter1SetPoint);
-    // setShooter2SetPoint(kShooter2SetPoint);
+    // m_shooter1Motor.set(1);
+    // m_shooter2Motor.set(-0.8);
     // }
+
+    public void run() {
+        setShooter1SetPoint(kShooter1SetPoint);
+        setShooter2SetPoint(kShooter2SetPoint);
+    }
 
     public void setShooter1SetPoint(double shooter1SetPoint) {
         kShooter1SetPoint = Math.max(shooter1SetPoint, 4500);
