@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkBase.ControlType;
 
 import static frc.robot.Constants.ArmConstants.kArmAdjustmentFactor;
+import static frc.robot.Constants.ArmConstants.kArmMaxAccel;
+import static frc.robot.Constants.ArmConstants.kArmMaxVelo;
 import static frc.robot.Constants.ArmConstants.kArmPositionShift;
 import static frc.robot.Constants.ArmConstants.kShooterPivotPositionShift;
 
@@ -111,8 +113,8 @@ public class ArmSubsystem extends SubsystemBase {
         m_armPIDController.setFF(ArmConstants.kArmFF);
         m_armPIDController.setOutputRange(ArmConstants.kArmMinOutput,
                 ArmConstants.kArmMaxOutput);
-        m_armPIDController.setSmartMotionMaxAccel(0.05, 0);
-        m_armPIDController.setSmartMotionMaxVelocity(0.1, 0);
+        m_armPIDController.setSmartMotionMaxAccel(.05, 0);
+        m_armPIDController.setSmartMotionMaxVelocity(.05, 0);
 
         m_shooterPivotPIDController.setP(ArmConstants.kShooterPivotP);
         m_shooterPivotPIDController.setI(ArmConstants.kShooterPivotI);
@@ -257,6 +259,8 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("kArmP", kArmP);
         SmartDashboard.putNumber("kArmI", kArmI);
         SmartDashboard.putNumber("kArmD", kArmD);
+        SmartDashboard.putNumber("kArmMaxAccel", kArmMaxAccel);
+        SmartDashboard.putNumber("kArmMaxVelo", kArmMaxVelo);
         SmartDashboard.putNumber("kShooterPivotP", kShooterPivotP);
         SmartDashboard.putNumber("kShooterPivotI", kShooterPivotI);
         SmartDashboard.putNumber("kShooterPivotD", kShooterPivotD);
@@ -267,6 +271,8 @@ public class ArmSubsystem extends SubsystemBase {
         double armP = SmartDashboard.getNumber("kArmP", 0);
         double armI = SmartDashboard.getNumber("kArmI", 0);
         double armD = SmartDashboard.getNumber("kArmD", 0);
+        double armMaxAccel = SmartDashboard.getNumber("kArmMaxAccel", 0);
+        double armMaxVelo = SmartDashboard.getNumber("kArmMaxVelo", 0);
 
         // if PID coefficients on dashboard have changed, write new values to controller
         if ((armP != kArmP)) {
@@ -281,6 +287,15 @@ public class ArmSubsystem extends SubsystemBase {
             kArmD = armD;
             m_armPIDController.setD(kArmD);
         }
+
+        // if ((armMaxAccel != kArmMaxAccel)) {
+        // kArmMaxAccel = armMaxAccel;
+        // m_armPIDController.setSmartMotionMaxAccel(kArmMaxAccel, 0);
+        // }
+        // if ((armMaxVelo != kArmMaxVelo)) {
+        // kArmMaxVelo = armMaxVelo;
+        // m_armPIDController.setSmartMotionMaxVelocity(kArmMaxVelo, 0);
+        // }
 
         double shooterPivotP = SmartDashboard.getNumber("kShooterPivotP", 0);
         double shooterPivotI = SmartDashboard.getNumber("kShooterPivotI", 0);

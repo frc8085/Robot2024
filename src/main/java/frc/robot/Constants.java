@@ -121,6 +121,8 @@ public final class Constants {
         public static final double kArmFF = 0;
         public static final double kArmMaxOutput = kArmMaxSpeed;
         public static final double kArmMinOutput = -kArmMaxSpeed;
+        public static final double kArmMaxAccel = .05;
+        public static final double kArmMaxVelo = .1;
 
         // Shooter Pivot PID coefficients
         public static final int kShooterPivotPIDSlot = 0;
@@ -162,14 +164,14 @@ public final class Constants {
                     true,
                     true),
             PODIUM("Podium",
-                    257,
-                    50,
+                    267,
+                    60,
                     true,
                     true),
 
             LOW_SUBWOOFER("LowSubwoofer",
-                    275,
-                    45.5,
+                    335,
+                    125,
                     true,
                     true),
             TRAP_APPROACH("Trap Approach",
