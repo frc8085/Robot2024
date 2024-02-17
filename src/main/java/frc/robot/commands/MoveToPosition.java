@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -23,7 +24,7 @@ public class MoveToPosition extends SequentialCommandGroup {
         else if (position.moveArmFirst) {
             addCommands(
                     new InstantCommand(() -> m_arm.keepArmPosition(position.armPosition)),
-                    new WaitUntilCommand(() -> m_arm.atArmSetpoint(position.armPosition)),
+                    new WaitCommand(0.5),
                     new InstantCommand(() -> m_arm.keepShooterPivotPosition(position.shooterPivotPosition)));
         }
 
@@ -31,7 +32,7 @@ public class MoveToPosition extends SequentialCommandGroup {
         else {
             addCommands(
                     new InstantCommand(() -> m_arm.keepShooterPivotPosition(position.shooterPivotPosition)),
-                    new WaitUntilCommand(() -> m_arm.atShooterPivotSetpoint(position.shooterPivotPosition)),
+                    new WaitCommand(0.5),
                     new InstantCommand(() -> m_arm.keepArmPosition(position.armPosition)));
         }
     }
