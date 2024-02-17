@@ -135,7 +135,7 @@ public final class Constants {
 
         // Offset
         public static final double kArmZeroOffsetFactor = 137;
-        public static final double kShooterPivotOffsetFactor = 0;
+        public static final double kShooterPivotOffsetFactor = 306;
 
         // We are zeroing the arm at the top limit, so all our positions should be
         // adjusted
