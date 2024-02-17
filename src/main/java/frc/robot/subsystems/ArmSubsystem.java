@@ -174,10 +174,10 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterPivotPIDController.setReference(shooterPivotPosition, ControlType.kPosition);
 
         if (TUNING_MODE) {
-            SmartDashboard.putNumber("Desired Shooter Arm Position", shooterPivotPositionDisplay);
-            SmartDashboard.putNumber("Raw Desired Shooter Arm Position", shooterPivotPosition);
+            SmartDashboard.putNumber("Desired Shooter Pivot Position", shooterPivotPositionDisplay);
+            SmartDashboard.putNumber("Raw Desired Shooter Pivot Position", shooterPivotPosition);
 
-            System.out.println("Keep SHOOTER ARM Position " + shooterPivotPositionDisplay);
+            System.out.println("Keep SHOOTER PIVOT Position " + shooterPivotPositionDisplay);
         }
     }
 
@@ -242,10 +242,11 @@ public class ArmSubsystem extends SubsystemBase {
     public void log() {
         if (LoggingConstants.kLogging) {
             SmartDashboard.putNumber("Raw Arm Position", getArmPosition());
-            SmartDashboard.putNumber("Raw Shooter Arm Position", getShooterPivotPosition());
+            SmartDashboard.putNumber("Raw Shooter Pivot Position", getShooterPivotPosition());
 
             SmartDashboard.putNumber("Arm Position", getArmPosition() - kArmPositionShift);
-            SmartDashboard.putNumber("Shooter Arm Position", getShooterPivotPosition() - kShooterPivotPositionShift);
+            SmartDashboard.putNumber("Shooter Pivot Position",
+                    getShooterPivotPosition() - kShooterPivotPositionShift);
         }
     }
 

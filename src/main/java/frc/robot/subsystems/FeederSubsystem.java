@@ -22,7 +22,7 @@ public class FeederSubsystem extends SubsystemBase {
     DigitalInput lightSensor2 = new DigitalInput(ShooterConstants.kIRPort2);
 
     private final CANSparkMax m_feederMotor = new CANSparkMax(
-        CanIdConstants.kFeederCanId, MotorDefaultsConstants.Neo550MotorType);
+            CanIdConstants.kFeederCanId, MotorDefaultsConstants.Neo550MotorType);
 
     private double speed = FeederConstants.speed;
 
@@ -54,7 +54,6 @@ public class FeederSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("Sensor 2 note detected", lightSensor2.get());
     }
 
-  
     // Stop the Feeder
     public void stop() {
         m_feederMotor.set(0);
