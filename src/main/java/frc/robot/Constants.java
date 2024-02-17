@@ -116,7 +116,7 @@ public final class Constants {
         // Arm PID coefficients
         public static final int kArmPIDSlot = 0;
         public static final double kArmP = .0138889;
-        public static final double kArmI = .000014;
+        public static final double kArmI = .00006;
         public static final double kArmD = .000278;
         public static final double kArmFF = 0;
         public static final double kArmMaxOutput = kArmMaxSpeed;
@@ -163,13 +163,13 @@ public final class Constants {
                     true),
             PODIUM("Podium",
                     257,
-                    318,
+                    50,
                     true,
                     true),
 
             LOW_SUBWOOFER("LowSubwoofer",
-                    286,
-                    314,
+                    275,
+                    45.5,
                     true,
                     true),
             TRAP_APPROACH("Trap Approach",
