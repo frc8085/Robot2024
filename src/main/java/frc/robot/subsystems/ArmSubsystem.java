@@ -1,10 +1,9 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
@@ -29,8 +28,8 @@ public class ArmSubsystem extends SubsystemBase {
             CanIdConstants.kShooterPivotCanId, MotorDefaultsConstants.Neo550MotorType);
 
     // Encoders
-    private AbsoluteEncoder m_armEncoder;
-    private AbsoluteEncoder m_shooterPivotEncoder;
+    private SparkAbsoluteEncoder m_armEncoder;
+    private SparkAbsoluteEncoder m_shooterPivotEncoder;
 
     // PID Controllers
     private SparkPIDController m_armPIDController = m_armMotor.getPIDController();
@@ -80,21 +79,24 @@ public class ArmSubsystem extends SubsystemBase {
         // Setup encoders and PID controllers for the arm and shooter arms.
 
         // absolute encoder
-        m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
-
-        // relative encoder
-        // m_armEncoder = m_armMotor.getEncoder();
+        m_armEncoder = m_armMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
         m_armPIDController.setFeedbackDevice(m_armEncoder);
 
         // absolute encoder
-        m_shooterPivotEncoder = m_shooterPivotMotor.getAbsoluteEncoder(Type.kDutyCycle);
-
-        // adjust the encoder offset so we don't have to go below 0
-        m_shooterPivotEncoder.setZeroOffset(0.2);
-
-        // relative encoder
-        // m_shooterPivotEncoder = m_shooterPivotMotor.getEncoder();
+        m_shooterPivotEncoder = m_shooterPivotMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
         m_shooterPivotPIDController.setFeedbackDevice(m_shooterPivotEncoder);
+
+        // Set Position Conversion Factor which will take the encoder units and set it to degrees
+        m_armEncoder.setPositionConversionFactor(ArmConstants.kArmRevolutionsPerDegree);
+        m_shooterPivotEncoder.setPositionConversionFactor(ArmConstants.kShooterPivotRevolutionsPerDegree);
+
+        // Encoders are not inverted
+        m_armEncoder.setInverted(false);
+        m_shooterPivotEncoder.setInverted(false);
+
+        // Set Zero Offset - not sure how this works, test and figure out
+        m_armEncoder.setZeroOffset(0);
+        m_shooterPivotEncoder.setZeroOffset(0);
 
         // Set the PID gains for the turning motor.
         m_armPIDController.setP(ArmConstants.kArmP);
@@ -298,6 +300,9 @@ public class ArmSubsystem extends SubsystemBase {
             System.out.println("Keep SHOOTER ARM Position " + ShooterPivotPosition);
         }
     }
+
+
+    // if arm encoder reads greater than .4 only allow arm movement in the positive direction
 
 
 }

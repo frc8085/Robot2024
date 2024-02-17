@@ -240,13 +240,11 @@ public final class Constants {
                 / kShooterPivotTotalDegrees;
 
         // Temporary Arm PID configuration
-        public static final double travelArmPosition = 10 * kArmRevolutionsPerDegree;
-        public static final double podiumArmPosition = 50 * kArmRevolutionsPerDegree;
+        public static final double travelArmPosition = 10;
+        public static final double podiumArmPosition = 50;
 
-        public static final double travelShooterPivotPosition = 0 *
-                kShooterPivotRevolutionsPerDegree;
-        public static final double podiumShooterPivotPosition = 90 *
-                kShooterPivotRevolutionsPerDegree;
+        public static final double travelShooterPivotPosition = 0;
+        public static final double podiumShooterPivotPosition = 90;
     }
 
     public static final class ClimberConstants {
