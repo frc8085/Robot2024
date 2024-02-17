@@ -148,30 +148,30 @@ public class RobotContainer {
                 turnOnShooter.onTrue(new InstantCommand(m_shooter::run));
                 turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
 
-                moveToHome.whileTrue(new MoveToPosition(m_arm, m_shooter, Position.HOME));
-                moveToSubwoofer.whileTrue(
+                moveToHome.onTrue(new MoveToPosition(m_arm, m_shooter, Position.HOME));
+                moveToSubwoofer.onTrue(
                                 new MoveToPosition(m_arm, m_shooter, Position.LOW_SUBWOOFER));
-                moveToAmp.whileTrue(new MoveToPosition(m_arm, m_shooter, Position.AMP));
-                moveToPodium.whileTrue(new MoveToPosition(m_arm, m_shooter, Position.PODIUM));
-                // moveToTrapApproach.whileTrue(new MoveToPosition(m_arm, m_shooter,
+                moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, Position.AMP));
+                moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, Position.PODIUM));
+                // moveToTrapApproach.onTrue(new MoveToPosition(m_arm, m_shooter,
                 // Position.TRAP_APPROACH));
-                // moveToTrapScore.whileTrue(new MoveToPosition(m_arm, m_shooter,
+                // moveToTrapScore.onTrue(new MoveToPosition(m_arm, m_shooter,
                 // Position.TRAP_SCORE));
-                // moveToTrapClimb.whileTrue(new MoveToPosition(m_arm, m_shooter,
+                // moveToTrapClimb.onTrue(new MoveToPosition(m_arm, m_shooter,
                 // Position.TRAP_CLIMB));
 
                 /**
                  * Alternate positions. For these, you need to hold down the Left Bumper too.
                  **/
                 // HIGH Podium
-                moveToPodium.and(alternatePosition).whileTrue(
-                                new MoveToPosition(m_arm, m_shooter, Position.HIGH_PODIUM));
-                // BACK Podium
-                moveToAmp.and(alternatePosition).whileTrue(
-                                new MoveToPosition(m_arm, m_shooter, Position.BACK_PODIUM));
-                // HIGH Subwoofer
-                moveToSubwoofer.and(alternatePosition)
-                                .whileTrue(new MoveToPosition(m_arm, m_shooter, Position.HIGH_SUBWOOFER));
+                // moveToPodium.and(alternatePosition).onTrue(
+                // new MoveToPosition(m_arm, m_shooter, Position.HIGH_PODIUM));
+                // // BACK Podium
+                // moveToAmp.and(alternatePosition).onTrue(
+                // new MoveToPosition(m_arm, m_shooter, Position.BACK_PODIUM));
+                // // HIGH Subwoofer
+                // moveToSubwoofer.and(alternatePosition)
+                // .onTrue(new MoveToPosition(m_arm, m_shooter, Position.HIGH_SUBWOOFER));
 
                 /**
                  * Manual Arm raise and lower
