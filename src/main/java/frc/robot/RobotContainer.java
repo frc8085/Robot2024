@@ -31,6 +31,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteCompleted;
+import frc.robot.commands.Shoot;
 import frc.robot.commands.MoveToPositionWithNote;
 import frc.robot.commands.MoveToPosition;
 import frc.robot.subsystems.ArmSubsystem;
@@ -136,8 +137,7 @@ public class RobotContainer {
                 final Trigger WinchForwardButton = m_operatorController.povDown();
                 final Trigger WinchBackButton = m_operatorController.povUp();
 
-                shoot.whileTrue(new InstantCommand(m_feeder::run))
-                                .whileFalse(new InstantCommand(m_feeder::stop));
+                shoot.onTrue(new Shoot(m_feeder, m_arm, m_shooter, Position.HOME));
 
                 intake.onTrue(new PickUpNote(m_intake, m_feeder))
                                 .onFalse(new SequentialCommandGroup(
