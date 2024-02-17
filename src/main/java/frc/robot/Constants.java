@@ -152,15 +152,15 @@ public final class Constants {
         public enum Position {
             TRAVEL("Travel", 240.5, 45.5, false),
             AMP("Amp", 325.5, 200, true),
-            PODIUM("Podium", 50 + kArmPositionShift, 124, true),
-            LOW_SUBWOOFER("LowSubwoofer", 75 - kArmAdjustmentFactor, 75 - kShooterPivotPositionAdjustmentFactor, true),
-            TRAP_APPROACH("Trap Approach", 132 - kArmAdjustmentFactor, -42 - kShooterPivotPositionAdjustmentFactor,
+            PODIUM("Podium", 257, 318, true),
+            LOW_SUBWOOFER("LowSubwoofer", 286, 314, true),
+            TRAP_APPROACH("Trap Approach", 343, 287,
                     true),
-            TRAP_CLIMB("Trap Climb", 130 - kArmAdjustmentFactor, -40 - kShooterPivotPositionAdjustmentFactor, true),
-            TRAP_SCORE("Trap Score", 130 - kArmAdjustmentFactor, -55 - kShooterPivotPositionAdjustmentFactor, true),
-            HIGH_PODIUM("High Podium", 127 - kArmAdjustmentFactor, -40 - kShooterPivotPositionAdjustmentFactor, true),
-            BACK_PODIUM("Back Podium", 127 - kArmAdjustmentFactor, 166 - kShooterPivotPositionAdjustmentFactor, true),
-            HIGH_SUBWOOFER("High Subwoofer", 127 - kArmAdjustmentFactor, 23 - kShooterPivotPositionAdjustmentFactor,
+            TRAP_CLIMB("Trap Climb", 341, 289, true),
+            TRAP_SCORE("Trap Score", 341, 274, true),
+            HIGH_PODIUM("High Podium", 338, 289, true),
+            BACK_PODIUM("Back Podium", 338, 166 - kShooterPivotPositionAdjustmentFactor, true),
+            HIGH_SUBWOOFER("High Subwoofer", 338, 352,
                     true);
 
             private static final Map<String, Position> BY_LABEL = new HashMap<>();
