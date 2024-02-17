@@ -73,7 +73,7 @@ public class FeederSubsystem extends SubsystemBase {
     }
 
     public boolean isNoteNotDetected() {
-        return !lightSensor1.get() || !lightSensor2.get();
+        return !lightSensor1.get() && !lightSensor2.get();
     }
 
 }
