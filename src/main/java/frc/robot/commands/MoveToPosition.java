@@ -24,9 +24,7 @@ public class MoveToPosition extends SequentialCommandGroup {
             addCommands(
                     new InstantCommand(() -> m_arm.keepArmPosition(position.armPosition)),
                     new WaitUntilCommand(() -> m_arm.atArmSetpoint(position.armPosition)),
-                    new InstantCommand(() -> m_arm.keepShooterPivotPosition(position.shooterPivotPosition))
-
-            );
+                    new InstantCommand(() -> m_arm.keepShooterPivotPosition(position.shooterPivotPosition)));
         }
 
         // Otherwise, move the Shooter Pivot first, then the Arm
