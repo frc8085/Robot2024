@@ -13,19 +13,18 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class PickUpNoteCompleted extends SequentialCommandGroup{
+public class PickUpNoteCompleted extends SequentialCommandGroup {
     public PickUpNoteCompleted(
-        IntakeSubsystem m_intake, FeederSubsystem m_feeder
-    ){
-    addCommands(
-        new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                new InstantCommand(m_intake::stop),
-                new InstantCommand(m_feeder::stop)),
-            new SequentialCommandGroup(
-               new WaitCommand(FeederConstants.kLoadWaitTime),
-                new InstantCommand(m_feeder::runBackwards),
-                new WaitUntilCommand(() -> m_feeder.isNoteNotDetected()),
-                new InstantCommand(m_feeder::stop))));
-        }
+            IntakeSubsystem m_intake, FeederSubsystem m_feeder) {
+        addCommands(
+                new SequentialCommandGroup(
+                        new ParallelCommandGroup(
+                                new InstantCommand(m_intake::stop),
+                                new InstantCommand(m_feeder::stop)),
+                        new SequentialCommandGroup(
+                                new WaitCommand(FeederConstants.kLoadWaitTime),
+                                new InstantCommand(m_feeder::runBackwards),
+                                new WaitUntilCommand(() -> m_feeder.isNoteNotDetected()),
+                                new InstantCommand(m_feeder::stop))));
+    }
 }

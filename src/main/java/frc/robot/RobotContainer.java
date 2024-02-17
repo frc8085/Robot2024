@@ -88,7 +88,7 @@ public class RobotContainer {
         private void addToDashboard() {
                 // Put a button on the dashboard for each setpoint
                 for (Position pos : Position.values()) {
-                        SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, pos));
+                        SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, m_shooter, pos));
                 }
         }
 
@@ -148,28 +148,30 @@ public class RobotContainer {
                 turnOnShooter.onTrue(new InstantCommand(m_shooter::run));
                 turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
 
-                moveToHome.whileTrue(new MoveToPosition(m_arm, Position.HOME));
+                moveToHome.whileTrue(new MoveToPosition(m_arm, m_shooter, Position.HOME));
                 moveToSubwoofer.whileTrue(
-                                new MoveToPosition(m_arm, Position.LOW_SUBWOOFER));
-                moveToAmp.whileTrue(new MoveToPosition(m_arm, Position.AMP));
-                moveToPodium.whileTrue(new MoveToPosition(m_arm, Position.PODIUM));
-                // moveToTrapApproach.whileTrue(new MoveToPosition(m_arm,
+                                new MoveToPosition(m_arm, m_shooter, Position.LOW_SUBWOOFER));
+                moveToAmp.whileTrue(new MoveToPosition(m_arm, m_shooter, Position.AMP));
+                moveToPodium.whileTrue(new MoveToPosition(m_arm, m_shooter, Position.PODIUM));
+                // moveToTrapApproach.whileTrue(new MoveToPosition(m_arm, m_shooter,
                 // Position.TRAP_APPROACH));
-                // moveToTrapScore.whileTrue(new MoveToPosition(m_arm, Position.TRAP_SCORE));
-                // moveToTrapClimb.whileTrue(new MoveToPosition(m_arm, Position.TRAP_CLIMB));
+                // moveToTrapScore.whileTrue(new MoveToPosition(m_arm, m_shooter,
+                // Position.TRAP_SCORE));
+                // moveToTrapClimb.whileTrue(new MoveToPosition(m_arm, m_shooter,
+                // Position.TRAP_CLIMB));
 
                 /**
                  * Alternate positions. For these, you need to hold down the Left Bumper too.
                  **/
                 // HIGH Podium
                 moveToPodium.and(alternatePosition).whileTrue(
-                                new MoveToPosition(m_arm, Position.HIGH_PODIUM));
+                                new MoveToPosition(m_arm, m_shooter, Position.HIGH_PODIUM));
                 // BACK Podium
                 moveToAmp.and(alternatePosition).whileTrue(
-                                new MoveToPosition(m_arm, Position.BACK_PODIUM));
+                                new MoveToPosition(m_arm, m_shooter, Position.BACK_PODIUM));
                 // HIGH Subwoofer
                 moveToSubwoofer.and(alternatePosition)
-                                .whileTrue(new MoveToPosition(m_arm, Position.HIGH_SUBWOOFER));
+                                .whileTrue(new MoveToPosition(m_arm, m_shooter, Position.HIGH_SUBWOOFER));
 
                 /**
                  * Manual Arm raise and lower

@@ -158,41 +158,48 @@ public final class Constants {
                     240.5,
                     45.5,
                     false,
+                    false,
                     false),
             AMP("Amp",
                     325.5,
                     205,
                     true,
+                    false,
                     true),
             PODIUM("Podium",
                     267,
                     60,
                     true,
+                    true,
                     true),
-
             LOW_SUBWOOFER("LowSubwoofer",
                     335,
                     125,
+                    true,
                     true,
                     true),
             TRAP_APPROACH("Trap Approach",
                     343,
                     287,
                     true,
-                    true),
+                    true,
+                    false),
             TRAP_CLIMB("Trap Climb",
                     341,
                     289,
                     true,
-                    true),
+                    true,
+                    false),
             TRAP_SCORE("Trap Score",
                     341,
                     274,
                     true,
-                    true),
+                    true,
+                    false),
             HIGH_PODIUM("High Podium",
                     338,
                     289,
+                    true,
                     true,
                     true),
 
@@ -200,11 +207,13 @@ public final class Constants {
                     338,
                     166,
                     true,
+                    true,
                     true),
 
             HIGH_SUBWOOFER("High Subwoofer",
                     338,
                     352,
+                    true,
                     true,
                     true);
 
@@ -213,17 +222,20 @@ public final class Constants {
             public final double shooterPivotPosition;
             public final boolean moveArmFirst;
             public final boolean parallelMovement;
+            public final boolean shooterOn;
 
             private Position(String label,
                     double armPosition,
                     double ShooterPivotPosition,
                     boolean moveArmFirst,
-                    boolean parallelMovement) {
+                    boolean parallelMovement,
+                    boolean shooterOn) {
                 this.label = label;
                 this.armPosition = armPosition;
                 this.shooterPivotPosition = ShooterPivotPosition;
                 this.moveArmFirst = moveArmFirst;
                 this.parallelMovement = parallelMovement;
+                this.shooterOn = shooterOn;
             }
 
         }
