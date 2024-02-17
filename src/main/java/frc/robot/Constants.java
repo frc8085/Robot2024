@@ -115,9 +115,9 @@ public final class Constants {
         // PIDS
         // Arm PID coefficients
         public static final int kArmPIDSlot = 0;
-        public static final double kArmP = 0.1;
-        public static final double kArmI = 0;
-        public static final double kArmD = 0;
+        public static final double kArmP = 5;
+        public static final double kArmI = 0.005;
+        public static final double kArmD = 0.1;
         public static final double kArmFF = 0;
         public static final double kArmMaxOutput = kArmMaxSpeed;
         public static final double kArmMinOutput = -kArmMaxSpeed;
@@ -228,7 +228,7 @@ public final class Constants {
 
         // Convert angle of travel to encoder rotations, where encoder reading of .1 is
         // 0 degrees and reading of 5.5 is 90 degrees
-        public static final double kArmRevolutionsPerDegree = -(kArmTotalRevolutions)
+        public static final double kArmRevolutionsPerDegree = (kArmTotalRevolutions)
                 / kArmTotalDegrees;
 
         // Estimates, fix this once we get exact measurements
@@ -241,7 +241,7 @@ public final class Constants {
 
         // Temporary Arm PID configuration
         public static final double travelArmPosition = 10 * kArmRevolutionsPerDegree;
-        public static final double podiumArmPosition = 100 * kArmRevolutionsPerDegree;
+        public static final double podiumArmPosition = 50 * kArmRevolutionsPerDegree;
 
         public static final double travelShooterPivotPosition = 0 *
                 kShooterPivotRevolutionsPerDegree;
