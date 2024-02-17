@@ -133,12 +133,18 @@ public final class Constants {
 
         // SETPOINTS
 
-        // We are zeroing the arm at the top limit, so all our positions should be adjusted 
+        // Offset
+        public static final double kArmZeroOffsetFactor = 137;
+        public static final double kShooterPivotOffsetFactor = 0;
+
+        // We are zeroing the arm at the top limit, so all our positions should be
+        // adjusted
         public static final double kArmPositionShift = 239;
 
         public static final double kArmAdjustmentFactor = 90 + kArmPositionShift;
 
-        // Zeroing the shooter pivot at the far limit, so all our positions should be adjusted
+        // Zeroing the shooter pivot at the far limit, so all our positions should be
+        // adjusted
         public static final double kShooterPivotPositionShift = 0;
 
         public static final double kShooterPivotAdjustmentFactor = 0 + kShooterPivotPositionShift;
@@ -163,18 +169,18 @@ public final class Constants {
                 for (Position e : values()) {
                     BY_LABEL.put(e.label, e);
                     BY_ARM_POSITION.put(e.armPosition, e);
-                    BY_SHOOTER_ARM_POSITION.put(e.ShooterPivotPosition, e);
+                    BY_SHOOTER_ARM_POSITION.put(e.shooterPivotPosition, e);
                 }
             }
 
             public final String label;
             public final double armPosition;
-            public final double ShooterPivotPosition;
+            public final double shooterPivotPosition;
 
             private Position(String label, double armPosition, double ShooterPivotPosition) {
                 this.label = label;
                 this.armPosition = armPosition;
-                this.ShooterPivotPosition = ShooterPivotPosition;
+                this.shooterPivotPosition = ShooterPivotPosition;
             }
 
             public static Position valueOfLabel(String label) {
