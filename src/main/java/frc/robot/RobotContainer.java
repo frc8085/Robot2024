@@ -81,7 +81,7 @@ public class RobotContainer {
                                 OIConstants.kDriveDeadband),
                         MathUtil.applyDeadband(m_driverController.getLeftX(),
                                 OIConstants.kDriveDeadband),
-                        MathUtil.applyDeadband(m_driverController.getRightX(),
+                       -  MathUtil.applyDeadband(m_driverController.getRightX(),
                                 OIConstants.kDriveDeadband),
                         true,
                         true),
@@ -90,11 +90,11 @@ public class RobotContainer {
 
     private void addToDashboard() {
         // Put a button on the dashboard for each setpoint
-        // for (Position pos : Position.values()) {
-        // SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, pos));
-        SmartDashboard.putData("Travel", new MoveToTravel(m_arm));
-        SmartDashboard.putData("Podium", new MoveToPodium(m_arm));
-        // }
+        for (Position pos : Position.values()) {
+        SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, pos));
+        // SmartDashboard.putData("Travel", new MoveToTravel(m_arm));
+        // SmartDashboard.putData("Podium", new MoveToPodium(m_arm));
+        }
     }
 
     /**

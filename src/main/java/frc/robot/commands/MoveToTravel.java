@@ -12,8 +12,8 @@ public class MoveToTravel extends SequentialCommandGroup {
         addCommands(
                 // new ParallelCommandGroup(
                 new InstantCommand(() ->
-                m_arm.keepArmPosition(ArmConstants.travelArmPosition)));
-                // new InstantCommand(() -> m_arm.keepShooterPivotPosition(ArmConstants.travelShooterPivotPosition)));
+                m_arm.keepArmPosition(ArmConstants.travelArmPosition)),
+                new InstantCommand(() -> m_arm.keepShooterPivotPosition(ArmConstants.travelShooterPivotPosition)));
     }
 
 }

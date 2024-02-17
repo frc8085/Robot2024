@@ -103,14 +103,14 @@ public final class Constants {
         public static final IdleMode kShooterPivotMotorIdleMode = IdleMode.kBrake;
 
         public static final double kArmMaxSpeed = .6;
-        public static final double kShooterPivotMaxSpeed = 0.3;
+        public static final double kShooterPivotMaxSpeed = 1;
 
         // Manual Arm movement speeds
         public static final double kArmRaiseSpeed = .25;
         public static final double kArmLowerSpeed = .15;
 
-        public static final double kShooterPivotRaiseSpeed = .05;
-        public static final double kShooterPivotLowerSpeed = .05;
+        public static final double kShooterPivotRaiseSpeed = .6;
+        public static final double kShooterPivotLowerSpeed = .6;
 
         // PIDS
         // Arm PID coefficients
@@ -124,7 +124,7 @@ public final class Constants {
 
         // Shooter Pivot PID coefficients
         public static final int kShooterPivotPIDSlot = 0;
-        public static final double kShooterPivotP = 1;
+        public static final double kShooterPivotP = 0.01;
         public static final double kShooterPivotI = 0;
         public static final double kShooterPivotD = 0;
         public static final double kShooterPivotFF = 0;
@@ -135,7 +135,7 @@ public final class Constants {
 
         // Offset
         public static final double kArmZeroOffsetFactor = 137;
-        public static final double kShooterPivotOffsetFactor = 306;
+        public static final double kShooterPivotZeroOffsetFactor = 306;
 
         // We are zeroing the arm at the top limit, so all our positions should be
         // adjusted
@@ -145,21 +145,23 @@ public final class Constants {
 
         // Zeroing the shooter pivot at the far limit, so all our positions should be
         // adjusted
-        public static final double kShooterPivotPositionShift = 0;
+        public static final double kShooterPivotPositionShift = 47;
 
         public static final double kShooterPivotAdjustmentFactor = 0 + kShooterPivotPositionShift;
 
         public enum Position {
-            TRAVEL("Travel", 35 - kArmAdjustmentFactor, 83 - kShooterPivotPositionAdjustmentFactor),
-            PODIUM("Podium", 46 - kArmAdjustmentFactor, 79 - kShooterPivotPositionAdjustmentFactor),
-            LOW_SUBWOOFER("LowSubwoofer", 75 - kArmAdjustmentFactor, 75 - kShooterPivotPositionAdjustmentFactor),
-            AMP("Amp", 114 - kArmAdjustmentFactor, -39 - kShooterPivotPositionAdjustmentFactor),
-            TRAP_APPROACH("Trap Approach", 132 - kArmAdjustmentFactor, -42 - kShooterPivotPositionAdjustmentFactor),
-            TRAP_CLIMB("Trap Climb", 130 - kArmAdjustmentFactor, -40 - kShooterPivotPositionAdjustmentFactor),
-            TRAP_SCORE("Trap Score", 130 - kArmAdjustmentFactor, -55 - kShooterPivotPositionAdjustmentFactor),
-            HIGH_PODIUM("High Podium", 127 - kArmAdjustmentFactor, -40 - kShooterPivotPositionAdjustmentFactor),
-            BACK_PODIUM("Back Podium", 127 - kArmAdjustmentFactor, 166 - kShooterPivotPositionAdjustmentFactor),
-            HIGH_SUBWOOFER("High Subwoofer", 127 - kArmAdjustmentFactor, 23 - kShooterPivotPositionAdjustmentFactor);
+            TRAVEL("Travel", 240.5, 45.5, false),
+            AMP("Amp", 325.5, 200, true),
+            PODIUM("Podium", 50 + kArmPositionShift, 124, true),
+            LOW_SUBWOOFER("LowSubwoofer", 75 - kArmAdjustmentFactor, 75 - kShooterPivotPositionAdjustmentFactor, true),
+            TRAP_APPROACH("Trap Approach", 132 - kArmAdjustmentFactor, -42 - kShooterPivotPositionAdjustmentFactor,
+                    true),
+            TRAP_CLIMB("Trap Climb", 130 - kArmAdjustmentFactor, -40 - kShooterPivotPositionAdjustmentFactor, true),
+            TRAP_SCORE("Trap Score", 130 - kArmAdjustmentFactor, -55 - kShooterPivotPositionAdjustmentFactor, true),
+            HIGH_PODIUM("High Podium", 127 - kArmAdjustmentFactor, -40 - kShooterPivotPositionAdjustmentFactor, true),
+            BACK_PODIUM("Back Podium", 127 - kArmAdjustmentFactor, 166 - kShooterPivotPositionAdjustmentFactor, true),
+            HIGH_SUBWOOFER("High Subwoofer", 127 - kArmAdjustmentFactor, 23 - kShooterPivotPositionAdjustmentFactor,
+                    true);
 
             private static final Map<String, Position> BY_LABEL = new HashMap<>();
             private static final Map<Double, Position> BY_ARM_POSITION = new HashMap<>();
@@ -176,11 +178,13 @@ public final class Constants {
             public final String label;
             public final double armPosition;
             public final double shooterPivotPosition;
+            public final boolean moveArmFirst;
 
-            private Position(String label, double armPosition, double ShooterPivotPosition) {
+            private Position(String label, double armPosition, double ShooterPivotPosition, boolean moveArmFirst) {
                 this.label = label;
                 this.armPosition = armPosition;
                 this.shooterPivotPosition = ShooterPivotPosition;
+                this.moveArmFirst = moveArmFirst;
             }
 
             public static Position valueOfLabel(String label) {
@@ -219,11 +223,11 @@ public final class Constants {
         public static final double kShooterPivotPositionAdjustmentFactor = 1 / kShooterPivotRevolutionsPerDegree;
 
         // Temporary Arm PID configuration
-        public static final double travelArmPosition = 10 + kArmPositionShift;
+        public static final double travelArmPosition = 50 + kArmPositionShift;
         public static final double podiumArmPosition = 50 + kArmPositionShift;
 
-        public static final double travelShooterPivotPosition = 0;
-        public static final double podiumShooterPivotPosition = 90;
+        public static final double travelShooterPivotPosition = 40;
+        public static final double podiumShooterPivotPosition = 124;
     }
 
     public static final class ClimberConstants {
