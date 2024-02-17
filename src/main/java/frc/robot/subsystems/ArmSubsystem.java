@@ -87,8 +87,8 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterPivotPIDController.setFeedbackDevice(m_shooterPivotEncoder);
 
         // Set Position Conversion Factor which will take the encoder units and set it to degrees
-        m_armEncoder.setPositionConversionFactor(ArmConstants.kArmRevolutionsPerDegree);
-        m_shooterPivotEncoder.setPositionConversionFactor(ArmConstants.kShooterPivotRevolutionsPerDegree);
+        m_armEncoder.setPositionConversionFactor(ArmConstants.kArmPositionAdjustmentFactor);
+        m_shooterPivotEncoder.setPositionConversionFactor(ArmConstants.kShooterPivotPositionAdjustmentFactor);
 
         // Encoders are not inverted
         m_armEncoder.setInverted(false);
@@ -97,6 +97,8 @@ public class ArmSubsystem extends SubsystemBase {
         // Set Zero Offset - not sure how this works, test and figure out
         m_armEncoder.setZeroOffset(0);
         m_shooterPivotEncoder.setZeroOffset(0);
+
+        // Set Wrapping 
 
         // Set the PID gains for the turning motor.
         m_armPIDController.setP(ArmConstants.kArmP);

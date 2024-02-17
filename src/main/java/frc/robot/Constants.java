@@ -231,6 +231,8 @@ public final class Constants {
         public static final double kArmRevolutionsPerDegree = (kArmTotalRevolutions)
                 / kArmTotalDegrees;
 
+        public static final double kArmPositionAdjustmentFactor = 1 / kArmRevolutionsPerDegree;
+
         // Estimates, fix this once we get exact measurements
         public static final double kShooterPivotTotalDegrees = 360;
         public static final double kShooterPivotTotalRevolutions = 1;
@@ -238,6 +240,8 @@ public final class Constants {
         // Convert angle of travel to encoder rotations
         public static final double kShooterPivotRevolutionsPerDegree = (kShooterPivotTotalRevolutions)
                 / kShooterPivotTotalDegrees;
+
+        public static final double kShooterPivotPositionAdjustmentFactor = 1 / kShooterPivotRevolutionsPerDegree;
 
         // Temporary Arm PID configuration
         public static final double travelArmPosition = 10;
