@@ -148,12 +148,6 @@ public class RobotContainer {
                 turnOnShooter.onTrue(new InstantCommand(m_shooter::run));
                 turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
 
-                // eventually the operator will hold the trigger to turn the shooter wheels
-                // turnOnShooter.whileTrue(new InstantCommand(m_shooter::run))
-                // .whileFalse(new InstantCommand(m_shooter::stop));
-                /**
-                 * Move arms to predefined positions
-                 **/
                 moveToHome.whileTrue(new MoveToPosition(m_arm, Position.HOME));
                 moveToSubwoofer.whileTrue(
                                 new MoveToPosition(m_arm, Position.LOW_SUBWOOFER));

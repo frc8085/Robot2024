@@ -49,6 +49,8 @@ public class ArmSubsystem extends SubsystemBase {
     double kArmFF = ArmConstants.kArmFF;
     double kArmMaxOutput = ArmConstants.kArmMaxOutput;
     double kArmMinOutput = ArmConstants.kArmMinOutput;
+    double kArmMaxAccel = ArmConstants.kArmMaxAccel;
+    double kArmMaxVelo = ArmConstants.kArmMaxVelo;
 
     double kShooterPivotP = ArmConstants.kShooterPivotP;
     double kShooterPivotI = ArmConstants.kShooterPivotI;
@@ -56,6 +58,8 @@ public class ArmSubsystem extends SubsystemBase {
     double kShooterPivotFF = ArmConstants.kShooterPivotFF;
     double kShooterPivotMaxOutput = ArmConstants.kShooterPivotMaxOutput;
     double kShooterPivotMinOutput = ArmConstants.kShooterPivotMinOutput;
+    double kShooterPivotMaxAccel = ArmConstants.kShooterPivotMaxAccel;
+    double kShooterPivotMaxVelo = ArmConstants.kShooterPivotMaxVelo;
 
     // limit switches
     private SparkLimitSwitch m_armLowerLimit;
@@ -113,8 +117,8 @@ public class ArmSubsystem extends SubsystemBase {
         m_armPIDController.setFF(ArmConstants.kArmFF);
         m_armPIDController.setOutputRange(ArmConstants.kArmMinOutput,
                 ArmConstants.kArmMaxOutput);
-        m_armPIDController.setSmartMotionMaxAccel(.05, 0);
-        m_armPIDController.setSmartMotionMaxVelocity(.05, 0);
+        m_armPIDController.setSmartMotionMaxAccel(ArmConstants.kArmMaxAccel, 0);
+        m_armPIDController.setSmartMotionMaxVelocity(ArmConstants.kArmMaxVelo, 0);
 
         m_shooterPivotPIDController.setP(ArmConstants.kShooterPivotP);
         m_shooterPivotPIDController.setI(ArmConstants.kShooterPivotI);
@@ -122,8 +126,8 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterPivotPIDController.setFF(ArmConstants.kShooterPivotFF);
         m_shooterPivotPIDController.setOutputRange(ArmConstants.kShooterPivotMinOutput,
                 ArmConstants.kShooterPivotMaxOutput);
-        m_shooterPivotPIDController.setSmartMotionMaxAccel(0.5, 0);
-        m_shooterPivotPIDController.setSmartMotionMaxVelocity(0.5, 0);
+        m_shooterPivotPIDController.setSmartMotionMaxAccel(ArmConstants.kShooterPivotMaxAccel, 0);
+        m_shooterPivotPIDController.setSmartMotionMaxVelocity(ArmConstants.kShooterPivotMaxVelo, 0);
 
         // Limit switches
         m_armLowerLimit = m_armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
@@ -254,6 +258,8 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("kShooterPivotP", kShooterPivotP);
         SmartDashboard.putNumber("kShooterPivotI", kShooterPivotI);
         SmartDashboard.putNumber("kShooterPivotD", kShooterPivotD);
+        SmartDashboard.putNumber("kShooterPivotMaxAccel", kShooterPivotMaxAccel);
+        SmartDashboard.putNumber("kShooterPivotMaxVelo", kShooterPivotMaxVelo);
 
     }
 
@@ -278,18 +284,21 @@ public class ArmSubsystem extends SubsystemBase {
             m_armPIDController.setD(kArmD);
         }
 
-        // if ((armMaxAccel != kArmMaxAccel)) {
-        // kArmMaxAccel = armMaxAccel;
-        // m_armPIDController.setSmartMotionMaxAccel(kArmMaxAccel, 0);
-        // }
-        // if ((armMaxVelo != kArmMaxVelo)) {
-        // kArmMaxVelo = armMaxVelo;
-        // m_armPIDController.setSmartMotionMaxVelocity(kArmMaxVelo, 0);
-        // }
+        if ((armMaxAccel != kArmMaxAccel)) {
+            kArmMaxAccel = armMaxAccel;
+            m_armPIDController.setSmartMotionMaxAccel(kArmMaxAccel, 0);
+        }
+
+        if ((armMaxVelo != kArmMaxVelo)) {
+            kArmMaxVelo = armMaxVelo;
+            m_armPIDController.setSmartMotionMaxVelocity(kArmMaxVelo, 0);
+        }
 
         double shooterPivotP = SmartDashboard.getNumber("kShooterPivotP", 0);
         double shooterPivotI = SmartDashboard.getNumber("kShooterPivotI", 0);
         double shooterPivotD = SmartDashboard.getNumber("kShooterPivotD", 0);
+        double shooterPivotMaxAccel = SmartDashboard.getNumber("kShooterPivotMaxAccel", 0);
+        double shooterPivotMaxVelo = SmartDashboard.getNumber("kShooterPivotMaxVelo", 0);
 
         // if PID coefficients on dashboard have changed, write new values to controller
         if ((shooterPivotP != kShooterPivotP)) {
@@ -304,6 +313,17 @@ public class ArmSubsystem extends SubsystemBase {
             kShooterPivotD = shooterPivotD;
             m_shooterPivotPIDController.setD(kShooterPivotD);
         }
+
+        if ((shooterPivotMaxAccel != kShooterPivotMaxAccel)) {
+            kShooterPivotMaxAccel = shooterPivotMaxAccel;
+            m_armPIDController.setSmartMotionMaxAccel(kShooterPivotMaxAccel, 0);
+        }
+
+        if ((shooterPivotMaxVelo != kShooterPivotMaxVelo)) {
+            kShooterPivotMaxVelo = shooterPivotMaxVelo;
+            m_armPIDController.setSmartMotionMaxVelocity(kShooterPivotMaxVelo, 0);
+        }
+
     }
 
 }
