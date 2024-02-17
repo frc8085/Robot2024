@@ -158,7 +158,7 @@ public final class Constants {
 
             AMP("Amp",
                     325.5,
-                    200,
+                    205,
                     true,
                     true),
             PODIUM("Podium",

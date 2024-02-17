@@ -192,12 +192,12 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean atArmSetpoint(double setpoint) {
         double armPosition = getArmPosition();
-        return armPosition <= setpoint + 2 || armPosition >= setpoint - 2;
+        return armPosition <= setpoint + 10 || armPosition >= setpoint - 10;
     }
 
     public boolean atShooterPivotSetpoint(double setpoint) {
         double shooterPivotPosition = getShooterPivotPosition();
-        return shooterPivotPosition <= setpoint + 2 || shooterPivotPosition >= setpoint - 2;
+        return shooterPivotPosition <= setpoint + 10 || shooterPivotPosition >= setpoint - 10;
     }
     // Limit Switches
 
