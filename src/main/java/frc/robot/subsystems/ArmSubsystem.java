@@ -186,14 +186,13 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void moveToPosition(Position position) {
-        if (position.moveArmFirst) {
-            keepArmPosition(position.armPosition);
-            keepShooterPivotPosition(position.shooterPivotPosition);
-        } else {
-            keepShooterPivotPosition(position.shooterPivotPosition);
-            keepArmPosition(position.armPosition);
-        }
+        keepArmPosition(position.armPosition);
+        keepShooterPivotPosition(position.shooterPivotPosition);
+    }
 
+    public boolean atArmSetpoint(double setpoint) {
+        double armPosition = getArmPosition();
+        return armPosition <= setpoint + 2 || armPosition >= setpoint - 2;
     }
 
     // Limit Switches

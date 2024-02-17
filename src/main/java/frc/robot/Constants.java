@@ -150,53 +150,77 @@ public final class Constants {
         public static final double kShooterPivotAdjustmentFactor = 0 + kShooterPivotPositionShift;
 
         public enum Position {
-            TRAVEL("Travel", 240.5, 45.5, false),
-            AMP("Amp", 325.5, 200, true),
-            PODIUM("Podium", 50 + kArmPositionShift, 124, true),
-            LOW_SUBWOOFER("LowSubwoofer", 75 - kArmAdjustmentFactor, 75 - kShooterPivotPositionAdjustmentFactor, true),
-            TRAP_APPROACH("Trap Approach", 132 - kArmAdjustmentFactor, -42 - kShooterPivotPositionAdjustmentFactor,
+            TRAVEL("Travel",
+                    240.5,
+                    45.5,
+                    false,
                     true),
-            TRAP_CLIMB("Trap Climb", 130 - kArmAdjustmentFactor, -40 - kShooterPivotPositionAdjustmentFactor, true),
-            TRAP_SCORE("Trap Score", 130 - kArmAdjustmentFactor, -55 - kShooterPivotPositionAdjustmentFactor, true),
-            HIGH_PODIUM("High Podium", 127 - kArmAdjustmentFactor, -40 - kShooterPivotPositionAdjustmentFactor, true),
-            BACK_PODIUM("Back Podium", 127 - kArmAdjustmentFactor, 166 - kShooterPivotPositionAdjustmentFactor, true),
-            HIGH_SUBWOOFER("High Subwoofer", 127 - kArmAdjustmentFactor, 23 - kShooterPivotPositionAdjustmentFactor,
+            AMP("Amp",
+                    325.5,
+                    200,
+                    true,
+                    true),
+            PODIUM("Podium",
+                    50 + kArmPositionShift,
+                    124,
+                    true,
+                    true),
+
+            LOW_SUBWOOFER("LowSubwoofer",
+                    75 - kArmAdjustmentFactor,
+                    75 - kShooterPivotPositionAdjustmentFactor,
+                    true,
+                    true),
+            TRAP_APPROACH("Trap Approach",
+                    132 - kArmAdjustmentFactor,
+                    -42 - kShooterPivotPositionAdjustmentFactor,
+                    true,
+                    true),
+            TRAP_CLIMB("Trap Climb",
+                    130 - kArmAdjustmentFactor,
+                    -40 - kShooterPivotPositionAdjustmentFactor,
+                    true,
+                    true),
+            TRAP_SCORE("Trap Score",
+
+                    130 - kArmAdjustmentFactor,
+                    -55 - kShooterPivotPositionAdjustmentFactor,
+                    true,
+                    true),
+            HIGH_PODIUM("High Podium",
+                    127 - kArmAdjustmentFactor,
+                    -40 - kShooterPivotPositionAdjustmentFactor,
+                    true,
+                    true),
+
+            BACK_PODIUM("Back Podium",
+                    127 - kArmAdjustmentFactor,
+                    166 - kShooterPivotPositionAdjustmentFactor,
+                    true,
+                    true),
+
+            HIGH_SUBWOOFER("High Subwoofer",
+                    127 - kArmAdjustmentFactor,
+                    23 - kShooterPivotPositionAdjustmentFactor,
+                    true,
                     true);
-
-            private static final Map<String, Position> BY_LABEL = new HashMap<>();
-            private static final Map<Double, Position> BY_ARM_POSITION = new HashMap<>();
-            private static final Map<Double, Position> BY_SHOOTER_ARM_POSITION = new HashMap<>();
-
-            static {
-                for (Position e : values()) {
-                    BY_LABEL.put(e.label, e);
-                    BY_ARM_POSITION.put(e.armPosition, e);
-                    BY_SHOOTER_ARM_POSITION.put(e.shooterPivotPosition, e);
-                }
-            }
 
             public final String label;
             public final double armPosition;
             public final double shooterPivotPosition;
             public final boolean moveArmFirst;
+            public final boolean parallelMovement;
 
-            private Position(String label, double armPosition, double ShooterPivotPosition, boolean moveArmFirst) {
+            private Position(String label,
+                    double armPosition,
+                    double ShooterPivotPosition,
+                    boolean moveArmFirst,
+                    boolean parallelMovement) {
                 this.label = label;
                 this.armPosition = armPosition;
                 this.shooterPivotPosition = ShooterPivotPosition;
                 this.moveArmFirst = moveArmFirst;
-            }
-
-            public static Position valueOfLabel(String label) {
-                return BY_LABEL.get(label);
-            }
-
-            public static Position valueOfArmPosition(double armPosition) {
-                return BY_ARM_POSITION.get(armPosition);
-            }
-
-            public static Position valueOfShooterPivotPosition(double ShooterPivotPosition) {
-                return BY_SHOOTER_ARM_POSITION.get(ShooterPivotPosition);
+                this.parallelMovement = parallelMovement;
             }
 
         }
