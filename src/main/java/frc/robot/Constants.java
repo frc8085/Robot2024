@@ -64,7 +64,7 @@ public final class Constants {
         }
 
         public static final class IntakeConstants {
-                public static final double speed = .5;
+                public static final double speed = .75;
                 public static final double armMoveSpeed = .25;
         }
 
