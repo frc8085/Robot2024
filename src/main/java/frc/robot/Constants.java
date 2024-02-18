@@ -98,8 +98,8 @@ public final class Constants {
                 public static double kShooterEncoder1VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder1PositionFactor = (2 * Math.PI);
 
-                public static double kShooter1SetPoint = 4300;
-                public static double kShooter2SetPoint = 3500;
+                public static double kShooter1SetPoint = 4800;
+                public static double kShooter2SetPoint = 3850;
         }
 
         public static final class ArmConstants {

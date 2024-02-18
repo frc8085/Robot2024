@@ -210,7 +210,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void run() {
         setShooter1SetPoint(kShooter1SetPoint);
-        setShooter2SetPoint(kShooter2SetPoint);
+        setShooter2SetPoint(-kShooter2SetPoint);
     }
 
     public void setShooter1SetPoint(double shooter1SetPoint) {
