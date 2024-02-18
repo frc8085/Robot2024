@@ -92,6 +92,8 @@ public class FeederSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("Note detected", isNoteDetected());
         SmartDashboard.putBoolean("Sensor 1 note detected", lightSensor1.get());
         SmartDashboard.putBoolean("Sensor 2 note detected", lightSensor2.get());
+        SmartDashboard.putNumber("Feeder Velocity", m_feederEncoder.getVelocity());
+
     }
 
     public void addPIDToDashboard() {
@@ -143,12 +145,24 @@ public class FeederSubsystem extends SubsystemBase {
         m_feederMotor.set(0);
     }
 
+    // public void run() {
+    // m_feederMotor.set(1);
+    // }
     public void run() {
-        m_feederMotor.set(1);
+        setFeederSetPoint(kFeederSetPoint);
     }
 
     public void runBackwards() {
         m_feederMotor.set(-.25);
+    }
+
+    public void setFeederSetPoint(double feederSetPoint) {
+        if (feederSetPoint >= 5500) {
+            kFeederSetPoint = 5500;
+        } else {
+            kFeederSetPoint = feederSetPoint;
+        }
+        m_feederPIDController.setReference(kFeederSetPoint, CANSparkMax.ControlType.kVelocity);
     }
 
     public Boolean isNoteDetected() {
