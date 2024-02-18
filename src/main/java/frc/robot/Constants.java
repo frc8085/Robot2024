@@ -55,7 +55,7 @@ public final class Constants {
 
         public static final class TuningModeConstants {
                 public static final boolean kTuning = true;
-                public static final boolean kArmTuning = false;
+                public static final boolean kArmTuning = true;
                 public static final boolean kClimberTuning = true;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = true;
@@ -175,25 +175,25 @@ public final class Constants {
                 // Arm Positions
                 public enum Position {
                         HOME("Home",
-                                        210,
-                                        45.5,
+                                        232,
+                                        45,
                                         false,
                                         false,
                                         false),
                         AMP("Amp",
-                                        285,
+                                        307,
                                         205,
                                         true,
                                         false,
                                         true),
                         PODIUM("Podium",
-                                        234,
+                                        256,
                                         60,
                                         true,
                                         true,
                                         true),
                         LOW_SUBWOOFER("LowSubwoofer",
-                                        300,
+                                        322,
                                         125,
                                         true,
                                         true,
