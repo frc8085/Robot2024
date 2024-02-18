@@ -86,6 +86,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     public void periodic() {
 
+        addPIDToDashboard();
         SmartDashboard.putBoolean("Shooter1 at SetPoint", shooter1AtSetpoint());
         SmartDashboard.putBoolean("Shooter2 at SetPoint", shooter2AtSetpoint());
         SmartDashboard.putBoolean("Ready To Shoot", readyToShoot());
@@ -168,12 +169,20 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setShooter1SetPoint(double shooter1SetPoint) {
-        kShooter1SetPoint = Math.max(shooter1SetPoint, 4500);
+        if (shooter1SetPoint >= 4500) {
+            kShooter1SetPoint = 4500;
+        } else {
+            kShooter1SetPoint = shooter1SetPoint;
+        }
         m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkMax.ControlType.kVelocity);
     }
 
     public void setShooter2SetPoint(double shooter2SetPoint) {
-        kShooter2SetPoint = Math.max(shooter2SetPoint, 4500);
+        if (shooter2SetPoint >= 4500) {
+            kShooter2SetPoint = 4500;
+        } else {
+            kShooter2SetPoint = shooter2SetPoint;
+        }
         m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkMax.ControlType.kVelocity);
     }
 

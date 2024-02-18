@@ -83,20 +83,20 @@ public final class Constants {
                 public static double kShooter2MinOutput = -0.8;
                 public static double kShooter2FF = 0;
                 public static double kShooter2P = 1;
-                public static double kShooter2I = 0.0001;
+                public static double kShooter2I = 0;
                 public static double kShooter2D = 0;
                 public static double kShooter1MaxOutput = 0.8;
                 public static double kShooter1MinOutput = -0.8;
                 public static double kShooter1FF = 0;
                 public static double kShooter1P = 1;
-                public static double kShooter1I = 0.0001;
+                public static double kShooter1I = 0;
                 public static double kShooter1D = 0;
                 public static double kShooterEncoder2VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder2PositionFactor = (2 * Math.PI);
                 public static double kShooterEncoder1VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder1PositionFactor = (2 * Math.PI);
-                public static double kShooter1SetPoint = 4500;
-                public static double kShooter2SetPoint = 3600;
+                public static double kShooter1SetPoint = 3000;
+                public static double kShooter2SetPoint = 3000;
         }
 
         public static final class ArmConstants {
