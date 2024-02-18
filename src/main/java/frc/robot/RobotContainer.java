@@ -96,7 +96,7 @@ public class RobotContainer {
          */
         private void configureButtonBindings() {
                 // DRIVER controlled buttons
-                final Trigger shoot = m_driverController.a();
+                final Trigger shoot = m_driverController.leftTrigger();
                 final Trigger turnOnShooter = m_driverController.x();
                 final Trigger turnOffShooter = m_driverController.b();
                 final Trigger lockWheels = m_driverController.povDown();
