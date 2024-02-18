@@ -21,6 +21,7 @@ public class Shoot extends SequentialCommandGroup {
                         new InstantCommand(m_feeder::run),
                         new WaitCommand(1),
                         new InstantCommand(m_feeder::stop),
+                        new InstantCommand(m_shooter::stop),
                         new MoveToPosition(m_arm, m_shooter, position)));
 
     }
