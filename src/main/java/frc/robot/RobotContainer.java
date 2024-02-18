@@ -90,6 +90,17 @@ public class RobotContainer {
                 for (Position pos : Position.values()) {
                         SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, m_shooter, pos));
                 }
+
+                // Intake Eject on dashboard
+                SmartDashboard.putData("Eject", Commands.sequence(
+                                new InstantCommand(m_intake::eject),
+                                new InstantCommand(m_feeder::eject)));
+
+                // Stop Feeder and Intake
+                SmartDashboard.putData("STOP intake", Commands.sequence(
+                                new InstantCommand(m_intake::stop),
+                                new InstantCommand(m_feeder::stop)));
+
         }
 
         /**
