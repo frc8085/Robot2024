@@ -13,11 +13,11 @@ import frc.robot.Constants.TuningModeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-        private boolean TUNING_MODE = TuningModeConstants.kIntakeTuning;
-
+    private boolean TUNING_MODE = TuningModeConstants.kIntakeTuning;
 
     // imports motor id
-    private final CANSparkMax m_intakeMotor = new CANSparkMax(CanIdConstants.kIntakeCanId, MotorDefaultsConstants.NeoMotorType);
+    private final CANSparkMax m_intakeMotor = new CANSparkMax(CanIdConstants.kIntakeCanId,
+            MotorDefaultsConstants.NeoMotorType);
 
     private double speed = IntakeConstants.speed;
 
@@ -45,6 +45,11 @@ public class IntakeSubsystem extends SubsystemBase {
     public void runArmMove() {
         m_intakeMotor.set(IntakeConstants.armMoveSpeed);
     }
+
+    public void eject() {
+        m_intakeMotor.set(IntakeConstants.ejectSpeed);
+    }
+
     @Override
     public void periodic() {
         log();
