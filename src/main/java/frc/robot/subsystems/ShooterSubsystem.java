@@ -54,6 +54,9 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter1Motor.restoreFactoryDefaults();
         m_shooter2Motor.restoreFactoryDefaults();
 
+        m_shooter1Motor.setInverted(false);
+        m_shooter2Motor.setInverted(true);
+
         // Setup encoders and PID controllers for the Shooter1 and shooter Shooter1s.
         m_shooter1Encoder = m_shooter1Motor.getEncoder();
         m_shooter1PIDController = m_shooter1Motor.getPIDController();
@@ -210,7 +213,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void run() {
         setShooter1SetPoint(kShooter1SetPoint);
-        setShooter2SetPoint(-kShooter2SetPoint);
+        setShooter2SetPoint(kShooter2SetPoint);
     }
 
     public void setShooter1SetPoint(double shooter1SetPoint) {
