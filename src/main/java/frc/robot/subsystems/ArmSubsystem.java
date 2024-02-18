@@ -5,6 +5,8 @@ import com.revrobotics.CANSparkBase.ControlType;
 import static frc.robot.Constants.ArmConstants.kArmPositionShift;
 import static frc.robot.Constants.ArmConstants.kShooterPivotPositionShift;
 
+import org.opencv.core.Point;
+
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
@@ -236,11 +238,22 @@ public class ArmSubsystem extends SubsystemBase {
         }
     }
 
+    public Boolean atTravelPosition() {
+        double tolerance = 10;
+        double armPosition = getArmPosition();
+        double shooterPivotPosition = getShooterPivotPosition();
+        boolean armAtTravel = armPosition >= Position.HOME.armPosition - tolerance
+                || armPosition <= Position.HOME.armPosition + tolerance;
+        boolean shooterPivotAtTravel = shooterPivotPosition >= Position.HOME.shooterPivotPosition - tolerance
+                || shooterPivotPosition <= Position.HOME.shooterPivotPosition + tolerance;
+
+        return armAtTravel && shooterPivotAtTravel;
+    }
+
     public void log() {
         if (LoggingConstants.kLogging) {
             SmartDashboard.putNumber("Raw Arm Position", getArmPosition());
             SmartDashboard.putNumber("Raw Shooter Pivot Position", getShooterPivotPosition());
-
             SmartDashboard.putNumber("Arm Position", getArmPosition() - kArmPositionShift);
             SmartDashboard.putNumber("Shooter Pivot Position",
                     getShooterPivotPosition() - kShooterPivotPositionShift);

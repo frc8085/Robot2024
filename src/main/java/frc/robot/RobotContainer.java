@@ -17,6 +17,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -109,6 +110,7 @@ public class RobotContainer {
                 zeroHeadingButton.onTrue(new InstantCommand(() -> m_drive.zeroHeading(), m_drive));
 
                 // OPERATOR controlled buttons
+                final Trigger toggleShooter = m_operatorController.rightTrigger();
                 final Trigger intake = m_operatorController.leftTrigger();
 
                 // eventually the operator will control the shooter wheels
@@ -137,14 +139,16 @@ public class RobotContainer {
 
                 shoot.onTrue(new Shoot(m_feeder, m_arm, m_shooter, Position.HOME));
 
-                intake.onTrue(new PickUpNote(m_intake, m_feeder))
+                intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter))
                                 .onFalse(new SequentialCommandGroup(
-                                                new WaitUntilCommand(
-                                                                () -> m_feeder.isNoteDetected()),
+                                                new WaitUntilCommand(m_feeder::isNoteDetected),
                                                 new PickUpNoteCompleted(m_intake, m_feeder)));
 
                 turnOnShooter.onTrue(new InstantCommand(m_shooter::run));
                 turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
+
+                toggleShooter.toggleOnTrue(Commands.startEnd(m_shooter::run,
+                                m_shooter::stop, m_shooter));
 
                 moveToHome.onTrue(new MoveToPosition(m_arm, m_shooter, Position.HOME));
                 moveToSubwoofer.onTrue(

@@ -105,29 +105,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     }
 
-    // This method will be called once per scheduler run
-    public void periodic() {
-
-        SmartDashboard.putBoolean("Shooter1 at SetPoint", shooter1AtSetpoint());
-        SmartDashboard.putBoolean("Shooter2 at SetPoint", shooter2AtSetpoint());
-        SmartDashboard.putBoolean("Ready To Shoot", readyToShoot());
-
-        if (LoggingConstants.kLogging)
-
-        {
-            log();
-        }
-
-        if (TUNING_MODE) {
-            tunePIDs();
-        }
-    }
-
-    public void log() {
-        SmartDashboard.putNumber("Shooter1 Velocity", m_shooter1Encoder.getVelocity());
-        SmartDashboard.putNumber("Shooter2 Velocity", m_shooter2Encoder.getVelocity());
-    }
-
     public void addPIDToDashboard() {
         SmartDashboard.putNumber("kShooter1P", kShooter1P);
         SmartDashboard.putNumber("kShooter1I", kShooter1I);
@@ -237,7 +214,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public boolean shooter1AtSetpoint() {
         double encoderValue = m_shooter1Encoder.getVelocity();
         // double tolerance = Math.abs(kShooterToleranceRPMPercent * kSetPoint);
-        double tolerance = 300;
+        double tolerance = 500;
         double setpoint = kShooter1SetPoint;
         double minLimit = setpoint - tolerance;
         double maxLimit = setpoint + tolerance;
@@ -255,7 +232,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public boolean shooter2AtSetpoint() {
         double encoderValue = m_shooter2Encoder.getVelocity();
         // double tolerance = Math.abs(kShooterToleranceRPMPercent * kSetPoint);
-        double tolerance = 300;
+        double tolerance = 500;
         double setpoint = kShooter2SetPoint;
         double minLimit = setpoint - tolerance;
         double maxLimit = setpoint + tolerance;
@@ -274,4 +251,33 @@ public class ShooterSubsystem extends SubsystemBase {
         return shooter1AtSetpoint() || shooter2AtSetpoint();
 
     }
+
+    public boolean isShooterRunning() {
+        return m_shooter1Encoder.getVelocity() > 200;
+    }
+
+    // This method will be called once per scheduler run
+    public void periodic() {
+
+        SmartDashboard.putBoolean("Shooter1 at SetPoint", shooter1AtSetpoint());
+        SmartDashboard.putBoolean("Shooter2 at SetPoint", shooter2AtSetpoint());
+        SmartDashboard.putBoolean("Ready To Shoot", readyToShoot());
+        SmartDashboard.putBoolean("Shooter is Running", isShooterRunning());
+
+        if (LoggingConstants.kLogging)
+
+        {
+            log();
+        }
+
+        if (TUNING_MODE) {
+            tunePIDs();
+        }
+    }
+
+    public void log() {
+        SmartDashboard.putNumber("Shooter1 Velocity", m_shooter1Encoder.getVelocity());
+        SmartDashboard.putNumber("Shooter2 Velocity", m_shooter2Encoder.getVelocity());
+    }
+
 }
