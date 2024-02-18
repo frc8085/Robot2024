@@ -1,11 +1,15 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.AbsoluteEncoder;
+
+import static frc.robot.Constants.ArmConstants.kArmPositionShift;
+import static frc.robot.Constants.ArmConstants.kShooterPivotPositionShift;
+
+import org.opencv.core.Point;
+
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
+import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
 
@@ -19,27 +23,21 @@ import frc.robot.Constants.MotorDefaultsConstants;
 import frc.robot.Constants.TuningModeConstants;
 
 public class ArmSubsystem extends SubsystemBase {
-    private boolean TUNING_MODE = TuningModeConstants.kTuning;
+    private boolean TUNING_MODE = TuningModeConstants.kArmTuning;
 
-    // Motors - Arm uses a vortex, shooterArm uses a 550
+    // Motors - Arm uses a vortex, ShooterPivot uses a 550
     private final CANSparkFlex m_armMotor = new CANSparkFlex(
             CanIdConstants.kArmCanId, MotorDefaultsConstants.NeoVortexMotorType);
-    private final CANSparkMax m_shooterArmMotor = new CANSparkMax(
-            CanIdConstants.kShooterArmCanId, MotorDefaultsConstants.Neo550MotorType);
+    private final CANSparkMax m_shooterPivotMotor = new CANSparkMax(
+            CanIdConstants.kShooterPivotCanId, MotorDefaultsConstants.Neo550MotorType);
 
-    /**
-     * Temporarily use relative encoders since we don't have the right cables
-     * // Encoders
-     * private AbsoluteEncoder m_armEncoder;
-     * private AbsoluteEncoder m_shooterArmEncoder;
-     */
+    // Encoders
+    private SparkAbsoluteEncoder m_armEncoder;
+    private SparkAbsoluteEncoder m_shooterPivotEncoder;
 
-    private RelativeEncoder m_armEncoder;
-    private AbsoluteEncoder m_shooterArmEncoder;
     // PID Controllers
-
     private SparkPIDController m_armPIDController = m_armMotor.getPIDController();
-    private SparkPIDController m_shooterArmPIDController = m_shooterArmMotor.getPIDController();
+    private SparkPIDController m_shooterPivotPIDController = m_shooterPivotMotor.getPIDController();
 
     // PID Constants for tuning
     double kArmP = ArmConstants.kArmP;
@@ -48,13 +46,17 @@ public class ArmSubsystem extends SubsystemBase {
     double kArmFF = ArmConstants.kArmFF;
     double kArmMaxOutput = ArmConstants.kArmMaxOutput;
     double kArmMinOutput = ArmConstants.kArmMinOutput;
+    double kArmMaxAccel = ArmConstants.kArmMaxAccel;
+    double kArmMaxVelo = ArmConstants.kArmMaxVelo;
 
-    double kShooterArmP = ArmConstants.kShooterArmP;
-    double kShooterArmI = ArmConstants.kShooterArmI;
-    double kShooterArmD = ArmConstants.kShooterArmD;
-    double kShooterArmFF = ArmConstants.kShooterArmFF;
-    double kShooterArmMaxOutput = ArmConstants.kShooterArmMaxOutput;
-    double kShooterArmMinOutput = ArmConstants.kShooterArmMinOutput;
+    double kShooterPivotP = ArmConstants.kShooterPivotP;
+    double kShooterPivotI = ArmConstants.kShooterPivotI;
+    double kShooterPivotD = ArmConstants.kShooterPivotD;
+    double kShooterPivotFF = ArmConstants.kShooterPivotFF;
+    double kShooterPivotMaxOutput = ArmConstants.kShooterPivotMaxOutput;
+    double kShooterPivotMinOutput = ArmConstants.kShooterPivotMinOutput;
+    double kShooterPivotMaxAccel = ArmConstants.kShooterPivotMaxAccel;
+    double kShooterPivotMaxVelo = ArmConstants.kShooterPivotMaxVelo;
 
     // limit switches
     private SparkLimitSwitch m_armLowerLimit;
@@ -74,23 +76,36 @@ public class ArmSubsystem extends SubsystemBase {
         // them. This is useful in case a SPARK MAX is swapped out.
 
         m_armMotor.restoreFactoryDefaults();
-        m_shooterArmMotor.restoreFactoryDefaults();
+        m_shooterPivotMotor.restoreFactoryDefaults();
 
         m_armMotor.setIdleMode(ArmConstants.kArmMotorIdleMode);
         m_armMotor.setSmartCurrentLimit(MotorDefaultsConstants.NeoVortexCurrentLimit);
 
-        m_shooterArmMotor.setIdleMode(ArmConstants.kShooterArmMotorIdleMode);
-        m_shooterArmMotor.setSmartCurrentLimit(MotorDefaultsConstants.Neo550CurrentLimit);
+        m_shooterPivotMotor.setIdleMode(ArmConstants.kShooterPivotMotorIdleMode);
+        m_shooterPivotMotor.setSmartCurrentLimit(MotorDefaultsConstants.Neo550CurrentLimit);
 
         // Setup encoders and PID controllers for the arm and shooter arms.
-        // temporarily use relative encoders
-        // m_armEncoder = m_armMotor.getAbsoluteEncoder(Type.kDutyCycle);
-        m_armEncoder = m_armMotor.getEncoder();
+
+        // absolute encoder
+        m_armEncoder = m_armMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
         m_armPIDController.setFeedbackDevice(m_armEncoder);
 
-        m_shooterArmEncoder = m_shooterArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
-        // m_shooterArmEncoder = m_shooterArmMotor.getEncoder();
-        m_shooterArmPIDController.setFeedbackDevice(m_shooterArmEncoder);
+        // absolute encoder
+        m_shooterPivotEncoder = m_shooterPivotMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+        m_shooterPivotPIDController.setFeedbackDevice(m_shooterPivotEncoder);
+
+        // Set Position Conversion Factor which will take the encoder units and set it
+        // to degrees
+        m_armEncoder.setPositionConversionFactor(ArmConstants.kArmPositionAdjustmentFactor);
+        m_shooterPivotEncoder.setPositionConversionFactor(ArmConstants.kShooterPivotPositionAdjustmentFactor);
+
+        // Encoders are not inverted
+        m_armEncoder.setInverted(false);
+        m_shooterPivotEncoder.setInverted(false);
+
+        // Set Zero Offset - not sure how this works, test and figure out
+        m_armEncoder.setZeroOffset(ArmConstants.kArmZeroOffsetFactor);
+        m_shooterPivotEncoder.setZeroOffset(ArmConstants.kShooterPivotZeroOffsetFactor);
 
         // Set the PID gains for the turning motor.
         m_armPIDController.setP(ArmConstants.kArmP);
@@ -99,23 +114,17 @@ public class ArmSubsystem extends SubsystemBase {
         m_armPIDController.setFF(ArmConstants.kArmFF);
         m_armPIDController.setOutputRange(ArmConstants.kArmMinOutput,
                 ArmConstants.kArmMaxOutput);
-        m_armPIDController.setSmartMotionMaxAccel(0.5, 0);
-        m_armPIDController.setSmartMotionMaxVelocity(0.5, 0);
+        m_armPIDController.setSmartMotionMaxAccel(ArmConstants.kArmMaxAccel, 0);
+        m_armPIDController.setSmartMotionMaxVelocity(ArmConstants.kArmMaxVelo, 0);
 
-        m_shooterArmPIDController.setP(ArmConstants.kShooterArmP);
-        m_shooterArmPIDController.setI(ArmConstants.kShooterArmI);
-        m_shooterArmPIDController.setD(ArmConstants.kShooterArmD);
-        m_shooterArmPIDController.setFF(ArmConstants.kShooterArmFF);
-        m_shooterArmPIDController.setOutputRange(ArmConstants.kShooterArmMinOutput,
-                ArmConstants.kShooterArmMaxOutput);
-        m_shooterArmPIDController.setSmartMotionMaxAccel(0.5, 0);
-        m_shooterArmPIDController.setSmartMotionMaxVelocity(0.5, 0);
-
-        // Enable PID wrap around for the shooterarm motor. This will allow the PID
-        // controller to go through 0 to get to the setpoint i.e. going from 350 degrees
-        // to 10 degrees will go through 0 rather than the other direction which is a
-        // longer route.
-        m_shooterArmPIDController.setPositionPIDWrappingEnabled(true);
+        m_shooterPivotPIDController.setP(ArmConstants.kShooterPivotP);
+        m_shooterPivotPIDController.setI(ArmConstants.kShooterPivotI);
+        m_shooterPivotPIDController.setD(ArmConstants.kShooterPivotD);
+        m_shooterPivotPIDController.setFF(ArmConstants.kShooterPivotFF);
+        m_shooterPivotPIDController.setOutputRange(ArmConstants.kShooterPivotMinOutput,
+                ArmConstants.kShooterPivotMaxOutput);
+        m_shooterPivotPIDController.setSmartMotionMaxAccel(ArmConstants.kShooterPivotMaxAccel, 0);
+        m_shooterPivotPIDController.setSmartMotionMaxVelocity(ArmConstants.kShooterPivotMaxVelo, 0);
 
         // Limit switches
         m_armLowerLimit = m_armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
@@ -124,7 +133,7 @@ public class ArmSubsystem extends SubsystemBase {
         // Save the SPARK MAX configurations. If a SPARK MAX browns out during
         // operation, it will maintain the above configurations.
         m_armMotor.burnFlash();
-        m_shooterArmMotor.burnFlash();
+        m_shooterPivotMotor.burnFlash();
 
         if (TUNING_MODE) {
             addPIDToDashboard();
@@ -133,84 +142,58 @@ public class ArmSubsystem extends SubsystemBase {
 
     // Returns the arm
     public double getArmPosition() {
+        // return m_armEncoder.getPosition() - ArmConstants.kArmPositionShift;
         return m_armEncoder.getPosition();
+
     }
 
     // Returns the Shooter arm
-    public double getShooterArmPosition() {
-        return m_shooterArmEncoder.getPosition();
+    public double getShooterPivotPosition() {
+        // return m_shooterPivotEncoder.getPosition() -
+        // ArmConstants.kShooterPivotPositionShift;
+        return m_shooterPivotEncoder.getPosition();
+
     }
 
-    // Maintain arm position
-    public void setArmPosition(double testPosition) {
-        m_armPIDController.setReference(testPosition, ControlType.kPosition);
-    }
+    public void setArmPosition(double armPosition) {
+        double armPositionDisplay = armPosition - kArmPositionShift;
+        double armPositionHold = armPosition - ArmConstants.kArmPIDShift;
 
-    // Maintain arm position in degrees
-    public void setArmPositionDegrees(double degreesArm) {
-        // set degrees for arm, convert to encoder value
-        double positionArm = degreesArm * ArmConstants.kArmRevolutionsPerDegree;
-        m_armPIDController.setReference(positionArm, ControlType.kPosition);
-    }
-
-    // Maintain shooter arm position
-    public void setShooterArmPosition(double testShooterArmPosition) {
-        m_shooterArmPIDController.setReference(testShooterArmPosition, ControlType.kPosition);
-    }
-
-    // Maintain shooter arm position in degrees
-    public void setShooterArmPositionDegrees(double degreesShooterArm) {
-        // set degrees for arm, convert to encoder value)
-        double positionShooterArm = degreesShooterArm * ArmConstants.kShooterArmRevolutionsPerDegree;
-        m_armPIDController.setReference(positionShooterArm, ControlType.kPosition);
-    }
-
-    public void periodic() {
-        // This method will be called once per scheduler run
-        log();
+        m_armPIDController.setReference(armPositionHold, ControlType.kPosition);
         if (TUNING_MODE) {
-            tunePIDs();
+            SmartDashboard.putNumber("Desired Arm Position", armPositionDisplay);
+
+            SmartDashboard.putNumber("Raw Desired Arm Position", armPosition);
+            System.out.println("Keep ARM Position " + armPositionDisplay);
+        }
+    }
+
+    public void setShooterPivotPosition(double shooterPivotPosition) {
+        double shooterPivotPositionDisplay = shooterPivotPosition - kShooterPivotPositionShift;
+        m_shooterPivotPIDController.setReference(shooterPivotPosition, ControlType.kPosition);
+
+        if (TUNING_MODE) {
+            SmartDashboard.putNumber("Desired Shooter Pivot Position", shooterPivotPositionDisplay);
+            SmartDashboard.putNumber("Raw Desired Shooter Pivot Position", shooterPivotPosition);
+
+            System.out.println("Keep SHOOTER PIVOT Position " + shooterPivotPositionDisplay);
         }
     }
 
     public void moveToPosition(Position position) {
-        setArmPositionDegrees(position.armPosition);
-        setShooterArmPositionDegrees(position.shooterArmPosition);
+        setArmPosition(position.armPosition);
+        setShooterPivotPosition(position.shooterPivotPosition);
     }
 
-    public void log() {
-        if (LoggingConstants.kLogging) {
-            SmartDashboard.putNumber("Arm Position", getArmPosition());
-            SmartDashboard.putNumber("Shooter Arm Position", getShooterArmPosition());
-        }
+    public boolean atArmSetpoint(double setpoint) {
+        double armPosition = getArmPosition();
+        return armPosition <= setpoint + 10 || armPosition >= setpoint - 10;
     }
 
-    public void addPIDToDashboard() {
-        SmartDashboard.putNumber("kArmP", kArmP);
-        SmartDashboard.putNumber("kArmI", kArmI);
-        SmartDashboard.putNumber("kArmD", kArmD);
-        SmartDashboard.putNumber("kShooterArmP", kShooterArmP);
-        SmartDashboard.putNumber("kShooterArmI", kShooterArmI);
-        SmartDashboard.putNumber("kShooterArmD", kShooterArmD);
-
+    public boolean atShooterPivotSetpoint(double setpoint) {
+        double shooterPivotPosition = getShooterPivotPosition();
+        return shooterPivotPosition <= setpoint + 10 || shooterPivotPosition >= setpoint - 10;
     }
-
-    public void tunePIDs() {
-        kArmP = SmartDashboard.getNumber("kArmP", 0);
-        kArmI = SmartDashboard.getNumber("kArmI", 0);
-        kArmD = SmartDashboard.getNumber("kArmD", 0);
-        SmartDashboard.putNumber("kArmP", kArmP);
-        SmartDashboard.putNumber("kArmI", kArmI);
-        SmartDashboard.putNumber("kArmD", kArmD);
-
-        kShooterArmP = SmartDashboard.getNumber("kShooterArmP", 0);
-        kShooterArmI = SmartDashboard.getNumber("kShooterArmI", 0);
-        kShooterArmD = SmartDashboard.getNumber("kShooterArmD", 0);
-        SmartDashboard.putNumber("kShooterArmP", kShooterArmP);
-        SmartDashboard.putNumber("kShooterArmI", kShooterArmI);
-        SmartDashboard.putNumber("kShooterArmD", kShooterArmD);
-    }
-
     // Limit Switches
 
     public boolean isArmLowerLimitHit() {
@@ -221,7 +204,7 @@ public class ArmSubsystem extends SubsystemBase {
         return m_armRaiseLimit.isPressed();
     }
 
-    // Arm Motor Movements
+    // Manual Arm Motor Movements
 
     public void armRaise() {
         m_armMotor.set(ArmConstants.kArmRaiseSpeed);
@@ -235,39 +218,134 @@ public class ArmSubsystem extends SubsystemBase {
         m_armMotor.set(0);
     }
 
-    public double getCurrentArmPosition() {
-        return m_armEncoder.getPosition();
+    public void shooterPivotRaise() {
+        m_shooterPivotMotor.set(ArmConstants.kShooterPivotRaiseSpeed);
     }
 
-    public void keepArmPosition(double armPosition) {
-        m_armPIDController.setReference(armPosition, ControlType.kPosition);
+    public void shooterPivotLower() {
+        m_shooterPivotMotor.set(-ArmConstants.kShooterPivotLowerSpeed);
+    }
+
+    public void shooterPivotStop() {
+        m_shooterPivotMotor.set(0);
+    }
+
+    public void periodic() {
+        // This method will be called once per scheduler run
+        log();
         if (TUNING_MODE) {
-            SmartDashboard.putNumber("Desired Arm Position", armPosition);
-            System.out.println("Keep ARM Position " + armPosition);
+            tunePIDs();
         }
     }
 
-    public void shooterArmRaise() {
-        m_shooterArmMotor.set(ArmConstants.kShooterArmRaiseSpeed);
+    public Boolean atTravelPosition() {
+        double tolerance = 10;
+        double armPosition = getArmPosition();
+        double shooterPivotPosition = getShooterPivotPosition();
+        boolean armAtTravel = armPosition >= Position.HOME.armPosition - tolerance
+                || armPosition <= Position.HOME.armPosition + tolerance;
+        boolean shooterPivotAtTravel = shooterPivotPosition >= Position.HOME.shooterPivotPosition - tolerance
+                || shooterPivotPosition <= Position.HOME.shooterPivotPosition + tolerance;
+
+        return armAtTravel && shooterPivotAtTravel;
     }
 
-    public void shooterArmLower() {
-        m_shooterArmMotor.set(-ArmConstants.kShooterArmLowerSpeed);
-    }
-
-    public void shooterArmStop() {
-        m_shooterArmMotor.set(0);
-    }
-
-    public double getCurrentShooterArmPosition() {
-        return m_shooterArmEncoder.getPosition();
-    }
-
-    public void keepShooterArmPosition(double shooterArmPosition) {
-        m_armPIDController.setReference(shooterArmPosition, ControlType.kPosition);
-        if (TUNING_MODE) {
-            SmartDashboard.putNumber("Desired Shooter Arm Position", shooterArmPosition);
-            System.out.println("Keep SHOOTER ARM Position " + shooterArmPosition);
+    public void log() {
+        if (LoggingConstants.kLogging) {
+            SmartDashboard.putNumber("Raw Arm Position", getArmPosition());
+            SmartDashboard.putNumber("Raw Shooter Pivot Position", getShooterPivotPosition());
+            SmartDashboard.putNumber("Arm Position", getArmPosition() - kArmPositionShift);
+            SmartDashboard.putNumber("Shooter Pivot Position",
+                    getShooterPivotPosition() - kShooterPivotPositionShift);
         }
     }
+
+    public void addPIDToDashboard() {
+        SmartDashboard.putNumber("kArmP", kArmP);
+        SmartDashboard.putNumber("kArmI", kArmI);
+        SmartDashboard.putNumber("kArmD", kArmD);
+        SmartDashboard.putNumber("kArmFF", kArmFF);
+
+        SmartDashboard.putNumber("kArmMaxAccel", kArmMaxAccel);
+        SmartDashboard.putNumber("kArmMaxVelo", kArmMaxVelo);
+        SmartDashboard.putNumber("kShooterPivotP", kShooterPivotP);
+        SmartDashboard.putNumber("kShooterPivotI", kShooterPivotI);
+        SmartDashboard.putNumber("kShooterPivotD", kShooterPivotD);
+        SmartDashboard.putNumber("kShooterPivotFF", kShooterPivotFF);
+        SmartDashboard.putNumber("kShooterPivotMaxAccel", kShooterPivotMaxAccel);
+        SmartDashboard.putNumber("kShooterPivotMaxVelo", kShooterPivotMaxVelo);
+
+    }
+
+    public void tunePIDs() {
+        double armP = SmartDashboard.getNumber("kArmP", 0);
+        double armI = SmartDashboard.getNumber("kArmI", 0);
+        double armD = SmartDashboard.getNumber("kArmD", 0);
+        double armFF = SmartDashboard.getNumber("kArmFF", 0);
+        double armMaxAccel = SmartDashboard.getNumber("kArmMaxAccel", 0);
+        double armMaxVelo = SmartDashboard.getNumber("kArmMaxVelo", 0);
+
+        // if PID coefficients on dashboard have changed, write new values to controller
+        if ((armP != kArmP)) {
+            kArmP = armP;
+            m_armPIDController.setP(kArmP);
+        }
+        if ((armI != kArmI)) {
+            kArmI = armI;
+            m_armPIDController.setI(kArmI);
+        }
+        if ((armD != kArmD)) {
+            kArmD = armD;
+            m_armPIDController.setD(kArmD);
+        }
+        if ((armFF != kArmFF)) {
+            kArmFF = armFF;
+            m_armPIDController.setD(kArmFF);
+        }
+        if ((armMaxAccel != kArmMaxAccel)) {
+            kArmMaxAccel = armMaxAccel;
+            m_armPIDController.setSmartMotionMaxAccel(kArmMaxAccel, 0);
+        }
+
+        if ((armMaxVelo != kArmMaxVelo)) {
+            kArmMaxVelo = armMaxVelo;
+            m_armPIDController.setSmartMotionMaxVelocity(kArmMaxVelo, 0);
+        }
+
+        double shooterPivotP = SmartDashboard.getNumber("kShooterPivotP", 0);
+        double shooterPivotI = SmartDashboard.getNumber("kShooterPivotI", 0);
+        double shooterPivotD = SmartDashboard.getNumber("kShooterPivotD", 0);
+        double shooterPivotFF = SmartDashboard.getNumber("kShooterPivotFF", 0);
+        double shooterPivotMaxAccel = SmartDashboard.getNumber("kShooterPivotMaxAccel", 0);
+        double shooterPivotMaxVelo = SmartDashboard.getNumber("kShooterPivotMaxVelo", 0);
+
+        // if PID coefficients on dashboard have changed, write new values to controller
+        if ((shooterPivotP != kShooterPivotP)) {
+            kShooterPivotP = shooterPivotP;
+            m_shooterPivotPIDController.setP(kShooterPivotP);
+        }
+        if ((shooterPivotI != kShooterPivotI)) {
+            kShooterPivotI = shooterPivotI;
+            m_shooterPivotPIDController.setI(kShooterPivotI);
+        }
+        if ((shooterPivotD != kShooterPivotD)) {
+            kShooterPivotD = shooterPivotD;
+            m_shooterPivotPIDController.setD(kShooterPivotD);
+        }
+        if ((shooterPivotFF != kShooterPivotFF)) {
+            kShooterPivotFF = shooterPivotFF;
+            m_shooterPivotPIDController.setFF(kShooterPivotFF);
+        }
+        if ((shooterPivotMaxAccel != kShooterPivotMaxAccel)) {
+            kShooterPivotMaxAccel = shooterPivotMaxAccel;
+            m_armPIDController.setSmartMotionMaxAccel(kShooterPivotMaxAccel, 0);
+        }
+
+        if ((shooterPivotMaxVelo != kShooterPivotMaxVelo)) {
+            kShooterPivotMaxVelo = shooterPivotMaxVelo;
+            m_armPIDController.setSmartMotionMaxVelocity(kShooterPivotMaxVelo, 0);
+        }
+
+    }
+
 }

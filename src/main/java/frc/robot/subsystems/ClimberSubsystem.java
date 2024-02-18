@@ -8,8 +8,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.MotorDefaultsConstants;
+import frc.robot.Constants.TuningModeConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
+    private boolean TUNING_MODE = TuningModeConstants.kClimberTuning;
+
     int winchMotorcanid = CanIdConstants.kWinchCanId;
     CANSparkMax winchMotor = new CANSparkMax(winchMotorcanid, MotorDefaultsConstants.NeoVortexMotorType);
 

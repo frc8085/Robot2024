@@ -17,8 +17,8 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -29,12 +29,10 @@ import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.IntakeRun;
-import frc.robot.commands.IntakeStop;
-import frc.robot.commands.MoveToPodium;
-import frc.robot.commands.MoveToPositionFromHome;
+import frc.robot.commands.PickUpNote;
+import frc.robot.commands.PickUpNoteCompleted;
+import frc.robot.commands.Shoot;
 import frc.robot.commands.MoveToPosition;
-import frc.robot.commands.MoveToTravel;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -76,9 +74,9 @@ public class RobotContainer {
                                 // Turning is controlled by the X axis of the right stick.
                                 new RunCommand(() -> m_drive.drive(
                                                 m_driverController.getRightTriggerAxis(),
-                                                -MathUtil.applyDeadband(m_driverController.getLeftY(),
+                                                MathUtil.applyDeadband(m_driverController.getLeftY(),
                                                                 OIConstants.kDriveDeadband),
-                                                -MathUtil.applyDeadband(m_driverController.getLeftX(),
+                                                MathUtil.applyDeadband(m_driverController.getLeftX(),
                                                                 OIConstants.kDriveDeadband),
                                                 -MathUtil.applyDeadband(m_driverController.getRightX(),
                                                                 OIConstants.kDriveDeadband),
@@ -89,11 +87,20 @@ public class RobotContainer {
 
         private void addToDashboard() {
                 // Put a button on the dashboard for each setpoint
-                // for (Position pos : Position.values()) {
-                // SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, pos));
-                SmartDashboard.putData("Travel", new MoveToTravel(m_arm));
-                SmartDashboard.putData("Podium", new MoveToPodium(m_arm));
-                // }
+                for (Position pos : Position.values()) {
+                        SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, m_shooter, pos));
+                }
+
+                // Intake Eject on dashboard
+                SmartDashboard.putData("Eject", Commands.sequence(
+                                new InstantCommand(m_intake::eject),
+                                new InstantCommand(m_feeder::eject)));
+
+                // Stop Feeder and Intake
+                SmartDashboard.putData("STOP intake", Commands.sequence(
+                                new InstantCommand(m_intake::stop),
+                                new InstantCommand(m_feeder::stop)));
+
         }
 
         /**
@@ -101,7 +108,7 @@ public class RobotContainer {
          */
         private void configureButtonBindings() {
                 // DRIVER controlled buttons
-                final Trigger shoot = m_driverController.a();
+                final Trigger shoot = m_driverController.leftTrigger();
                 final Trigger turnOnShooter = m_driverController.x();
                 final Trigger turnOffShooter = m_driverController.b();
                 final Trigger lockWheels = m_driverController.povDown();
@@ -114,6 +121,7 @@ public class RobotContainer {
                 zeroHeadingButton.onTrue(new InstantCommand(() -> m_drive.zeroHeading(), m_drive));
 
                 // OPERATOR controlled buttons
+                final Trigger toggleShooter = m_operatorController.rightTrigger();
                 final Trigger intake = m_operatorController.leftTrigger();
 
                 // eventually the operator will control the shooter wheels
@@ -121,10 +129,10 @@ public class RobotContainer {
 
                 final Trigger alternatePosition = m_operatorController.leftBumper();
 
-                final Trigger moveToTravel = m_operatorController.y();
-                final Trigger moveToSubwoofer = m_operatorController.b();
+                final Trigger moveToHome = m_operatorController.y();
+                final Trigger moveToSubwoofer = m_operatorController.x();
                 final Trigger moveToAmp = m_operatorController.a();
-                final Trigger moveToPodium = m_operatorController.x();
+                final Trigger moveToPodium = m_operatorController.b();
 
                 // Climb Controls TBD
                 // final Trigger moveToTrapApproach = m_operatorController.povUp();
@@ -134,76 +142,72 @@ public class RobotContainer {
                 // manual arm and shooter movement - arm left joystick, shooter right joystick
                 final Trigger ArmRaiseButton = m_operatorController.axisLessThan(1, -.25);
                 final Trigger ArmLowerButton = m_operatorController.axisGreaterThan(1, .25);
-                final Trigger ShooterArmRaiseButton = m_operatorController.axisLessThan(5, -.25);
-                final Trigger ShooterArmLowerButton = m_operatorController.axisGreaterThan(5, .25);
+                final Trigger ShooterPivotRaiseButton = m_operatorController.axisLessThan(5, -.25);
+                final Trigger ShooterPivotLowerButton = m_operatorController.axisGreaterThan(5, .25);
 
                 final Trigger WinchForwardButton = m_operatorController.povDown();
                 final Trigger WinchBackButton = m_operatorController.povUp();
 
-                shoot.whileTrue(new InstantCommand(m_feeder::run))
-                                .whileFalse(new InstantCommand(m_feeder::stop));
+                shoot.onTrue(new Shoot(m_feeder, m_arm, m_shooter, Position.HOME));
 
-                intake.onTrue(new IntakeRun(m_intake, m_feeder))
-                        .onFalse(new SequentialCommandGroup(
-                                new WaitUntilCommand(
-                                        () -> m_feeder.isNoteDetected()),
-                                new IntakeStop(m_intake, m_feeder)));
+                intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter))
+                                .onFalse(new SequentialCommandGroup(
+                                                new WaitUntilCommand(m_feeder::isNoteDetected),
+                                                new PickUpNoteCompleted(m_intake, m_feeder)));
 
                 turnOnShooter.onTrue(new InstantCommand(m_shooter::run));
                 turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
 
-                // eventually the operator will hold the trigger to turn the shooter wheels
-                // turnOnShooter.whileTrue(new InstantCommand(m_shooter::run))
-                // .whileFalse(new InstantCommand(m_shooter::stop));
-                /**
-                 * Move arms to predefined positions
-                 **/
-                moveToTravel.whileTrue(new MoveToPosition(m_arm, Position.TRAVEL));
-                moveToSubwoofer.whileTrue(
-                                new MoveToPositionFromHome(m_arm, m_intake, m_shooter, Position.LOW_SUBWOOFER));
-                moveToAmp.whileTrue(new MoveToPositionFromHome(m_arm, m_intake, m_shooter, Position.AMP));
-                moveToPodium.whileTrue(new MoveToPositionFromHome(m_arm, m_intake, m_shooter, Position.PODIUM));
-                // moveToTrapApproach.whileTrue(new MoveToPosition(m_arm,
+                toggleShooter.toggleOnTrue(Commands.startEnd(m_shooter::run,
+                                m_shooter::stop, m_shooter));
+
+                moveToHome.onTrue(new MoveToPosition(m_arm, m_shooter, Position.HOME));
+                moveToSubwoofer.onTrue(
+                                new MoveToPosition(m_arm, m_shooter, Position.LOW_SUBWOOFER));
+                moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, Position.AMP));
+                moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, Position.PODIUM));
+                // moveToTrapApproach.onTrue(new MoveToPosition(m_arm, m_shooter,
                 // Position.TRAP_APPROACH));
-                // moveToTrapScore.whileTrue(new MoveToPosition(m_arm, Position.TRAP_SCORE));
-                // moveToTrapClimb.whileTrue(new MoveToPosition(m_arm, Position.TRAP_CLIMB));
+                // moveToTrapScore.onTrue(new MoveToPosition(m_arm, m_shooter,
+                // Position.TRAP_SCORE));
+                // moveToTrapClimb.onTrue(new MoveToPosition(m_arm, m_shooter,
+                // Position.TRAP_CLIMB));
 
                 /**
                  * Alternate positions. For these, you need to hold down the Left Bumper too.
                  **/
                 // HIGH Podium
-                moveToPodium.and(alternatePosition).whileTrue(
-                                new MoveToPositionFromHome(m_arm, m_intake, m_shooter, Position.HIGH_PODIUM));
-                // BACK Podium
-                moveToAmp.and(alternatePosition).whileTrue(
-                                new MoveToPositionFromHome(m_arm, m_intake, m_shooter, Position.BACK_PODIUM));
-                // HIGH Subwoofer
-                moveToSubwoofer.and(alternatePosition)
-                                .whileTrue(new MoveToPositionFromHome(m_arm, m_intake, m_shooter,
-                                                Position.HIGH_SUBWOOFER));
+                // moveToPodium.and(alternatePosition).onTrue(
+                // new MoveToPosition(m_arm, m_shooter, Position.HIGH_PODIUM));
+                // // BACK Podium
+                // moveToAmp.and(alternatePosition).onTrue(
+                // new MoveToPosition(m_arm, m_shooter, Position.BACK_PODIUM));
+                // // HIGH Subwoofer
+                // moveToSubwoofer.and(alternatePosition)
+                // .onTrue(new MoveToPosition(m_arm, m_shooter, Position.HIGH_SUBWOOFER));
 
                 /**
                  * Manual Arm raise and lower
                  **/
                 ArmRaiseButton.whileTrue(new InstantCommand(m_arm::armRaise, m_arm))
                                 .onFalse(new InstantCommand(
-                                                () -> m_arm.keepArmPosition(
-                                                                m_arm.getCurrentArmPosition())));
+                                                () -> m_arm.setArmPosition(
+                                                                m_arm.getArmPosition())));
 
                 ArmLowerButton.whileTrue(new InstantCommand(m_arm::armLower, m_arm))
                                 .onFalse(new InstantCommand(
-                                                () -> m_arm.keepArmPosition(
-                                                                m_arm.getCurrentArmPosition())));
+                                                () -> m_arm.setArmPosition(
+                                                                m_arm.getArmPosition())));
 
-                ShooterArmRaiseButton.whileTrue(new InstantCommand(m_arm::shooterArmRaise, m_arm))
+                ShooterPivotRaiseButton.whileTrue(new InstantCommand(m_arm::shooterPivotRaise, m_arm))
                                 .onFalse(new InstantCommand(
-                                                () -> m_arm.keepArmPosition(
-                                                                m_arm.getCurrentArmPosition())));
+                                                () -> m_arm.setShooterPivotPosition(
+                                                                m_arm.getShooterPivotPosition())));
 
-                ShooterArmLowerButton.whileTrue(new InstantCommand(m_arm::shooterArmLower, m_arm))
+                ShooterPivotLowerButton.whileTrue(new InstantCommand(m_arm::shooterPivotLower, m_arm))
                                 .onFalse(new InstantCommand(
-                                                () -> m_arm.keepArmPosition(
-                                                                m_arm.getCurrentArmPosition())));
+                                                () -> m_arm.setShooterPivotPosition(
+                                                                m_arm.getShooterPivotPosition())));
 
                 // Climber motor on and off
                 WinchForwardButton.whileTrue(
