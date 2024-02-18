@@ -57,7 +57,7 @@ public final class Constants {
                 public static final boolean kTuning = true;
                 public static final boolean kArmTuning = true;
                 public static final boolean kClimberTuning = true;
-                public static final boolean kFeederTuning = true;
+                public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = true;
                 public static final boolean kLimelightTuning = true;
                 public static final boolean kShooterTuning = false;
@@ -77,9 +77,9 @@ public final class Constants {
 
                 public static double kFeederMaxOutput = 1;
                 public static double kFeederMinOutput = -1;
-                public static double kFeederFF = 0.0002;
-                public static double kFeederP = 0.0004;
-                public static double kFeederI = 0.001;
+                public static double kFeederFF = 0.0001;
+                public static double kFeederP = 0.0001;
+                public static double kFeederI = 0.0001;
                 public static double kFeederD = 0;
 
                 public static double kFeederSetPoint = 3000;
