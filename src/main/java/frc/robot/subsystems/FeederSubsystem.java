@@ -145,12 +145,12 @@ public class FeederSubsystem extends SubsystemBase {
         m_feederMotor.set(0);
     }
 
-    // public void run() {
-    // m_feederMotor.set(1);
-    // }
     public void run() {
-        setFeederSetPoint(kFeederSetPoint);
+        m_feederMotor.set(1);
     }
+    // public void run() {
+    // setFeederSetPoint(kFeederSetPoint);
+    // }
 
     public void runBackwards() {
         m_feederMotor.set(-.25);
