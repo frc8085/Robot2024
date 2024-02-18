@@ -64,8 +64,9 @@ public final class Constants {
         }
 
         public static final class IntakeConstants {
-                public static final double speed = .75;
+                public static final double speed = .9;
                 public static final double armMoveSpeed = .25;
+                public static final double ejectSpeed = -.75;
         }
 
         public static final class FeederConstants {
@@ -181,7 +182,7 @@ public final class Constants {
                                         false,
                                         false),
                         AMP("Amp",
-                                        307,
+                                        315,
                                         205,
                                         true,
                                         false,
