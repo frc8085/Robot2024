@@ -2,20 +2,15 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
 
-import static frc.robot.Constants.ArmConstants.kArmAdjustmentFactor;
-import static frc.robot.Constants.ArmConstants.kArmMaxAccel;
-import static frc.robot.Constants.ArmConstants.kArmMaxVelo;
 import static frc.robot.Constants.ArmConstants.kArmPositionShift;
 import static frc.robot.Constants.ArmConstants.kShooterPivotPositionShift;
 
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
@@ -23,7 +18,6 @@ import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.MotorDefaultsConstants;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TuningModeConstants;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -161,7 +155,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void setArmPosition(double armPosition) {
         double armPositionDisplay = armPosition - kArmPositionShift;
-        m_armPIDController.setReference(armPosition, ControlType.kPosition);
+        double armPositionHold = armPosition - ArmConstants.kArmPIDShift;
+
+        m_armPIDController.setReference(armPositionHold, ControlType.kPosition);
         if (TUNING_MODE) {
             SmartDashboard.putNumber("Desired Arm Position", armPositionDisplay);
 

@@ -55,7 +55,7 @@ public final class Constants {
 
         public static final class TuningModeConstants {
                 public static final boolean kTuning = true;
-                public static final boolean kArmTuning = true;
+                public static final boolean kArmTuning = false;
                 public static final boolean kClimberTuning = true;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = true;
@@ -154,14 +154,17 @@ public final class Constants {
                 // SETPOINTS
 
                 // Offset
-                public static final double kArmZeroOffsetFactor = 137;
+                public static final double kArmZeroOffsetFactor = 147;
                 public static final double kShooterPivotZeroOffsetFactor = 306;
 
                 // We are zeroing the arm at the top limit, so all our positions should be
                 // adjusted
-                public static final double kArmPositionShift = 239;
+                public static final double kArmPositionShift = 232;
 
                 public static final double kArmAdjustmentFactor = 90 + kArmPositionShift;
+
+                // the arm position is about 25 higher when it holds than what you want
+                public static final double kArmPIDShift = 25;
 
                 // Zeroing the shooter pivot at the far limit, so all our positions should be
                 // adjusted
@@ -172,29 +175,29 @@ public final class Constants {
                 // Arm Positions
                 public enum Position {
                         HOME("Home",
-                                        240.5,
+                                        210,
                                         45.5,
                                         false,
                                         false,
                                         false),
                         AMP("Amp",
-                                        325.5,
+                                        285,
                                         205,
                                         true,
                                         false,
                                         false),
                         PODIUM("Podium",
-                                        267,
+                                        234,
                                         60,
                                         true,
                                         true,
                                         false),
                         LOW_SUBWOOFER("LowSubwoofer",
-                                        335,
+                                        300,
                                         125,
                                         true,
                                         true,
-                                        true),
+                                        false),
                         TRAP_APPROACH("Trap Approach",
                                         343,
                                         287,
