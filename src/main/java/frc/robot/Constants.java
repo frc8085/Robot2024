@@ -131,24 +131,24 @@ public final class Constants {
                 // PIDS
                 // Arm PID coefficients
                 public static final int kArmPIDSlot = 0;
-                public static final double kArmP = .0138889;
-                public static final double kArmI = .00006;
-                public static final double kArmD = .000278;
-                public static final double kArmFF = 0;
+                public static final double kArmP = 0.01;
+                public static final double kArmI = 0;
+                public static final double kArmD = 0;
+                public static final double kArmFF = 0.001;
                 public static final double kArmMaxOutput = kArmMaxSpeed;
-                public static final double kArmMinOutput = -kArmMaxSpeed;
-                public static final double kArmMaxAccel = .01;
-                public static final double kArmMaxVelo = .01;
+                public static final double kArmMinOutput = -.5;
+                public static final double kArmMaxAccel = .1;
+                public static final double kArmMaxVelo = .5;
 
                 // Shooter Pivot PID coefficients
                 public static final int kShooterPivotPIDSlot = 0;
-                public static final double kShooterPivotP = 0.01;
+                public static final double kShooterPivotP = 0.02;
                 public static final double kShooterPivotI = 0;
                 public static final double kShooterPivotD = 0;
-                public static final double kShooterPivotFF = 0;
+                public static final double kShooterPivotFF = 0.0005;
                 public static final double kShooterPivotMaxOutput = kShooterPivotMaxSpeed;
                 public static final double kShooterPivotMinOutput = -kShooterPivotMaxSpeed;
-                public static final double kShooterPivotMaxAccel = .5;
+                public static final double kShooterPivotMaxAccel = .25;
                 public static final double kShooterPivotMaxVelo = .5;
 
                 // SETPOINTS
@@ -182,13 +182,13 @@ public final class Constants {
                                         205,
                                         true,
                                         false,
-                                        true),
+                                        false),
                         PODIUM("Podium",
                                         267,
                                         60,
                                         true,
                                         true,
-                                        true),
+                                        false),
                         LOW_SUBWOOFER("LowSubwoofer",
                                         335,
                                         125,

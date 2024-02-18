@@ -15,6 +15,7 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
@@ -254,11 +255,14 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("kArmP", kArmP);
         SmartDashboard.putNumber("kArmI", kArmI);
         SmartDashboard.putNumber("kArmD", kArmD);
+        SmartDashboard.putNumber("kArmFF", kArmFF);
+
         SmartDashboard.putNumber("kArmMaxAccel", kArmMaxAccel);
         SmartDashboard.putNumber("kArmMaxVelo", kArmMaxVelo);
         SmartDashboard.putNumber("kShooterPivotP", kShooterPivotP);
         SmartDashboard.putNumber("kShooterPivotI", kShooterPivotI);
         SmartDashboard.putNumber("kShooterPivotD", kShooterPivotD);
+        SmartDashboard.putNumber("kShooterPivotFF", kShooterPivotFF);
         SmartDashboard.putNumber("kShooterPivotMaxAccel", kShooterPivotMaxAccel);
         SmartDashboard.putNumber("kShooterPivotMaxVelo", kShooterPivotMaxVelo);
 
@@ -268,6 +272,7 @@ public class ArmSubsystem extends SubsystemBase {
         double armP = SmartDashboard.getNumber("kArmP", 0);
         double armI = SmartDashboard.getNumber("kArmI", 0);
         double armD = SmartDashboard.getNumber("kArmD", 0);
+        double armFF = SmartDashboard.getNumber("kArmFF", 0);
         double armMaxAccel = SmartDashboard.getNumber("kArmMaxAccel", 0);
         double armMaxVelo = SmartDashboard.getNumber("kArmMaxVelo", 0);
 
@@ -284,7 +289,10 @@ public class ArmSubsystem extends SubsystemBase {
             kArmD = armD;
             m_armPIDController.setD(kArmD);
         }
-
+        if ((armFF != kArmFF)) {
+            kArmFF = armFF;
+            m_armPIDController.setD(kArmFF);
+        }
         if ((armMaxAccel != kArmMaxAccel)) {
             kArmMaxAccel = armMaxAccel;
             m_armPIDController.setSmartMotionMaxAccel(kArmMaxAccel, 0);
@@ -298,6 +306,7 @@ public class ArmSubsystem extends SubsystemBase {
         double shooterPivotP = SmartDashboard.getNumber("kShooterPivotP", 0);
         double shooterPivotI = SmartDashboard.getNumber("kShooterPivotI", 0);
         double shooterPivotD = SmartDashboard.getNumber("kShooterPivotD", 0);
+        double shooterPivotFF = SmartDashboard.getNumber("kShooterPivotFF", 0);
         double shooterPivotMaxAccel = SmartDashboard.getNumber("kShooterPivotMaxAccel", 0);
         double shooterPivotMaxVelo = SmartDashboard.getNumber("kShooterPivotMaxVelo", 0);
 
@@ -314,7 +323,10 @@ public class ArmSubsystem extends SubsystemBase {
             kShooterPivotD = shooterPivotD;
             m_shooterPivotPIDController.setD(kShooterPivotD);
         }
-
+        if ((shooterPivotFF != kShooterPivotFF)) {
+            kShooterPivotFF = shooterPivotFF;
+            m_shooterPivotPIDController.setFF(kShooterPivotFF);
+        }
         if ((shooterPivotMaxAccel != kShooterPivotMaxAccel)) {
             kShooterPivotMaxAccel = shooterPivotMaxAccel;
             m_armPIDController.setSmartMotionMaxAccel(kShooterPivotMaxAccel, 0);
