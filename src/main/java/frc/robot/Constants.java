@@ -123,8 +123,8 @@ public final class Constants {
                 public static final double kArmFF = 0;
                 public static final double kArmMaxOutput = kArmMaxSpeed;
                 public static final double kArmMinOutput = -kArmMaxSpeed;
-                public static final double kArmMaxAccel = .05;
-                public static final double kArmMaxVelo = .05;
+                public static final double kArmMaxAccel = .01;
+                public static final double kArmMaxVelo = .01;
 
                 // Shooter Pivot PID coefficients
                 public static final int kShooterPivotPIDSlot = 0;
@@ -155,6 +155,7 @@ public final class Constants {
 
                 public static final double kShooterPivotAdjustmentFactor = 0 + kShooterPivotPositionShift;
 
+                // Arm Positions
                 public enum Position {
                         HOME("Home",
                                         240.5,
