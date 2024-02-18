@@ -60,7 +60,7 @@ public final class Constants {
                 public static final boolean kFeederTuning = true;
                 public static final boolean kIntakeTuning = true;
                 public static final boolean kLimelightTuning = true;
-                public static final boolean kShooterTuning = true;
+                public static final boolean kShooterTuning = false;
         }
 
         public static final class IntakeConstants {
@@ -69,13 +69,24 @@ public final class Constants {
         }
 
         public static final class FeederConstants {
+                public static final int kIRPort1 = 0;
+                public static final int kIRPort2 = 1;
+
                 public static final double speed = 1;
                 public static final double kLoadWaitTime = .5;
+
+                public static double kFeederMaxOutput = 1;
+                public static double kFeederMinOutput = -1;
+                public static double kFeederFF = 0.0002;
+                public static double kFeederP = 0.0004;
+                public static double kFeederI = 0.001;
+                public static double kFeederD = 0;
+
+                public static double kFeederSetPoint = 3000;
+
         }
 
         public static final class ShooterConstants {
-                public static final int kIRPort1 = 0;
-                public static final int kIRPort2 = 1;
 
                 public static final IdleMode kShooterMotor2IdleMode = IdleMode.kBrake;
                 public static IdleMode kShooterMotor1IdleMode = IdleMode.kBrake;
