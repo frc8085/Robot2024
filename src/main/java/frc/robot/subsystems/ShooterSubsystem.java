@@ -193,6 +193,11 @@ public class ShooterSubsystem extends SubsystemBase {
         setShooter2SetPoint(kShooter2SetPoint);
     }
 
+    public void runTrap() {
+        setShooter1SetPoint(ShooterConstants.kShooterSetPointTrap);
+        setShooter2SetPoint(ShooterConstants.kShooterSetPointTrap);
+    }
+
     public void setShooter1SetPoint(double shooter1SetPoint) {
         if (shooter1SetPoint >= 5500) {
             kShooter1SetPoint = 5500;

@@ -37,6 +37,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -54,6 +55,7 @@ public class RobotContainer {
         private final FeederSubsystem m_feeder = new FeederSubsystem();
         private final ArmSubsystem m_arm = new ArmSubsystem();
         private final ClimberSubsystem m_climb = new ClimberSubsystem();
+        private final LimelightSubsystem m_limelight = new LimelightSubsystem();
 
         // The driver's controller
         CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
@@ -87,18 +89,23 @@ public class RobotContainer {
 
         private void addToDashboard() {
                 // Put a button on the dashboard for each setpoint
-                for (Position pos : Position.values()) {
-                        SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, m_shooter, pos));
-                }
+                // for (Position pos : Position.values()) {
+                // SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, m_shooter, pos));
+                // }
+
+                SmartDashboard.putData("Trap Approach",
+                                Commands.sequence(new MoveToPosition(m_arm, m_shooter, Position.TRAP_APPROACH)));
+                SmartDashboard.putData("Trap Climb",
+                                Commands.sequence(new MoveToPosition(m_arm, m_shooter, Position.TRAP_CLIMB)));
+                SmartDashboard.putData("Trap Score",
+                                Commands.sequence(new MoveToPosition(m_arm, m_shooter, Position.TRAP_SCORE)));
 
                 // Intake Eject on dashboard
-                SmartDashboard.putData("Eject", Commands.sequence(
-                                new InstantCommand(m_intake::eject),
+                SmartDashboard.putData("Eject", Commands.sequence(new InstantCommand(m_intake::eject),
                                 new InstantCommand(m_feeder::eject)));
 
                 // Stop Feeder and Intake
-                SmartDashboard.putData("STOP intake", Commands.sequence(
-                                new InstantCommand(m_intake::stop),
+                SmartDashboard.putData("STOP intake", Commands.sequence(new InstantCommand(m_intake::stop),
                                 new InstantCommand(m_feeder::stop)));
 
         }
@@ -155,7 +162,7 @@ public class RobotContainer {
                                                 new WaitUntilCommand(m_feeder::isNoteDetected),
                                                 new PickUpNoteCompleted(m_intake, m_feeder)));
 
-                turnOnShooter.onTrue(new InstantCommand(m_shooter::run));
+                turnOnShooter.onTrue(new InstantCommand(m_shooter::runTrap));
                 turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
 
                 toggleShooter.toggleOnTrue(Commands.startEnd(m_shooter::run,

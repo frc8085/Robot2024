@@ -55,7 +55,7 @@ public final class Constants {
 
         public static final class TuningModeConstants {
                 public static final boolean kTuning = true;
-                public static final boolean kArmTuning = true;
+                public static final boolean kArmTuning = false;
                 public static final boolean kClimberTuning = true;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = true;
@@ -112,6 +112,8 @@ public final class Constants {
 
                 public static double kShooter1SetPoint = 4800;
                 public static double kShooter2SetPoint = 3850;
+
+                public static double kShooterSetPointTrap = 1000;
         }
 
         public static final class ArmConstants {
@@ -200,20 +202,20 @@ public final class Constants {
                                         true,
                                         true),
                         TRAP_APPROACH("Trap Approach",
-                                        343,
-                                        287,
+                                        325,
+                                        200,
                                         true,
                                         true,
                                         false),
                         TRAP_CLIMB("Trap Climb",
-                                        341,
-                                        289,
+                                        325,
+                                        170,
                                         true,
                                         true,
                                         false),
                         TRAP_SCORE("Trap Score",
-                                        341,
-                                        274,
+                                        325,
+                                        90,
                                         true,
                                         true,
                                         false),
