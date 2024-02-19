@@ -119,6 +119,8 @@ public class RobotContainer {
                 final Trigger turnOnShooter = m_driverController.x();
                 final Trigger turnOffShooter = m_driverController.b();
                 final Trigger lockWheels = m_driverController.povDown();
+                final Trigger fieldRelative = m_driverController.leftBumper();
+                final Trigger robotRelative = m_driverController.rightBumper();
 
                 lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
                                 m_drive));

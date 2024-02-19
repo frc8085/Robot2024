@@ -2,6 +2,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.subsystems.ArmSubsystem;
@@ -15,6 +17,8 @@ public class Climb extends SequentialCommandGroup {
             ShooterSubsystem m_shooter,
             Position position) {
         addCommands(
+                new MoveToPosition(m_arm, m_shooter, Position.TRAP_SCORE),
+                new InstantCommand(m_shooter::runTrap),
                 new InstantCommand(m_feeder::run),
                 new WaitCommand(1),
                 new InstantCommand(m_feeder::stop),
