@@ -165,7 +165,13 @@ public class RobotContainer {
                 final Trigger WinchForwardButton = m_operatorController.povDown();
                 final Trigger WinchBackButton = m_operatorController.povUp();
 
-                shoot.onTrue(new Shoot(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
+                // Testing conditional, check if shooter is at speed, if it is, shoot, if not,
+                // wait til it is at speed then shoot
+                shoot.onTrue(new ConditionalCommand(new Shoot(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME),
+                                new WaitUntilCommand(m_shooter::readyToShoot)
+                                                .andThen(new Shoot(m_feeder, m_arm, m_shooter, m_blinkin,
+                                                                Position.HOME)),
+                                m_shooter::readyToShoot));
 
                 intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin))
                                 .onFalse(new SequentialCommandGroup(

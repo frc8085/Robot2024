@@ -6,6 +6,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.LoggingConstants;
@@ -258,6 +259,16 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public boolean isShooterRunning() {
         return m_shooter1Encoder.getVelocity() > 200;
+    }
+
+    public void toggleShooter() {
+        if (isShooterRunning()) {
+            m_shooter1Motor.set(0);
+            m_shooter2Motor.set(0);
+        } else {
+            setShooter1SetPoint(kShooter1SetPoint);
+            setShooter2SetPoint(kShooter2SetPoint);
+        }
     }
 
     // This method will be called once per scheduler run
