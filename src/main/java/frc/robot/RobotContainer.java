@@ -85,7 +85,7 @@ public class RobotContainer {
                                                                 OIConstants.kDriveDeadband),
                                                 -MathUtil.applyDeadband(m_driverController.getRightX(),
                                                                 OIConstants.kDriveDeadband),
-                                                false,
+                                                true,
                                                 true),
                                                 m_drive));
 
