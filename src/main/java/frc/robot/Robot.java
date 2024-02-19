@@ -33,7 +33,7 @@ public class Robot extends LoggedRobot {
 
   private RobotContainer m_robotContainer;
 
-  UsbCamera camera1;
+  // UsbCamera camera1;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -74,7 +74,7 @@ public class Robot extends LoggedRobot {
     PortForwarder.add(5805, "limelight-shooter.local", 5805);
 
     if (Robot.isReal()) {
-      camera1 = CameraServer.startAutomaticCapture(0);
+      // camera1 = CameraServer.startAutomaticCapture(0);
     }
 
   }

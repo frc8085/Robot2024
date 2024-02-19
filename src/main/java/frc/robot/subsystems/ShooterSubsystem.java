@@ -254,7 +254,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public boolean readyToShoot() {
         return shooter1AtSetpoint() || shooter2AtSetpoint();
-
     }
 
     public boolean isShooterRunning() {

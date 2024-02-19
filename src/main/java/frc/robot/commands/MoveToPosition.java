@@ -2,8 +2,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.ShooterSubsystem;
 
 import static frc.robot.Constants.ArmConstants.Position;
@@ -12,6 +15,7 @@ public class MoveToPosition extends SequentialCommandGroup {
     public MoveToPosition(
             ArmSubsystem m_arm,
             ShooterSubsystem m_shooter,
+            Blinkin m_blinkin,
             Position position) {
 
         // Check if we move Arm and Shooter Pivot at the same time
@@ -37,7 +41,9 @@ public class MoveToPosition extends SequentialCommandGroup {
 
         if (position.shooterOn) {
             addCommands(
-                    new InstantCommand(m_shooter::run));
+                    new InstantCommand(m_shooter::run),
+                    new WaitUntilCommand(m_shooter::readyToShoot),
+                    new InstantCommand(m_blinkin::shooterAtSetPoint));
         } else {
             addCommands(
                     new InstantCommand(m_shooter::stop));
