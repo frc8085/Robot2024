@@ -18,6 +18,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -143,6 +144,7 @@ public class RobotContainer {
                 // final Trigger turnOnShooter = m_operatorController.rightTrigger();
 
                 final Trigger alternatePosition = m_operatorController.leftBumper();
+                final Trigger testLEDColors = m_operatorController.rightBumper();
 
                 final Trigger moveToHome = m_operatorController.y();
                 final Trigger moveToSubwoofer = m_operatorController.x();
@@ -170,9 +172,11 @@ public class RobotContainer {
                                                 new WaitUntilCommand(m_feeder::isNoteDetected),
                                                 new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin)));
 
+                // Driver shooter controls
                 turnOnShooter.onTrue(new InstantCommand(m_shooter::runTrap));
                 turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
 
+                // Operator Shooter Controls
                 toggleShooter.toggleOnTrue(Commands.startEnd(m_shooter::run,
                                 m_shooter::stop, m_shooter));
 
@@ -233,6 +237,10 @@ public class RobotContainer {
                 WinchBackButton.whileTrue(
                                 new InstantCommand(m_climb::back))
                                 .onFalse(new InstantCommand(m_climb::stop));
+
+                // Testing LED colors
+                new ConditionalCommand(new InstantCommand(m_blinkin::withNote),
+                                new InstantCommand(m_blinkin::shooterAtSetPoint), testLEDColors);
 
         }
 

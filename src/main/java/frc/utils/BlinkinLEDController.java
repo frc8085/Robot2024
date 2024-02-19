@@ -224,7 +224,7 @@ public class BlinkinLEDController {
    * Set LEDs to team color
    */
   public void setTeamColor() {
-    setPattern(BlinkinPattern.DARK_GREEN);
+    setPattern(BlinkinPattern.BLUE);
   }
 
   /**
