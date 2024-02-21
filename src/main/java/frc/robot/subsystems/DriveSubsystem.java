@@ -28,9 +28,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LoggingConstants;
+import frc.robot.Constants.TuningModeConstants;
 import frc.utils.SwerveUtils;
 
 public class DriveSubsystem extends SubsystemBase {
+
+    private boolean TUNING_MODE = TuningModeConstants.kDriveTuning;
+
     // Create MAXSwerveModules
     private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
             DriveConstants.kFrontLeftDrivingCanId,
@@ -258,7 +262,9 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     private void driveRobotRelative(ChassisSpeeds speeds) {
-        drive(speeds, false);
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(speeds, LoggedRobot.defaultPeriodSecs);
+        SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates((targetSpeeds));
+        setModuleStates(targetStates);
     }
 
     private void drive(ChassisSpeeds speeds, boolean fieldRelative) {

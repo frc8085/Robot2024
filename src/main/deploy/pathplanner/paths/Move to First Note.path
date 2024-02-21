@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.845028528020019,
+        "x": 1.8450285280200194,
         "y": 6.416025403784439
       },
       "isLocked": false,
@@ -81,13 +81,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 28.5,
+    "rotation": -148.69302881378385,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Four Note Auto",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -178.10067319128822,
     "velocity": 0
   },
   "useDefaultConstraints": true
