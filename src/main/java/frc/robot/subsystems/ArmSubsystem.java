@@ -204,6 +204,11 @@ public class ArmSubsystem extends SubsystemBase {
         return m_armRaiseLimit.isPressed();
     }
 
+    // check to see if the arm is at a point that is too high if the shooter goes
+    // vertical
+    public boolean armShooterAboveMaxHeight() {
+        return (getArmPosition() > ArmConstants.shooterMaxHeight);
+    }
     // Manual Arm Motor Movements
 
     public void armRaise() {

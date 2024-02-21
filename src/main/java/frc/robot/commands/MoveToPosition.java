@@ -5,11 +5,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.ArmConstants.Position;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.ShooterSubsystem;
-
-import static frc.robot.Constants.ArmConstants.Position;
 
 public class MoveToPosition extends SequentialCommandGroup {
     public MoveToPosition(
@@ -18,6 +17,11 @@ public class MoveToPosition extends SequentialCommandGroup {
             Blinkin m_blinkin,
             Position position) {
 
+        // Check if the arm is at a height where if shooter goes vertical the robot will
+        // be > 48 inches
+        if (m_arm.armShooterAboveMaxHeight()) {
+            addCommands(new InstantCommand(() -> m_arm.setArmPosition(ArmConstants.shooterMaxHeight)));
+        }
         // Check if we move Arm and Shooter Pivot at the same time
         if (position.parallelMovement) {
             addCommands(new InstantCommand(() -> m_arm.moveToPosition(position)));

@@ -131,6 +131,9 @@ public final class Constants {
                 public static final double kShooterPivotRaiseSpeed = .6;
                 public static final double kShooterPivotLowerSpeed = .6;
 
+                // arm height where shooter is above max height
+                public static final double shooterMaxHeight = 120;
+
                 // PIDS
                 // Arm PID coefficients
                 public static final int kArmPIDSlot = 0;
@@ -379,7 +382,8 @@ public final class Constants {
                 public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
                 // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
                 // teeth on the bevel pinion
-                public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
+                public static final double kDrivingMotorReduction = (45.0 * 22)
+                                / (kDrivingMotorPinionTeeth * 15);
                 public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps
                                 * kWheelCircumferenceMeters)
                                 / kDrivingMotorReduction;
@@ -390,7 +394,8 @@ public final class Constants {
                                 / kDrivingMotorReduction) / 60.0; // meters per second
 
                 public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
-                public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
+                public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per
+                                                                                                 // second
 
                 public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
                 public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
