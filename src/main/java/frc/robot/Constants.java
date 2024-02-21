@@ -131,6 +131,9 @@ public final class Constants {
                 public static final double kShooterPivotRaiseSpeed = .6;
                 public static final double kShooterPivotLowerSpeed = .6;
 
+                // arm height where shooter is above max height
+                public static final double shooterMaxHeight = 120;
+
                 // PIDS
                 // Arm PID coefficients
                 public static final int kArmPIDSlot = 0;
@@ -297,6 +300,27 @@ public final class Constants {
                 public static final double kSpeed = 0.25;
         }
 
+        public static final class BlinkinConstants {
+                public static int pwmPort = 0;
+
+                public enum ledColor {
+
+                        WITHNOTE("With Note", 0.65),
+                        TARGETFOUND("Target Found", .69),
+                        READYTOSHOOT("Ready to Shoot", .77);
+
+                        public final String label;
+                        public final double color;
+
+                        private ledColor(String label, double color) {
+                                this.label = label;
+                                this.color = color;
+                        }
+
+                }
+
+        }
+
         public static final class DriveConstants {
                 // Driving Parameters - Note that these are not the maximum capable speeds of
                 // the robot, rather the allowed maximum speeds
@@ -358,7 +382,8 @@ public final class Constants {
                 public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
                 // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
                 // teeth on the bevel pinion
-                public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
+                public static final double kDrivingMotorReduction = (45.0 * 22)
+                                / (kDrivingMotorPinionTeeth * 15);
                 public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps
                                 * kWheelCircumferenceMeters)
                                 / kDrivingMotorReduction;
@@ -369,7 +394,8 @@ public final class Constants {
                                 / kDrivingMotorReduction) / 60.0; // meters per second
 
                 public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
-                public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
+                public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per
+                                                                                                 // second
 
                 public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
                 public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians

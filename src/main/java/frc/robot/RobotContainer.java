@@ -18,6 +18,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -34,6 +35,7 @@ import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.MoveToPosition;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -56,6 +58,7 @@ public class RobotContainer {
         private final ArmSubsystem m_arm = new ArmSubsystem();
         private final ClimberSubsystem m_climb = new ClimberSubsystem();
         private final LimelightSubsystem m_limelight = new LimelightSubsystem();
+        private final Blinkin m_blinkin = new Blinkin();
 
         // The driver's controller
         CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
@@ -82,9 +85,10 @@ public class RobotContainer {
                                                                 OIConstants.kDriveDeadband),
                                                 -MathUtil.applyDeadband(m_driverController.getRightX(),
                                                                 OIConstants.kDriveDeadband),
-                                                false,
+                                                true,
                                                 true),
                                                 m_drive));
+
         }
 
         private void addToDashboard() {
@@ -94,11 +98,14 @@ public class RobotContainer {
                 // }
 
                 SmartDashboard.putData("Trap Approach",
-                                Commands.sequence(new MoveToPosition(m_arm, m_shooter, Position.TRAP_APPROACH)));
+                                Commands.sequence(new MoveToPosition(m_arm, m_shooter, m_blinkin,
+                                                Position.TRAP_APPROACH)));
                 SmartDashboard.putData("Trap Climb",
-                                Commands.sequence(new MoveToPosition(m_arm, m_shooter, Position.TRAP_CLIMB)));
+                                Commands.sequence(
+                                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.TRAP_CLIMB)));
                 SmartDashboard.putData("Trap Score",
-                                Commands.sequence(new MoveToPosition(m_arm, m_shooter, Position.TRAP_SCORE)));
+                                Commands.sequence(
+                                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.TRAP_SCORE)));
 
                 // Intake Eject on dashboard
                 SmartDashboard.putData("Eject", Commands.sequence(new InstantCommand(m_intake::eject),
@@ -137,6 +144,7 @@ public class RobotContainer {
                 // final Trigger turnOnShooter = m_operatorController.rightTrigger();
 
                 final Trigger alternatePosition = m_operatorController.leftBumper();
+                final Trigger testLEDColors = m_operatorController.rightBumper();
 
                 final Trigger moveToHome = m_operatorController.y();
                 final Trigger moveToSubwoofer = m_operatorController.x();
@@ -157,43 +165,52 @@ public class RobotContainer {
                 final Trigger WinchForwardButton = m_operatorController.povDown();
                 final Trigger WinchBackButton = m_operatorController.povUp();
 
-                shoot.onTrue(new Shoot(m_feeder, m_arm, m_shooter, Position.HOME));
+                // Testing conditional, check if shooter is at speed, if it is, shoot, if not,
+                // wait til it is at speed then shoot
+                shoot.onTrue(new ConditionalCommand(new Shoot(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME),
+                                new WaitUntilCommand(m_shooter::readyToShoot)
+                                                .andThen(new Shoot(m_feeder, m_arm, m_shooter, m_blinkin,
+                                                                Position.HOME)),
+                                m_shooter::readyToShoot));
 
-                intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter))
+                intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin))
                                 .onFalse(new SequentialCommandGroup(
                                                 new WaitUntilCommand(m_feeder::isNoteDetected),
-                                                new PickUpNoteCompleted(m_intake, m_feeder)));
+                                                new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin)));
 
+                // Driver shooter controls
                 turnOnShooter.onTrue(new InstantCommand(m_shooter::runTrap));
                 turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
 
+                // Operator Shooter Controls
                 toggleShooter.toggleOnTrue(Commands.startEnd(m_shooter::run,
                                 m_shooter::stop, m_shooter));
 
-                moveToHome.onTrue(new MoveToPosition(m_arm, m_shooter, Position.HOME));
+                moveToHome.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME));
                 moveToSubwoofer.onTrue(
-                                new MoveToPosition(m_arm, m_shooter, Position.LOW_SUBWOOFER));
-                moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, Position.AMP));
-                moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, Position.PODIUM));
+                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.LOW_SUBWOOFER));
+                moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.AMP));
+                moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.PODIUM));
                 // moveToTrapApproach.onTrue(new MoveToPosition(m_arm, m_shooter,
-                // Position.TRAP_APPROACH));
+                // m_blinkin, Position.TRAP_APPROACH));
                 // moveToTrapScore.onTrue(new MoveToPosition(m_arm, m_shooter,
-                // Position.TRAP_SCORE));
+                // m_blinkin, Position.TRAP_SCORE));
                 // moveToTrapClimb.onTrue(new MoveToPosition(m_arm, m_shooter,
-                // Position.TRAP_CLIMB));
+                // m_blinkin, Position.TRAP_CLIMB));
 
                 /**
                  * Alternate positions. For these, you need to hold down the Left Bumper too.
                  **/
                 // HIGH Podium
                 // moveToPodium.and(alternatePosition).onTrue(
-                // new MoveToPosition(m_arm, m_shooter, Position.HIGH_PODIUM));
+                // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HIGH_PODIUM));
                 // // BACK Podium
                 // moveToAmp.and(alternatePosition).onTrue(
-                // new MoveToPosition(m_arm, m_shooter, Position.BACK_PODIUM));
+                // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.BACK_PODIUM));
                 // // HIGH Subwoofer
                 // moveToSubwoofer.and(alternatePosition)
-                // .onTrue(new MoveToPosition(m_arm, m_shooter, Position.HIGH_SUBWOOFER));
+                // .onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin,
+                // Position.HIGH_SUBWOOFER));
 
                 /**
                  * Manual Arm raise and lower
@@ -226,6 +243,10 @@ public class RobotContainer {
                 WinchBackButton.whileTrue(
                                 new InstantCommand(m_climb::back))
                                 .onFalse(new InstantCommand(m_climb::stop));
+
+                // Testing LED colors
+                new ConditionalCommand(new InstantCommand(m_blinkin::withNote),
+                                new InstantCommand(m_blinkin::shooterAtSetPoint), testLEDColors);
 
         }
 
