@@ -58,6 +58,9 @@ public class ArmSubsystem extends SubsystemBase {
     double kShooterPivotMaxAccel = ArmConstants.kShooterPivotMaxAccel;
     double kShooterPivotMaxVelo = ArmConstants.kShooterPivotMaxVelo;
 
+    double ktuneArmSetPoint = 0;
+    double ktuneSPSetPoint = 0;
+
     // limit switches
     private SparkLimitSwitch m_armLowerLimit;
     private SparkLimitSwitch m_armRaiseLimit;
@@ -136,7 +139,8 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterPivotMotor.burnFlash();
 
         if (TUNING_MODE) {
-            addPIDToDashboard();
+            // tunePIDs();
+            tuneSetPoints();
         }
     }
 
@@ -353,4 +357,22 @@ public class ArmSubsystem extends SubsystemBase {
 
     }
 
+    public void tuneSetPoints() {
+        SmartDashboard.putNumber("TUNE: Arm", ktuneArmSetPoint);
+        SmartDashboard.putNumber("TUNE: SP", ktuneSPSetPoint);
+
+        double tuneArmSetPoint = SmartDashboard.getNumber("TUNE: Arm", 0);
+        double tuneSPSetPoint = SmartDashboard.getNumber("TUNE: SP", 0);
+
+        // if PID coefficients on dashboard have changed, write new values to controller
+        if ((tuneArmSetPoint != ktuneArmSetPoint)) {
+            ktuneArmSetPoint = tuneArmSetPoint;
+            setArmPosition(ktuneArmSetPoint);
+        }
+        if ((tuneSPSetPoint != kArmI)) {
+            ktuneSPSetPoint = tuneSPSetPoint;
+            setShooterPivotPosition(ktuneSPSetPoint);
+        }
+
+    }
 }

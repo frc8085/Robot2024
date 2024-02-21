@@ -55,7 +55,8 @@ public final class Constants {
 
         public static final class TuningModeConstants {
                 public static final boolean kTuning = true;
-                public static final boolean kArmTuning = false;
+                public static final boolean kDriveTuning = true;
+                public static final boolean kArmTuning = true;
                 public static final boolean kClimberTuning = true;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = true;
@@ -128,11 +129,11 @@ public final class Constants {
                 public static final double kArmRaiseSpeed = .25;
                 public static final double kArmLowerSpeed = .15;
 
-                public static final double kShooterPivotRaiseSpeed = .6;
-                public static final double kShooterPivotLowerSpeed = .6;
+                public static final double kShooterPivotRaiseSpeed = .25;
+                public static final double kShooterPivotLowerSpeed = .25;
 
                 // arm height where shooter is above max height
-                public static final double shooterMaxHeight = 120;
+                public static final double shooterMaxHeight = 325;
 
                 // PIDS
                 // Arm PID coefficients
