@@ -36,7 +36,43 @@
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Pick Up Note",
+      "waypointRelativePos": 0.5,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "PickUpNote"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "WaitUntilNoteDetected"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "PickUpNoteCompleted"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "TurnOnShooter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

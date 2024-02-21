@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 1.3450285280200192,
-        "y": 5.569482662113473
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
         "x": 1.845028528020019,
-        "y": 6.4355080658979125
+        "y": 6.416025403784439
       },
       "isLocked": false,
       "linkedName": null
@@ -36,7 +36,43 @@
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Pick Up Note",
+      "waypointRelativePos": 0.5,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "PickUpNote"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "WaitUntilNoteDetected"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "PickUpNoteCompleted"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "TurnOnShooter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.8,
     "maxAcceleration": 3.0,
