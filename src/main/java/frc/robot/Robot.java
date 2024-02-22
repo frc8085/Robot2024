@@ -11,6 +11,9 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,6 +32,8 @@ public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  UsbCamera camera1;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -58,6 +63,20 @@ public class Robot extends LoggedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    // Setup Port Forwarding to enable communication
+    // while tethered to our robot over USB
+    PortForwarder.add(5800, "limelight-shooter.local", 5800);
+    PortForwarder.add(5801, "limelight-shooter.local", 5801);
+    PortForwarder.add(5802, "limelight-shooter.local", 5802);
+    PortForwarder.add(5803, "limelight-shooter.local", 5803);
+    PortForwarder.add(5804, "limelight-shooter.local", 5804);
+    PortForwarder.add(5805, "limelight-shooter.local", 5805);
+
+    if (Robot.isReal()) {
+      camera1 = CameraServer.startAutomaticCapture(0);
+    }
+
   }
 
   /**
