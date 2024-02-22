@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkBase.ControlType;
 
 import static frc.robot.Constants.ArmConstants.kArmPositionShift;
+import static frc.robot.Constants.ArmConstants.kShooterPivotMax;
+import static frc.robot.Constants.ArmConstants.kShooterPivotMin;
 import static frc.robot.Constants.ArmConstants.kShooterPivotPositionShift;
 
 import org.opencv.core.Point;
@@ -139,8 +141,7 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterPivotMotor.burnFlash();
 
         if (TUNING_MODE) {
-            // tunePIDs();
-            tuneSetPoints();
+            // addTuningSetPointToDashboard();
         }
     }
 
@@ -173,8 +174,17 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void setShooterPivotPosition(double shooterPivotPosition) {
-        double shooterPivotPositionDisplay = shooterPivotPosition - kShooterPivotPositionShift;
-        m_shooterPivotPIDController.setReference(shooterPivotPosition, ControlType.kPosition);
+        double shooterPivotPositionDisplay;
+        if (shooterPivotPosition > kShooterPivotMax) {
+            shooterPivotPositionDisplay = kShooterPivotMax;
+            m_shooterPivotPIDController.setReference(kShooterPivotMax, ControlType.kPosition);
+        } else if (shooterPivotPosition < kShooterPivotMin) {
+            shooterPivotPositionDisplay = kShooterPivotMin;
+            m_shooterPivotPIDController.setReference(kShooterPivotMin, ControlType.kPosition);
+        } else {
+            shooterPivotPositionDisplay = shooterPivotPosition - kShooterPivotPositionShift;
+            m_shooterPivotPIDController.setReference(shooterPivotPosition, ControlType.kPosition);
+        }
 
         if (TUNING_MODE) {
             SmartDashboard.putNumber("Desired Shooter Pivot Position", shooterPivotPositionDisplay);
@@ -215,6 +225,10 @@ public class ArmSubsystem extends SubsystemBase {
     }
     // Manual Arm Motor Movements
 
+    public boolean armShooterBelowMaxHeight() {
+        return (getArmPosition() < ArmConstants.shooterMaxHeight);
+    }
+
     public void armRaise() {
         m_armMotor.set(ArmConstants.kArmRaiseSpeed);
     }
@@ -243,7 +257,9 @@ public class ArmSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run
         log();
         if (TUNING_MODE) {
-            tunePIDs();
+            // tunePIDs();
+            // tuneSetPoints();
+
         }
     }
 
@@ -266,7 +282,14 @@ public class ArmSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Arm Position", getArmPosition() - kArmPositionShift);
             SmartDashboard.putNumber("Shooter Pivot Position",
                     getShooterPivotPosition() - kShooterPivotPositionShift);
+            SmartDashboard.putBoolean("Arm above height", armShooterAboveMaxHeight());
         }
+    }
+
+    public void addTuningSetPointToDashboard() {
+        SmartDashboard.putNumber("TUNE: Arm", ktuneArmSetPoint);
+        SmartDashboard.putNumber("TUNE: SP", ktuneSPSetPoint);
+
     }
 
     public void addPIDToDashboard() {
@@ -358,8 +381,6 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void tuneSetPoints() {
-        SmartDashboard.putNumber("TUNE: Arm", ktuneArmSetPoint);
-        SmartDashboard.putNumber("TUNE: SP", ktuneSPSetPoint);
 
         double tuneArmSetPoint = SmartDashboard.getNumber("TUNE: Arm", 0);
         double tuneSPSetPoint = SmartDashboard.getNumber("TUNE: SP", 0);

@@ -133,7 +133,11 @@ public final class Constants {
                 public static final double kShooterPivotLowerSpeed = .25;
 
                 // arm height where shooter is above max height
-                public static final double shooterMaxHeight = 325;
+                public static final double shooterMaxHeight = 320;
+
+                // shooter pivot minimum and maximum
+                public static final double kShooterPivotMin = 20;
+                public static final double kShooterPivotMax = 235;
 
                 // PIDS
                 // Arm PID coefficients
@@ -199,26 +203,26 @@ public final class Constants {
                                         true,
                                         true,
                                         true),
-                        LOW_SUBWOOFER("LowSubwoofer",
+                        SUBWOOFER("Subwoofer",
                                         322,
                                         125,
                                         true,
                                         true,
                                         true),
                         TRAP_APPROACH("Trap Approach",
-                                        325,
-                                        200,
+                                        320,
+                                        160,
                                         true,
                                         true,
                                         false),
                         TRAP_CLIMB("Trap Climb",
-                                        325,
-                                        170,
+                                        320,
+                                        160,
                                         true,
                                         true,
                                         false),
                         TRAP_SCORE("Trap Score",
-                                        325,
+                                        310,
                                         90,
                                         true,
                                         true,
@@ -237,9 +241,9 @@ public final class Constants {
                                         true,
                                         true),
 
-                        HIGH_SUBWOOFER("High Subwoofer",
-                                        338,
-                                        352,
+                        BACK_SUBWOOFER("Back Subwoofer",
+                                        320,
+                                        42,
                                         true,
                                         true,
                                         true);

@@ -188,7 +188,7 @@ public class RobotContainer {
 
                 moveToHome.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME));
                 moveToSubwoofer.onTrue(
-                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.LOW_SUBWOOFER));
+                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.SUBWOOFER));
                 moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.AMP));
                 moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.PODIUM));
                 // moveToTrapApproach.onTrue(new MoveToPosition(m_arm, m_shooter,
@@ -208,9 +208,9 @@ public class RobotContainer {
                 // moveToAmp.and(alternatePosition).onTrue(
                 // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.BACK_PODIUM));
                 // // HIGH Subwoofer
-                // moveToSubwoofer.and(alternatePosition)
-                // .onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin,
-                // Position.HIGH_SUBWOOFER));
+                moveToSubwoofer.and(alternatePosition)
+                                .onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin,
+                                                Position.BACK_SUBWOOFER));
 
                 /**
                  * Manual Arm raise and lower
