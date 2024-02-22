@@ -55,8 +55,8 @@ public final class Constants {
 
         public static final class TuningModeConstants {
                 public static final boolean kTuning = true;
-                public static final boolean kArmTuning = false;
-                public static final boolean kDriveTuning = false;
+                public static final boolean kDriveTuning = true;
+                public static final boolean kArmTuning = true;
                 public static final boolean kClimberTuning = true;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = true;
@@ -129,11 +129,19 @@ public final class Constants {
                 public static final double kArmRaiseSpeed = .25;
                 public static final double kArmLowerSpeed = .15;
 
-                public static final double kShooterPivotRaiseSpeed = .6;
-                public static final double kShooterPivotLowerSpeed = .6;
+                public static final double kShooterPivotRaiseSpeed = .25;
+                public static final double kShooterPivotLowerSpeed = .25;
 
                 // arm height where shooter is above max height
-                public static final double shooterMaxHeight = 120;
+                public static final double shooterMaxHeight = 320;
+
+                // shooter pivot minimum and maximum
+                public static final double kShooterPivotMin = 20;
+                public static final double kShooterPivotMax = 235;
+
+                // Manual Adjustment degree differential
+                public static final double kArmManualAdjustment = 10;
+                public static final double kShooterPivotManualAdjustment = 5;
 
                 // PIDS
                 // Arm PID coefficients
@@ -157,6 +165,28 @@ public final class Constants {
                 public static final double kShooterPivotMinOutput = -kShooterPivotMaxSpeed;
                 public static final double kShooterPivotMaxAccel = .25;
                 public static final double kShooterPivotMaxVelo = .5;
+
+                // Arm PID coefficients
+                public static final int kArmPIDSlot1 = 1;
+                public static final double kArmPSlot1 = 0.01;
+                public static final double kArmISlot1 = 0;
+                public static final double kArmDSlot1 = 0;
+                public static final double kArmFFSlot1 = 0.001;
+                public static final double kArmMaxOutputSlot1 = kArmMaxSpeed;
+                public static final double kArmMinOutputSlot1 = -0.5;
+                public static final double kArmMaxAccelSlot1 = .1;
+                public static final double kArmMaxVeloSlot1 = .5;
+
+                // Shooter Pivot PID coefficients
+                public static final int kShooterPivotPIDSlot1 = 1;
+                public static final double kShooterPivotPSlot1 = 0.02;
+                public static final double kShooterPivotISlot1 = 0;
+                public static final double kShooterPivotDSlot1 = 0;
+                public static final double kShooterPivotFFSlot1 = 0.0005;
+                public static final double kShooterPivotMaxOutputSlot1 = kShooterPivotMaxSpeed;
+                public static final double kShooterPivotMinOutputSlot1 = -kShooterPivotMaxSpeed;
+                public static final double kShooterPivotMaxAccelSlot1 = .25;
+                public static final double kShooterPivotMaxVeloSlot1 = .5;
 
                 // SETPOINTS
 
@@ -186,46 +216,54 @@ public final class Constants {
                                         50,
                                         false,
                                         false,
+                                        true,
                                         false),
                         AMP("Amp",
                                         325,
                                         205,
                                         true,
                                         false,
+                                        true,
                                         true),
                         PODIUM("Podium",
                                         256,
                                         60,
                                         true,
                                         true,
+                                        true,
                                         true),
-                        LOW_SUBWOOFER("LowSubwoofer",
+                        SUBWOOFER("Subwoofer",
                                         322,
                                         125,
                                         true,
                                         true,
+                                        true,
                                         true),
                         TRAP_APPROACH("Trap Approach",
-                                        325,
-                                        200,
+                                        320,
+                                        160,
                                         true,
                                         true,
+                                        false,
                                         false),
                         TRAP_CLIMB("Trap Climb",
-                                        325,
-                                        170,
+                                        320,
+                                        160,
                                         true,
                                         true,
+                                        false,
                                         false),
                         TRAP_SCORE("Trap Score",
-                                        325,
+                                        310,
                                         90,
                                         true,
                                         true,
+                                        false,
                                         false),
                         HIGH_PODIUM("High Podium",
                                         338,
                                         289,
+                                        true,
                                         true,
                                         true,
                                         true),
@@ -235,11 +273,13 @@ public final class Constants {
                                         166,
                                         true,
                                         true,
+                                        true,
                                         true),
 
-                        HIGH_SUBWOOFER("High Subwoofer",
-                                        338,
-                                        352,
+                        BACK_SUBWOOFER("Back Subwoofer",
+                                        320,
+                                        42,
+                                        true,
                                         true,
                                         true,
                                         true);
@@ -249,6 +289,7 @@ public final class Constants {
                         public final double shooterPivotPosition;
                         public final boolean moveArmFirst;
                         public final boolean parallelMovement;
+                        public final boolean HeightCheck;
                         public final boolean shooterOn;
 
                         private Position(String label,
@@ -256,12 +297,14 @@ public final class Constants {
                                         double shooterPivotPosition,
                                         boolean moveArmFirst,
                                         boolean parallelMovement,
+                                        boolean HeightCheck,
                                         boolean shooterOn) {
                                 this.label = label;
                                 this.armPosition = armPosition;
                                 this.shooterPivotPosition = shooterPivotPosition;
                                 this.moveArmFirst = moveArmFirst;
                                 this.parallelMovement = parallelMovement;
+                                this.HeightCheck = HeightCheck;
                                 this.shooterOn = shooterOn;
                         }
 
