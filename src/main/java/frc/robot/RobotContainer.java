@@ -159,8 +159,8 @@ public class RobotContainer {
                 // manual arm and shooter movement - arm left joystick, shooter right joystick
                 final Trigger ArmRaiseButton = m_operatorController.axisLessThan(1, -.25);
                 final Trigger ArmLowerButton = m_operatorController.axisGreaterThan(1, .25);
-                final Trigger ShooterPivotRaiseButton = m_operatorController.axisLessThan(5, -.25);
-                final Trigger ShooterPivotLowerButton = m_operatorController.axisGreaterThan(5, .25);
+                final Trigger ShooterPivotLowerButton = m_operatorController.axisLessThan(5, -.25);
+                final Trigger ShooterPivotRaiseButton = m_operatorController.axisGreaterThan(5, .25);
 
                 final Trigger WinchForwardButton = m_operatorController.povDown();
                 final Trigger WinchBackButton = m_operatorController.povUp();
