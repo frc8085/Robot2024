@@ -56,6 +56,7 @@ public final class Constants {
         public static final class TuningModeConstants {
                 public static final boolean kTuning = true;
                 public static final boolean kArmTuning = false;
+                public static final boolean kDriveTuning = false;
                 public static final boolean kClimberTuning = true;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = true;
@@ -360,7 +361,7 @@ public final class Constants {
                 public static final int kRearRightTurningCanId = 14;
 
                 // Gyro Constants
-                public static final boolean kGyroReversed = false;
+                public static final boolean kGyroReversed = true;
         }
 
         public static final class ModuleConstants {
