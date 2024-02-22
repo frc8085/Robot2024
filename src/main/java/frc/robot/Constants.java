@@ -139,6 +139,10 @@ public final class Constants {
                 public static final double kShooterPivotMin = 20;
                 public static final double kShooterPivotMax = 235;
 
+                // Manual Adjustment degree differential
+                public static final double kArmManualAdjustment = 10;
+                public static final double kShooterPivotManualAdjustment = 5;
+
                 // PIDS
                 // Arm PID coefficients
                 public static final int kArmPIDSlot = 0;
@@ -161,6 +165,28 @@ public final class Constants {
                 public static final double kShooterPivotMinOutput = -kShooterPivotMaxSpeed;
                 public static final double kShooterPivotMaxAccel = .25;
                 public static final double kShooterPivotMaxVelo = .5;
+
+                // Arm PID coefficients
+                public static final int kArmPIDSlot1 = 1;
+                public static final double kArmPSlot1 = 0.01;
+                public static final double kArmISlot1 = 0;
+                public static final double kArmDSlot1 = 0;
+                public static final double kArmFFSlot1 = 0.001;
+                public static final double kArmMaxOutputSlot1 = kArmMaxSpeed;
+                public static final double kArmMinOutputSlot1 = -0.5;
+                public static final double kArmMaxAccelSlot1 = .1;
+                public static final double kArmMaxVeloSlot1 = .5;
+
+                // Shooter Pivot PID coefficients
+                public static final int kShooterPivotPIDSlot1 = 1;
+                public static final double kShooterPivotPSlot1 = 0.02;
+                public static final double kShooterPivotISlot1 = 0;
+                public static final double kShooterPivotDSlot1 = 0;
+                public static final double kShooterPivotFFSlot1 = 0.0005;
+                public static final double kShooterPivotMaxOutputSlot1 = kShooterPivotMaxSpeed;
+                public static final double kShooterPivotMinOutputSlot1 = -kShooterPivotMaxSpeed;
+                public static final double kShooterPivotMaxAccelSlot1 = .25;
+                public static final double kShooterPivotMaxVeloSlot1 = .5;
 
                 // SETPOINTS
 
