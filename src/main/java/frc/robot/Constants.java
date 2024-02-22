@@ -304,6 +304,7 @@ public final class Constants {
         // for auto alignment commands.
         public static final double[] templatePosition = null;
         public static final double templateID = 0;
+        public static final double degtospeed = 0;
     }
 
     public static final class ModuleConstants {
@@ -384,5 +385,9 @@ public final class Constants {
 
     public static final class NeoMotorConstants {
         public static final double kFreeSpeedRpm = 5676;
+    }
+
+    public static class LimelightConstants {
+        public static final double unittometer = 1;
     }
 }
