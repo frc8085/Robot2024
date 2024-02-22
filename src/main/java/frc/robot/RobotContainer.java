@@ -155,8 +155,8 @@ public class RobotContainer {
                 final Trigger moveToPodium = m_operatorController.b();
 
                 // Climb Controls TBD
-                // final Trigger moveToTrapApproach = m_operatorController.povUp();
-                // final Trigger moveToTrapScore = m_operatorController.povRight();
+                final Trigger moveToTrapApproach = m_operatorController.povLeft();
+                final Trigger moveToTrapScore = m_operatorController.povRight();
                 // final Trigger moveToTrapClimb = m_operatorController.povDown();
 
                 // manual arm and shooter movement - arm left joystick, shooter right joystick
@@ -199,11 +199,6 @@ public class RobotContainer {
                                 new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.SUBWOOFER));
                 moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.AMP));
                 moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.PODIUM));
-                moveToHome.and(alternatePosition).onTrue(new MoveToPosition(m_arm, m_shooter,
-                                m_blinkin, Position.TRAP_APPROACH));
-                moveToPodium.and(alternatePosition).onTrue(new MoveToPosition(m_arm, m_shooter,
-                                m_blinkin, Position.TRAP_SCORE));
-                moveToAmp.and(alternatePosition).onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 /**
                  * Alternate positions. For these, you need to hold down the Left Bumper too.
@@ -241,6 +236,13 @@ public class RobotContainer {
                                 .onFalse(new InstantCommand(
                                                 () -> m_arm.setShooterPivotPosition(
                                                                 m_arm.getShooterPivotPosition())));
+
+                // trap
+                moveToTrapApproach.onTrue(new MoveToPosition(m_arm, m_shooter,
+                                m_blinkin, Position.TRAP_APPROACH));
+                moveToTrapScore.onTrue(new MoveToPosition(m_arm, m_shooter,
+                                m_blinkin, Position.TRAP_SCORE));
+                moveToAmp.and(alternatePosition).onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 // Climber motor on and off
                 WinchForwardButton.whileTrue(
