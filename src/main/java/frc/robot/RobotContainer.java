@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -33,6 +34,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.ShootTrap;
 import frc.robot.commands.MoveToPosition;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Blinkin;
@@ -139,6 +141,7 @@ public class RobotContainer {
                 // OPERATOR controlled buttons
                 final Trigger toggleShooter = m_operatorController.rightTrigger();
                 final Trigger intake = m_operatorController.leftTrigger();
+                final Trigger stopIntake = m_operatorController.start();
 
                 // eventually the operator will control the shooter wheels
                 // final Trigger turnOnShooter = m_operatorController.rightTrigger();
@@ -178,6 +181,9 @@ public class RobotContainer {
                                                 new WaitUntilCommand(m_feeder::isNoteDetected),
                                                 new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin)));
 
+                stopIntake.onTrue(new ParallelCommandGroup(new InstantCommand(m_intake::stop),
+                                new InstantCommand(m_feeder::stop)));
+
                 // Driver shooter controls
                 turnOnShooter.onTrue(new InstantCommand(m_shooter::runTrap));
                 turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
@@ -185,18 +191,19 @@ public class RobotContainer {
                 // Operator Shooter Controls
                 toggleShooter.toggleOnTrue(Commands.startEnd(m_shooter::run,
                                 m_shooter::stop, m_shooter));
+                toggleShooter.and(alternatePosition)
+                                .toggleOnTrue(Commands.startEnd(m_shooter::runTrap, m_shooter::stop, m_shooter));
 
                 moveToHome.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME));
                 moveToSubwoofer.onTrue(
                                 new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.SUBWOOFER));
                 moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.AMP));
                 moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.PODIUM));
-                // moveToTrapApproach.onTrue(new MoveToPosition(m_arm, m_shooter,
-                // m_blinkin, Position.TRAP_APPROACH));
-                // moveToTrapScore.onTrue(new MoveToPosition(m_arm, m_shooter,
-                // m_blinkin, Position.TRAP_SCORE));
-                // moveToTrapClimb.onTrue(new MoveToPosition(m_arm, m_shooter,
-                // m_blinkin, Position.TRAP_CLIMB));
+                moveToHome.and(alternatePosition).onTrue(new MoveToPosition(m_arm, m_shooter,
+                                m_blinkin, Position.TRAP_APPROACH));
+                moveToPodium.and(alternatePosition).onTrue(new MoveToPosition(m_arm, m_shooter,
+                                m_blinkin, Position.TRAP_SCORE));
+                moveToAmp.and(alternatePosition).onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 /**
                  * Alternate positions. For these, you need to hold down the Left Bumper too.

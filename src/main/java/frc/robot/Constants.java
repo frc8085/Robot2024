@@ -190,16 +190,19 @@ public final class Constants {
                                         50,
                                         false,
                                         false,
+                                        true,
                                         false),
                         AMP("Amp",
                                         325,
                                         205,
                                         true,
                                         false,
+                                        true,
                                         true),
                         PODIUM("Podium",
                                         256,
                                         60,
+                                        true,
                                         true,
                                         true,
                                         true),
@@ -208,28 +211,33 @@ public final class Constants {
                                         125,
                                         true,
                                         true,
+                                        true,
                                         true),
                         TRAP_APPROACH("Trap Approach",
                                         320,
                                         160,
                                         true,
                                         true,
+                                        false,
                                         false),
                         TRAP_CLIMB("Trap Climb",
                                         320,
                                         160,
                                         true,
                                         true,
+                                        false,
                                         false),
                         TRAP_SCORE("Trap Score",
                                         310,
                                         90,
                                         true,
                                         true,
+                                        false,
                                         false),
                         HIGH_PODIUM("High Podium",
                                         338,
                                         289,
+                                        true,
                                         true,
                                         true,
                                         true),
@@ -239,11 +247,13 @@ public final class Constants {
                                         166,
                                         true,
                                         true,
+                                        true,
                                         true),
 
                         BACK_SUBWOOFER("Back Subwoofer",
                                         320,
                                         42,
+                                        true,
                                         true,
                                         true,
                                         true);
@@ -253,6 +263,7 @@ public final class Constants {
                         public final double shooterPivotPosition;
                         public final boolean moveArmFirst;
                         public final boolean parallelMovement;
+                        public final boolean HeightCheck;
                         public final boolean shooterOn;
 
                         private Position(String label,
@@ -260,12 +271,14 @@ public final class Constants {
                                         double shooterPivotPosition,
                                         boolean moveArmFirst,
                                         boolean parallelMovement,
+                                        boolean HeightCheck,
                                         boolean shooterOn) {
                                 this.label = label;
                                 this.armPosition = armPosition;
                                 this.shooterPivotPosition = shooterPivotPosition;
                                 this.moveArmFirst = moveArmFirst;
                                 this.parallelMovement = parallelMovement;
+                                this.HeightCheck = HeightCheck;
                                 this.shooterOn = shooterOn;
                         }
 
