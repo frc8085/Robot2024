@@ -12,21 +12,21 @@ import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class PickUpNote extends SequentialCommandGroup {
-    public PickUpNote(
-            IntakeSubsystem m_intake,
-            FeederSubsystem m_feeder,
-            ArmSubsystem m_arm,
-            ShooterSubsystem m_shooter,
-            Blinkin m_blinkin) {
-        addCommands(
-                new ConditionalCommand(new InstantCommand(),
-                        new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME),
-                        m_arm::atHomePosition),
-                new WaitUntilCommand(m_arm::atHomePosition),
-                new ParallelCommandGroup(
-                        new InstantCommand(m_blinkin::intakeOn),
-                        new InstantCommand(m_intake::run),
-                        new InstantCommand(m_feeder::run)));
-    }
+public class PickUpNoteOld extends SequentialCommandGroup {
+        public PickUpNoteOld(
+                        IntakeSubsystem m_intake,
+                        FeederSubsystem m_feeder,
+                        ArmSubsystem m_arm,
+                        ShooterSubsystem m_shooter,
+                        Blinkin m_blinkin) {
+                addCommands(
+                                new ConditionalCommand(new InstantCommand(),
+                                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME),
+                                                m_arm::atHomePosition),
+                                new WaitUntilCommand(m_arm::atHomePosition),
+                                new ParallelCommandGroup(
+                                                new InstantCommand(m_blinkin::intakeOn),
+                                                new InstantCommand(m_intake::run),
+                                                new InstantCommand(m_feeder::run)));
+        }
 }
