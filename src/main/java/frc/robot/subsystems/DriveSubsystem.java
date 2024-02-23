@@ -133,6 +133,17 @@ public class DriveSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Heading", getHeading());
             SmartDashboard.putNumber("X Pose", getPose().getX());
             SmartDashboard.putNumber("Y Pose", getPose().getY());
+
+            System.out.println("FL Swerve Module State" + m_frontLeft.getState());
+            System.out.println("RL Swerve Module State" + m_rearLeft.getState());
+            System.out.println("FR Swerve Module State" + m_frontRight.getState());
+            System.out.println("RR Swerve Module State" + m_rearRight.getState());
+
+            System.out.println("FL Swerve Module Position" + m_frontLeft.getPosition());
+            System.out.println("RL Swerve Module Position" + m_rearLeft.getPosition());
+            System.out.println("FR Swerve Module Position" + m_frontRight.getPosition());
+            System.out.println("RR Swerve Module Position" + m_rearRight.getPosition());
+
         }
     }
 
@@ -307,6 +318,13 @@ public class DriveSubsystem extends SubsystemBase {
         m_frontRight.setDesiredState(desiredStates[1]);
         m_rearLeft.setDesiredState(desiredStates[2]);
         m_rearRight.setDesiredState(desiredStates[3]);
+
+        if (LoggingConstants.kLogging) {
+            System.out.println("FL Swerve Module Desired State" + desiredStates[0]);
+            System.out.println("RL Swerve Module Desired State" + desiredStates[2]);
+            System.out.println("FR Swerve Module Desired State" + desiredStates[1]);
+            System.out.println("RR Swerve Module Desired State" + desiredStates[3]);
+        }
     }
 
     /** Resets the drive encoders to currently read a position of 0. */
