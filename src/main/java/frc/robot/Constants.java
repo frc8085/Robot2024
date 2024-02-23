@@ -213,7 +213,7 @@ public final class Constants {
                 public enum Position {
                         HOME("Home",
                                         232,
-                                        50,
+                                        45,
                                         false,
                                         false,
                                         true,
@@ -246,9 +246,9 @@ public final class Constants {
                                         true,
                                         false,
                                         false),
-                        TRAP_CLIMB("Trap Climb",
-                                        320,
-                                        160,
+                        TRAP_FINAL("Trap Final",
+                                        310,
+                                        50,
                                         true,
                                         true,
                                         false,
@@ -341,7 +341,7 @@ public final class Constants {
         }
 
         public static final class ClimberConstants {
-                public static final double kSpeed = 0.25;
+                public static final double kSpeed = 0.35;
         }
 
         public static final class BlinkinConstants {
@@ -369,7 +369,11 @@ public final class Constants {
                 // Driving Parameters - Note that these are not the maximum capable speeds of
                 // the robot, rather the allowed maximum speeds
                 public static final double kMaxSpeedMetersPerSecond = 4.8;
-                public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
+
+                // if you want to slow down the rotation speed, change the adjustment factor
+                public static final double kAngularSpeedAdjustment = .85;
+                public static final double kMaxAngularSpeed = 2 * Math.PI * kAngularSpeedAdjustment; // radians per
+                                                                                                     // second
 
                 public static final double kDirectionSlewRate = 1.2; // radians per second
                 public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)

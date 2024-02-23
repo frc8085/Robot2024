@@ -103,6 +103,9 @@ public class RobotContainer {
                 configureButtonBindings();
                 addToDashboard();
 
+                // Register Named Commands for Pathplanner
+                configureAutoCommands();
+
                 // Configure default commands
                 m_drive.setDefaultCommand(
                                 // The left stick controls translation of the robot.
@@ -158,7 +161,7 @@ public class RobotContainer {
                                                 Position.TRAP_APPROACH)));
                 SmartDashboard.putData("Trap Climb",
                                 Commands.sequence(
-                                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.TRAP_CLIMB)));
+                                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.TRAP_FINAL)));
                 SmartDashboard.putData("Trap Score",
                                 Commands.sequence(
                                                 new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.TRAP_SCORE)));
