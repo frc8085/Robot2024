@@ -39,7 +39,6 @@ import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.PickUpNoteOld;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.Shoot;
