@@ -7,8 +7,6 @@ import static frc.robot.Constants.ArmConstants.kShooterPivotMax;
 import static frc.robot.Constants.ArmConstants.kShooterPivotMin;
 import static frc.robot.Constants.ArmConstants.kShooterPivotPositionShift;
 
-import org.opencv.core.Point;
-
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
