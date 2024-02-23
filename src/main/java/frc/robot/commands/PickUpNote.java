@@ -21,7 +21,8 @@ public class PickUpNote extends SequentialCommandGroup {
             Blinkin m_blinkin) {
         addCommands(
                 // TODO: Test - Check if we're in Home Position, and if not move to Home
-                new ConditionalCommand(null, new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME),
+                new ConditionalCommand(new InstantCommand(),
+                        new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME),
                         m_arm::atHomePosition),
                 new ParallelCommandGroup(
                         new InstantCommand(m_blinkin::intakeOn),

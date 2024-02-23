@@ -21,7 +21,7 @@ public class PickUpNoteTest extends SequentialCommandGroup {
                         ShooterSubsystem m_shooter,
                         Blinkin m_blinkin) {
                 addCommands(
-                                new ConditionalCommand(null,
+                                new ConditionalCommand(new InstantCommand(),
                                                 new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME),
                                                 m_arm::atHomePosition),
                                 new ParallelCommandGroup(
