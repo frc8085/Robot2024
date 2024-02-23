@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.BlinkinConstants;
 import frc.robot.Constants.LoggingConstants;
-import frc.utils.BlinkinLEDController;
 
 public class Blinkin extends SubsystemBase {
 

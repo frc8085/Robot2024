@@ -59,8 +59,8 @@ public final class Constants {
                 public static final boolean kArmTuning = true;
                 public static final boolean kClimberTuning = true;
                 public static final boolean kFeederTuning = false;
-                public static final boolean kIntakeTuning = true;
-                public static final boolean kLimelightTuning = true;
+                public static final boolean kIntakeTuning = false;
+                public static final boolean kLimelightTuning = false;
                 public static final boolean kShooterTuning = false;
         }
 
@@ -341,6 +341,20 @@ public final class Constants {
         }
 
         public static final class ClimberConstants {
+                public static final IdleMode kWinchMotorIdleMode = IdleMode.kBrake;
+
+                // PIDS
+                // Winch PID coefficients
+                public static final int kWinchPIDSlot = 0;
+                public static final double kWinchP = 0.01;
+                public static final double kWinchI = 0;
+                public static final double kWinchD = 0;
+                public static final double kWinchFF = 0.001;
+                public static final double kWinchMaxOutput = .25;
+                public static final double kWinchMinOutput = -.25;
+                public static final double kWinchMaxAccel = .1;
+                public static final double kWinchMaxVelo = .5;
+
                 public static final double kSpeed = 0.35;
         }
 

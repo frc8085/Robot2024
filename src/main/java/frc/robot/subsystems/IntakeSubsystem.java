@@ -53,7 +53,9 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         log();
-        tuneSpeeds();
+        if (TUNING_MODE) {
+            tuneSpeeds();
+        }
     }
 
     public void log() {
@@ -63,7 +65,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void tuneSpeeds() {
         speed = SmartDashboard.getNumber("Intake speed", IntakeConstants.speed);
-
         SmartDashboard.putNumber("Intake speed", speed);
     }
 

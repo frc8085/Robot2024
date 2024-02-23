@@ -39,8 +39,9 @@ import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.PickUpNote;
+import frc.robot.commands.PickUpNoteOld;
 import frc.robot.commands.PickUpNoteCompleted;
+import frc.robot.commands.PickUpNote;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootTrap;
 import frc.robot.commands.MoveToPosition;
@@ -101,7 +102,7 @@ public class RobotContainer {
         public RobotContainer() {
                 // Configure the button bindings
                 configureButtonBindings();
-                addToDashboard();
+                // addToDashboard();
 
                 // Register Named Commands for Pathplanner
                 configureAutoCommands();
@@ -233,10 +234,18 @@ public class RobotContainer {
                                                                 Position.HOME)),
                                 m_shooter::readyToShoot));
 
-                intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin))
-                                .onFalse(new SequentialCommandGroup(
-                                                new WaitUntilCommand(m_feeder::isNoteDetected),
-                                                new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin)));
+                intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin));
+
+                // intake.toggleOnTrue(
+                // Commands.startEnd((new PickUpNoteTest(m_intake, m_feeder, m_arm, m_shooter,
+                // m_blinkin)),
+                // (new ParallelCommandGroup(new InstantCommand(m_intake::stop),
+                // new InstantCommand(m_feeder::stop))),
+                // (m_intake, m_feeder, m_arm, m_shooter, m_blinkin)));
+
+                // .onFalse(new SequentialCommandGroup(
+                // new WaitUntilCommand(m_feeder::isNoteDetected),
+                // new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin)));
 
                 stopIntake.onTrue(new ParallelCommandGroup(new InstantCommand(m_intake::stop),
                                 new InstantCommand(m_feeder::stop)));
@@ -299,7 +308,8 @@ public class RobotContainer {
                                 m_blinkin, Position.TRAP_APPROACH));
                 moveToTrapScore.onTrue(new MoveToPosition(m_arm, m_shooter,
                                 m_blinkin, Position.TRAP_SCORE));
-                moveToAmp.and(alternatePosition).onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin));
+                moveToAmp.and(alternatePosition)
+                                .onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin, Position.TRAP_FINAL));
 
                 // Climber motor on and off
                 WinchForwardButton.whileTrue(

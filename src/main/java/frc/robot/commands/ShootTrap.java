@@ -14,12 +14,14 @@ public class ShootTrap extends SequentialCommandGroup {
             FeederSubsystem m_feeder,
             ArmSubsystem m_arm,
             ShooterSubsystem m_shooter,
-            Blinkin m_blinkin) {
+            Blinkin m_blinkin,
+            Position position) {
         addCommands(
                 new InstantCommand(m_feeder::run),
                 new WaitCommand(1),
                 new InstantCommand(m_feeder::stop),
                 new InstantCommand(m_shooter::stop),
+                new MoveToPosition(m_arm, m_shooter, m_blinkin, position),
                 new InstantCommand(m_blinkin::climbed));
     }
 }

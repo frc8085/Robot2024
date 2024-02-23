@@ -7,8 +7,6 @@ import static frc.robot.Constants.ArmConstants.kShooterPivotMax;
 import static frc.robot.Constants.ArmConstants.kShooterPivotMin;
 import static frc.robot.Constants.ArmConstants.kShooterPivotPositionShift;
 
-import org.opencv.core.Point;
-
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
@@ -75,7 +73,7 @@ public class ArmSubsystem extends SubsystemBase {
         return isArmRaiseLimitHit();
     }
 
-    /** Creates a new ExampleSubsystem. */
+    /** Creates a new Arm Subsystem. */
     public ArmSubsystem() {
         // Factory reset, so we get the SPARKS MAX to a known state before configuring
         // them. This is useful in case a SPARK MAX is swapped out.
@@ -260,6 +258,17 @@ public class ArmSubsystem extends SubsystemBase {
         double shooterPivotPosition = getShooterPivotPosition();
         return shooterPivotPosition <= setpoint + 10 || shooterPivotPosition >= setpoint - 10;
     }
+
+    public boolean atHomePosition() {
+        double armTolerance = 5;
+        double shooterPivotTolerance = 5;
+
+        return m_armEncoder.getPosition() < Position.HOME.armPosition + armTolerance &&
+                m_armEncoder.getPosition() > Position.HOME.armPosition - armTolerance &&
+                m_shooterPivotEncoder.getPosition() < Position.HOME.shooterPivotPosition + shooterPivotTolerance &&
+                m_shooterPivotEncoder.getPosition() > Position.HOME.shooterPivotPosition - shooterPivotTolerance;
+    }
+
     // Limit Switches
 
     public boolean isArmLowerLimitHit() {
@@ -336,6 +345,7 @@ public class ArmSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Shooter Pivot Position",
                     getShooterPivotPosition() - kShooterPivotPositionShift);
             SmartDashboard.putBoolean("Arm above height", armShooterAboveMaxHeight());
+            SmartDashboard.putBoolean("at Home Position", atHomePosition());
         }
     }
 
