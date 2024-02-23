@@ -260,6 +260,17 @@ public class ArmSubsystem extends SubsystemBase {
         double shooterPivotPosition = getShooterPivotPosition();
         return shooterPivotPosition <= setpoint + 10 || shooterPivotPosition >= setpoint - 10;
     }
+
+    public boolean atHomePosition() {
+        double armTolerance = 5;
+        double shooterPivotTolerance = 5;
+
+        return m_armEncoder.getPosition() < Position.HOME.armPosition + armTolerance &&
+                m_armEncoder.getPosition() > Position.HOME.armPosition - armTolerance &&
+                m_shooterPivotEncoder.getPosition() < Position.HOME.shooterPivotPosition + shooterPivotTolerance &&
+                m_shooterPivotEncoder.getPosition() > Position.HOME.shooterPivotPosition - shooterPivotTolerance;
+    }
+
     // Limit Switches
 
     public boolean isArmLowerLimitHit() {
@@ -336,6 +347,7 @@ public class ArmSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Shooter Pivot Position",
                     getShooterPivotPosition() - kShooterPivotPositionShift);
             SmartDashboard.putBoolean("Arm above height", armShooterAboveMaxHeight());
+            SmartDashboard.putBoolean("at Home Position", atHomePosition());
         }
     }
 

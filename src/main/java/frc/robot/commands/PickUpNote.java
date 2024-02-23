@@ -2,6 +2,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+
+import java.util.concurrent.locks.Condition;
+
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants.ArmConstants.Position;
@@ -19,10 +23,9 @@ public class PickUpNote extends SequentialCommandGroup {
             ShooterSubsystem m_shooter,
             Blinkin m_blinkin) {
         addCommands(
-                // Don't pick up until we're in travel
-                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME),
-                new WaitUntilCommand(m_arm::atTravelPosition),
-                // Pick up after we reach travel
+                // TODO: Test - Check if we're in Home Position, and if not move to Home
+                new ConditionalCommand(null, new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME),
+                        m_arm::atHomePosition),
                 new ParallelCommandGroup(
                         new InstantCommand(m_blinkin::intakeOn),
                         new InstantCommand(m_intake::run),
