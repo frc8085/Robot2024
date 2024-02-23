@@ -93,12 +93,15 @@ public class ClimberSubsystem extends SubsystemBase {
 
         if (TUNING_MODE) {
             addPIDToDashboard();
+
         }
 
     }
 
     public void log() {
         if (LoggingConstants.kLogging) {
+            SmartDashboard.putNumber("Winch Position", getwinchPosition());
+
         }
     }
 
@@ -156,7 +159,6 @@ public class ClimberSubsystem extends SubsystemBase {
     public void setWinchPosition(double winchPosition) {
         m_winchPIDController.setReference(winchPosition, ControlType.kPosition);
         if (TUNING_MODE) {
-            SmartDashboard.putNumber("Winch Position", getwinchPosition());
             SmartDashboard.putNumber("Desired Winch Position", winchPosition);
         }
     }
