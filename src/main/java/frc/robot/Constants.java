@@ -84,7 +84,7 @@ public final class Constants {
                 public static double kFeederI = 0.0001;
                 public static double kFeederD = 0;
 
-                public static double kFeederSetPoint = 3000;
+                public static double kFeederSetPoint = 4000;
 
         }
 
@@ -255,7 +255,7 @@ public final class Constants {
                                         false,
                                         false),
                         TRAP_SCORE("Trap Score",
-                                        310,
+                                        315,
                                         90,
                                         true,
                                         true,
