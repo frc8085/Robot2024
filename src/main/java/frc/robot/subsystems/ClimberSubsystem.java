@@ -165,11 +165,11 @@ public class ClimberSubsystem extends SubsystemBase {
 
     // Open Loop Control
     public void forward() {
-        m_winchMotor.set(ClimberConstants.kSpeed);
+        m_winchMotor.set(ClimberConstants.kRaiseSpeed);
     }
 
     public void back() {
-        m_winchMotor.set(-ClimberConstants.kSpeed);
+        m_winchMotor.set(-ClimberConstants.kLowerSpeed);
     }
 
     public void stop() {

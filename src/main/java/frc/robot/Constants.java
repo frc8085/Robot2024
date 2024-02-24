@@ -355,7 +355,8 @@ public final class Constants {
                 public static final double kWinchMaxAccel = .1;
                 public static final double kWinchMaxVelo = .5;
 
-                public static final double kSpeed = 0.35;
+                public static final double kRaiseSpeed = 0.5;
+                public static final double kLowerSpeed = 0.5;
         }
 
         public static final class BlinkinConstants {
