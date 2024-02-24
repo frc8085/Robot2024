@@ -101,7 +101,7 @@ public class ClimberSubsystem extends SubsystemBase {
     public void log() {
         if (LoggingConstants.kLogging) {
             SmartDashboard.putNumber("Winch Position", getwinchPosition());
-
+            SmartDashboard.putNumber("Winch Current", m_winchMotor.getOutputCurrent());
         }
     }
 

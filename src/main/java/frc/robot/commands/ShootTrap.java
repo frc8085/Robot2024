@@ -23,6 +23,7 @@ public class ShootTrap extends SequentialCommandGroup {
                 new InstantCommand(m_shooter::stop),
                 // new WaitCommand(1),
                 // new MoveToPosition(m_arm, m_shooter, m_blinkin, position),
-                new InstantCommand(m_blinkin::climbed));
+                new InstantCommand(m_blinkin::climbed),
+                new Oscillate(m_arm, m_shooter, m_blinkin));
     }
 }
