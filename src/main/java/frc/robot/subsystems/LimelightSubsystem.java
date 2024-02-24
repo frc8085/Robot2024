@@ -23,14 +23,14 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class LimelightSubsystem extends SubsystemBase {
     /** Creates a new LimelightSubsystem. */
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-shooter");
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
     public static HttpCamera m_limelight;
 
     private boolean m_visionMode;
 
     public LimelightSubsystem() {
-        m_limelight = new HttpCamera("LL", "http://limelight-shooter:5809/stream.mjpg");
+        m_limelight = new HttpCamera("LL", "http://limelight:5809/stream.mjpg");
         m_limelight.setResolution(320, 240);
         m_limelight.setFPS(90);
 
@@ -40,14 +40,14 @@ public class LimelightSubsystem extends SubsystemBase {
 
     public static double getAprilTagID() {
         // The computer fought with us :( thats why it looks so weird
-        double[] id = NetworkTableInstance.getDefault().getTable("limelight-shooter").getEntry("tid")
+        double[] id = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid")
                 .getDoubleArray(new double[6]);
         return id[0];
     };
 
     public static double[] getRobotLocation() {
         // gets robot position realtive to AprilTag
-        double[] location = NetworkTableInstance.getDefault().getTable("limelight-shooter")
+        double[] location = NetworkTableInstance.getDefault().getTable("limelight")
                 .getEntry("botpose_targetspace")
                 .getDoubleArray(new double[6]);
         return location;
@@ -106,25 +106,6 @@ public class LimelightSubsystem extends SubsystemBase {
         return table.getEntry("cl").getDouble(0.0) / 1000.0;
     }
 
-    public Pose3d getBotPose() {
-        double[] pose = table.getEntry("botpose").getDoubleArray(new double[6]);
-        return new Pose3d(new Translation3d(pose[0], pose[1], pose[2]), new Rotation3d(pose[3], pose[4], pose[5]));
-    }
-
-    public Pose3d getBotPoseBlue() {
-        double[] pose = table.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
-        return new Pose3d(new Translation3d(pose[0], pose[1], pose[2]), new Rotation3d(pose[3], pose[4], pose[5]));
-    }
-
-    public Pose3d getBotPoseRed() {
-        double[] pose = table.getEntry("botpose_wpired").getDoubleArray(new double[6]);
-        return new Pose3d(new Translation3d(pose[0], pose[1], pose[2]), new Rotation3d(pose[3], pose[4], pose[5]));
-    }
-
-    public Transform3d getTransform() {
-        return new Transform3d(new Pose3d(0.0, 0.0, 0.0, new Rotation3d(0.0, 0.0, 0.0)), getBotPose());
-    }
-
     public double getLastEntryTimeStamp() {
         return Timer.getFPGATimestamp() - getLatCap() - getLatPip();
     }
@@ -133,14 +114,6 @@ public class LimelightSubsystem extends SubsystemBase {
      * @param piplineNumber driver = 0, aprilTags = 1, retroreflective = 2
      */
     public void setPipeline(int pipelineNumber) {
-        Number numObj = (Number) pipelineNumber;
-        table.getEntry("pipeline").setNumber(numObj);
-    }
-
-    /**
-     * @param piplineNumber 0 = april tags
-     */
-    public void setPipelineRight(int pipelineNumber) {
         Number numObj = (Number) pipelineNumber;
         table.getEntry("pipeline").setNumber(numObj);
     }

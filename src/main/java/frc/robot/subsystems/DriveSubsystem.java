@@ -193,7 +193,10 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void turn(double speed) {
-        drive(0, 0, 0, speed, true, false);
+        double direction = speed > 0 ? 1 : -1;
+        double speedWithMinimum = Math.max(0.05, Math.abs(speed)) * direction;
+
+        drive(0, 0, 0, speedWithMinimum, true, false);
     }
 
     /**

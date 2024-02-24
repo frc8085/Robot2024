@@ -24,7 +24,7 @@ public class AutoTarget extends PIDCommand {
     private LimelightSubsystem m_limelight;
     private double m_degree;
 
-    static double kP = 0.03;
+    static double kP = 0.005;
     static double kI = 0;
     static double kD = 0;
 
@@ -56,7 +56,7 @@ public class AutoTarget extends PIDCommand {
         // stationary at the setpoint before it is considered as having reached the
         // reference
         getController()
-                .setTolerance(5, AutoConstants.kTurnRateToleranceDegPerS);
+                .setTolerance(2, AutoConstants.kTurnRateToleranceDegPerS);
 
     }
 
