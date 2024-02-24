@@ -4,22 +4,11 @@
 
 package frc.robot;
 
-import java.util.List;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -30,27 +19,24 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants.Position;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.PickUpNoteCompleted;
+import frc.robot.commands.AutoTarget;
+import frc.robot.commands.MoveToPosition;
 import frc.robot.commands.PickUpNote;
+import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootTrap;
-import frc.robot.commands.MoveToPosition;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /*
@@ -104,7 +90,7 @@ public class RobotContainer {
         public RobotContainer() {
                 // Configure the button bindings
                 configureButtonBindings();
-                // addToDashboard();
+                addToDashboard();
 
                 // Register Named Commands for Pathplanner
                 configureAutoCommands();
@@ -155,27 +141,31 @@ public class RobotContainer {
 
         private void addToDashboard() {
                 // Put a button on the dashboard for each setpoint
-                for (Position pos : Position.values()) {
-                        SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, m_shooter, m_blinkin, pos));
-                }
+                // for (Position pos : Position.values()) {
+                // SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, m_shooter,
+                // m_blinkin, pos));
+                // }
 
-                SmartDashboard.putData("Trap Approach",
-                                Commands.sequence(new MoveToPosition(m_arm, m_shooter, m_blinkin,
-                                                Position.TRAP_APPROACH)));
-                SmartDashboard.putData("Trap Climb",
-                                Commands.sequence(
-                                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.TRAP_FINAL)));
-                SmartDashboard.putData("Trap Score",
-                                Commands.sequence(
-                                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.TRAP_SCORE)));
+                // SmartDashboard.putData("Trap Approach",
+                // Commands.sequence(new MoveToPosition(m_arm, m_shooter, m_blinkin,
+                // Position.TRAP_APPROACH)));
+                // SmartDashboard.putData("Trap Climb",
+                // Commands.sequence(
+                // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.TRAP_FINAL)));
+                // SmartDashboard.putData("Trap Score",
+                // Commands.sequence(
+                // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.TRAP_SCORE)));
 
-                // Intake Eject on dashboard
+                // // Intake Eject on dashboard
                 SmartDashboard.putData("Eject", Commands.sequence(new InstantCommand(m_intake::eject),
                                 new InstantCommand(m_feeder::eject)));
 
                 // Stop Feeder and Intake
                 SmartDashboard.putData("STOP intake", Commands.sequence(new InstantCommand(m_intake::stop),
                                 new InstantCommand(m_feeder::stop)));
+
+                SmartDashboard.putData("Auto Target",
+                                new AutoTarget(m_limelight, m_drive, true));
 
         }
 
@@ -188,8 +178,16 @@ public class RobotContainer {
                 final Trigger turnOnShooter = m_driverController.x();
                 final Trigger turnOffShooter = m_driverController.b();
                 final Trigger lockWheels = m_driverController.povDown();
-                final Trigger fieldRelative = m_driverController.leftBumper();
+                // final Trigger fieldRelative = m_driverController.leftBumper();
                 final Trigger robotRelative = m_driverController.rightBumper();
+
+                final Trigger autoTarget = m_driverController.leftBumper();
+
+                autoTarget.onTrue(
+                                new ConditionalCommand(
+                                                new AutoTarget(m_limelight, m_drive, true),
+                                                new InstantCommand(),
+                                                m_limelight::hasTarget));
 
                 lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
                                 m_drive));
