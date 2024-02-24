@@ -219,9 +219,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public boolean shooter1AtSetpoint() {
         double encoderValue = m_shooter1Encoder.getVelocity();
-        // double tolerance = Math.abs(kShooterToleranceRPMPercent * kSetPoint);
-        double tolerance = 500;
         double setpoint = kShooter1SetPoint;
+        double tolerance = Math.abs(ShooterConstants.kShooterToleranceRPMPercent * setpoint);
+
         double minLimit = setpoint - tolerance;
         double maxLimit = setpoint + tolerance;
 
@@ -237,9 +237,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public boolean shooter2AtSetpoint() {
         double encoderValue = m_shooter2Encoder.getVelocity();
-        // double tolerance = Math.abs(kShooterToleranceRPMPercent * kSetPoint);
-        double tolerance = 500;
         double setpoint = kShooter2SetPoint;
+        double tolerance = Math.abs(ShooterConstants.kShooterToleranceRPMPercent * setpoint);
+
         double minLimit = setpoint - tolerance;
         double maxLimit = setpoint + tolerance;
 
