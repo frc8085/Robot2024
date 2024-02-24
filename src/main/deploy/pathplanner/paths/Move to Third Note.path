@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7010418882174716,
-        "y": 5.5000055383979936
+        "x": 1.5669479487107125,
+        "y": 5.2416215110208
       },
       "isLocked": false,
       "linkedName": null
@@ -28,13 +28,7 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": -40.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -81,13 +75,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -28.5,
+    "rotation": 144.40423121870896,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Four Note Auto",
   "previewStartingState": {
-    "rotation": 0.016413465481984933,
+    "rotation": -178.90565788631656,
     "velocity": 0
   },
   "useDefaultConstraints": false
