@@ -207,7 +207,7 @@ public class RobotContainer {
                 // final Trigger turnOnShooter = m_operatorController.rightTrigger();
 
                 final Trigger alternatePosition = m_operatorController.leftBumper();
-                final Trigger testLEDColors = m_operatorController.rightBumper();
+                final Trigger shootTrap = m_operatorController.rightBumper();
 
                 final Trigger moveToHome = m_operatorController.y();
                 final Trigger moveToSubwoofer = m_operatorController.x();
@@ -260,7 +260,7 @@ public class RobotContainer {
                 toggleShooter.toggleOnTrue(Commands.startEnd(m_shooter::run,
                                 m_shooter::stop, m_shooter));
                 toggleShooter.and(alternatePosition)
-                                .toggleOnTrue(Commands.startEnd(m_shooter::runTrap, m_shooter::stop, m_shooter));
+                                .onTrue(new InstantCommand(m_shooter::stop));
 
                 moveToHome.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME));
                 moveToSubwoofer.onTrue(
@@ -308,10 +308,9 @@ public class RobotContainer {
                 // trap
                 moveToTrapApproach.onTrue(new MoveToPosition(m_arm, m_shooter,
                                 m_blinkin, Position.TRAP_APPROACH));
-                moveToTrapScore.onTrue(new MoveToPosition(m_arm, m_shooter,
-                                m_blinkin, Position.TRAP_SCORE));
-                moveToAmp.and(alternatePosition)
-                                .onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin, Position.TRAP_FINAL));
+                moveToTrapScore.onTrue(new SequentialCommandGroup(new MoveToPosition(m_arm, m_shooter,
+                                m_blinkin, Position.TRAP_SCORE), new InstantCommand(m_shooter::runTrap)));
+                shootTrap.onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin, Position.TRAP_FINAL));
 
                 // Climber motor on and off
                 WinchForwardButton.whileTrue(
@@ -322,9 +321,9 @@ public class RobotContainer {
                                 new InstantCommand(m_climb::back))
                                 .onFalse(new InstantCommand(m_climb::stop));
 
-                // Testing LED colors
-                new ConditionalCommand(new InstantCommand(m_blinkin::withNote),
-                                new InstantCommand(m_blinkin::shooterAtSetPoint), testLEDColors);
+                // // Testing LED colors
+                // new ConditionalCommand(new InstantCommand(m_blinkin::withNote),
+                // new InstantCommand(m_blinkin::shooterAtSetPoint), testLEDColors);
 
         }
 
