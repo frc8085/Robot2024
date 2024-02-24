@@ -66,16 +66,13 @@ public class Robot extends LoggedRobot {
 
     // Setup Port Forwarding to enable communication
     // while tethered to our robot over USB
-    PortForwarder.add(5800, "limelight-shooter.local", 5800);
-    PortForwarder.add(5801, "limelight-shooter.local", 5801);
-    PortForwarder.add(5802, "limelight-shooter.local", 5802);
-    PortForwarder.add(5803, "limelight-shooter.local", 5803);
-    PortForwarder.add(5804, "limelight-shooter.local", 5804);
-    PortForwarder.add(5805, "limelight-shooter.local", 5805);
+
+    for (int port = 5800; port <= 5807; port++) {
+      PortForwarder.add(port, "limelight-shooter.local", port);
+    }
 
     if (Robot.isReal()) {
       camera1 = CameraServer.startAutomaticCapture(0);
-
     }
 
   }
