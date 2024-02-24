@@ -382,7 +382,8 @@ public final class Constants {
         public static final class DriveConstants {
                 // Driving Parameters - Note that these are not the maximum capable speeds of
                 // the robot, rather the allowed maximum speeds
-                public static final double kMaxSpeedMetersPerSecond = 4.8;
+                public static final double kMaxSpeedAdjustment = .5;
+                public static final double kMaxSpeedMetersPerSecond = 4.8 * kMaxSpeedAdjustment;
 
                 // if you want to slow down the rotation speed, change the adjustment factor
                 public static final double kAngularSpeedAdjustment = .85;
@@ -422,7 +423,7 @@ public final class Constants {
                 public static final int kRearRightTurningCanId = 14;
 
                 // Gyro Constants
-                public static final boolean kGyroReversed = true;
+                public static final boolean kGyroReversed = false;
         }
 
         public static final class ModuleConstants {
