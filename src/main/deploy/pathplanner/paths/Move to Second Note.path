@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9,
-        "y": 7.0
+        "x": 2.65,
+        "y": 6.85
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2039038076871478,
-        "y": 5.940161471533591
+        "x": 0.8373844259267,
+        "y": 6.004763476518601
       },
       "isLocked": false,
       "linkedName": null
@@ -30,13 +30,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0,
-      "rotationDegrees": 28.5,
-      "rotateFast": false
-    },
-    {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": 0.0,
+      "rotationDegrees": 165.0,
       "rotateFast": false
     }
   ],
@@ -86,13 +81,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -179.23572189382176,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Four Note Auto",
   "previewStartingState": {
-    "rotation": 30.713213030890397,
+    "rotation": -151.42142513734606,
     "velocity": 0
   },
   "useDefaultConstraints": false

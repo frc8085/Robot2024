@@ -248,7 +248,7 @@ public final class Constants {
                                         false),
                         TRAP_FINAL("Trap Final",
                                         310,
-                                        50,
+                                        70,
                                         true,
                                         true,
                                         false,
@@ -355,7 +355,8 @@ public final class Constants {
                 public static final double kWinchMaxAccel = .1;
                 public static final double kWinchMaxVelo = .5;
 
-                public static final double kSpeed = 0.35;
+                public static final double kRaiseSpeed = 1;
+                public static final double kLowerSpeed = .5;
         }
 
         public static final class BlinkinConstants {
@@ -382,7 +383,7 @@ public final class Constants {
         public static final class DriveConstants {
                 // Driving Parameters - Note that these are not the maximum capable speeds of
                 // the robot, rather the allowed maximum speeds
-                public static final double kMaxSpeedAdjustment = .5;
+                public static final double kMaxSpeedAdjustment = 1;
                 public static final double kMaxSpeedMetersPerSecond = 4.8 * kMaxSpeedAdjustment;
 
                 // if you want to slow down the rotation speed, change the adjustment factor
