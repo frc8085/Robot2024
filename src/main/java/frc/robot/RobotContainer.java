@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -310,7 +311,8 @@ public class RobotContainer {
                                 m_blinkin, Position.TRAP_APPROACH));
                 moveToTrapScore.onTrue(new SequentialCommandGroup(new MoveToPosition(m_arm, m_shooter,
                                 m_blinkin, Position.TRAP_SCORE), new InstantCommand(m_shooter::runTrap)));
-                shootTrap.onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin, Position.TRAP_FINAL));
+                shootTrap.onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin,
+                                Position.TRAP_FINAL));
 
                 // Climber motor on and off
                 WinchForwardButton.whileTrue(
