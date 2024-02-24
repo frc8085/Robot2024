@@ -23,6 +23,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanIdConstants;
@@ -62,6 +63,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     private final Pigeon2 m_gyro = new Pigeon2(CanIdConstants.kGyroCanId);
 
+    public Field2d field = new Field2d();
+
     // Slew rate filter variables for controlling lateral acceleration
     private double m_currentRotation = 0.0;
     private double m_currentTranslationDir = 0.0;
@@ -74,7 +77,7 @@ public class DriveSubsystem extends SubsystemBase {
     // Odometry class for tracking robot pose
     SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
             DriveConstants.kDriveKinematics,
-            m_gyro.getRotation2d(),
+            getYaw(),
             getModulePositions());
 
     /** Creates a new DriveSubsystem. */
@@ -118,7 +121,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
         // Update the odometry in the periodic block
         m_odometry.update(
-                m_gyro.getRotation2d(),
+                getYaw(),
                 getModulePositions());
 
         log();
@@ -130,7 +133,14 @@ public class DriveSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Heading", getHeading());
             SmartDashboard.putNumber("X Pose", getPose().getX());
             SmartDashboard.putNumber("Y Pose", getPose().getY());
+
         }
+    }
+
+    // Trying to figure out how to deal with everything going mirror image
+    public Rotation2d getYaw() {
+        return (DriveConstants.kGyroReversed) ? Rotation2d.fromDegrees((360 - m_gyro.getYaw().getValueAsDouble()))
+                : Rotation2d.fromDegrees(m_gyro.getYaw().getValueAsDouble());
     }
 
     /**
@@ -172,7 +182,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void resetOdometry(Pose2d pose) {
         m_odometry.resetPosition(
-                m_gyro.getRotation2d(),
+                getYaw(),
                 getModulePositions(),
                 pose);
 
@@ -269,7 +279,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     private void drive(ChassisSpeeds speeds, boolean fieldRelative) {
         if (fieldRelative)
-            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, m_gyro.getRotation2d());
+            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, getYaw());
         speeds = ChassisSpeeds.discretize(speeds, LoggedRobot.defaultPeriodSecs);
         var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -298,6 +308,9 @@ public class DriveSubsystem extends SubsystemBase {
         m_frontRight.setDesiredState(desiredStates[1]);
         m_rearLeft.setDesiredState(desiredStates[2]);
         m_rearRight.setDesiredState(desiredStates[3]);
+
+        if (LoggingConstants.kLogging) {
+        }
     }
 
     /** Resets the drive encoders to currently read a position of 0. */
@@ -319,7 +332,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @return the robot's heading in degrees, from -180 to 180
      */
     public double getHeading() {
-        return m_gyro.getRotation2d().getDegrees();
+        return getYaw().getDegrees();
     }
 
     /**
@@ -329,7 +342,7 @@ public class DriveSubsystem extends SubsystemBase {
      */
 
     public double getHeadingWrappedDegrees() {
-        return MathUtil.inputModulus(m_gyro.getRotation2d().getDegrees(), -180, 180);
+        return MathUtil.inputModulus(getYaw().getDegrees(), -180, 180);
     }
 
     /**
