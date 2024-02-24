@@ -155,9 +155,9 @@ public class RobotContainer {
 
         private void addToDashboard() {
                 // Put a button on the dashboard for each setpoint
-                // for (Position pos : Position.values()) {
-                // SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, m_shooter, pos));
-                // }
+                for (Position pos : Position.values()) {
+                        SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, m_shooter, m_blinkin, pos));
+                }
 
                 SmartDashboard.putData("Trap Approach",
                                 Commands.sequence(new MoveToPosition(m_arm, m_shooter, m_blinkin,
