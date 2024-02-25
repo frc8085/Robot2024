@@ -41,7 +41,7 @@ public final class Constants {
         }
 
         public static final class LoggingConstants {
-                public static final boolean kLogging = false;
+                public static final boolean kLogging = true;
         }
 
         public static final class MotorDefaultsConstants {
@@ -227,7 +227,7 @@ public final class Constants {
                                         true,
                                         true),
                         PODIUM("Podium",
-                                        256,
+                                        259.5,
                                         60,
                                         true,
                                         true,
