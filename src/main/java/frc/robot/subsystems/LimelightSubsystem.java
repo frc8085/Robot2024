@@ -79,7 +79,7 @@ public class LimelightSubsystem extends SubsystemBase {
     public double getXfromRobotPerspective() {
         // Heading from -180 to 180
         double robotHeading = m_drive.getHeadingWrappedDegrees();
-        double degreesToTarget = getX();
+        double degreesToTarget = - getX();
         double degreesFromRobotPerspective = robotHeading + degreesToTarget;
         return degreesFromRobotPerspective;
     }
