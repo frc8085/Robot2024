@@ -227,7 +227,7 @@ public final class Constants {
                                         true,
                                         true),
                         PODIUM("Podium",
-                                        256,
+                                        259.5,
                                         60,
                                         true,
                                         true,
@@ -385,7 +385,7 @@ public final class Constants {
                 // Driving Parameters - Note that these are not the maximum capable speeds of
                 // the robot, rather the allowed maximum speeds
                 public static final double kMaxSpeedAdjustment = 1;
-                public static final double kMaxSpeedMetersPerSecond = 4.8 * kMaxSpeedAdjustment;
+                public static final double kMaxSpeedMetersPerSecond = 5.75 * kMaxSpeedAdjustment;
 
                 // if you want to slow down the rotation speed, change the adjustment factor
                 public static final double kAngularSpeedAdjustment = .85;
