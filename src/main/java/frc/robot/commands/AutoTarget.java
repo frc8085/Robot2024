@@ -24,9 +24,9 @@ public class AutoTarget extends PIDCommand {
     private LimelightSubsystem m_limelight;
     private double m_degree;
 
-    static double kP = 0.005;
+    static double kP = 0.01;
     static double kI = 0;
-    static double kD = 0;
+    static double kD = 0.0008;
 
     /**
      * Create a new TurnToDegreeGyro command.

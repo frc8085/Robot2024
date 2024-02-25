@@ -31,6 +31,7 @@ import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootTrap;
+import frc.robot.commands.TargetTwice;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -185,10 +186,7 @@ public class RobotContainer {
                 final Trigger autoTarget = m_driverController.leftBumper();
 
                 autoTarget.onTrue(
-                                new ConditionalCommand(
-                                                new AutoTarget(m_limelight, m_drive, true),
-                                                new InstantCommand(),
-                                                m_limelight::hasTarget));
+                                new TargetTwice(m_limelight, m_drive));
 
                 lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
                                 m_drive));
