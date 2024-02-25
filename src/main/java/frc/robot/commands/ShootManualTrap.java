@@ -8,6 +8,7 @@ import java.util.concurrent.locks.Condition;
 
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants.FeederConstants;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Blinkin;
@@ -15,8 +16,8 @@ import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShootManual extends SequentialCommandGroup {
-    public ShootManual(
+public class ShootManualTrap extends SequentialCommandGroup {
+    public ShootManualTrap(
             FeederSubsystem m_feeder,
             ShooterSubsystem m_shooter) {
         addCommands(
