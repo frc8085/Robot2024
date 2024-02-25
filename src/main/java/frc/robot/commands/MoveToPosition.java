@@ -47,7 +47,7 @@ public class MoveToPosition extends SequentialCommandGroup {
 
         if (position.shooterOn) {
             addCommands(
-                    new InstantCommand(m_shooter::run),
+                    new ShootManual(m_feeder, m_shooter),
                     new WaitUntilCommand(m_shooter::readyToShoot),
                     new InstantCommand(m_blinkin::shooterAtSetPoint));
         } else {
