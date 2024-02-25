@@ -30,12 +30,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilHome"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -52,6 +46,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilHome"
           }
         },
         {
@@ -79,12 +79,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilHome"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -101,6 +95,36 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilHome"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TurnOnShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MoveToPodium"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilReadyToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         }
       ]

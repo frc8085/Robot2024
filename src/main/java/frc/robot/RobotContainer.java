@@ -67,7 +67,7 @@ public class RobotContainer {
         private void configureAutoCommands() {
                 NamedCommands.registerCommand("TurnOnShooter", new InstantCommand(m_shooter::run));
                 NamedCommands.registerCommand("MoveToSubwoofer",
-                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.SUBWOOFER));
+                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.AUTO_SUBWOOFER));
                 NamedCommands.registerCommand("MoveToPodium",
                                 new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.PODIUM));
                 NamedCommands.registerCommand("Shoot",

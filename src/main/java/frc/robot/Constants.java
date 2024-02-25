@@ -41,7 +41,7 @@ public final class Constants {
         }
 
         public static final class LoggingConstants {
-                public static final boolean kLogging = false;
+                public static final boolean kLogging = true;
         }
 
         public static final class MotorDefaultsConstants {
@@ -56,12 +56,12 @@ public final class Constants {
         public static final class TuningModeConstants {
                 public static final boolean kTuning = false;
                 public static final boolean kDriveTuning = false;
-                public static final boolean kArmTuning = false;
+                public static final boolean kArmTuning = true;
                 public static final boolean kClimberTuning = false;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = false;
                 public static final boolean kLimelightTuning = true;
-                public static final boolean kShooterTuning = false;
+                public static final boolean kShooterTuning = true;
         }
 
         public static final class IntakeConstants {
@@ -236,6 +236,13 @@ public final class Constants {
                         SUBWOOFER("Subwoofer",
                                         322,
                                         125,
+                                        true,
+                                        true,
+                                        true,
+                                        true),
+                        AUTO_SUBWOOFER("Subwoofer",
+                                        280,
+                                        70.5,
                                         true,
                                         true,
                                         true,
