@@ -21,6 +21,6 @@ public class ShootManual extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(m_feeder::runBackwards),
                 new WaitUntilCommand(() -> m_feeder.isNoteNotDetected()),
-                new InstantCommand(m_shooter::runTrap));
+                new InstantCommand(m_shooter::run));
     }
 }

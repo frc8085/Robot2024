@@ -14,13 +14,13 @@ import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShootManual extends SequentialCommandGroup {
-    public ShootManual(
+public class ShootManualTrap extends SequentialCommandGroup {
+    public ShootManualTrap(
             FeederSubsystem m_feeder,
             ShooterSubsystem m_shooter) {
         addCommands(
                 new InstantCommand(m_feeder::runBackwards),
                 new WaitUntilCommand(() -> m_feeder.isNoteNotDetected()),
-                new InstantCommand(m_shooter::runTrap));
+                new InstantCommand(m_shooter::run));
     }
 }

@@ -30,6 +30,8 @@ import frc.robot.commands.MoveToPosition;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.ShootManual;
+import frc.robot.commands.ShootManualTrap;
 import frc.robot.commands.ShootTrap;
 import frc.robot.commands.TargetTwice;
 import frc.robot.subsystems.ArmSubsystem;
@@ -243,7 +245,7 @@ public class RobotContainer {
                 // new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin)));
 
                 stopIntake.onTrue(new ParallelCommandGroup(new InstantCommand(m_intake::stop),
-                                new InstantCommand(m_feeder::stop)));
+                                new InstantCommand(m_feeder::stop))); 
 
                 // Driver shooter controls
                 turnOnShooter.onTrue(new ShootManualTrap(m_feeder, m_shooter));
