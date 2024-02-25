@@ -56,12 +56,12 @@ public final class Constants {
         public static final class TuningModeConstants {
                 public static final boolean kTuning = false;
                 public static final boolean kDriveTuning = false;
-                public static final boolean kArmTuning = false;
+                public static final boolean kArmTuning = true;
                 public static final boolean kClimberTuning = false;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = false;
                 public static final boolean kLimelightTuning = true;
-                public static final boolean kShooterTuning = false;
+                public static final boolean kShooterTuning = true;
         }
 
         public static final class IntakeConstants {
@@ -240,6 +240,13 @@ public final class Constants {
                                         true,
                                         true,
                                         true),
+                        AUTO_SUBWOOFER("Subwoofer",
+                                        280,
+                                        70.5,
+                                        true,
+                                        true,
+                                        true,
+                                        true),
                         TRAP_APPROACH("Trap Approach",
                                         320,
                                         160,
@@ -385,7 +392,7 @@ public final class Constants {
                 // Driving Parameters - Note that these are not the maximum capable speeds of
                 // the robot, rather the allowed maximum speeds
                 public static final double kMaxSpeedAdjustment = 1;
-                public static final double kMaxSpeedMetersPerSecond = 4.8 * kMaxSpeedAdjustment;
+                public static final double kMaxSpeedMetersPerSecond = 5.75 * kMaxSpeedAdjustment;
 
                 // if you want to slow down the rotation speed, change the adjustment factor
                 public static final double kAngularSpeedAdjustment = .85;

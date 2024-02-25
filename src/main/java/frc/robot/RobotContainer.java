@@ -70,7 +70,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("TurnOnShooter",
                                 new ShootManual(m_feeder, m_shooter));
                 NamedCommands.registerCommand("MoveToSubwoofer",
-                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.SUBWOOFER));
+                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.AUTO_SUBWOOFER));
                 NamedCommands.registerCommand("MoveToPodium",
                                 new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.PODIUM));
                 NamedCommands.registerCommand("Shoot",

@@ -25,7 +25,7 @@ public class Shoot extends SequentialCommandGroup {
                 new WaitUntilCommand(m_shooter::readyToShoot),
                 new ShootManual(m_feeder, m_shooter),
                 new InstantCommand(m_feeder::run),
-                new WaitCommand(1),
+                new WaitCommand(0.7),
                 new InstantCommand(m_feeder::stop),
                 new InstantCommand(m_shooter::stop),
                 new MoveToPosition(m_arm, m_shooter, m_blinkin, position),
