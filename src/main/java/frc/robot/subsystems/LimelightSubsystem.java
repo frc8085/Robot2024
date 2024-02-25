@@ -24,12 +24,17 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class LimelightSubsystem extends SubsystemBase {
     /** Creates a new LimelightSubsystem. */
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    DriveSubsystem m_drive;
 
     public static HttpCamera m_limelight;
 
     private boolean m_visionMode;
 
-    public LimelightSubsystem() {
+    public LimelightSubsystem(
+        DriveSubsystem drive
+    ) {
+        m_drive = drive;
+
         m_limelight = new HttpCamera("LL", "http://limelight:5809/stream.mjpg");
         m_limelight.setResolution(320, 240);
         m_limelight.setFPS(90);
@@ -78,8 +83,13 @@ public class LimelightSubsystem extends SubsystemBase {
         return table.getEntry("tx").getDouble(0.0);
     }
 
-    public double getXInverted() {
-        return -1 * table.getEntry("tx").getDouble(0.0);
+    // Account for the Robot's current heading when returning the X value
+    public double getXfromRobotPerspective() {
+        // Heading from -180 to 180
+        double robotHeading = m_drive.getHeadingWrappedDegrees();
+        double degreesToTarget = getX();
+        double degreesFromRobotPerspective = robotHeading + degreesToTarget;
+        return degreesFromRobotPerspective;
     }
 
     public double getY() {

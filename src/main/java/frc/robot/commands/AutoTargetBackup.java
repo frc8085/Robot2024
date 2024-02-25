@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
  * input is the
  * averaged values of the left and right encoders.
  */
-public class AutoTarget extends PIDCommand {
+public class AutoTargetBackup extends PIDCommand {
     private final DriveSubsystem m_drive;
     private boolean m_relative;
     private LimelightSubsystem m_limelight;
@@ -33,12 +33,12 @@ public class AutoTarget extends PIDCommand {
      *
      * @param distance The distance to drive (inches)
      */
-    public AutoTarget(LimelightSubsystem limelight, DriveSubsystem drive, boolean relative) {
+    public AutoTargetBackup(LimelightSubsystem limelight, DriveSubsystem drive, boolean relative) {
         super(new PIDController(kP, kI, kD),
                 // Close loop on heading
                 drive::getHeadingWrappedDegrees,
                 // Set reference to target
-                limelight::getXfromRobotPerspective,
+                limelight::getXInverted,
                 // Pipe output to turn robot
                 output -> drive.turn(output));
 
@@ -46,13 +46,12 @@ public class AutoTarget extends PIDCommand {
         m_drive = drive;
         m_limelight = limelight;
         m_relative = relative;
-        m_degree = m_limelight.getXfromRobotPerspective();
+        m_degree = m_limelight.getXInverted();
 
         addRequirements(m_limelight, m_drive);
 
         // Set the controller to be continuous (because it is an angle controller)
         getController().enableContinuousInput(-180, 180);
-        
         // Set the controller tolerance - the delta tolerance ensures the robot is
         // stationary at the setpoint before it is considered as having reached the
         // reference
@@ -77,14 +76,14 @@ public class AutoTarget extends PIDCommand {
     public void initialize() {
 
         super.initialize();
-        m_degree = m_limelight.getXfromRobotPerspective();
-        SmartDashboard.putNumber("Desired turning deg", m_degree);
+        m_degree = m_limelight.getXInverted();
+        // SmartDashboard.putNumber("Desired turning deg", m_degree);
 
         // Only zero the heading if we are turning relative (e.g., turn 3 degrees from
         // my current position). Do not zero it if turning absolute (e.g., turn TO 55
         // degrees)
         if (m_relative) {
-           // m_drive.zeroHeading();
+            m_drive.zeroHeading();
         }
     }
 
