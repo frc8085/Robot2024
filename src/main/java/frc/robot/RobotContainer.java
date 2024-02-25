@@ -31,6 +31,7 @@ import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootTrap;
+import frc.robot.commands.TargetTwice;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -73,7 +74,7 @@ public class RobotContainer {
                                 new Shoot(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
                 NamedCommands.registerCommand("PickUpNote",
                                 new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin));
-                NamedCommands.registerCommand("PickUpNoteDetected",
+                NamedCommands.registerCommand("PickUpNoteCompleted",
                                 new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin));
                 NamedCommands.registerCommand("WaitUntilNoteDetected", new WaitUntilCommand(m_feeder::isNoteDetected));
                 NamedCommands.registerCommand("WaitUntilHome", new WaitUntilCommand(m_arm::atHomePosition));
@@ -181,10 +182,7 @@ public class RobotContainer {
                 final Trigger autoTarget = m_driverController.leftBumper();
 
                 autoTarget.onTrue(
-                                new ConditionalCommand(
-                                                new AutoTarget(m_limelight, m_drive, true),
-                                                new InstantCommand(),
-                                                m_limelight::hasTarget));
+                                new TargetTwice(m_limelight, m_drive));
 
                 lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
                                 m_drive));
