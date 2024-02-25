@@ -17,6 +17,9 @@ public class ShootTrap extends SequentialCommandGroup {
             Blinkin m_blinkin,
             Position position) {
         addCommands(
+                new InstantCommand(m_feeder::runBackwards),
+                new WaitUntilCommand(
+                        () -> m_feeder.isNoteNotDetected()),
                 new InstantCommand(m_feeder::run),
                 new WaitCommand(1),
                 new InstantCommand(m_feeder::stop),

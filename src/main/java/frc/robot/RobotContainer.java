@@ -164,10 +164,6 @@ public class RobotContainer {
                 // Stop Feeder and Intake
                 SmartDashboard.putData("STOP intake", Commands.sequence(new InstantCommand(m_intake::stop),
                                 new InstantCommand(m_feeder::stop)));
-
-                SmartDashboard.putData("Auto Target",
-                                new AutoTarget(m_limelight, m_drive, true));
-
         }
 
         /**
@@ -252,7 +248,7 @@ public class RobotContainer {
                                 new InstantCommand(m_feeder::stop)));
 
                 // Driver shooter controls
-                turnOnShooter.onTrue(new InstantCommand(m_shooter::runTrap));
+                turnOnShooter.onTrue(new ShootManual(m_feeder, m_shooter));
                 turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
 
                 // Operator Shooter Controls
