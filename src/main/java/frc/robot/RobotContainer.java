@@ -67,7 +67,8 @@ public class RobotContainer {
 
         // Register Named Commands for PathPlanner
         private void configureAutoCommands() {
-                NamedCommands.registerCommand("TurnOnShooter", new ShootManual(m_feeder, m_shooter));
+                NamedCommands.registerCommand("TurnOnShooter",
+                                new ShootManual(m_feeder, m_shooter));
                 NamedCommands.registerCommand("MoveToSubwoofer",
                                 new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.SUBWOOFER));
                 NamedCommands.registerCommand("MoveToPodium",
@@ -245,7 +246,7 @@ public class RobotContainer {
                 // new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin)));
 
                 stopIntake.onTrue(new ParallelCommandGroup(new InstantCommand(m_intake::stop),
-                                new InstantCommand(m_feeder::stop))); 
+                                new InstantCommand(m_feeder::stop)));
 
                 // Driver shooter controls
                 turnOnShooter.onTrue(new ShootManualTrap(m_feeder, m_shooter));

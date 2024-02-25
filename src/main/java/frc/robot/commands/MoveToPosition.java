@@ -7,11 +7,15 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Blinkin;
+import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class MoveToPosition extends SequentialCommandGroup {
     public MoveToPosition(
             ArmSubsystem m_arm,
+            IntakeSubsystem m_intake,
+            FeederSubsystem m_feeder,
             ShooterSubsystem m_shooter,
             Blinkin m_blinkin,
             Position position) {

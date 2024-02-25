@@ -13,18 +13,18 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class PickUpNoteCompleted extends SequentialCommandGroup {
         public PickUpNoteCompleted(
-                        IntakeSubsystem m_intake, FeederSubsystem m_feeder, Blinkin m_blinkin) {
+                        IntakeSubsystem m_intake,
+                        FeederSubsystem m_feeder,
+                        Blinkin m_blinkin) {
                 addCommands(
-                                new SequentialCommandGroup(
-                                                new ParallelCommandGroup(
-                                                                new InstantCommand(m_intake::stop),
-                                                                new InstantCommand(m_feeder::stop)),
-                                                new SequentialCommandGroup(
-                                                                new WaitCommand(FeederConstants.kLoadWaitTime),
-                                                                new InstantCommand(m_feeder::runBackwards),
-                                                                new WaitUntilCommand(
-                                                                                () -> m_feeder.isNoteNotDetected()),
-                                                                new InstantCommand(m_feeder::stop),
-                                                                new InstantCommand(m_blinkin::withNote))));
+                                new ParallelCommandGroup(
+                                                new InstantCommand(m_intake::stop),
+                                                new InstantCommand(m_feeder::stop)),
+                                new WaitCommand(FeederConstants.kLoadWaitTime),
+                                new InstantCommand(m_feeder::runBackwards),
+                                new WaitUntilCommand(
+                                                () -> m_feeder.isNoteNotDetected()),
+                                new InstantCommand(m_feeder::stop),
+                                new InstantCommand(m_blinkin::withNote));
         }
 }
