@@ -14,8 +14,6 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class MoveToPosition extends SequentialCommandGroup {
     public MoveToPosition(
             ArmSubsystem m_arm,
-            IntakeSubsystem m_intake,
-            FeederSubsystem m_feeder,
             ShooterSubsystem m_shooter,
             Blinkin m_blinkin,
             Position position) {
@@ -51,13 +49,12 @@ public class MoveToPosition extends SequentialCommandGroup {
 
         if (position.shooterOn) {
             addCommands(
-                    new ShootManual(m_feeder, m_shooter),
+                    new InstantCommand(m_shooter::run),
                     new WaitUntilCommand(m_shooter::readyToShoot),
                     new InstantCommand(m_blinkin::shooterAtSetPoint));
         } else {
             addCommands(
                     new InstantCommand(m_shooter::stop));
-
         }
     }
 }
