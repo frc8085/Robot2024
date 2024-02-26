@@ -72,7 +72,7 @@ public class Robot extends LoggedRobot {
     }
 
     if (Robot.isReal()) {
-      // camera1 = CameraServer.startAutomaticCapture(0);
+       camera1 = CameraServer.startAutomaticCapture(0);
 
     }
 
