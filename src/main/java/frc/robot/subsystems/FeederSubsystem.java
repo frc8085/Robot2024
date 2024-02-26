@@ -27,6 +27,9 @@ public class FeederSubsystem extends SubsystemBase {
 
     private double speed = FeederConstants.speed;
 
+    // Robot starts with Note
+    private boolean noteTrue = true;
+
     private RelativeEncoder m_feederEncoder;
 
     private SparkPIDController m_feederPIDController = m_feederMotor.getPIDController();
@@ -76,24 +79,30 @@ public class FeederSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     public void periodic() {
 
+        SmartDashboard.putBoolean("Note in Robot", noteInRobot());
+
         if (LoggingConstants.kLogging) {
             log();
         }
 
         if (TUNING_MODE) {
             tunePIDs();
+            sensorReadings();
         }
 
     }
 
     public void log() {
+
+    }
+
+    public void sensorReadings() {
         // SmartDashboard.putNumber("Arm Position", getArmPosition());
         // SmartDashboard.putNumber("Shooter Arm Position", getShooterArmPosition());
+        SmartDashboard.putNumber("Feeder Velocity", m_feederEncoder.getVelocity());
         SmartDashboard.putBoolean("Note detected", isNoteDetected());
         SmartDashboard.putBoolean("Sensor 1 note detected", lightSensor1.get());
         SmartDashboard.putBoolean("Sensor 2 note detected", lightSensor2.get());
-        SmartDashboard.putNumber("Feeder Velocity", m_feederEncoder.getVelocity());
-
     }
 
     public void addPIDToDashboard() {
@@ -175,6 +184,20 @@ public class FeederSubsystem extends SubsystemBase {
 
     public boolean isNoteNotDetected() {
         return !lightSensor1.get() && !lightSensor2.get();
+    }
+
+    /* Give us a state when the note is in robot */
+    public void notePickedUp() {
+        noteTrue = true;
+    }
+
+    /* Unlock the climber */
+    public void noteShot() {
+        noteTrue = false;
+    }
+
+    public boolean noteInRobot() {
+        return noteTrue;
     }
 
 }

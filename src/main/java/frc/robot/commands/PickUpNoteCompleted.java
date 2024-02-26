@@ -17,6 +17,7 @@ public class PickUpNoteCompleted extends SequentialCommandGroup {
                         FeederSubsystem m_feeder,
                         Blinkin m_blinkin) {
                 addCommands(
+                                new InstantCommand(m_feeder::notePickedUp),
                                 new ParallelCommandGroup(
                                                 new InstantCommand(m_intake::stop),
                                                 new InstantCommand(m_feeder::stop)),
