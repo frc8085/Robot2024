@@ -56,12 +56,12 @@ public final class Constants {
         public static final class TuningModeConstants {
                 public static final boolean kTuning = false;
                 public static final boolean kDriveTuning = false;
-                public static final boolean kArmTuning = true;
+                public static final boolean kArmTuning = false;
                 public static final boolean kClimberTuning = false;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = false;
                 public static final boolean kLimelightTuning = true;
-                public static final boolean kShooterTuning = true;
+                public static final boolean kShooterTuning = false;
         }
 
         public static final class IntakeConstants {
@@ -256,7 +256,7 @@ public final class Constants {
                                         false),
                         TRAP_FINAL("Trap Final",
                                         310,
-                                        60,
+                                        50,
                                         true,
                                         true,
                                         false,
@@ -358,8 +358,8 @@ public final class Constants {
                 public static final double kWinchI = 0;
                 public static final double kWinchD = 0;
                 public static final double kWinchFF = 0.001;
-                public static final double kWinchMaxOutput = .25;
-                public static final double kWinchMinOutput = -.25;
+                public static final double kWinchMaxOutput = .15;
+                public static final double kWinchMinOutput = -.15;
                 public static final double kWinchMaxAccel = .1;
                 public static final double kWinchMaxVelo = .5;
 
