@@ -174,6 +174,46 @@ public class RobotContainer {
          * Use this method to define your button->command mappings. Buttons can be
          */
         private void configureButtonBindings() {
+
+                /*
+                 * Driver Controls:
+                 * Y Button:
+                 * B Button: Turn off Shooter
+                 * A Button:
+                 * X Button: Turn on Shooter
+                 * Start Button: Zero Heading
+                 * DPad Left:
+                 * DPad Up:
+                 * DPad Right:
+                 * DPad Down: Lock Wheels (set X)
+                 * Left Bumper: Auto Target
+                 * Right Bumper:
+                 * Left Trigger: Shoot Note
+                 * Right Trigger: Drive Speed
+                 * Left Stick Button:
+                 * Right Stick Button:
+                 * 
+                 * 
+                 * Operator Controls:
+                 * Y Button: Move Shooter to Home Position
+                 * B Button: Move Shooter to Podium Position
+                 * A Button: Move Shooter to Amp Position
+                 * X Button: Move Shooter to Subwoofer Position [If holding left bumper, to
+                 * Backwards Subwoofer]
+                 * Start Button: Stop Intake
+                 * DPad Left: Move Shooter to Trap Approach Position
+                 * DPad Up: Lower Robot from Climb
+                 * DPad Right: Move Shooter to Trap Score Position
+                 * DPad Down: Raise Robot in Climb
+                 * Left Bumper: Alternate Position [Hold to Use]
+                 * Right Bumper: Shoot Note into Trap during Climb
+                 * Left Trigger: Turn on Intake
+                 * Right Trigger: Toggle Shooter Wheels
+                 * Left Stick Button: <No Op>
+                 * Right Stick Button: <No Op>
+                 * *
+                 */
+
                 // DRIVER controlled buttons
                 final Trigger shoot = m_driverController.leftTrigger();
                 final Trigger turnOnShooter = m_driverController.x();
