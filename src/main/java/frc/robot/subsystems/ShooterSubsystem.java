@@ -13,7 +13,6 @@ import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.MotorDefaultsConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TuningModeConstants;
-import frc.robot.commands.Shoot;
 
 public class ShooterSubsystem extends SubsystemBase {
 
