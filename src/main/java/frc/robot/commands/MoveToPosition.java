@@ -51,7 +51,7 @@ public class MoveToPosition extends SequentialCommandGroup {
 
         if (position.shooterOn) {
             addCommands(
-                    new ConditionalCommand(new NoteCorrection(m_feeder, m_shooter)
+                    new ConditionalCommand(new NoteCorrection(m_feeder)
                             .andThen(new InstantCommand(m_shooter::run)),
                             new InstantCommand(m_shooter::run),
                             m_feeder::needNoteCorrection),

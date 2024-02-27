@@ -7,12 +7,10 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.FeederConstants;
 import frc.robot.subsystems.FeederSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
 public class NoteCorrection extends SequentialCommandGroup {
         public NoteCorrection(
-                        FeederSubsystem m_feeder,
-                        ShooterSubsystem m_shooter) {
+                        FeederSubsystem m_feeder) {
                 addCommands(
                                 new InstantCommand(m_feeder::stop),
                                 new WaitCommand(FeederConstants.kLoadWaitTime),
