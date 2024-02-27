@@ -27,6 +27,7 @@ import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AutoTarget;
 import frc.robot.commands.MoveToPosition;
+import frc.robot.commands.NoteCorrection;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.Shoot;
@@ -70,9 +71,9 @@ public class RobotContainer {
                 NamedCommands.registerCommand("TurnOnShooter",
                                 new ShootManual(m_feeder, m_shooter));
                 NamedCommands.registerCommand("MoveToSubwoofer",
-                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.AUTO_SUBWOOFER));
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_SUBWOOFER));
                 NamedCommands.registerCommand("MoveToPodium",
-                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.PODIUM));
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.PODIUM));
                 NamedCommands.registerCommand("Shoot",
                                 new Shoot(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
                 NamedCommands.registerCommand("PickUpNote",
@@ -293,16 +294,26 @@ public class RobotContainer {
                 turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
 
                 // Operator Shooter Controls
-                toggleShooter.toggleOnTrue(Commands.startEnd(m_shooter::run,
-                                m_shooter::stop, m_shooter));
+                toggleShooter.toggleOnTrue(
+                                new ConditionalCommand(new InstantCommand(m_shooter::stop),
+                                                new ConditionalCommand(
+                                                                new NoteCorrection(m_feeder, m_shooter)
+                                                                                .andThen(new InstantCommand(
+                                                                                                m_shooter::run)),
+                                                                new InstantCommand(m_shooter::run),
+                                                                m_feeder::needNoteCorrection),
+                                                m_shooter::isShooterRunning));
+
+                // toggleShooter.toggleOnTrue(Commands.startEnd(m_shooter::run,
+                // m_shooter::stop, m_shooter));
                 toggleShooter.and(alternatePosition)
                                 .onTrue(new InstantCommand(m_shooter::stop));
 
-                moveToHome.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME));
+                moveToHome.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.HOME));
                 moveToSubwoofer.onTrue(
-                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.SUBWOOFER));
-                moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.AMP));
-                moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.PODIUM));
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SUBWOOFER));
+                moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AMP));
+                moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.PODIUM));
 
                 /**
                  * Alternate positions. For these, you need to hold down the Left Bumper too.
@@ -315,7 +326,7 @@ public class RobotContainer {
                 // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.BACK_PODIUM));
                 // // HIGH Subwoofer
                 moveToSubwoofer.and(alternatePosition)
-                                .onTrue(new MoveToPosition(m_arm, m_shooter, m_blinkin,
+                                .onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
                                                 Position.BACK_SUBWOOFER));
 
                 /**
@@ -343,9 +354,9 @@ public class RobotContainer {
 
                 // trap
                 moveToTrapApproach.onTrue(new MoveToPosition(m_arm, m_shooter,
-                                m_blinkin, Position.TRAP_APPROACH));
+                                m_feeder, m_blinkin, Position.TRAP_APPROACH));
                 moveToTrapScore.onTrue(new SequentialCommandGroup(new MoveToPosition(m_arm, m_shooter,
-                                m_blinkin, Position.TRAP_SCORE), new InstantCommand(m_shooter::runTrap)));
+                                m_feeder, m_blinkin, Position.TRAP_SCORE), new InstantCommand(m_shooter::runTrap)));
                 shootTrap.onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin,
                                 Position.TRAP_FINAL));
 

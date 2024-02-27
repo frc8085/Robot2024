@@ -80,6 +80,7 @@ public class FeederSubsystem extends SubsystemBase {
     public void periodic() {
 
         SmartDashboard.putBoolean("Note in Robot", noteInRobot());
+        SmartDashboard.putBoolean("Need Note Correction", needNoteCorrection());
 
         if (LoggingConstants.kLogging) {
             log();
@@ -93,7 +94,6 @@ public class FeederSubsystem extends SubsystemBase {
     }
 
     public void log() {
-
     }
 
     public void sensorReadings() {
@@ -198,6 +198,14 @@ public class FeederSubsystem extends SubsystemBase {
 
     public boolean noteInRobot() {
         return noteTrue;
+    }
+
+    public boolean needNoteCorrection() {
+        if (noteInRobot() && isNoteDetected()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -18,7 +18,7 @@ public class AutoSimple extends SequentialCommandGroup {
             Blinkin m_blinkin,
             Position position) {
         addCommands(
-                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.SUBWOOFER),
+                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SUBWOOFER),
                 new Shoot(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
 
     }

@@ -17,7 +17,7 @@ public class Climb extends SequentialCommandGroup {
             Blinkin m_blinkin,
             Position position) {
         addCommands(
-                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.TRAP_SCORE),
+                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_SCORE),
                 new InstantCommand(m_shooter::runTrap),
                 new InstantCommand(m_feeder::run),
                 new WaitCommand(1),

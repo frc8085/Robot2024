@@ -29,7 +29,7 @@ public class Shoot extends SequentialCommandGroup {
                 new InstantCommand(m_feeder::stop),
                 new InstantCommand(m_shooter::stop),
                 new InstantCommand(m_feeder::noteShot),
-                new MoveToPosition(m_arm, m_shooter, m_blinkin, position),
+                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, position),
                 new InstantCommand(m_blinkin::driving));
     }
 }

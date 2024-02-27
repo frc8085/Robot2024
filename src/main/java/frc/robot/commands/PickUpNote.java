@@ -22,7 +22,8 @@ public class PickUpNote extends SequentialCommandGroup {
                         Blinkin m_blinkin) {
                 addCommands(
                                 new ConditionalCommand(new InstantCommand(),
-                                                new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HOME),
+                                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                                                                Position.HOME),
                                                 m_arm::atHomePosition),
                                 new WaitUntilCommand(m_arm::atHomePosition),
                                 new ParallelCommandGroup(

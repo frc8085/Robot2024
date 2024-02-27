@@ -11,23 +11,23 @@ import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShootTrap extends SequentialCommandGroup {
-    public ShootTrap(
-            FeederSubsystem m_feeder,
-            ArmSubsystem m_arm,
-            ShooterSubsystem m_shooter,
-            Blinkin m_blinkin,
-            Position position) {
-        addCommands(
-                new InstantCommand(m_feeder::runBackwards),
-                new WaitUntilCommand(
-                        () -> m_feeder.isNoteNotDetected()),
-                new InstantCommand(m_feeder::run),
-                new WaitCommand(1),
-                new InstantCommand(m_feeder::stop),
-                new InstantCommand(m_shooter::stop),
-                // new WaitCommand(1),
-                // new MoveToPosition(m_arm, m_shooter, m_blinkin, position),
-                new InstantCommand(m_blinkin::climbed),
-                new Oscillate(m_arm, m_shooter, m_blinkin));
-    }
+        public ShootTrap(
+                        FeederSubsystem m_feeder,
+                        ArmSubsystem m_arm,
+                        ShooterSubsystem m_shooter,
+                        Blinkin m_blinkin,
+                        Position position) {
+                addCommands(
+                                new InstantCommand(m_feeder::runBackwards),
+                                new WaitUntilCommand(
+                                                () -> m_feeder.isNoteNotDetected()),
+                                new InstantCommand(m_feeder::run),
+                                new WaitCommand(1),
+                                new InstantCommand(m_feeder::stop),
+                                new InstantCommand(m_shooter::stop),
+                                // new WaitCommand(1),
+                                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, position),
+                                new InstantCommand(m_blinkin::climbed),
+                                new Oscillate(m_arm, m_shooter, m_feeder, m_blinkin));
+        }
 }

@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.subsystems.ArmSubsystem;
@@ -15,6 +16,7 @@ public class MoveToPosition extends SequentialCommandGroup {
     public MoveToPosition(
             ArmSubsystem m_arm,
             ShooterSubsystem m_shooter,
+            FeederSubsystem m_feeder,
             Blinkin m_blinkin,
             Position position) {
 
@@ -49,6 +51,10 @@ public class MoveToPosition extends SequentialCommandGroup {
 
         if (position.shooterOn) {
             addCommands(
+                    new ConditionalCommand(new NoteCorrection(m_feeder, m_shooter)
+                            .andThen(new InstantCommand(m_shooter::run)),
+                            new InstantCommand(m_shooter::run),
+                            m_feeder::needNoteCorrection),
                     new InstantCommand(m_shooter::run),
                     new WaitUntilCommand(m_shooter::readyToShoot),
                     new InstantCommand(m_blinkin::shooterAtSetPoint));
