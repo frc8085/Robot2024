@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
+/* Command to run at the end of a path movement to check if the note has been picked up and if not, continue on the auto */
 public class NoteCheckAuto extends SequentialCommandGroup {
         public NoteCheckAuto(
                         IntakeSubsystem m_intake,
                         FeederSubsystem m_feeder) {
                 addCommands(
-                                // Run when robot reaches path end point to see if note has been picked up
-                                // First Check if Note has been picked up already, and if it hasn't, wait one
+                                // Check if Note has been picked up already, and if it hasn't, wait one
                                 // sec then end
 
                                 new ConditionalCommand(new InstantCommand(),

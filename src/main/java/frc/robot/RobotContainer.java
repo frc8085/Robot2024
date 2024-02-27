@@ -26,11 +26,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.MoveToPosition;
+import frc.robot.commands.NoteCheckAuto;
 import frc.robot.commands.NoteCorrection;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
-import frc.robot.commands.ShootManual;
+import frc.robot.commands.EnableShooterAuto;
 import frc.robot.commands.ShootManualTrap;
 import frc.robot.commands.ShootNew;
 import frc.robot.commands.ShootTrap;
@@ -68,21 +69,29 @@ public class RobotContainer {
 
         // Register Named Commands for PathPlanner
         private void configureAutoCommands() {
-                NamedCommands.registerCommand("TurnOnShooter",
-                                new ShootManual(m_feeder, m_shooter));
-                NamedCommands.registerCommand("MoveToSubwoofer",
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_SUBWOOFER));
-                NamedCommands.registerCommand("MoveToPodium",
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.PODIUM));
-                NamedCommands.registerCommand("Shoot",
-                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
+                NamedCommands.registerCommand("TurnOnShooter", new ConditionalCommand(
+                                new EnableShooterAuto(m_feeder, m_shooter),
+                                new InstantCommand(),
+                                m_feeder::noteInRobot));
+                NamedCommands.registerCommand("MoveToSubwoofer", new ConditionalCommand(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_SUBWOOFER),
+                                new InstantCommand(),
+                                m_feeder::noteInRobot));
+                NamedCommands.registerCommand("MoveToPodium", new ConditionalCommand(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.PODIUM),
+                                new InstantCommand(),
+                                m_feeder::noteInRobot));
+                NamedCommands.registerCommand("Shoot", new ConditionalCommand(
+                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME),
+                                new InstantCommand(),
+                                m_feeder::noteInRobot));
                 NamedCommands.registerCommand("PickUpNote",
                                 new PickUpNoteAuto(m_intake, m_feeder, m_arm, m_shooter, m_blinkin));
                 NamedCommands.registerCommand("PickUpNoteCompleted",
                                 new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin));
                 NamedCommands.registerCommand("WaitUntilNoteDetected", new WaitUntilCommand(m_feeder::isNoteDetected));
                 NamedCommands.registerCommand("WaitUntilHome", new WaitUntilCommand(m_arm::atHomePosition));
-                NamedCommands.registerCommand("WaitUntilReadyToShoot", new WaitUntilCommand(m_shooter::readyToShoot));
+                NamedCommands.registerCommand("NoteCheckAuto", new NoteCheckAuto(m_intake, m_feeder));
         }
 
         // The driver's controller

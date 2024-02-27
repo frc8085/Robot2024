@@ -9,8 +9,8 @@ import frc.robot.Constants.FeederConstants;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShootManual extends SequentialCommandGroup {
-        public ShootManual(
+public class EnableShooterAuto extends SequentialCommandGroup {
+        public EnableShooterAuto(
                         FeederSubsystem m_feeder,
                         ShooterSubsystem m_shooter) {
                 addCommands(
