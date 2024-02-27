@@ -76,29 +76,10 @@ public class FeederSubsystem extends SubsystemBase {
 
     }
 
-    // This method will be called once per scheduler run
-    public void periodic() {
-
-        SmartDashboard.putBoolean("Note in Robot", noteInRobot());
-        SmartDashboard.putBoolean("Need Note Correction", needNoteCorrection());
-
-        if (LoggingConstants.kLogging) {
-            log();
-        }
-
-        if (TUNING_MODE) {
-            tunePIDs();
-            sensorReadings();
-        }
-
-    }
-
     public void log() {
     }
 
     public void sensorReadings() {
-        // SmartDashboard.putNumber("Arm Position", getArmPosition());
-        // SmartDashboard.putNumber("Shooter Arm Position", getShooterArmPosition());
         SmartDashboard.putNumber("Feeder Velocity", m_feederEncoder.getVelocity());
         SmartDashboard.putBoolean("Note detected", isNoteDetected());
         SmartDashboard.putBoolean("Sensor 1 note detected", lightSensor1.get());
@@ -118,13 +99,8 @@ public class FeederSubsystem extends SubsystemBase {
         double feederI = SmartDashboard.getNumber("kFeederI", 0);
         double feederD = SmartDashboard.getNumber("kFeederD", 0);
         double feederFF = SmartDashboard.getNumber("kFeederFF", 0);
-        double shooter2P = SmartDashboard.getNumber("kShooter2P", 0);
-        double shooter2I = SmartDashboard.getNumber("kShooter2I", 0);
-        double shooter2D = SmartDashboard.getNumber("kShooter2D", 0);
-        double shooter2FF = SmartDashboard.getNumber("kShooter2FF", 0);
 
         double feederSetPoint = SmartDashboard.getNumber("kFeederSetPoint", 0);
-        double shooter2SetPoint = SmartDashboard.getNumber("kShooter2SetPoint", 0);
 
         // if PID coefficients on dashboard have changed, write new values to controller
         if ((feederP != kFeederP)) {
@@ -155,11 +131,13 @@ public class FeederSubsystem extends SubsystemBase {
     }
 
     public void run() {
-        m_feederMotor.set(1);
+        m_feederMotor.set(FeederConstants.speed);
     }
-    // public void run() {
-    // setFeederSetPoint(kFeederSetPoint);
-    // }
+
+    // Feeder Speed during Auto
+    public void runAuto() {
+        m_feederMotor.set(FeederConstants.speedAuto);
+    }
 
     public void eject() {
         m_feederMotor.set(-0.6);
@@ -206,6 +184,25 @@ public class FeederSubsystem extends SubsystemBase {
         } else {
             return false;
         }
+    }
+
+    // This method will be called once per scheduler run
+    public void periodic() {
+
+        // Put Indicator on Dashboard that a Note is in the Robot
+        SmartDashboard.putBoolean("Note in Robot", noteInRobot());
+
+        if (LoggingConstants.kLogging) {
+            log();
+            SmartDashboard.putBoolean("Need Note Correction", needNoteCorrection());
+
+        }
+
+        if (TUNING_MODE) {
+            tunePIDs();
+            sensorReadings();
+        }
+
     }
 
 }
