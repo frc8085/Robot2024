@@ -1,10 +1,11 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.SparkRelativeEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,7 +22,7 @@ public class ClimberSubsystem extends SubsystemBase {
             CanIdConstants.kWinchCanId, MotorDefaultsConstants.NeoVortexMotorType);
 
     // Encoder
-    private SparkAbsoluteEncoder m_winchEncoder;
+    private RelativeEncoder m_winchEncoder;
 
     // PID for Winch
     private SparkPIDController m_winchPIDController = m_winchMotor.getPIDController();
@@ -66,14 +67,15 @@ public class ClimberSubsystem extends SubsystemBase {
 
         // Setup encoders and PID controllers for the arm and shooter arms.
 
-        // absolute encoder
-        m_winchEncoder = m_winchMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+        // alternate encoder
+        m_winchEncoder = m_winchMotor.getEncoder(SparkRelativeEncoder.Type.kQuadrature, 8192);
         m_winchPIDController.setFeedbackDevice(m_winchEncoder);
 
         // Set if encoder is inverted
         m_winchEncoder.setInverted(false);
 
         // Set the PID gains for the turning motor.
+        m_winchPIDController.setFeedbackDevice(m_winchEncoder);
         m_winchPIDController.setP(ClimberConstants.kWinchP);
         m_winchPIDController.setI(ClimberConstants.kWinchI);
         m_winchPIDController.setD(ClimberConstants.kWinchD);
