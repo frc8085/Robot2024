@@ -61,7 +61,7 @@ public final class Constants {
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = false;
                 public static final boolean kLimelightTuning = false;
-                public static final boolean kShooterTuning = false;
+                public static final boolean kShooterTuning = true;
         }
 
         public static final class IntakeConstants {
@@ -522,5 +522,6 @@ public final class Constants {
 
         public static final class NeoMotorConstants {
                 public static final double kFreeSpeedRpm = 5676;
+                public static final double kVortexFreeSpeedRpm = 6784;
         }
 }
