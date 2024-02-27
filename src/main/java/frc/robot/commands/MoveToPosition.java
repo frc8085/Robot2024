@@ -37,7 +37,7 @@ public class MoveToPosition extends SequentialCommandGroup {
         else if (position.moveArmFirst) {
             addCommands(
                     new InstantCommand(() -> m_arm.setArmPosition(position.armPosition)),
-                    new WaitCommand(0.5),
+                    new WaitCommand(0.25),
                     new InstantCommand(() -> m_arm.setShooterPivotPosition(position.shooterPivotPosition)));
         }
 
@@ -45,7 +45,7 @@ public class MoveToPosition extends SequentialCommandGroup {
         else {
             addCommands(
                     new InstantCommand(() -> m_arm.setShooterPivotPosition(position.shooterPivotPosition)),
-                    new WaitCommand(0.5),
+                    new WaitCommand(0.25),
                     new InstantCommand(() -> m_arm.setArmPosition(position.armPosition)));
         }
 

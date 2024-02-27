@@ -56,7 +56,7 @@ public final class Constants {
         public static final class TuningModeConstants {
                 public static final boolean kTuning = false;
                 public static final boolean kDriveTuning = false;
-                public static final boolean kArmTuning = true;
+                public static final boolean kArmTuning = false;
                 public static final boolean kClimberTuning = false;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = false;
@@ -123,7 +123,7 @@ public final class Constants {
                 public static final IdleMode kArmMotorIdleMode = IdleMode.kBrake;
                 public static final IdleMode kShooterPivotMotorIdleMode = IdleMode.kBrake;
 
-                public static final double kArmMaxSpeed = .6;
+                public static final double kArmMaxSpeed = .7;
                 public static final double kShooterPivotMaxSpeed = 1;
 
                 // Manual Arm movement speeds
@@ -152,9 +152,9 @@ public final class Constants {
                 public static final double kArmD = 0;
                 public static final double kArmFF = 0.001;
                 public static final double kArmMaxOutput = kArmMaxSpeed;
-                public static final double kArmMinOutput = -.5;
-                public static final double kArmMaxAccel = .1;
-                public static final double kArmMaxVelo = .5;
+                public static final double kArmMinOutput = -.7;
+                public static final double kArmMaxAccel = .5;
+                public static final double kArmMaxVelo = 1;
 
                 // Shooter Pivot PID coefficients
                 public static final int kShooterPivotPIDSlot = 0;
@@ -174,7 +174,7 @@ public final class Constants {
                 public static final double kArmDSlot1 = 0;
                 public static final double kArmFFSlot1 = 0.001;
                 public static final double kArmMaxOutputSlot1 = kArmMaxSpeed;
-                public static final double kArmMinOutputSlot1 = -0.5;
+                public static final double kArmMinOutputSlot1 = -0.7;
                 public static final double kArmMaxAccelSlot1 = .1;
                 public static final double kArmMaxVeloSlot1 = .5;
 
@@ -237,7 +237,7 @@ public final class Constants {
                                         322,
                                         125,
                                         true,
-                                        true,
+                                        false,
                                         true,
                                         true),
                         AUTO_SUBWOOFER("Subwoofer",

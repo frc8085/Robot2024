@@ -51,12 +51,6 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitUntilHome"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "TurnOnShooter"
           }
         },
@@ -100,12 +94,6 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitUntilHome"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "TurnOnShooter"
           }
         },
@@ -125,6 +113,25 @@
           "type": "named",
           "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpNote"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Move to Third Note"
+                }
+              }
+            ]
           }
         }
       ]
