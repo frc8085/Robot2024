@@ -25,8 +25,6 @@ public class FeederSubsystem extends SubsystemBase {
     private final CANSparkMax m_feederMotor = new CANSparkMax(
             CanIdConstants.kFeederCanId, MotorDefaultsConstants.Neo550MotorType);
 
-    private double speed = FeederConstants.speed;
-
     // Robot starts with Note
     private boolean noteTrue = true;
 
@@ -164,20 +162,22 @@ public class FeederSubsystem extends SubsystemBase {
         return !lightSensor1.get() && !lightSensor2.get();
     }
 
-    /* Give us a state when the note is in robot */
+    /* When a note is picked up, it's in the robot */
     public void notePickedUp() {
         noteTrue = true;
     }
 
-    /* Unlock the climber */
+    /* Once a note is shot, it's not in robot */
     public void noteShot() {
         noteTrue = false;
     }
 
+    /* Give us a state when the note is in robot */
     public boolean noteInRobot() {
         return noteTrue;
     }
 
+    /* Check if note is touching the shooter wheels */
     public boolean needNoteCorrection() {
         if (noteInRobot() && isNoteDetected()) {
             return true;

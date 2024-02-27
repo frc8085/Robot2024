@@ -21,6 +21,7 @@ public class PickUpNoteAuto extends SequentialCommandGroup {
                         ShooterSubsystem m_shooter,
                         Blinkin m_blinkin) {
                 addCommands(
+                                // Check if Arm is at Home before you turn intake on
                                 new ConditionalCommand(new InstantCommand(),
                                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
                                                                 Position.HOME),
