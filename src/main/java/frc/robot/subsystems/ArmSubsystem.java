@@ -158,8 +158,8 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterPivotMotor.burnFlash();
 
         if (TUNING_MODE) {
-            // addPIDToDashboard();
-            // addTuningSetPointToDashboard();
+            addPIDToDashboard();
+            addTuningSetPointToDashboard();
         }
     }
 
@@ -185,8 +185,8 @@ public class ArmSubsystem extends SubsystemBase {
         m_armPIDController.setReference(armPositionHold, ControlType.kPosition);
         if (TUNING_MODE) {
             SmartDashboard.putNumber("Desired Arm Position", armPositionDisplay);
-
             SmartDashboard.putNumber("Raw Desired Arm Position", armPosition);
+
             System.out.println("Keep ARM Position " + armPositionDisplay);
         }
     }

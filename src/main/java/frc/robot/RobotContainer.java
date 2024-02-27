@@ -32,7 +32,7 @@ import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.EnableShooterAuto;
-import frc.robot.commands.ShootManualTrap;
+import frc.robot.commands.EnableShooterTrap;
 import frc.robot.commands.ShootNew;
 import frc.robot.commands.ShootTrap;
 import frc.robot.commands.TargetTwice;
@@ -175,9 +175,6 @@ public class RobotContainer {
                 SmartDashboard.putData("Eject", Commands.sequence(new InstantCommand(m_intake::eject),
                                 new InstantCommand(m_feeder::eject)));
 
-                // Stop Feeder and Intake
-                SmartDashboard.putData("STOP intake", Commands.sequence(new InstantCommand(m_intake::stop),
-                                new InstantCommand(m_feeder::stop)));
         }
 
         /**
@@ -188,9 +185,9 @@ public class RobotContainer {
                 /*
                  * Driver Controls:
                  * Y Button:
-                 * B Button: Turn off Shooter
+                 * B Button:
                  * A Button:
-                 * X Button: Turn on Shooter
+                 * X Button:
                  * Start Button: Zero Heading
                  * DPad Left:
                  * DPad Up:
@@ -206,7 +203,8 @@ public class RobotContainer {
                  * 
                  * Operator Controls:
                  * Y Button: Move Shooter to Home Position
-                 * B Button: Move Shooter to Podium Position
+                 * B Button: Move Shooter to Podium Position [If holding left bumper,to high
+                 * podium]
                  * A Button: Move Shooter to Amp Position
                  * X Button: Move Shooter to Subwoofer Position [If holding left bumper, to
                  * Backwards Subwoofer]
@@ -283,23 +281,8 @@ public class RobotContainer {
 
                 intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin));
 
-                // intake.toggleOnTrue(
-                // Commands.startEnd((new PickUpNoteTest(m_intake, m_feeder, m_arm, m_shooter,
-                // m_blinkin)),
-                // (new ParallelCommandGroup(new InstantCommand(m_intake::stop),
-                // new InstantCommand(m_feeder::stop))),
-                // (m_intake, m_feeder, m_arm, m_shooter, m_blinkin)));
-
-                // .onFalse(new SequentialCommandGroup(
-                // new WaitUntilCommand(m_feeder::isNoteDetected),
-                // new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin)));
-
                 stopIntake.onTrue(new ParallelCommandGroup(new InstantCommand(m_intake::stop),
                                 new InstantCommand(m_feeder::stop)));
-
-                // Driver shooter controls
-                turnOnShooter.onTrue(new ShootManualTrap(m_feeder, m_shooter));
-                turnOffShooter.onTrue(new InstantCommand(m_shooter::stop));
 
                 // Operator Shooter Controls
                 toggleShooter.toggleOnTrue(
@@ -311,11 +294,6 @@ public class RobotContainer {
                                                                 new InstantCommand(m_shooter::run),
                                                                 m_feeder::needNoteCorrection),
                                                 m_shooter::isShooterRunning));
-
-                // toggleShooter.toggleOnTrue(Commands.startEnd(m_shooter::run,
-                // m_shooter::stop, m_shooter));
-                toggleShooter.and(alternatePosition)
-                                .onTrue(new InstantCommand(m_shooter::stop));
 
                 moveToHome.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.HOME));
                 moveToSubwoofer.onTrue(
