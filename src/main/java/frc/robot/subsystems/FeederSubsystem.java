@@ -186,6 +186,15 @@ public class FeederSubsystem extends SubsystemBase {
         }
     }
 
+    /* Detect if robot missed note in auto */
+    public boolean autoMissedNote() {
+        if (noteInRobot()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     // This method will be called once per scheduler run
     public void periodic() {
 
