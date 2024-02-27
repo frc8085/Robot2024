@@ -184,7 +184,7 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2Motor.set(0);
     }
 
-    // public void run() {
+    // public void runAuto() {
     // m_shooter1Motor.set(1);
     // m_shooter2Motor.set(-0.8);
     // }

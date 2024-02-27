@@ -320,8 +320,8 @@ public class RobotContainer {
                  * Alternate positions. For these, you need to hold down the Left Bumper too.
                  **/
                 // HIGH Podium
-                // moveToPodium.and(alternatePosition).onTrue(
-                // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.HIGH_PODIUM));
+                moveToPodium.and(alternatePosition).onTrue(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.HIGH_PODIUM));
                 // // BACK Podium
                 // moveToAmp.and(alternatePosition).onTrue(
                 // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.BACK_PODIUM));

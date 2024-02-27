@@ -75,7 +75,7 @@ public final class Constants {
                 public static final int kIRPort2 = 1;
 
                 public static final double speed = 1;
-                public static final double kLoadWaitTime = .5;
+                public static final double kLoadWaitTime = 0;
 
                 public static double kFeederMaxOutput = 1;
                 public static double kFeederMinOutput = -1;
@@ -269,8 +269,8 @@ public final class Constants {
                                         false,
                                         false),
                         HIGH_PODIUM("High Podium",
-                                        338,
-                                        289,
+                                        322,
+                                        139,
                                         true,
                                         true,
                                         true,

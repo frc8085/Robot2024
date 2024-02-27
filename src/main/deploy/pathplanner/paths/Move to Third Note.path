@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6257384829584476,
-        "y": 5.08633136247754
+        "x": 2.0210009031129177,
+        "y": 5.383965865153952
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.7261310078175716,
-        "y": 4.220566515207104
+        "x": 2.472797251150058,
+        "y": 4.377756963847261
       },
       "prevControl": {
-        "x": 2.024869354368339,
-        "y": 4.754550842435019
+        "x": 1.7715355977008254,
+        "y": 4.911741291075176
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,43 +30,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Pick Up Note",
-      "waypointRelativePos": 0.5,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "PickUpNote"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "WaitUntilNoteDetected"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "PickUpNoteCompleted"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "TurnOnShooter"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -75,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 144.40423121870896,
+    "rotation": 139.09488996406103,
     "rotateFast": false
   },
   "reversed": false,

@@ -63,12 +63,6 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitUntilReadyToShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Shoot"
           }
         },
@@ -85,7 +79,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Move to Second Note"
+                  "pathName": "Updated Move to Second Note"
                 }
               }
             ]
@@ -101,12 +95,6 @@
           "type": "named",
           "data": {
             "name": "MoveToPodium"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilReadyToShoot"
           }
         },
         {
@@ -132,6 +120,24 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TurnOnShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MoveToPodium"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         }
       ]
