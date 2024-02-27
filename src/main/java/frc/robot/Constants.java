@@ -56,11 +56,11 @@ public final class Constants {
         public static final class TuningModeConstants {
                 public static final boolean kTuning = false;
                 public static final boolean kDriveTuning = false;
-                public static final boolean kArmTuning = false;
+                public static final boolean kArmTuning = true;
                 public static final boolean kClimberTuning = false;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = false;
-                public static final boolean kLimelightTuning = true;
+                public static final boolean kLimelightTuning = false;
                 public static final boolean kShooterTuning = false;
         }
 

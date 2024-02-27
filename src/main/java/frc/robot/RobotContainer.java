@@ -33,6 +33,7 @@ import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootManual;
 import frc.robot.commands.ShootManualTrap;
+import frc.robot.commands.ShootNew;
 import frc.robot.commands.ShootTrap;
 import frc.robot.commands.TargetTwice;
 import frc.robot.subsystems.ArmSubsystem;
@@ -75,7 +76,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("MoveToPodium",
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.PODIUM));
                 NamedCommands.registerCommand("Shoot",
-                                new Shoot(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
+                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
                 NamedCommands.registerCommand("PickUpNote",
                                 new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin));
                 NamedCommands.registerCommand("PickUpNoteCompleted",
@@ -267,9 +268,9 @@ public class RobotContainer {
 
                 // Testing conditional, check if shooter is at speed, if it is, shoot, if not,
                 // wait til it is at speed then shoot
-                shoot.onTrue(new ConditionalCommand(new Shoot(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME),
+                shoot.onTrue(new ConditionalCommand(new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME),
                                 new WaitUntilCommand(m_shooter::readyToShoot)
-                                                .andThen(new Shoot(m_feeder, m_arm, m_shooter, m_blinkin,
+                                                .andThen(new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin,
                                                                 Position.HOME)),
                                 m_shooter::readyToShoot));
 
