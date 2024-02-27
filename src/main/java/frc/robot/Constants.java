@@ -75,6 +75,7 @@ public final class Constants {
                 public static final int kIRPort2 = 1;
 
                 public static final double speed = 1;
+                public static final double speedAuto = 1;
                 public static final double kLoadWaitTime = 0;
 
                 public static double kFeederMaxOutput = 1;
@@ -124,6 +125,7 @@ public final class Constants {
                 public static final IdleMode kShooterPivotMotorIdleMode = IdleMode.kBrake;
 
                 public static final double kArmMaxSpeed = .7;
+                public static final double kArmMinSpeed = -.7;
                 public static final double kShooterPivotMaxSpeed = 1;
 
                 // Manual Arm movement speeds
@@ -152,7 +154,7 @@ public final class Constants {
                 public static final double kArmD = 0;
                 public static final double kArmFF = 0.001;
                 public static final double kArmMaxOutput = kArmMaxSpeed;
-                public static final double kArmMinOutput = -.7;
+                public static final double kArmMinOutput = kArmMinSpeed;
                 public static final double kArmMaxAccel = .5;
                 public static final double kArmMaxVelo = 1;
 
@@ -358,8 +360,8 @@ public final class Constants {
                 public static final double kWinchI = 0;
                 public static final double kWinchD = 0;
                 public static final double kWinchFF = 0.001;
-                public static final double kWinchMaxOutput = .15;
-                public static final double kWinchMinOutput = -.15;
+                public static final double kWinchMaxOutput = .5;
+                public static final double kWinchMinOutput = -.5;
                 public static final double kWinchMaxAccel = .1;
                 public static final double kWinchMaxVelo = .5;
 

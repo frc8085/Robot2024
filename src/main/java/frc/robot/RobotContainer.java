@@ -25,12 +25,11 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.AutoTarget;
 import frc.robot.commands.MoveToPosition;
 import frc.robot.commands.NoteCorrection;
 import frc.robot.commands.PickUpNote;
+import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
-import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootManual;
 import frc.robot.commands.ShootManualTrap;
 import frc.robot.commands.ShootNew;
@@ -78,7 +77,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("Shoot",
                                 new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
                 NamedCommands.registerCommand("PickUpNote",
-                                new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin));
+                                new PickUpNoteAuto(m_intake, m_feeder, m_arm, m_shooter, m_blinkin));
                 NamedCommands.registerCommand("PickUpNoteCompleted",
                                 new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin));
                 NamedCommands.registerCommand("WaitUntilNoteDetected", new WaitUntilCommand(m_feeder::isNoteDetected));
@@ -221,8 +220,7 @@ public class RobotContainer {
                 final Trigger turnOnShooter = m_driverController.x();
                 final Trigger turnOffShooter = m_driverController.b();
                 final Trigger lockWheels = m_driverController.povDown();
-                // final Trigger fieldRelative = m_driverController.leftBumper();
-                final Trigger robotRelative = m_driverController.rightBumper();
+                // final Trigger robotRelative = m_driverController.rightBumper();
 
                 final Trigger autoTarget = m_driverController.leftBumper();
 
@@ -298,7 +296,7 @@ public class RobotContainer {
                 toggleShooter.toggleOnTrue(
                                 new ConditionalCommand(new InstantCommand(m_shooter::stop),
                                                 new ConditionalCommand(
-                                                                new NoteCorrection(m_feeder, m_shooter)
+                                                                new NoteCorrection(m_feeder)
                                                                                 .andThen(new InstantCommand(
                                                                                                 m_shooter::run)),
                                                                 new InstantCommand(m_shooter::run),
@@ -326,9 +324,8 @@ public class RobotContainer {
                 // moveToAmp.and(alternatePosition).onTrue(
                 // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.BACK_PODIUM));
                 // // HIGH Subwoofer
-                moveToSubwoofer.and(alternatePosition)
-                                .onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
-                                                Position.BACK_SUBWOOFER));
+                moveToSubwoofer.and(alternatePosition).onTrue(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.BACK_SUBWOOFER));
 
                 /**
                  * Manual Arm raise and lower
@@ -386,48 +383,3 @@ public class RobotContainer {
 
         }
 }
-
-/**
- * Stuff Taken Out of the Autonomous command to try PathPlanner stuff
- * // Create config for trajectory
- * TrajectoryConfig config = new TrajectoryConfig(
- * AutoConstants.kMaxSpeedMetersPerSecond,
- * AutoConstants.kMaxAccelerationMetersPerSecondSquared)
- * // Add kinematics to ensure max speed is actually obeyed
- * .setKinematics(DriveConstants.kDriveKinematics);
- * 
- * // An example trajectory to follow. All units in meters.
- * Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
- * // Start at the origin facing the +X direction
- * new Pose2d(0, 0, new Rotation2d(0)),
- * // Pass through these two interior waypoints, making an 's' curve path
- * List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
- * // End 3 meters straight ahead of where we started, facing forward
- * new Pose2d(3, 0, new Rotation2d(0)),
- * config);
- * 
- * var thetaController = new ProfiledPIDController(
- * AutoConstants.kPThetaController, 0, 0,
- * AutoConstants.kThetaControllerConstraints);
- * thetaController.enableContinuousInput(-Math.PI, Math.PI);
- * 
- * SwerveControllerCommand swerveControllerCommand = new
- * SwerveControllerCommand(
- * exampleTrajectory,
- * m_drive::getPose, // Functional interface to feed supplier
- * DriveConstants.kDriveKinematics,
- * 
- * // Position controllers
- * new PIDController(AutoConstants.kPXController, 0, 0),
- * new PIDController(AutoConstants.kPYController, 0, 0),
- * thetaController,
- * m_drive::setModuleStates,
- * m_drive);
- * 
- * // Reset odometry to the starting pose of the trajectory.
- * m_drive.resetOdometry(exampleTrajectory.getInitialPose());
- * 
- * // Run path following command, then stop at the end.
- * return swerveControllerCommand.andThen(() -> m_drive.drive(0, 0, 0, 0, false,
- * false));
- */
