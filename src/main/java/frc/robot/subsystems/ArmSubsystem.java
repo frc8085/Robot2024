@@ -259,6 +259,12 @@ public class ArmSubsystem extends SubsystemBase {
         return shooterPivotPosition <= setpoint + 10 || shooterPivotPosition >= setpoint - 10;
     }
 
+    public void adjustShooter(double speed) {
+        double direction = speed > 0 ? 1 : -1;
+        double speedWithMinimum = Math.max(0.00, Math.abs(speed)) * direction;
+
+    }
+
     public boolean atHomePosition() {
         double armTolerance = 10;
         double shooterPivotTolerance = 10;

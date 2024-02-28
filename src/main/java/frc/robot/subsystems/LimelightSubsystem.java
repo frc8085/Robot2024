@@ -17,15 +17,16 @@ public class LimelightSubsystem extends SubsystemBase {
     /** Creates a new LimelightSubsystem. */
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     DriveSubsystem m_drive;
+    ArmSubsystem m_arm;
 
     public static HttpCamera m_limelight;
 
     private boolean m_visionMode;
 
     public LimelightSubsystem(
-        DriveSubsystem drive
-    ) {
+            DriveSubsystem drive, ArmSubsystem arm) {
         m_drive = drive;
+        m_arm = arm;
 
         m_limelight = new HttpCamera("LL", "http://limelight:5809/stream.mjpg");
         m_limelight.setResolution(320, 240);
@@ -79,13 +80,21 @@ public class LimelightSubsystem extends SubsystemBase {
     public double getXfromRobotPerspective() {
         // Heading from -180 to 180
         double robotHeading = m_drive.getHeadingWrappedDegrees();
-        double degreesToTarget = - getX();
+        double degreesToTarget = -getX();
         double degreesFromRobotPerspective = robotHeading + degreesToTarget;
         return degreesFromRobotPerspective;
     }
 
     public double getY() {
         return table.getEntry("ty").getDouble(0.0);
+    }
+
+    // Account for the robot's current shooter angle when returning the Y value
+    public double getYfromRobotPerspective() {
+        double currentShooterPivotPosition = m_arm.getShooterPivotPosition();
+        double degreesToTarget = -getY();
+        double degreesToAdjustShooterPivot = currentShooterPivotPosition + degreesToTarget;
+        return degreesToAdjustShooterPivot;
     }
 
     public double getArea() {
