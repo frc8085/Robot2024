@@ -274,10 +274,21 @@ public class RobotContainer {
 
                 // Testing conditional, check if shooter is at speed, if it is, shoot, if not,
                 // wait til it is at speed then shoot
-                shoot.onTrue(new ConditionalCommand(new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME),
+
+                // Add another conditional command to shootnew to check if arm is in amp
+                // position, so it doesn't return home after shooting
+                shoot.onTrue(new ConditionalCommand(
+                                new ConditionalCommand(
+                                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.AMP),
+                                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME),
+                                                m_arm::atAmpPosition),
                                 new WaitUntilCommand(m_shooter::readyToShoot)
-                                                .andThen(new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin,
-                                                                Position.HOME)),
+                                                .andThen(new ConditionalCommand(
+                                                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin,
+                                                                                Position.AMP),
+                                                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin,
+                                                                                Position.HOME),
+                                                                m_arm::atAmpPosition)),
                                 m_shooter::readyToShoot));
 
                 // intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter,
