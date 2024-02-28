@@ -260,13 +260,13 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public boolean atHomePosition() {
-        double armTolerance = 5;
-        double shooterPivotTolerance = 5;
+        double armTolerance = 10;
+        double shooterPivotTolerance = 10;
 
-        return m_armEncoder.getPosition() < Position.HOME.armPosition + armTolerance &&
-                m_armEncoder.getPosition() > Position.HOME.armPosition - armTolerance &&
-                m_shooterPivotEncoder.getPosition() < Position.HOME.shooterPivotPosition + shooterPivotTolerance &&
-                m_shooterPivotEncoder.getPosition() > Position.HOME.shooterPivotPosition - shooterPivotTolerance;
+        return m_armEncoder.getPosition() < (Position.HOME.armPosition + armTolerance) &&
+                m_armEncoder.getPosition() > (Position.HOME.armPosition - armTolerance) &&
+                m_shooterPivotEncoder.getPosition() < (Position.HOME.shooterPivotPosition + shooterPivotTolerance) &&
+                m_shooterPivotEncoder.getPosition() > (Position.HOME.shooterPivotPosition - shooterPivotTolerance);
     }
 
     // Limit Switches
