@@ -42,7 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Move to First Note"
+                  "pathName": "Start-1"
                 }
               }
             ]
@@ -79,7 +79,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Updated Move to Second Note"
+                  "pathName": "1-2"
                 }
               }
             ]
@@ -116,7 +116,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Move to Third Note"
+                  "pathName": "2-3"
                 }
               }
             ]

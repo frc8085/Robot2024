@@ -42,16 +42,10 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Move to First Note"
+                  "pathName": "Start-1"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilHome"
           }
         },
         {
@@ -64,12 +58,6 @@
           "type": "named",
           "data": {
             "name": "MoveToPodium"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilReadyToShoot"
           }
         },
         {
@@ -91,16 +79,10 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Move to Second Note"
+                  "pathName": "1-2"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilHome"
           }
         },
         {
@@ -118,7 +100,38 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitUntilReadyToShoot"
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpNote"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2-3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TurnOnShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MoveToPodium"
           }
         },
         {

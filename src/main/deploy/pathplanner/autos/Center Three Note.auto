@@ -42,7 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Move to First Note"
+                  "pathName": "Start-1"
                 }
               }
             ]
@@ -58,6 +58,12 @@
           "type": "named",
           "data": {
             "name": "MoveToPodium"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilReadyToShoot"
           }
         },
         {
@@ -79,7 +85,39 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Updated Move to Second Note"
+                  "pathName": "1-4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4-1"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "TurnOnShooter"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "MoveToPodium"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -88,13 +126,7 @@
         {
           "type": "named",
           "data": {
-            "name": "TurnOnShooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MoveToPodium"
+            "name": "WaitUntilReadyToShoot"
           }
         },
         {
@@ -116,7 +148,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Move to Third Note"
+                  "pathName": "1-2"
                 }
               }
             ]
@@ -132,6 +164,12 @@
           "type": "named",
           "data": {
             "name": "MoveToPodium"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilReadyToShoot"
           }
         },
         {
