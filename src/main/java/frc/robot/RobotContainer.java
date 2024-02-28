@@ -64,7 +64,7 @@ public class RobotContainer {
         private final FeederSubsystem m_feeder = new FeederSubsystem();
         private final ArmSubsystem m_arm = new ArmSubsystem();
         private final ClimberSubsystem m_climb = new ClimberSubsystem();
-        private final LimelightSubsystem m_limelight = new LimelightSubsystem(m_drive);
+        private final LimelightSubsystem m_limelight = new LimelightSubsystem(m_drive, m_arm);
         private final Blinkin m_blinkin = new Blinkin();
 
         // Register Named Commands for PathPlanner
@@ -227,10 +227,7 @@ public class RobotContainer {
 
                 // DRIVER controlled buttons
                 final Trigger shoot = m_driverController.leftTrigger();
-                final Trigger turnOnShooter = m_driverController.x();
-                final Trigger turnOffShooter = m_driverController.b();
                 final Trigger lockWheels = m_driverController.povDown();
-                // final Trigger robotRelative = m_driverController.rightBumper();
 
                 final Trigger autoTarget = m_driverController.leftBumper();
 
@@ -246,7 +243,7 @@ public class RobotContainer {
 
                 // OPERATOR controlled buttons
                 final Trigger toggleShooter = m_operatorController.rightTrigger();
-                final Trigger intake = m_operatorController.leftTrigger();
+                final Trigger toggleIntake = m_operatorController.leftTrigger();
                 final Trigger stopIntake = m_operatorController.start();
 
                 // eventually the operator will control the shooter wheels
@@ -283,10 +280,19 @@ public class RobotContainer {
                                                                 Position.HOME)),
                                 m_shooter::readyToShoot));
 
-                intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin));
+                // intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter,
+                // m_blinkin));
 
                 stopIntake.onTrue(new ParallelCommandGroup(new InstantCommand(m_intake::stop),
                                 new InstantCommand(m_feeder::stop)));
+
+                toggleIntake.toggleOnTrue(new ConditionalCommand(
+                                new ParallelCommandGroup(
+                                                new InstantCommand(m_intake::stop),
+                                                new InstantCommand(m_feeder::stop),
+                                                new InstantCommand(m_blinkin::driving)),
+                                new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin),
+                                m_intake::isIntakeRunning));
 
                 // Operator Shooter Controls
                 toggleShooter.toggleOnTrue(

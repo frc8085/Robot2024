@@ -16,6 +16,8 @@ public class IntakeSubsystem extends SubsystemBase {
     private boolean TUNING_MODE = TuningModeConstants.kIntakeTuning;
     private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
 
+    private boolean intakeOn = false;
+
     // imports motor id
     private final CANSparkMax m_intakeMotor = new CANSparkMax(CanIdConstants.kIntakeCanId,
             MotorDefaultsConstants.NeoMotorType);
@@ -40,10 +42,12 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void run() {
         m_intakeMotor.set(kSpeed);
+        intakeOn = true;
     }
 
     public void stop() {
         m_intakeMotor.set(0);
+        intakeOn = false;
     }
 
     public void runArmMove() {
@@ -52,6 +56,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void eject() {
         m_intakeMotor.set(IntakeConstants.ejectSpeed);
+        intakeOn = true;
+    }
+
+    public boolean isIntakeRunning() {
+        return intakeOn;
     }
 
     @Override
