@@ -14,6 +14,12 @@
         {
           "type": "named",
           "data": {
+            "name": "NoteInRobot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "TurnOnShooter"
           }
         },
@@ -30,19 +36,32 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Start-1"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteCheckAuto"
+                      }
+                    }
+                  ]
+                }
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "PickUpNote"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Start-1"
                 }
               }
             ]
@@ -67,19 +86,32 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "1-2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteCheckAuto"
+                      }
+                    }
+                  ]
+                }
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "PickUpNote"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "1-2"
                 }
               }
             ]
@@ -104,19 +136,32 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "2-3"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteCheckAuto"
+                      }
+                    }
+                  ]
+                }
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "PickUpNote"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "2-3"
                 }
               }
             ]

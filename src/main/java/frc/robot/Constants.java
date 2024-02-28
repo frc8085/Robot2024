@@ -154,8 +154,8 @@ public final class Constants {
                 public static final double kArmD = 0.1;
                 public static final double kArmFF = 0.0012;
                 public static final double kArmMaxOutput = kArmMaxSpeed;
-                public static final double kArmMinOutput = kArmMinSpeed;
-                public static final double kArmMaxAccel = 24;
+                public static final double kArmMinOutput = -.8;
+                public static final double kArmMaxAccel = 12;
                 public static final double kArmMaxVelo = 14;
 
                 // Shooter Pivot PID coefficients
@@ -171,14 +171,14 @@ public final class Constants {
 
                 // Arm PID coefficients
                 public static final int kArmPIDSlot1 = 1;
-                public static final double kArmPSlot1 = 0.01;
+                public static final double kArmPSlot1 = 0.017;
                 public static final double kArmISlot1 = 0;
-                public static final double kArmDSlot1 = 0;
-                public static final double kArmFFSlot1 = 0.001;
+                public static final double kArmDSlot1 = 0.1;
+                public static final double kArmFFSlot1 = 0.0012;
                 public static final double kArmMaxOutputSlot1 = kArmMaxSpeed;
-                public static final double kArmMinOutputSlot1 = -0.7;
-                public static final double kArmMaxAccelSlot1 = .1;
-                public static final double kArmMaxVeloSlot1 = .5;
+                public static final double kArmMinOutputSlot1 = kArmMinSpeed;
+                public static final double kArmMaxAccelSlot1 = 24;
+                public static final double kArmMaxVeloSlot1 = 14;
 
                 // Shooter Pivot PID coefficients
                 public static final int kShooterPivotPIDSlot1 = 1;
@@ -215,7 +215,7 @@ public final class Constants {
                 // Arm Positions
                 public enum Position {
                         HOME("Home",
-                                        232,
+                                        236,
                                         45,
                                         false,
                                         false,
@@ -233,7 +233,7 @@ public final class Constants {
                                         60,
                                         true,
                                         true,
-                                        true,
+                                        false,
                                         ShooterConstants.kShooter1SetPoint),
                         SUBWOOFER("Subwoofer",
                                         325,
@@ -243,7 +243,7 @@ public final class Constants {
                                         true,
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_SUBWOOFER("Subwoofer",
-                                        290,
+                                        285,
                                         70.5,
                                         true,
                                         true,

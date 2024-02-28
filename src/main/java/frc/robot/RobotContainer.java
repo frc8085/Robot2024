@@ -31,6 +31,7 @@ import frc.robot.commands.NoteCorrection;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
+import frc.robot.commands.ShootChooser;
 import frc.robot.commands.EnableShooterAuto;
 import frc.robot.commands.EnableShooterTrap;
 import frc.robot.commands.ShootNew;
@@ -59,7 +60,7 @@ public class RobotContainer {
 
         // The robot's subsystems
         private final DriveSubsystem m_drive = new DriveSubsystem();
-        private final ShooterSubsystem m_shooter = new ShooterSubsystem();
+        public final ShooterSubsystem m_shooter = new ShooterSubsystem();
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
         private final FeederSubsystem m_feeder = new FeederSubsystem();
         public final ArmSubsystem m_arm = new ArmSubsystem();
@@ -277,19 +278,7 @@ public class RobotContainer {
 
                 // Add another conditional command to shootnew to check if arm is in amp
                 // position, so it doesn't return home after shooting
-                shoot.onTrue(new ConditionalCommand(
-                                new ConditionalCommand(
-                                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.AMP),
-                                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME),
-                                                m_arm::atAmpPosition),
-                                new WaitUntilCommand(m_shooter::readyToShoot)
-                                                .andThen(new ConditionalCommand(
-                                                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin,
-                                                                                Position.AMP),
-                                                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin,
-                                                                                Position.HOME),
-                                                                m_arm::atAmpPosition)),
-                                m_shooter::readyToShoot));
+                shoot.onTrue(new ShootChooser(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 // intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter,
                 // m_blinkin));
@@ -332,11 +321,9 @@ public class RobotContainer {
                 // moveToAmp.and(alternatePosition).onTrue(
                 // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.BACK_PODIUM));
                 // // HIGH Subwoofer
-
-                // TODO: Turn off alternate sub to see if something else is running when held
-                // moveToSubwoofer.and(alternatePosition).onTrue(
-                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
-                // Position.BACK_SUBWOOFER));
+                moveToSubwoofer.and(alternatePosition).onTrue(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                                                Position.BACK_SUBWOOFER));
                 moveToBackSubwoofer.onTrue(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.BACK_SUBWOOFER));
 
