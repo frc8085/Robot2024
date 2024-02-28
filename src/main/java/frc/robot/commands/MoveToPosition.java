@@ -48,12 +48,15 @@ public class MoveToPosition extends SequentialCommandGroup {
                     new InstantCommand(() -> m_arm.setArmPosition(position.armPosition)));
         }
 
-        addCommands(new ConditionalCommand(new NoteCorrection(m_feeder)
-                .andThen(new InstantCommand(() -> m_shooter.setShooterSpeed(position.shooterSpeed))),
-                new InstantCommand(() -> m_shooter.setShooterSpeed(position.shooterSpeed)),
-                m_feeder::needNoteCorrection),
-                new WaitUntilCommand(m_shooter::readyToShoot),
-                new InstantCommand(m_blinkin::shooterAtSetPoint));
-
+        if (position.shooterSpeed > 0) {
+            addCommands(new ConditionalCommand(new NoteCorrection(m_feeder)
+                    .andThen(new InstantCommand(() -> m_shooter.setShooterSpeed(position.shooterSpeed))),
+                    new InstantCommand(() -> m_shooter.setShooterSpeed(position.shooterSpeed)),
+                    m_feeder::needNoteCorrection),
+                    new WaitUntilCommand(m_shooter::readyToShoot),
+                    new InstantCommand(m_blinkin::shooterAtSetPoint));
+        } else {
+            addCommands(new InstantCommand(m_shooter::stop));
+        }
     }
 }

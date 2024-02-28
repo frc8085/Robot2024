@@ -2,10 +2,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.SparkRelativeEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

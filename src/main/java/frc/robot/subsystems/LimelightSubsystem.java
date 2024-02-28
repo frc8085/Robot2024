@@ -11,21 +11,25 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.TuningModeConstants;
 
 public class LimelightSubsystem extends SubsystemBase {
+    private boolean TUNING_MODE = TuningModeConstants.kLimelightTuning;
+    private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
+
     /** Creates a new LimelightSubsystem. */
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     DriveSubsystem m_drive;
+    ArmSubsystem m_arm;
 
     public static HttpCamera m_limelight;
 
     private boolean m_visionMode;
 
     public LimelightSubsystem(
-        DriveSubsystem drive
-    ) {
+            DriveSubsystem drive, ArmSubsystem arm) {
         m_drive = drive;
+        m_arm = arm;
 
         m_limelight = new HttpCamera("LL", "http://limelight:5809/stream.mjpg");
         m_limelight.setResolution(320, 240);
@@ -56,12 +60,10 @@ public class LimelightSubsystem extends SubsystemBase {
         // read values periodically
         // SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelight));
         // SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelightRight));
-        if (Constants.TuningModeConstants.kLimelightTuning) {
-
+        if (TUNING_MODE) {
             SmartDashboard.putNumber("April tag ID", getAprilTagID());
             SmartDashboard.putNumberArray("LL Bot Location", getRobotLocation());
             SmartDashboard.putBoolean("Target", hasTarget());
-
             SmartDashboard.putNumber("LL ID", getID());
 
             SmartDashboard.putNumber("LL X", getX());
@@ -79,13 +81,21 @@ public class LimelightSubsystem extends SubsystemBase {
     public double getXfromRobotPerspective() {
         // Heading from -180 to 180
         double robotHeading = m_drive.getHeadingWrappedDegrees();
-        double degreesToTarget = - getX();
+        double degreesToTarget = -getX();
         double degreesFromRobotPerspective = robotHeading + degreesToTarget;
         return degreesFromRobotPerspective;
     }
 
     public double getY() {
         return table.getEntry("ty").getDouble(0.0);
+    }
+
+    // Account for the robot's current shooter angle when returning the Y value
+    public double getYfromRobotPerspective() {
+        double currentShooterPivotPosition = m_arm.getShooterPivotPosition();
+        double degreesToTarget = -getY();
+        double degreesToAdjustShooterPivot = currentShooterPivotPosition + degreesToTarget;
+        return degreesToAdjustShooterPivot;
     }
 
     public double getArea() {

@@ -112,7 +112,7 @@ public final class Constants {
 
                 public static double kShooter1SetPoint = 4300;
                 public static double kShooter2SetPoint = kShooter1SetPoint * 0.9;
-                public static double kShooterToleranceRPMPercent = .05;
+                public static double kShooterToleranceRPMPercent = .02;
 
                 public static double kShooterSetPointTrap = 1000;
                 public static double kShooterSetPointAmp = 2000;

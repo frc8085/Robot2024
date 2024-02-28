@@ -332,8 +332,11 @@ public class RobotContainer {
                 // moveToAmp.and(alternatePosition).onTrue(
                 // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.BACK_PODIUM));
                 // // HIGH Subwoofer
-                moveToSubwoofer.and(alternatePosition).onTrue(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.BACK_SUBWOOFER));
+
+                // TODO: Turn off alternate sub to see if something else is running when held
+                // moveToSubwoofer.and(alternatePosition).onTrue(
+                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.BACK_SUBWOOFER));
                 moveToBackSubwoofer.onTrue(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.BACK_SUBWOOFER));
 
