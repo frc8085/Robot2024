@@ -258,14 +258,10 @@ public class ArmSubsystem extends SubsystemBase {
         return shooterPivotPosition <= setpoint + 10 || shooterPivotPosition >= setpoint - 10;
     }
 
-    public boolean atHomePosition() {
-        double armTolerance = 10;
-        double shooterPivotTolerance = 10;
+    public void adjustShooter(double speed) {
+        double direction = speed > 0 ? 1 : -1;
+        double speedWithMinimum = Math.max(0.00, Math.abs(speed)) * direction;
 
-        return m_armEncoder.getPosition() < (Position.HOME.armPosition + armTolerance) &&
-                m_armEncoder.getPosition() > (Position.HOME.armPosition - armTolerance) &&
-                m_shooterPivotEncoder.getPosition() < (Position.HOME.shooterPivotPosition + shooterPivotTolerance) &&
-                m_shooterPivotEncoder.getPosition() > (Position.HOME.shooterPivotPosition - shooterPivotTolerance);
     }
 
     // Limit Switches
@@ -288,7 +284,7 @@ public class ArmSubsystem extends SubsystemBase {
         return (getArmPosition() < ArmConstants.shooterMaxHeight);
     }
 
-    // Manual Arm Motor Movements
+    // Manual Arm Motor Movements - Open Loop
 
     public void armRaise() {
         m_armMotor.set(ArmConstants.kArmRaiseSpeed);
@@ -314,16 +310,29 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterPivotMotor.set(0);
     }
 
-    public Boolean atTravelPosition() {
-        double tolerance = 10;
-        double armPosition = getArmPosition();
-        double shooterPivotPosition = getShooterPivotPosition();
-        boolean armAtTravel = armPosition >= Position.HOME.armPosition - tolerance
-                || armPosition <= Position.HOME.armPosition + tolerance;
-        boolean shooterPivotAtTravel = shooterPivotPosition >= Position.HOME.shooterPivotPosition - tolerance
-                || shooterPivotPosition <= Position.HOME.shooterPivotPosition + tolerance;
+    // Manual Arm Motor Movements - Attempt to use Closed Loop
 
-        return armAtTravel && shooterPivotAtTravel;
+    // Determine different positions
+    public boolean atHomePosition() {
+        double armTolerance = 10;
+        double shooterPivotTolerance = 10;
+
+        return m_armEncoder.getPosition() < (Position.HOME.armPosition + armTolerance) &&
+                m_armEncoder.getPosition() > (Position.HOME.armPosition - armTolerance) &&
+                m_shooterPivotEncoder.getPosition() < (Position.HOME.shooterPivotPosition + shooterPivotTolerance) &&
+                m_shooterPivotEncoder.getPosition() > (Position.HOME.shooterPivotPosition - shooterPivotTolerance);
+    }
+
+    public boolean atAmpPosition() {
+        double armTolerance = 5;
+        double shooterPivotTolerance = 5;
+
+        boolean armAtAmp = m_armEncoder.getPosition() >= (Position.AMP.armPosition - armTolerance)
+                && m_armEncoder.getPosition() <= (Position.AMP.armPosition + armTolerance);
+        boolean shooterPivotAtAmp = m_shooterPivotEncoder
+                .getPosition() >= (Position.AMP.shooterPivotPosition - shooterPivotTolerance)
+                && m_shooterPivotEncoder.getPosition() <= (Position.AMP.shooterPivotPosition + shooterPivotTolerance);
+        return armAtAmp && shooterPivotAtAmp;
     }
 
     public void log() {
@@ -339,6 +348,7 @@ public class ArmSubsystem extends SubsystemBase {
                 getShooterPivotPosition() - kShooterPivotPositionShift);
         SmartDashboard.putBoolean("Arm above height", armShooterAboveMaxHeight());
         SmartDashboard.putBoolean("at Home Position", atHomePosition());
+        SmartDashboard.putBoolean("at Amp Position", atAmpPosition());
     }
 
     public void periodic() {
