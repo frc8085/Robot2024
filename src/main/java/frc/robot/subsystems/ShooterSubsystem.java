@@ -1,12 +1,14 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.MotorDefaultsConstants;
@@ -186,6 +188,11 @@ public class ShooterSubsystem extends SubsystemBase {
     // m_shooter1Motor.set(1);
     // m_shooter2Motor.set(-.8);
     // }
+
+    public void setShooterSpeed(double shooterSpeed) {
+        setShooter1SetPoint(shooterSpeed);
+        setShooter2SetPoint(.9 * shooterSpeed);
+    }
 
     public void run() {
         setShooter1SetPoint(kShooter1SetPoint);

@@ -93,6 +93,8 @@ public class RobotContainer {
                 NamedCommands.registerCommand("WaitUntilHome", new WaitUntilCommand(m_arm::atHomePosition));
                 NamedCommands.registerCommand("NoteCheckAuto", new NoteCheckAuto(m_intake, m_feeder));
                 NamedCommands.registerCommand("NoteInRobot", new InstantCommand(m_feeder::notePickedUp));
+                NamedCommands.registerCommand("WaitUntilReadyToShoot", new WaitUntilCommand(m_shooter::readyToShoot));
+
         }
 
         // The driver's controller

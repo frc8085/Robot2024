@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -112,9 +109,9 @@ public final class Constants {
                 public static double kShooterEncoder1VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder1PositionFactor = (2 * Math.PI);
 
-                public static double kShooter1SetPoint = 4000;
-                public static double kShooter2SetPoint = 3600;
-                public static double kShooterToleranceRPMPercent = .10;
+                public static double kShooter1SetPoint = 4300;
+                public static double kShooter2SetPoint = kShooter1SetPoint * 0.9;
+                public static double kShooterToleranceRPMPercent = .05;
 
                 public static double kShooterSetPointTrap = 1000;
                 public static double kShooterSetPointAmp = 2000;
@@ -144,7 +141,7 @@ public final class Constants {
                 public static final double kShooterPivotMax = 235;
 
                 // Manual Adjustment degree differential
-                public static final double kArmManualAdjustment = 10;
+                public static final double kArmManualAdjustment = 0;
                 public static final double kShooterPivotManualAdjustment = 5;
 
                 // PIDS
@@ -205,7 +202,7 @@ public final class Constants {
                 public static final double kArmAdjustmentFactor = 90 + kArmPositionShift;
 
                 // the arm position is about 25 higher when it holds than what you want
-                public static final double kArmPIDShift = 25;
+                public static final double kArmPIDShift = 20;
 
                 // Zeroing the shooter pivot at the far limit, so all our positions should be
                 // adjusted
@@ -221,71 +218,63 @@ public final class Constants {
                                         false,
                                         false,
                                         true,
-                                        false,
-                                        1),
+                                        0),
                         AMP("Amp",
                                         325,
                                         205,
                                         true,
                                         false,
                                         true,
-                                        true,
-                                        2),
+                                        2000),
                         PODIUM("Podium",
-                                        259.5,
+                                        260,
                                         60,
                                         true,
                                         true,
                                         true,
-                                        true, 3),
+                                        4300),
                         SUBWOOFER("Subwoofer",
-                                        322,
+                                        325,
                                         125,
                                         true,
                                         false,
                                         true,
-                                        true,
-                                        4),
+                                        4300),
                         AUTO_SUBWOOFER("Subwoofer",
-                                        280,
+                                        290,
                                         70.5,
                                         true,
                                         true,
                                         true,
-                                        true,
-                                        5),
+                                        4300),
                         TRAP_APPROACH("Trap Approach",
                                         320,
                                         160,
                                         true,
                                         true,
                                         false,
-                                        false,
-                                        6),
+                                        0),
                         TRAP_FINAL("Trap Final",
                                         310,
                                         50,
                                         true,
                                         true,
                                         false,
-                                        false,
-                                        7),
+                                        0),
                         TRAP_SCORE("Trap Score",
                                         315,
                                         90,
                                         true,
                                         true,
                                         false,
-                                        false,
-                                        8),
+                                        1000),
                         HIGH_PODIUM("High Podium",
                                         322,
                                         139,
                                         true,
                                         true,
                                         true,
-                                        true,
-                                        9),
+                                        4300),
 
                         BACK_PODIUM("Back Podium",
                                         338,
@@ -293,17 +282,15 @@ public final class Constants {
                                         true,
                                         true,
                                         true,
-                                        true,
-                                        10),
+                                        4300),
 
                         BACK_SUBWOOFER("Back Subwoofer",
-                                        320,
+                                        325,
                                         42,
                                         true,
                                         true,
                                         true,
-                                        true,
-                                        11);
+                                        4300);
 
                         public final String label;
                         public final double armPosition;
@@ -311,8 +298,7 @@ public final class Constants {
                         public final boolean moveArmFirst;
                         public final boolean parallelMovement;
                         public final boolean HeightCheck;
-                        public final boolean shooterOn;
-                        public final int positionNumber;
+                        public final double shooterSpeed;
 
                         private Position(String label,
                                         double armPosition,
@@ -320,16 +306,14 @@ public final class Constants {
                                         boolean moveArmFirst,
                                         boolean parallelMovement,
                                         boolean HeightCheck,
-                                        boolean shooterOn,
-                                        int positionNumber) {
+                                        double shooterSpeed) {
                                 this.label = label;
                                 this.armPosition = armPosition;
                                 this.shooterPivotPosition = shooterPivotPosition;
                                 this.moveArmFirst = moveArmFirst;
                                 this.parallelMovement = parallelMovement;
                                 this.HeightCheck = HeightCheck;
-                                this.shooterOn = shooterOn;
-                                this.positionNumber = positionNumber;
+                                this.shooterSpeed = shooterSpeed;
                         }
 
                 }
