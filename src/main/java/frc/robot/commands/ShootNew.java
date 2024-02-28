@@ -24,7 +24,7 @@ public class ShootNew extends SequentialCommandGroup {
                 // seconds
                 new WaitUntilCommand(m_feeder::isNoteDetected),
                 new WaitUntilCommand(m_feeder::isNoteNotDetected),
-                new WaitCommand(1),
+                new WaitCommand(.2),
                 new InstantCommand(m_feeder::stop),
                 new InstantCommand(m_shooter::stop),
                 new InstantCommand(m_feeder::noteShot),

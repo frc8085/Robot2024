@@ -61,7 +61,7 @@ public final class Constants {
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = false;
                 public static final boolean kLimelightTuning = false;
-                public static final boolean kShooterTuning = true;
+                public static final boolean kShooterTuning = false;
         }
 
         public static final class IntakeConstants {
@@ -112,8 +112,8 @@ public final class Constants {
                 public static double kShooterEncoder1VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder1PositionFactor = (2 * Math.PI);
 
-                public static double kShooter1SetPoint = 3000;
-                public static double kShooter2SetPoint = 3000;
+                public static double kShooter1SetPoint = 4000;
+                public static double kShooter2SetPoint = 3600;
                 public static double kShooterToleranceRPMPercent = .10;
 
                 public static double kShooterSetPointTrap = 1000;
