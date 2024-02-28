@@ -46,7 +46,7 @@ public final class Constants {
 
         public static final class MotorDefaultsConstants {
                 public static final int NeoCurrentLimit = 40;
-                public static final int NeoVortexCurrentLimit = 40;
+                public static final int NeoVortexCurrentLimit = 60;
                 public static final int Neo550CurrentLimit = 20;
                 public static final MotorType NeoMotorType = MotorType.kBrushless;
                 public static final MotorType Neo550MotorType = MotorType.kBrushless;
@@ -125,8 +125,8 @@ public final class Constants {
                 public static final IdleMode kArmMotorIdleMode = IdleMode.kBrake;
                 public static final IdleMode kShooterPivotMotorIdleMode = IdleMode.kBrake;
 
-                public static final double kArmMaxSpeed = .7;
-                public static final double kArmMinSpeed = -.7;
+                public static final double kArmMaxSpeed = 1;
+                public static final double kArmMinSpeed = -1;
                 public static final double kShooterPivotMaxSpeed = 1;
 
                 // Manual Arm movement speeds
@@ -150,14 +150,14 @@ public final class Constants {
                 // PIDS
                 // Arm PID coefficients
                 public static final int kArmPIDSlot = 0;
-                public static final double kArmP = 0.01;
+                public static final double kArmP = 0.017;
                 public static final double kArmI = 0;
-                public static final double kArmD = 0;
-                public static final double kArmFF = 0.001;
+                public static final double kArmD = 0.1;
+                public static final double kArmFF = 0.0012;
                 public static final double kArmMaxOutput = kArmMaxSpeed;
                 public static final double kArmMinOutput = kArmMinSpeed;
-                public static final double kArmMaxAccel = .5;
-                public static final double kArmMaxVelo = 1;
+                public static final double kArmMaxAccel = 24;
+                public static final double kArmMaxVelo = 14;
 
                 // Shooter Pivot PID coefficients
                 public static final int kShooterPivotPIDSlot = 0;
