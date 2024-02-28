@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import static frc.robot.Constants.ArmConstants.kArmPositionShift;
 import static frc.robot.Constants.ArmConstants.kShooterPivotMax;
@@ -333,6 +334,12 @@ public class ArmSubsystem extends SubsystemBase {
                 .getPosition() >= (Position.AMP.shooterPivotPosition - shooterPivotTolerance)
                 && m_shooterPivotEncoder.getPosition() <= (Position.AMP.shooterPivotPosition + shooterPivotTolerance);
         return armAtAmp && shooterPivotAtAmp;
+    }
+
+    // Set Arm Brake Mode
+    public void setBrakeMode(boolean brake) {
+        IdleMode mode = brake ? IdleMode.kBrake : IdleMode.kCoast;
+        m_armMotor.setIdleMode(mode);
     }
 
     public void log() {

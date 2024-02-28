@@ -62,7 +62,7 @@ public class RobotContainer {
         private final ShooterSubsystem m_shooter = new ShooterSubsystem();
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
         private final FeederSubsystem m_feeder = new FeederSubsystem();
-        private final ArmSubsystem m_arm = new ArmSubsystem();
+        public final ArmSubsystem m_arm = new ArmSubsystem();
         private final ClimberSubsystem m_climb = new ClimberSubsystem();
         private final LimelightSubsystem m_limelight = new LimelightSubsystem(m_drive, m_arm);
         private final Blinkin m_blinkin = new Blinkin();
