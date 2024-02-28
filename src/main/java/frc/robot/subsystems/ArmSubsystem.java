@@ -315,16 +315,6 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterPivotMotor.set(0);
     }
 
-    public void periodic() {
-        // This method will be called once per scheduler run
-        log();
-        if (TUNING_MODE) {
-            // tunePIDs();
-            // tuneSetPoints();
-
-        }
-    }
-
     public Boolean atTravelPosition() {
         double tolerance = 10;
         double armPosition = getArmPosition();
@@ -460,4 +450,21 @@ public class ArmSubsystem extends SubsystemBase {
         }
 
     }
+
+    /* Record what position we are currently in */
+    public void recordPosition(int positionNumber) {
+        int currentPosition;
+        currentPosition = positionNumber;
+    }
+
+    public void periodic() {
+        // This method will be called once per scheduler run
+        log();
+        if (TUNING_MODE) {
+            // tunePIDs();
+            // tuneSetPoints();
+
+        }
+    }
+
 }

@@ -92,6 +92,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("WaitUntilNoteDetected", new WaitUntilCommand(m_feeder::isNoteDetected));
                 NamedCommands.registerCommand("WaitUntilHome", new WaitUntilCommand(m_arm::atHomePosition));
                 NamedCommands.registerCommand("NoteCheckAuto", new NoteCheckAuto(m_intake, m_feeder));
+                NamedCommands.registerCommand("NoteInRobot", new InstantCommand(m_feeder::notePickedUp));
         }
 
         // The driver's controller
@@ -256,6 +257,7 @@ public class RobotContainer {
                 final Trigger moveToSubwoofer = m_operatorController.x();
                 final Trigger moveToAmp = m_operatorController.a();
                 final Trigger moveToPodium = m_operatorController.b();
+                final Trigger moveToBackSubwoofer = m_operatorController.rightStick();
 
                 // Climb Controls TBD
                 final Trigger moveToTrapApproach = m_operatorController.povLeft();
@@ -312,6 +314,8 @@ public class RobotContainer {
                 // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.BACK_PODIUM));
                 // // HIGH Subwoofer
                 moveToSubwoofer.and(alternatePosition).onTrue(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.BACK_SUBWOOFER));
+                moveToBackSubwoofer.onTrue(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.BACK_SUBWOOFER));
 
                 /**

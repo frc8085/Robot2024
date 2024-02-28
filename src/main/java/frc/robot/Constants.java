@@ -95,25 +95,25 @@ public final class Constants {
                 public static IdleMode kShooterMotor1IdleMode = IdleMode.kBrake;
                 public static double kShooter2MaxOutput = 1;
                 public static double kShooter2MinOutput = -1;
-                public static double kShooter2FF = 0.0002;
-                public static double kShooter2P = 0.0004;
-                public static double kShooter2I = 0.001;
-                public static double kShooter2D = 0;
+                public static double kShooter2FF = 0.000235;
+                public static double kShooter2P = 0.0006;
+                public static double kShooter2I = 0.00;
+                public static double kShooter2D = .6;
 
                 public static double kShooter1MaxOutput = 1;
                 public static double kShooter1MinOutput = -1;
-                public static double kShooter1FF = 0.0002;
-                public static double kShooter1P = 0.0004;
-                public static double kShooter1I = 0.001;
-                public static double kShooter1D = 0;
+                public static double kShooter1FF = 0.000235;
+                public static double kShooter1P = 0.0006;
+                public static double kShooter1I = 0.00;
+                public static double kShooter1D = .6;
 
                 public static double kShooterEncoder2VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder2PositionFactor = (2 * Math.PI);
                 public static double kShooterEncoder1VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder1PositionFactor = (2 * Math.PI);
 
-                public static double kShooter1SetPoint = 4800;
-                public static double kShooter2SetPoint = 3850;
+                public static double kShooter1SetPoint = 3000;
+                public static double kShooter2SetPoint = 3000;
                 public static double kShooterToleranceRPMPercent = .10;
 
                 public static double kShooterSetPointTrap = 1000;
@@ -221,63 +221,71 @@ public final class Constants {
                                         false,
                                         false,
                                         true,
-                                        false),
+                                        false,
+                                        1),
                         AMP("Amp",
                                         325,
                                         205,
                                         true,
                                         false,
                                         true,
-                                        true),
+                                        true,
+                                        2),
                         PODIUM("Podium",
                                         259.5,
                                         60,
                                         true,
                                         true,
                                         true,
-                                        true),
+                                        true, 3),
                         SUBWOOFER("Subwoofer",
                                         322,
                                         125,
                                         true,
                                         false,
                                         true,
-                                        true),
+                                        true,
+                                        4),
                         AUTO_SUBWOOFER("Subwoofer",
                                         280,
                                         70.5,
                                         true,
                                         true,
                                         true,
-                                        true),
+                                        true,
+                                        5),
                         TRAP_APPROACH("Trap Approach",
                                         320,
                                         160,
                                         true,
                                         true,
                                         false,
-                                        false),
+                                        false,
+                                        6),
                         TRAP_FINAL("Trap Final",
                                         310,
                                         50,
                                         true,
                                         true,
                                         false,
-                                        false),
+                                        false,
+                                        7),
                         TRAP_SCORE("Trap Score",
                                         315,
                                         90,
                                         true,
                                         true,
                                         false,
-                                        false),
+                                        false,
+                                        8),
                         HIGH_PODIUM("High Podium",
                                         322,
                                         139,
                                         true,
                                         true,
                                         true,
-                                        true),
+                                        true,
+                                        9),
 
                         BACK_PODIUM("Back Podium",
                                         338,
@@ -285,7 +293,8 @@ public final class Constants {
                                         true,
                                         true,
                                         true,
-                                        true),
+                                        true,
+                                        10),
 
                         BACK_SUBWOOFER("Back Subwoofer",
                                         320,
@@ -293,7 +302,8 @@ public final class Constants {
                                         true,
                                         true,
                                         true,
-                                        true);
+                                        true,
+                                        11);
 
                         public final String label;
                         public final double armPosition;
@@ -302,6 +312,7 @@ public final class Constants {
                         public final boolean parallelMovement;
                         public final boolean HeightCheck;
                         public final boolean shooterOn;
+                        public final int positionNumber;
 
                         private Position(String label,
                                         double armPosition,
@@ -309,7 +320,8 @@ public final class Constants {
                                         boolean moveArmFirst,
                                         boolean parallelMovement,
                                         boolean HeightCheck,
-                                        boolean shooterOn) {
+                                        boolean shooterOn,
+                                        int positionNumber) {
                                 this.label = label;
                                 this.armPosition = armPosition;
                                 this.shooterPivotPosition = shooterPivotPosition;
@@ -317,6 +329,7 @@ public final class Constants {
                                 this.parallelMovement = parallelMovement;
                                 this.HeightCheck = HeightCheck;
                                 this.shooterOn = shooterOn;
+                                this.positionNumber = positionNumber;
                         }
 
                 }

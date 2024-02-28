@@ -71,11 +71,11 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter1PIDController.setFF(ShooterConstants.kShooter1FF);
         m_shooter1PIDController.setOutputRange(ShooterConstants.kShooter1MinOutput,
                 ShooterConstants.kShooter1MaxOutput);
-        m_shooter1PIDController.setIZone(10);
-        m_shooter1PIDController.setSmartMotionMaxVelocity(5600, 0);
-        m_shooter1PIDController.setSmartMotionMinOutputVelocity(500, 0);
-        m_shooter1PIDController.setSmartMotionMaxAccel(3000, 0);
-        m_shooter1PIDController.setSmartMotionAllowedClosedLoopError(50, 0);
+        m_shooter1PIDController.setIZone(0);
+        // m_shooter1PIDController.setSmartMotionMaxVelocity(5600, 0);
+        // m_shooter1PIDController.setSmartMotionMinOutputVelocity(500, 0);
+        // m_shooter1PIDController.setSmartMotionMaxAccel(3000, 0);
+        m_shooter1PIDController.setSmartMotionAllowedClosedLoopError(0, 0);
 
         m_shooter2PIDController.setP(ShooterConstants.kShooter2P);
         m_shooter2PIDController.setI(ShooterConstants.kShooter2I);
@@ -83,11 +83,11 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2PIDController.setFF(ShooterConstants.kShooter2FF);
         m_shooter2PIDController.setOutputRange(ShooterConstants.kShooter2MinOutput,
                 ShooterConstants.kShooter2MaxOutput);
-        m_shooter2PIDController.setIZone(10);
-        m_shooter2PIDController.setSmartMotionMaxVelocity(5600, 0);
-        m_shooter2PIDController.setSmartMotionMinOutputVelocity(500, 0);
-        m_shooter2PIDController.setSmartMotionMaxAccel(3000, 0);
-        m_shooter2PIDController.setSmartMotionAllowedClosedLoopError(50, 0);
+        m_shooter2PIDController.setIZone(0);
+        // m_shooter2PIDController.setSmartMotionMaxVelocity(5600, 0);
+        // m_shooter2PIDController.setSmartMotionMinOutputVelocity(500, 0);
+        // m_shooter2PIDController.setSmartMotionMaxAccel(3000, 0);
+        m_shooter2PIDController.setSmartMotionAllowedClosedLoopError(0, 0);
 
         m_shooter1Motor.setIdleMode(ShooterConstants.kShooterMotor1IdleMode);
         m_shooter1Motor.setSmartCurrentLimit(MotorDefaultsConstants.NeoCurrentLimit);
@@ -182,9 +182,9 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2Motor.set(0);
     }
 
-    // public void runAuto() {
+    // public void run() {
     // m_shooter1Motor.set(1);
-    // m_shooter2Motor.set(-0.8);
+    // m_shooter2Motor.set(-.8);
     // }
 
     public void run() {
