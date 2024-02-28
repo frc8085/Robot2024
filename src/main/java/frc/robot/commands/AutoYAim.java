@@ -8,8 +8,8 @@ import frc.robot.subsystems.LimelightSubsystem;
 
 public class AutoYAim extends PIDCommand {
     private ArmSubsystem m_arm;
-    private LimelightSubsystem m_limelight;
 
+    // TODO tune pids for AutoYAim
     static double kP = 0.01;
     static double kI = 0;
     static double kD = 0.0008;
