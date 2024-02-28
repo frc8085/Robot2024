@@ -18,6 +18,7 @@ import frc.robot.Constants.TuningModeConstants;
 public class FeederSubsystem extends SubsystemBase {
 
     private boolean TUNING_MODE = TuningModeConstants.kFeederTuning;
+    private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
 
     DigitalInput lightSensor1 = new DigitalInput(FeederConstants.kIRPort1);
     DigitalInput lightSensor2 = new DigitalInput(FeederConstants.kIRPort2);
@@ -28,15 +29,16 @@ public class FeederSubsystem extends SubsystemBase {
     // Robot starts with Note
     private boolean noteTrue = true;
 
-    private RelativeEncoder m_feederEncoder;
+    // private RelativeEncoder m_feederEncoder;
 
-    private SparkPIDController m_feederPIDController = m_feederMotor.getPIDController();
+    // private SparkPIDController m_feederPIDController =
+    // m_feederMotor.getPIDController();
 
     // PID Constants for tuning
-    double kFeederP = FeederConstants.kFeederP;
-    double kFeederI = FeederConstants.kFeederI;
-    double kFeederD = FeederConstants.kFeederD;
-    double kFeederFF = FeederConstants.kFeederFF;
+    // double kFeederP = FeederConstants.kFeederP;
+    // double kFeederI = FeederConstants.kFeederI;
+    // double kFeederD = FeederConstants.kFeederD;
+    // double kFeederFF = FeederConstants.kFeederFF;
 
     // Feeder Set Points
     double kFeederSetPoint = FeederConstants.kFeederSetPoint;
@@ -49,27 +51,26 @@ public class FeederSubsystem extends SubsystemBase {
         m_feederMotor.setIdleMode(IdleMode.kBrake);
         m_feederMotor.setSmartCurrentLimit(MotorDefaultsConstants.Neo550CurrentLimit);
 
-        // Setup encoders and PID controllers for the Feeder and shooter Feeders.
-        m_feederEncoder = m_feederMotor.getEncoder();
-        m_feederPIDController = m_feederMotor.getPIDController();
-        m_feederPIDController.setFeedbackDevice(m_feederEncoder);
+        // // Setup encoders and PID controllers for the Feeder and shooter Feeders.
+        // m_feederEncoder = m_feederMotor.getEncoder();
+        // m_feederPIDController = m_feederMotor.getPIDController();
+        // m_feederPIDController.setFeedbackDevice(m_feederEncoder);
 
-        m_feederPIDController.setP(FeederConstants.kFeederP);
-        m_feederPIDController.setI(FeederConstants.kFeederI);
-        m_feederPIDController.setD(FeederConstants.kFeederD);
-        m_feederPIDController.setFF(FeederConstants.kFeederFF);
-        m_feederPIDController.setOutputRange(FeederConstants.kFeederMinOutput,
-                FeederConstants.kFeederMaxOutput);
-        m_feederPIDController.setIZone(10);
-        m_feederPIDController.setSmartMotionMaxVelocity(5600, 0);
-        m_feederPIDController.setSmartMotionMinOutputVelocity(500, 0);
-        m_feederPIDController.setSmartMotionMaxAccel(3000, 0);
-        m_feederPIDController.setSmartMotionAllowedClosedLoopError(50, 0);
+        // m_feederPIDController.setP(FeederConstants.kFeederP);
+        // m_feederPIDController.setI(FeederConstants.kFeederI);
+        // m_feederPIDController.setD(FeederConstants.kFeederD);
+        // m_feederPIDController.setFF(FeederConstants.kFeederFF);
+        // m_feederPIDController.setOutputRange(FeederConstants.kFeederMinOutput,
+        // FeederConstants.kFeederMaxOutput);
+        // m_feederPIDController.setIZone(10);
+        // m_feederPIDController.setSmartMotionMaxVelocity(5600, 0);
+        // m_feederPIDController.setSmartMotionMinOutputVelocity(500, 0);
+        // m_feederPIDController.setSmartMotionMaxAccel(3000, 0);
+        // m_feederPIDController.setSmartMotionAllowedClosedLoopError(50, 0);
 
         m_feederMotor.burnFlash();
 
         if (TUNING_MODE) {
-            addPIDToDashboard();
         }
 
     }
@@ -77,50 +78,13 @@ public class FeederSubsystem extends SubsystemBase {
     public void log() {
     }
 
-    public void sensorReadings() {
-        SmartDashboard.putNumber("Feeder Velocity", m_feederEncoder.getVelocity());
+    public void practiceDashboard() {
+        // SmartDashboard.putNumber("Feeder Velocity", m_feederEncoder.getVelocity());
         SmartDashboard.putBoolean("Note detected", isNoteDetected());
         SmartDashboard.putBoolean("Sensor 1 note detected", lightSensor1.get());
         SmartDashboard.putBoolean("Sensor 2 note detected", lightSensor2.get());
-    }
+        SmartDashboard.putBoolean("Need Note Correction", needNoteCorrection());
 
-    public void addPIDToDashboard() {
-        SmartDashboard.putNumber("kFeederP", kFeederP);
-        SmartDashboard.putNumber("kFeederI", kFeederI);
-        SmartDashboard.putNumber("kFeederD", kFeederD);
-        SmartDashboard.putNumber("kFeederFF", kFeederFF);
-        SmartDashboard.putNumber("kFeederSetPoint", kFeederSetPoint);
-    }
-
-    public void tunePIDs() {
-        double feederP = SmartDashboard.getNumber("kFeederP", 0);
-        double feederI = SmartDashboard.getNumber("kFeederI", 0);
-        double feederD = SmartDashboard.getNumber("kFeederD", 0);
-        double feederFF = SmartDashboard.getNumber("kFeederFF", 0);
-
-        double feederSetPoint = SmartDashboard.getNumber("kFeederSetPoint", 0);
-
-        // if PID coefficients on dashboard have changed, write new values to controller
-        if ((feederP != kFeederP)) {
-            kFeederP = feederP;
-            m_feederPIDController.setP(kFeederP);
-        }
-        if ((feederI != kFeederI)) {
-            kFeederI = feederI;
-            m_feederPIDController.setI(kFeederI);
-        }
-        if ((feederD != kFeederD)) {
-            kFeederD = feederD;
-            m_feederPIDController.setI(kFeederD);
-        }
-        if ((feederSetPoint != kFeederSetPoint)) {
-            kFeederSetPoint = feederSetPoint;
-            m_feederPIDController.setReference(kFeederSetPoint, CANSparkMax.ControlType.kVelocity);
-        }
-        if ((feederFF != kFeederFF)) {
-            kFeederFF = feederFF;
-            m_feederPIDController.setFF(kFeederFF);
-        }
     }
 
     // Stop the Feeder
@@ -143,15 +107,6 @@ public class FeederSubsystem extends SubsystemBase {
 
     public void runBackwards() {
         m_feederMotor.set(-.25);
-    }
-
-    public void setFeederSetPoint(double feederSetPoint) {
-        if (feederSetPoint >= 5500) {
-            kFeederSetPoint = 5500;
-        } else {
-            kFeederSetPoint = feederSetPoint;
-        }
-        m_feederPIDController.setReference(kFeederSetPoint, CANSparkMax.ControlType.kVelocity);
     }
 
     public Boolean isNoteDetected() {
@@ -203,13 +158,14 @@ public class FeederSubsystem extends SubsystemBase {
 
         if (LoggingConstants.kLogging) {
             log();
-            SmartDashboard.putBoolean("Need Note Correction", needNoteCorrection());
 
         }
 
+        if (PRACTICE_MODE) {
+            practiceDashboard();
+        }
+
         if (TUNING_MODE) {
-            tunePIDs();
-            sensorReadings();
         }
 
     }

@@ -1,14 +1,12 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.MotorDefaultsConstants;
@@ -18,6 +16,7 @@ import frc.robot.Constants.TuningModeConstants;
 public class ShooterSubsystem extends SubsystemBase {
 
     private boolean TUNING_MODE = TuningModeConstants.kShooterTuning;
+    private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
 
     // imports motor id
     private final CANSparkMax m_shooter1Motor = new CANSparkMax(
@@ -101,79 +100,6 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2Motor.burnFlash();
 
         if (TUNING_MODE) {
-            addPIDToDashboard();
-        }
-
-    }
-
-    public void addPIDToDashboard() {
-        SmartDashboard.putNumber("kShooter1P", kShooter1P);
-        SmartDashboard.putNumber("kShooter1I", kShooter1I);
-        SmartDashboard.putNumber("kShooter1D", kShooter1D);
-        SmartDashboard.putNumber("kShooter1FF", kShooter1FF);
-
-        SmartDashboard.putNumber("kShooter2P", kShooter2P);
-        SmartDashboard.putNumber("kShooter2I", kShooter2I);
-        SmartDashboard.putNumber("kShooter2D", kShooter2D);
-        SmartDashboard.putNumber("kShooter2FF", kShooter2FF);
-
-        SmartDashboard.putNumber("kShooter1SetPoint", kShooter1SetPoint);
-        SmartDashboard.putNumber("kShooter2SetPoint", kShooter2SetPoint);
-    }
-
-    public void tunePIDs() {
-        double shooter1P = SmartDashboard.getNumber("kShooter1P", 0);
-        double shooter1I = SmartDashboard.getNumber("kShooter1I", 0);
-        double shooter1D = SmartDashboard.getNumber("kShooter1D", 0);
-        double shooter1FF = SmartDashboard.getNumber("kShooter1FF", 0);
-        double shooter2P = SmartDashboard.getNumber("kShooter2P", 0);
-        double shooter2I = SmartDashboard.getNumber("kShooter2I", 0);
-        double shooter2D = SmartDashboard.getNumber("kShooter2D", 0);
-        double shooter2FF = SmartDashboard.getNumber("kShooter2FF", 0);
-
-        double shooter1SetPoint = SmartDashboard.getNumber("kShooter1SetPoint", 0);
-        double shooter2SetPoint = SmartDashboard.getNumber("kShooter2SetPoint", 0);
-
-        // if PID coefficients on dashboard have changed, write new values to controller
-        if ((shooter1P != kShooter1P)) {
-            kShooter1P = shooter1P;
-            m_shooter1PIDController.setP(kShooter1P);
-        }
-        if ((shooter1I != kShooter1I)) {
-            kShooter1I = shooter1I;
-            m_shooter1PIDController.setI(kShooter1I);
-        }
-        if ((shooter1D != kShooter1D)) {
-            kShooter1D = shooter1D;
-            m_shooter1PIDController.setI(kShooter1D);
-        }
-        if ((shooter2P != kShooter2P)) {
-            kShooter2P = shooter2P;
-            m_shooter2PIDController.setP(kShooter2P);
-        }
-        if ((shooter2I != kShooter2I)) {
-            kShooter2I = shooter2I;
-            m_shooter2PIDController.setI(kShooter2I);
-        }
-        if ((shooter2D != kShooter2D)) {
-            kShooter2D = shooter2D;
-            m_shooter2PIDController.setI(kShooter2D);
-        }
-        if ((shooter1SetPoint != kShooter1SetPoint)) {
-            kShooter1SetPoint = shooter1SetPoint;
-            m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkMax.ControlType.kVelocity);
-        }
-        if ((shooter2SetPoint != kShooter2SetPoint)) {
-            kShooter2SetPoint = shooter2SetPoint;
-            m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkMax.ControlType.kVelocity);
-        }
-        if ((shooter1FF != kShooter1FF)) {
-            kShooter1FF = shooter1FF;
-            m_shooter1PIDController.setFF(kShooter1FF);
-        }
-        if ((shooter2FF != kShooter2FF)) {
-            kShooter2FF = shooter2FF;
-            m_shooter2PIDController.setFF(kShooter2FF);
         }
 
     }
@@ -210,8 +136,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setShooter1SetPoint(double shooter1SetPoint) {
-        if (shooter1SetPoint >= 5500) {
-            kShooter1SetPoint = 5500;
+        if (shooter1SetPoint >= 4500) {
+            kShooter1SetPoint = 4500;
         } else {
             kShooter1SetPoint = shooter1SetPoint;
         }
@@ -219,8 +145,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setShooter2SetPoint(double shooter2SetPoint) {
-        if (shooter2SetPoint >= 5500) {
-            kShooter2SetPoint = 5500;
+        if (shooter2SetPoint >= 4500) {
+            kShooter2SetPoint = 4500;
         } else {
             kShooter2SetPoint = shooter2SetPoint;
         }
@@ -281,11 +207,16 @@ public class ShooterSubsystem extends SubsystemBase {
         }
     }
 
+    public void practiceDashboard() {
+        SmartDashboard.putBoolean("Shooter1 at SetPoint", shooter1AtSetpoint());
+        SmartDashboard.putBoolean("Shooter2 at SetPoint", shooter2AtSetpoint());
+        SmartDashboard.putNumber("Shooter1 Velocity", m_shooter1Encoder.getVelocity());
+        SmartDashboard.putNumber("Shooter2 Velocity", m_shooter2Encoder.getVelocity());
+    }
+
     // This method will be called once per scheduler run
     public void periodic() {
 
-        SmartDashboard.putBoolean("Shooter1 at SetPoint", shooter1AtSetpoint());
-        SmartDashboard.putBoolean("Shooter2 at SetPoint", shooter2AtSetpoint());
         SmartDashboard.putBoolean("Ready To Shoot", readyToShoot());
         SmartDashboard.putBoolean("Shooter is Running", isShooterRunning());
 
@@ -295,14 +226,14 @@ public class ShooterSubsystem extends SubsystemBase {
             log();
         }
 
+        if (PRACTICE_MODE) {
+            practiceDashboard();
+        }
         if (TUNING_MODE) {
-            tunePIDs();
         }
     }
 
     public void log() {
-        SmartDashboard.putNumber("Shooter1 Velocity", m_shooter1Encoder.getVelocity());
-        SmartDashboard.putNumber("Shooter2 Velocity", m_shooter2Encoder.getVelocity());
     }
 
 }

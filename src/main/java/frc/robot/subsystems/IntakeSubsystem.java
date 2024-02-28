@@ -14,12 +14,13 @@ import frc.robot.Constants.TuningModeConstants;
 public class IntakeSubsystem extends SubsystemBase {
 
     private boolean TUNING_MODE = TuningModeConstants.kIntakeTuning;
+    private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
 
     // imports motor id
     private final CANSparkMax m_intakeMotor = new CANSparkMax(CanIdConstants.kIntakeCanId,
             MotorDefaultsConstants.NeoMotorType);
 
-    private double speed = IntakeConstants.speed;
+    private double kSpeed = IntakeConstants.speed;
 
     public IntakeSubsystem() {
 
@@ -32,10 +33,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
         m_intakeMotor.burnFlash();
 
+        if (TUNING_MODE) {
+            addSpeedToDashboard();
+        }
     }
 
     public void run() {
-        m_intakeMotor.set(speed);
+        m_intakeMotor.set(kSpeed);
     }
 
     public void stop() {
@@ -53,6 +57,9 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         log();
+        if (PRACTICE_MODE) {
+
+        }
         if (TUNING_MODE) {
             tuneSpeeds();
         }
@@ -63,9 +70,18 @@ public class IntakeSubsystem extends SubsystemBase {
         }
     }
 
-    public void tuneSpeeds() {
-        speed = SmartDashboard.getNumber("Intake speed", IntakeConstants.speed);
-        SmartDashboard.putNumber("Intake speed", speed);
+    public void addSpeedToDashboard() {
+        SmartDashboard.putNumber("Intake speed", kSpeed);
     }
 
+    public void tuneSpeeds() {
+        double speed = SmartDashboard.getNumber("Intake speed", 0);
+
+        if ((speed != kSpeed)) {
+            kSpeed = speed;
+            m_intakeMotor.set(speed);
+
+        }
+
+    }
 }

@@ -24,6 +24,7 @@ import frc.robot.Constants.TuningModeConstants;
 
 public class ArmSubsystem extends SubsystemBase {
     private boolean TUNING_MODE = TuningModeConstants.kArmTuning;
+    private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
 
     // Motors - Arm uses a vortex, ShooterPivot uses a 550
     private final CANSparkFlex m_armMotor = new CANSparkFlex(
@@ -158,8 +159,6 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterPivotMotor.burnFlash();
 
         if (TUNING_MODE) {
-            addPIDToDashboard();
-            addTuningSetPointToDashboard();
         }
     }
 
@@ -329,141 +328,26 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void log() {
         if (LoggingConstants.kLogging) {
-            SmartDashboard.putNumber("Raw Arm Position", getArmPosition());
-            SmartDashboard.putNumber("Raw Shooter Pivot Position", getShooterPivotPosition());
-            SmartDashboard.putNumber("Arm Position", getArmPosition() - kArmPositionShift);
-            SmartDashboard.putNumber("Shooter Pivot Position",
-                    getShooterPivotPosition() - kShooterPivotPositionShift);
-            SmartDashboard.putBoolean("Arm above height", armShooterAboveMaxHeight());
-            SmartDashboard.putBoolean("at Home Position", atHomePosition());
         }
     }
 
-    public void addTuningSetPointToDashboard() {
-        SmartDashboard.putNumber("TUNE: Arm", ktuneArmSetPoint);
-        SmartDashboard.putNumber("TUNE: SP", ktuneSPSetPoint);
-
-    }
-
-    public void addPIDToDashboard() {
-        SmartDashboard.putNumber("Tuning Slot", 1);
-        SmartDashboard.putNumber("kArmP", kArmP);
-        SmartDashboard.putNumber("kArmI", kArmI);
-        SmartDashboard.putNumber("kArmD", kArmD);
-        SmartDashboard.putNumber("kArmFF", kArmFF);
-
-        SmartDashboard.putNumber("kArmMaxAccel", kArmMaxAccel);
-        SmartDashboard.putNumber("kArmMaxVelo", kArmMaxVelo);
-        SmartDashboard.putNumber("kShooterPivotP", kShooterPivotP);
-        SmartDashboard.putNumber("kShooterPivotI", kShooterPivotI);
-        SmartDashboard.putNumber("kShooterPivotD", kShooterPivotD);
-        SmartDashboard.putNumber("kShooterPivotFF", kShooterPivotFF);
-        SmartDashboard.putNumber("kShooterPivotMaxAccel", kShooterPivotMaxAccel);
-        SmartDashboard.putNumber("kShooterPivotMaxVelo", kShooterPivotMaxVelo);
-
-    }
-
-    public void tunePIDs() {
-        double armP = SmartDashboard.getNumber("kArmP", 0);
-        double armI = SmartDashboard.getNumber("kArmI", 0);
-        double armD = SmartDashboard.getNumber("kArmD", 0);
-        double armFF = SmartDashboard.getNumber("kArmFF", 0);
-        double armMaxAccel = SmartDashboard.getNumber("kArmMaxAccel", 0);
-        double armMaxVelo = SmartDashboard.getNumber("kArmMaxVelo", 0);
-
-        // if PID coefficients on dashboard have changed, write new values to controller
-        if ((armP != kArmP)) {
-            kArmP = armP;
-            m_armPIDController.setP(kArmP, 1);
-        }
-        if ((armI != kArmI)) {
-            kArmI = armI;
-            m_armPIDController.setI(kArmI, 1);
-        }
-        if ((armD != kArmD)) {
-            kArmD = armD;
-            m_armPIDController.setD(kArmD, 1);
-        }
-        if ((armFF != kArmFF)) {
-            kArmFF = armFF;
-            m_armPIDController.setD(kArmFF, 1);
-        }
-        if ((armMaxAccel != kArmMaxAccel)) {
-            kArmMaxAccel = armMaxAccel;
-            m_armPIDController.setSmartMotionMaxAccel(kArmMaxAccel, 1);
-        }
-
-        if ((armMaxVelo != kArmMaxVelo)) {
-            kArmMaxVelo = armMaxVelo;
-            m_armPIDController.setSmartMotionMaxVelocity(kArmMaxVelo, 1);
-        }
-
-        double shooterPivotP = SmartDashboard.getNumber("kShooterPivotP", 0);
-        double shooterPivotI = SmartDashboard.getNumber("kShooterPivotI", 0);
-        double shooterPivotD = SmartDashboard.getNumber("kShooterPivotD", 0);
-        double shooterPivotFF = SmartDashboard.getNumber("kShooterPivotFF", 0);
-        double shooterPivotMaxAccel = SmartDashboard.getNumber("kShooterPivotMaxAccel", 0);
-        double shooterPivotMaxVelo = SmartDashboard.getNumber("kShooterPivotMaxVelo", 0);
-
-        // if PID coefficients on dashboard have changed, write new values to controller
-        if ((shooterPivotP != kShooterPivotP)) {
-            kShooterPivotP = shooterPivotP;
-            m_shooterPivotPIDController.setP(kShooterPivotP, 1);
-        }
-        if ((shooterPivotI != kShooterPivotI)) {
-            kShooterPivotI = shooterPivotI;
-            m_shooterPivotPIDController.setI(kShooterPivotI, 1);
-        }
-        if ((shooterPivotD != kShooterPivotD)) {
-            kShooterPivotD = shooterPivotD;
-            m_shooterPivotPIDController.setD(kShooterPivotD, 1);
-        }
-        if ((shooterPivotFF != kShooterPivotFF)) {
-            kShooterPivotFF = shooterPivotFF;
-            m_shooterPivotPIDController.setFF(kShooterPivotFF, 1);
-        }
-        if ((shooterPivotMaxAccel != kShooterPivotMaxAccel)) {
-            kShooterPivotMaxAccel = shooterPivotMaxAccel;
-            m_armPIDController.setSmartMotionMaxAccel(kShooterPivotMaxAccel, 1);
-        }
-
-        if ((shooterPivotMaxVelo != kShooterPivotMaxVelo)) {
-            kShooterPivotMaxVelo = shooterPivotMaxVelo;
-            m_armPIDController.setSmartMotionMaxVelocity(kShooterPivotMaxVelo, 1);
-        }
-
-    }
-
-    public void tuneSetPoints() {
-
-        double tuneArmSetPoint = SmartDashboard.getNumber("TUNE: Arm", 0);
-        double tuneSPSetPoint = SmartDashboard.getNumber("TUNE: SP", 0);
-
-        // if PID coefficients on dashboard have changed, write new values to controller
-        if ((tuneArmSetPoint != ktuneArmSetPoint)) {
-            ktuneArmSetPoint = tuneArmSetPoint;
-            setArmPosition(ktuneArmSetPoint);
-        }
-        if ((tuneSPSetPoint != kArmI)) {
-            ktuneSPSetPoint = tuneSPSetPoint;
-            setShooterPivotPosition(ktuneSPSetPoint);
-        }
-
-    }
-
-    /* Record what position we are currently in */
-    public void recordPosition(int positionNumber) {
-        int currentPosition;
-        currentPosition = positionNumber;
+    public void practiceDashboard() {
+        SmartDashboard.putNumber("Raw Arm Position", getArmPosition());
+        SmartDashboard.putNumber("Raw Shooter Pivot Position", getShooterPivotPosition());
+        SmartDashboard.putNumber("Arm Position", getArmPosition() - kArmPositionShift);
+        SmartDashboard.putNumber("Shooter Pivot Position",
+                getShooterPivotPosition() - kShooterPivotPositionShift);
+        SmartDashboard.putBoolean("Arm above height", armShooterAboveMaxHeight());
+        SmartDashboard.putBoolean("at Home Position", atHomePosition());
     }
 
     public void periodic() {
         // This method will be called once per scheduler run
         log();
+        if (PRACTICE_MODE) {
+            practiceDashboard();
+        }
         if (TUNING_MODE) {
-            // tunePIDs();
-            // tuneSetPoints();
-
         }
     }
 

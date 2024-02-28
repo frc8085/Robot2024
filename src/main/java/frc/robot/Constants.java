@@ -51,6 +51,7 @@ public final class Constants {
         }
 
         public static final class TuningModeConstants {
+                public static final boolean kPracticeMode = true;
                 public static final boolean kTuning = false;
                 public static final boolean kDriveTuning = false;
                 public static final boolean kArmTuning = false;

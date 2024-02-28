@@ -18,6 +18,7 @@ import frc.robot.Constants.TuningModeConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
     private boolean TUNING_MODE = TuningModeConstants.kClimberTuning;
+    private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
 
     private final CANSparkFlex m_winchMotor = new CANSparkFlex(
             CanIdConstants.kWinchCanId, MotorDefaultsConstants.NeoVortexMotorType);
@@ -98,7 +99,6 @@ public class ClimberSubsystem extends SubsystemBase {
         m_winchMotor.burnFlash();
 
         if (TUNING_MODE) {
-            addPIDToDashboard();
 
         }
 
@@ -106,55 +106,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
     public void log() {
         if (LoggingConstants.kLogging) {
-            SmartDashboard.putNumber("Winch Position", getwinchPosition());
-            SmartDashboard.putNumber("Winch Current", m_winchMotor.getOutputCurrent());
         }
     }
 
-    public void addPIDToDashboard() {
-        SmartDashboard.putNumber("kWinchP", kWinchP);
-        SmartDashboard.putNumber("kWinchI", kWinchI);
-        SmartDashboard.putNumber("kWinchD", kWinchD);
-        SmartDashboard.putNumber("kWinchFF", kWinchFF);
-
-        SmartDashboard.putNumber("kWinchMaxAccel", kWinchMaxAccel);
-        SmartDashboard.putNumber("kWinchMaxVelo", kWinchMaxVelo);
-    }
-
-    public void tunePIDs() {
-        double winchP = SmartDashboard.getNumber("kWinchP", 0);
-        double winchI = SmartDashboard.getNumber("kWinchI", 0);
-        double winchD = SmartDashboard.getNumber("kWinchD", 0);
-        double winchFF = SmartDashboard.getNumber("kWinchFF", 0);
-        double winchMaxAccel = SmartDashboard.getNumber("kWinchMaxAccel", 0);
-        double winchMaxVelo = SmartDashboard.getNumber("kWinchMaxVelo", 0);
-
-        // if PID coefficients on dashboard have changed, write new values to controller
-        if ((winchP != kWinchP)) {
-            kWinchP = winchP;
-            m_winchPIDController.setP(kWinchP);
-        }
-        if ((winchI != kWinchI)) {
-            kWinchI = winchI;
-            m_winchPIDController.setI(kWinchI);
-        }
-        if ((winchD != kWinchD)) {
-            kWinchD = winchD;
-            m_winchPIDController.setD(kWinchD);
-        }
-        if ((winchFF != kWinchFF)) {
-            kWinchFF = winchFF;
-            m_winchPIDController.setD(kWinchFF);
-        }
-        if ((winchMaxAccel != kWinchMaxAccel)) {
-            kWinchMaxAccel = winchMaxAccel;
-            m_winchPIDController.setSmartMotionMaxAccel(kWinchMaxAccel, 0);
-        }
-
-        if ((winchMaxVelo != kWinchMaxVelo)) {
-            kWinchMaxVelo = winchMaxVelo;
-            m_winchPIDController.setSmartMotionMaxVelocity(kWinchMaxVelo, 0);
-        }
+    public void practiceDashboard() {
+        SmartDashboard.putNumber("Winch Position", getwinchPosition());
+        SmartDashboard.putNumber("Winch Current", m_winchMotor.getOutputCurrent());
     }
 
     // Returns the winch
@@ -186,8 +143,6 @@ public class ClimberSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run
         log();
         if (TUNING_MODE) {
-            tunePIDs();
-
         }
 
     }
