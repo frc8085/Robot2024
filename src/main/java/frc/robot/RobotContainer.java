@@ -60,7 +60,7 @@ public class RobotContainer {
     private final FeederSubsystem m_feeder = new FeederSubsystem();
     private final ArmSubsystem m_arm = new ArmSubsystem();
     private final ClimberSubsystem m_climb = new ClimberSubsystem();
-    private final LimelightSubsystem m_limelight = new LimelightSubsystem(m_drive);
+    private final LimelightSubsystem m_limelight = new LimelightSubsystem(m_drive, m_arm);
     private final Blinkin m_blinkin = new Blinkin();
 
     // Register Named Commands for PathPlanner
