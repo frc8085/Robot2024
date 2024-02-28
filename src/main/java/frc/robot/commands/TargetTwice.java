@@ -22,16 +22,18 @@ public class TargetTwice extends SequentialCommandGroup {
                 new ConditionalCommand(
                         new AutoTarget(m_limelight, m_drive, true),
                         new InstantCommand(),
-                        m_limelight::hasTarget),
-                new WaitCommand(0.1),
-                new ConditionalCommand(
-                        new AutoYAim(m_limelight, m_arm, true),
-                        new InstantCommand(),
-                        m_limelight::hasTarget),
-                new WaitCommand(0.1),
-                new ConditionalCommand(
-                        new AutoYAim(m_limelight, m_arm, true),
-                        new InstantCommand(),
                         m_limelight::hasTarget));
+        /*
+         * new WaitCommand(0.1),
+         * new ConditionalCommand(
+         * new AutoYAim(m_limelight, m_arm, true),
+         * new InstantCommand(),
+         * m_limelight::hasTarget),
+         * new WaitCommand(0.1),
+         * new ConditionalCommand(
+         * new AutoYAim(m_limelight, m_arm, true),
+         * new InstantCommand(),
+         * m_limelight::hasTarget));
+         */
     }
 }
