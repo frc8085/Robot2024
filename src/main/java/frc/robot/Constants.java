@@ -375,6 +375,11 @@ public final class Constants {
 
                 public static final double kRaiseSpeed = 1;
                 public static final double kLowerSpeed = .5;
+
+                // Encoder SetPoints for different positions - Need to fill with correct values
+                public static final double climbMoveToTrapScore = 10;
+                public static final double climbAtTrapScore = 20;
+                public static final double climbAtTrapFinal = 15;
         }
 
         public static final class BlinkinConstants {

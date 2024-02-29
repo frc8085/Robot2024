@@ -138,6 +138,14 @@ public class ClimberSubsystem extends SubsystemBase {
         m_winchMotor.set(0);
     }
 
+    public boolean atMoveToTrapScore() {
+        return (getWinchPosition() > (ClimberConstants.climbMoveToTrapScore));
+    }
+
+    public boolean atTrapScore() {
+        return (getWinchPosition() > (ClimberConstants.climbAtTrapScore));
+    }
+
     public void periodic() {
         // This method will be called once per scheduler run
         SmartDashboard.putNumber("Winch Position", getWinchPosition());
@@ -150,4 +158,5 @@ public class ClimberSubsystem extends SubsystemBase {
         }
 
     }
+
 }

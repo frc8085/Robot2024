@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.FeederSubsystem;
@@ -15,8 +14,7 @@ public class ShootTrap extends SequentialCommandGroup {
                         FeederSubsystem m_feeder,
                         ArmSubsystem m_arm,
                         ShooterSubsystem m_shooter,
-                        Blinkin m_blinkin,
-                        Position position) {
+                        Blinkin m_blinkin) {
                 addCommands(
                                 new InstantCommand(m_feeder::runBackwards),
                                 new WaitUntilCommand(
@@ -25,8 +23,6 @@ public class ShootTrap extends SequentialCommandGroup {
                                 new WaitCommand(1),
                                 new InstantCommand(m_feeder::stop),
                                 new InstantCommand(m_shooter::stop),
-                                // new WaitCommand(1),
-                                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, position),
                                 new InstantCommand(m_blinkin::climbed),
                                 new Oscillate(m_arm, m_shooter, m_feeder, m_blinkin));
         }
