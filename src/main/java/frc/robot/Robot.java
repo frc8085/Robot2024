@@ -163,9 +163,10 @@ public class Robot extends LoggedRobot {
     // Attempting to set the arm to coast mode after disabled for 3 sec
     m_robotContainer.m_arm.setBrakeMode(true); // Enable brake mode
 
-    // Turn off shooter at the start of teleop
+    // Turn off shooter and feeder at the start of teleop
     m_robotContainer.m_shooter.stop();
     m_robotContainer.m_feeder.stop();
+
   }
 
   /** This function is called periodically during operator control. */
