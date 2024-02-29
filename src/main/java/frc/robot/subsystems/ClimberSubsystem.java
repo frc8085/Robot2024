@@ -108,12 +108,12 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     public void practiceDashboard() {
-        SmartDashboard.putNumber("Winch Position", getwinchPosition());
+        SmartDashboard.putNumber("Winch Position", getWinchPosition());
         SmartDashboard.putNumber("Winch Current", m_winchMotor.getOutputCurrent());
     }
 
     // Returns the winch
-    public double getwinchPosition() {
+    public double getWinchPosition() {
         return m_winchEncoder.getPosition();
     }
 
@@ -127,6 +127,7 @@ public class ClimberSubsystem extends SubsystemBase {
     // Open Loop Control
     public void forward() {
         m_winchMotor.set(ClimberConstants.kRaiseSpeed);
+        System.out.println("Winch Encoder " + getWinchPosition());
     }
 
     public void back() {
@@ -139,7 +140,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
     public void periodic() {
         // This method will be called once per scheduler run
+        SmartDashboard.putNumber("Winch Position", getWinchPosition());
+
         log();
+        if (PRACTICE_MODE) {
+            practiceDashboard();
+        }
         if (TUNING_MODE) {
         }
 

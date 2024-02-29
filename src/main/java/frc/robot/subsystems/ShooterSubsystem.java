@@ -128,6 +128,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public void runTrap() {
         setShooter1SetPoint(ShooterConstants.kShooterSetPointTrap);
         setShooter2SetPoint(ShooterConstants.kShooterSetPointTrap);
+        System.out.println("Running Trap Score");
     }
 
     public void runAmp() {
