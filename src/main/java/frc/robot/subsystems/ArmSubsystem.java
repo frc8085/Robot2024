@@ -160,6 +160,7 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterPivotMotor.burnFlash();
 
         if (TUNING_MODE) {
+            addTuningSetPointToDashboard();
         }
     }
 
@@ -343,6 +344,11 @@ public class ArmSubsystem extends SubsystemBase {
         m_armMotor.setIdleMode(mode);
     }
 
+    public void setSPBrakeMode(boolean brake) {
+        IdleMode mode = brake ? IdleMode.kBrake : IdleMode.kCoast;
+        m_shooterPivotMotor.setIdleMode(mode);
+    }
+
     public void log() {
         if (LoggingConstants.kLogging) {
         }
@@ -359,6 +365,27 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("at Amp Position", atAmpPosition());
     }
 
+    public void addTuningSetPointToDashboard() {
+        SmartDashboard.putNumber("TUNE: Arm", ktuneArmSetPoint);
+        SmartDashboard.putNumber("TUNE: SP", ktuneSPSetPoint);
+    }
+
+    public void tuneSetPoints() {
+
+        double tuneArmSetPoint = SmartDashboard.getNumber("TUNE: Arm", 0);
+        double tuneSPSetPoint = SmartDashboard.getNumber("TUNE: SP", 0);
+
+        // if PID coefficients on dashboard have changed, write new values to controller
+        if ((tuneArmSetPoint != ktuneArmSetPoint)) {
+            ktuneArmSetPoint = tuneArmSetPoint;
+            setArmPosition(ktuneArmSetPoint);
+        }
+        if ((tuneSPSetPoint != ktuneSPSetPoint)) {
+            ktuneSPSetPoint = tuneSPSetPoint;
+            setShooterPivotPosition(ktuneSPSetPoint);
+        }
+    }
+
     public void periodic() {
         // This method will be called once per scheduler run
         log();
@@ -366,6 +393,7 @@ public class ArmSubsystem extends SubsystemBase {
             practiceDashboard();
         }
         if (TUNING_MODE) {
+            tuneSetPoints();
         }
     }
 

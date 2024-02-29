@@ -77,17 +77,18 @@ public class Robot extends LoggedRobot {
       camera1 = CameraServer.startAutomaticCapture(0);
     }
 
-    // Attempting to set the arm to coast mode after disabled for 3 sec
-    new Trigger(this::isEnabled)
-        // Create a trigger that is active when the robot is enabled
-        .negate() // Negate the trigger, so it is active when the robot is disabled
-        .debounce(3) // Delay action until robot has been disabled for a certain time
-        .onTrue( // Finally take action
-            new InstantCommand( // Instant command will execute our "initialize" method and finish immediately
-                () -> m_robotContainer.m_arm.setBrakeMode(false),
-                // Enable coast mode for arm when disabled
-                m_robotContainer.m_arm) // command requires subsystem
-                .ignoringDisable(true)); // This command can run when the robot is disabled
+    // // Attempting to set the arm to coast mode after disabled for 3 sec
+    // new Trigger(this::isEnabled)
+    // // Create a trigger that is active when the robot is enabled
+    // .negate() // Negate the trigger, so it is active when the robot is disabled
+    // .debounce(3) // Delay action until robot has been disabled for a certain time
+    // .onTrue( // Finally take action
+    // new InstantCommand( // Instant command will execute our "initialize" method
+    // and finish immediately
+    // () -> m_robotContainer.m_arm.setBrakeMode(false),
+    // // Enable coast mode for arm when disabled
+    // m_robotContainer.m_arm) // command requires subsystem
+    // .ignoringDisable(true)); // This command can run when the robot is disabled
   }
 
   /**
@@ -141,8 +142,8 @@ public class Robot extends LoggedRobot {
       m_autonomousCommand.schedule();
     }
 
-    // // Attempting to set the arm to coast mode after disabled for 3 sec
-    m_robotContainer.m_arm.setBrakeMode(true); // Enable brake mode
+    // // // Attempting to set the arm to coast mode after disabled for 3 sec
+    // m_robotContainer.m_arm.setBrakeMode(true); // Enable brake mode
 
   }
 
@@ -160,8 +161,8 @@ public class Robot extends LoggedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    // Attempting to set the arm to coast mode after disabled for 3 sec
-    m_robotContainer.m_arm.setBrakeMode(true); // Enable brake mode
+    // // Attempting to set the arm to coast mode after disabled for 3 sec
+    // m_robotContainer.m_arm.setBrakeMode(true); // Enable brake mode
 
     // Turn off shooter and feeder at the start of teleop
     m_robotContainer.m_shooter.stop();

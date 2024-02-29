@@ -13,12 +13,12 @@ public class TargetTwice extends SequentialCommandGroup {
                         DriveSubsystem m_drive) {
                 addCommands(
                                 new ConditionalCommand(
-                                                new AutoTarget(m_limelight, m_drive, true),
+                                                new AutoTarget(m_limelight, m_drive),
                                                 new InstantCommand(),
                                                 m_limelight::hasTarget),
                                 new WaitCommand(0.1),
                                 new ConditionalCommand(
-                                                new AutoTarget(m_limelight, m_drive, true),
+                                                new AutoTarget(m_limelight, m_drive),
                                                 new InstantCommand(),
                                                 m_limelight::hasTarget));
         }

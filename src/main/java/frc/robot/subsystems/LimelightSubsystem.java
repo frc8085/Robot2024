@@ -93,7 +93,8 @@ public class LimelightSubsystem extends SubsystemBase {
     // Account for the robot's current shooter angle when returning the Y value
     public double getYfromRobotPerspective() {
         double currentShooterPivotPosition = m_arm.getShooterPivotPosition();
-        double degreesToTarget = -getY();
+        double idealY = -3.4;
+        double degreesToTarget = -(getY() - idealY);
         double degreesToAdjustShooterPivot = currentShooterPivotPosition + degreesToTarget;
         return degreesToAdjustShooterPivot;
     }

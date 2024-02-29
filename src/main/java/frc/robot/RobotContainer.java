@@ -32,6 +32,7 @@ import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.ShootChooser;
+import frc.robot.commands.AutoTargetSP;
 import frc.robot.commands.EnableShooterAuto;
 import frc.robot.commands.EnableShooterTrap;
 import frc.robot.commands.ShootNew;
@@ -232,8 +233,8 @@ public class RobotContainer {
 
                 final Trigger autoTarget = m_driverController.leftBumper();
 
-                autoTarget.onTrue(
-                                new TargetTwice(m_limelight, m_drive));
+                autoTarget.onTrue(new ParallelCommandGroup(new AutoTargetSP(m_limelight, m_arm),
+                                new TargetTwice(m_limelight, m_drive)));
 
                 lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
                                 m_drive));
