@@ -33,10 +33,12 @@ import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.ShootChooser;
 import frc.robot.commands.AutoTargetSP;
+import frc.robot.commands.EjectNote;
 import frc.robot.commands.EnableShooterAuto;
 import frc.robot.commands.EnableShooterTrap;
 import frc.robot.commands.ShootNew;
 import frc.robot.commands.ShootTrap;
+import frc.robot.commands.TargetSPTwice;
 import frc.robot.commands.TargetTwice;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Blinkin;
@@ -213,17 +215,17 @@ public class RobotContainer {
                  * A Button: Move Shooter to Amp Position
                  * X Button: Move Shooter to Subwoofer Position [If holding left bumper, to
                  * Backwards Subwoofer]
-                 * Start Button: Stop Intake
+                 * Start Button: Toggle Eject Note
                  * DPad Left: Move Shooter to Trap Approach Position
                  * DPad Up: Lower Robot from Climb
                  * DPad Right: Move Shooter to Trap Score Position
                  * DPad Down: Raise Robot in Climb
                  * Left Bumper: Alternate Position [Hold to Use]
                  * Right Bumper: Shoot Note into Trap during Climb
-                 * Left Trigger: Turn on Intake
+                 * Left Trigger: Toggle Intake
                  * Right Trigger: Toggle Shooter Wheels
                  * Left Stick Button: <No Op>
-                 * Right Stick Button: <No Op>
+                 * Right Stick Button: Back Subwoofer
                  * *
                  */
 
@@ -233,8 +235,9 @@ public class RobotContainer {
 
                 final Trigger autoTarget = m_driverController.leftBumper();
 
-                autoTarget.onTrue(new ParallelCommandGroup(new AutoTargetSP(m_limelight, m_arm),
-                                new TargetTwice(m_limelight, m_drive)));
+                autoTarget.onTrue(new SequentialCommandGroup(
+                                new TargetTwice(m_limelight, m_drive),
+                                new TargetSPTwice(m_limelight, m_arm)));
 
                 lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
                                 m_drive));
@@ -246,10 +249,7 @@ public class RobotContainer {
                 // OPERATOR controlled buttons
                 final Trigger toggleShooter = m_operatorController.rightTrigger();
                 final Trigger toggleIntake = m_operatorController.leftTrigger();
-                final Trigger stopIntake = m_operatorController.start();
-
-                // eventually the operator will control the shooter wheels
-                // final Trigger turnOnShooter = m_operatorController.rightTrigger();
+                final Trigger ejectNote = m_operatorController.start();
 
                 final Trigger alternatePosition = m_operatorController.leftBumper();
                 final Trigger shootTrap = m_operatorController.rightBumper();
@@ -284,8 +284,13 @@ public class RobotContainer {
                 // intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter,
                 // m_blinkin));
 
-                stopIntake.onTrue(new ParallelCommandGroup(new InstantCommand(m_intake::stop),
-                                new InstantCommand(m_feeder::stop)));
+                ejectNote.toggleOnTrue(new ConditionalCommand(
+                                new ParallelCommandGroup(
+                                                new InstantCommand(m_intake::stop),
+                                                new InstantCommand(m_feeder::stop),
+                                                new InstantCommand(m_blinkin::driving)),
+                                new EjectNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin),
+                                m_intake::isIntakeRunning));
 
                 toggleIntake.toggleOnTrue(new ConditionalCommand(
                                 new ParallelCommandGroup(

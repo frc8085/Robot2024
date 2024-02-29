@@ -65,7 +65,7 @@ public final class Constants {
         public static final class IntakeConstants {
                 public static final double speed = .9;
                 public static final double armMoveSpeed = .25;
-                public static final double ejectSpeed = -.75;
+                public static final double ejectSpeed = -1;
         }
 
         public static final class FeederConstants {
@@ -292,7 +292,15 @@ public final class Constants {
                                         true,
                                         true,
                                         true,
-                                        ShooterConstants.kShooter1SetPoint);
+                                        ShooterConstants.kShooter1SetPoint),
+
+                        EJECT_NOTE("Eject Note",
+                                        280,
+                                        60,
+                                        true,
+                                        true,
+                                        false,
+                                        ShooterConstants.kShooterOff);
 
                         public final String label;
                         public final double armPosition;
