@@ -62,7 +62,7 @@ public class RobotContainer {
         private final DriveSubsystem m_drive = new DriveSubsystem();
         public final ShooterSubsystem m_shooter = new ShooterSubsystem();
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
-        private final FeederSubsystem m_feeder = new FeederSubsystem();
+        public final FeederSubsystem m_feeder = new FeederSubsystem();
         public final ArmSubsystem m_arm = new ArmSubsystem();
         private final ClimberSubsystem m_climb = new ClimberSubsystem();
         private final LimelightSubsystem m_limelight = new LimelightSubsystem(m_drive, m_arm);
@@ -305,7 +305,12 @@ public class RobotContainer {
                                                                 m_feeder::needNoteCorrection),
                                                 m_shooter::isShooterRunning));
 
-                moveToHome.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.HOME));
+                moveToHome.onTrue(
+                                new ParallelCommandGroup(
+                                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                                                                Position.HOME),
+                                                new InstantCommand(m_feeder::stop),
+                                                new InstantCommand(m_shooter::stop)));
                 moveToSubwoofer.onTrue(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SUBWOOFER));
                 moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AMP));

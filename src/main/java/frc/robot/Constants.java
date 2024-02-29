@@ -115,7 +115,7 @@ public final class Constants {
                 public static double kShooterToleranceRPMPercent = .02;
 
                 public static double kShooterSetPointTrap = 1000;
-                public static double kShooterSetPointAmp = 2000;
+                public static double kShooterSetPointAmp = 1000;
                 public static double kShooterOff = 0;
         }
 
@@ -227,7 +227,7 @@ public final class Constants {
                                         true,
                                         false,
                                         true,
-                                        ShooterConstants.kShooterSetPointAmp),
+                                        ShooterConstants.kShooter1SetPoint),
                         PODIUM("Podium",
                                         260,
                                         60,

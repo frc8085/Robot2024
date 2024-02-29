@@ -325,15 +325,16 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public boolean atAmpPosition() {
-        double armTolerance = 5;
-        double shooterPivotTolerance = 5;
+        double armTolerance = 25;
+        double shooterPivotTolerance = 25;
 
-        boolean armAtAmp = m_armEncoder.getPosition() >= (Position.AMP.armPosition - armTolerance)
-                && m_armEncoder.getPosition() <= (Position.AMP.armPosition + armTolerance);
+        // boolean armAtAmp = m_armEncoder.getPosition() >= (Position.AMP.armPosition -
+        // armTolerance)
+        // && m_armEncoder.getPosition() <= (Position.AMP.armPosition + armTolerance);
         boolean shooterPivotAtAmp = m_shooterPivotEncoder
                 .getPosition() >= (Position.AMP.shooterPivotPosition - shooterPivotTolerance)
                 && m_shooterPivotEncoder.getPosition() <= (Position.AMP.shooterPivotPosition + shooterPivotTolerance);
-        return armAtAmp && shooterPivotAtAmp;
+        return shooterPivotAtAmp;
     }
 
     // Set Arm Brake Mode
