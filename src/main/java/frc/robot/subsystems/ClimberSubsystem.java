@@ -148,7 +148,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
     public void periodic() {
         // This method will be called once per scheduler run
-        SmartDashboard.putNumber("Winch Position", getWinchPosition());
 
         log();
         if (PRACTICE_MODE) {

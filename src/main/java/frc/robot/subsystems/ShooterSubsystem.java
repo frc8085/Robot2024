@@ -154,10 +154,10 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkMax.ControlType.kVelocity);
     }
 
-    public boolean shooter1AtSetpoint() {
+    public boolean shooter1AtPodiumSetpoint() {
         double encoderValue = m_shooter1Encoder.getVelocity();
         double setpoint = kShooter1SetPoint;
-        double tolerance = Math.abs(ShooterConstants.kShooterToleranceRPMPercent * setpoint);
+        double tolerance = Math.abs(ShooterConstants.kShooter1PodiumToleranceRPMPercent * setpoint);
 
         double minLimit = setpoint - tolerance;
         double maxLimit = setpoint + tolerance;
@@ -172,10 +172,10 @@ public class ShooterSubsystem extends SubsystemBase {
         return withinLimits;
     }
 
-    public boolean shooter2AtSetpoint() {
+    public boolean shooter2AtPodiumSetpoint() {
         double encoderValue = m_shooter2Encoder.getVelocity();
         double setpoint = kShooter2SetPoint;
-        double tolerance = Math.abs(ShooterConstants.kShooterToleranceRPMPercent * setpoint);
+        double tolerance = Math.abs(ShooterConstants.kShooter2PodiumToleranceRPMPercent * setpoint);
 
         double minLimit = setpoint - tolerance;
         double maxLimit = setpoint + tolerance;
@@ -190,8 +190,48 @@ public class ShooterSubsystem extends SubsystemBase {
         return shooter2WithinLimits;
     }
 
-    public boolean readyToShoot() {
-        return shooter1AtSetpoint() || shooter2AtSetpoint();
+    public boolean shooter1AtSWSetpoint() {
+        double encoderValue = m_shooter1Encoder.getVelocity();
+        double setpoint = kShooter1SetPoint;
+        double tolerance = Math.abs(ShooterConstants.kShooter1SWToleranceRPMPercent * setpoint);
+
+        double minLimit = setpoint - tolerance;
+        double maxLimit = setpoint + tolerance;
+
+        boolean withinLimits =
+                // Don't consider us at setpoint for the 'motor off' case
+                setpoint != 0 &&
+                // Otherwise check if we're within limits
+                        encoderValue >= minLimit
+                        && encoderValue <= maxLimit;
+
+        return withinLimits;
+    }
+
+    public boolean shooter2AtSWSetpoint() {
+        double encoderValue = m_shooter2Encoder.getVelocity();
+        double setpoint = kShooter2SetPoint;
+        double tolerance = Math.abs(ShooterConstants.kShooter2SWToleranceRPMPercent * setpoint);
+
+        double minLimit = setpoint - tolerance;
+        double maxLimit = setpoint + tolerance;
+
+        boolean shooter2WithinLimits =
+                // Don't consider us at setpoint for the 'motor off' case
+                setpoint != 0 &&
+                // Otherwise check if we're within limits
+                        encoderValue >= minLimit
+                        && encoderValue <= maxLimit;
+
+        return shooter2WithinLimits;
+    }
+
+    public boolean readyToShootPodium() {
+        return shooter1AtPodiumSetpoint() || shooter2AtPodiumSetpoint();
+    }
+
+    public boolean readyToShootSW() {
+        return shooter1AtSWSetpoint() || shooter2AtSWSetpoint();
     }
 
     public boolean isShooterRunning() {
@@ -209,8 +249,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void practiceDashboard() {
-        SmartDashboard.putBoolean("Shooter1 at SetPoint", shooter1AtSetpoint());
-        SmartDashboard.putBoolean("Shooter2 at SetPoint", shooter2AtSetpoint());
+        SmartDashboard.putBoolean("Shooter1 at SetPoint", shooter1AtPodiumSetpoint());
+        SmartDashboard.putBoolean("Shooter2 at SetPoint", shooter2AtPodiumSetpoint());
         SmartDashboard.putNumber("Shooter1 Velocity", m_shooter1Encoder.getVelocity());
         SmartDashboard.putNumber("Shooter2 Velocity", m_shooter2Encoder.getVelocity());
     }
@@ -218,10 +258,9 @@ public class ShooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     public void periodic() {
 
-        SmartDashboard.putBoolean("Ready To Shoot", readyToShoot());
+        SmartDashboard.putBoolean("Ready To Shoot", readyToShootPodium());
         SmartDashboard.putBoolean("Shooter is Running", isShooterRunning());
-        SmartDashboard.putNumber("Shooter1 Velocity", m_shooter1Encoder.getVelocity());
-        SmartDashboard.putNumber("Shooter2 Velocity", m_shooter2Encoder.getVelocity());
+        SmartDashboard.putBoolean("SW Ready To Shoot", readyToShootSW());
 
         if (LoggingConstants.kLogging)
 

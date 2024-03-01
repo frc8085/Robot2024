@@ -112,7 +112,10 @@ public final class Constants {
 
                 public static double kShooter1SetPoint = 4300;
                 public static double kShooter2SetPoint = kShooter1SetPoint * 0.9;
-                public static double kShooterToleranceRPMPercent = .02;
+                public static double kShooter1PodiumToleranceRPMPercent = .02;
+                public static double kShooter2PodiumToleranceRPMPercent = .022;
+                public static double kShooter1SWToleranceRPMPercent = .03;
+                public static double kShooter2SWToleranceRPMPercent = .04;
 
                 public static double kShooterSetPointTrap = 1000;
                 public static double kShooterSetPointAmp = 1000;
@@ -251,11 +254,19 @@ public final class Constants {
                                         ShooterConstants.kShooter1SetPoint),
                         TRAP_APPROACH("Trap Approach",
                                         320,
-                                        160,
+                                        155,
                                         true,
                                         true,
                                         false,
                                         ShooterConstants.kShooterOff),
+                        TRAP_SECOND("Trap Second",
+                                        310,
+                                        135,
+                                        true,
+                                        true,
+                                        false,
+                                        ShooterConstants.kShooterOff),
+
                         TRAP_FINAL("Trap Final",
                                         310,
                                         50,
@@ -296,7 +307,7 @@ public final class Constants {
 
                         EJECT_NOTE("Eject Note",
                                         280,
-                                        60,
+                                        140,
                                         true,
                                         true,
                                         false,

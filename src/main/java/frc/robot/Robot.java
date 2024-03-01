@@ -165,8 +165,8 @@ public class Robot extends LoggedRobot {
     // m_robotContainer.m_arm.setBrakeMode(true); // Enable brake mode
 
     // Turn off shooter and feeder at the start of teleop
-    m_robotContainer.m_shooter.stop();
-    m_robotContainer.m_feeder.stop();
+    // m_robotContainer.m_shooter.stop();
+    // m_robotContainer.m_feeder.stop();
 
   }
 
