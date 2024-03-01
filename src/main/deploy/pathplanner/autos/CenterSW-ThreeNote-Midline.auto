@@ -26,7 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "MoveToSubwoofer"
+            "name": "MoveToSubwooferAuto"
           }
         },
         {
@@ -36,32 +36,19 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Start-1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteCheckAuto"
-                      }
-                    }
-                  ]
-                }
-              },
               {
                 "type": "named",
                 "data": {
                   "name": "PickUpNote"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Start-1"
                 }
               }
             ]
@@ -82,36 +69,92 @@
         {
           "type": "named",
           "data": {
+            "name": "WaitUntilReadyToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Shoot"
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpNote"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "1-4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4-1"
+                }
+              },
               {
                 "type": "sequential",
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "1-2"
+                        "name": "TurnOnShooter"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "NoteCheckAuto"
+                        "name": "MoveToPodium"
                       }
                     }
                   ]
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilReadyToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
               {
                 "type": "named",
                 "data": {
                   "name": "PickUpNote"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "1-2"
                 }
               }
             ]
@@ -132,51 +175,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "2-3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteCheckAuto"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "PickUpNote"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TurnOnShooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MoveToPodium"
+            "name": "WaitUntilReadyToShoot"
           }
         },
         {

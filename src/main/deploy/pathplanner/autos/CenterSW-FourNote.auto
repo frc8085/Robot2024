@@ -14,38 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "TurnOnShooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MoveToSubwoofer"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "PickUpNote"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Start-1"
-                }
-              }
-            ]
+            "name": "NoteInRobot"
           }
         },
         {
@@ -57,13 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "MoveToPodium"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilReadyToShoot"
+            "name": "MoveToSubwooferAuto"
           }
         },
         {
@@ -73,82 +36,32 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "PickUpNote"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "1-4"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "4-1"
-                }
-              },
               {
                 "type": "sequential",
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
+                      "type": "path",
                       "data": {
-                        "name": "TurnOnShooter"
+                        "pathName": "Start-1"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "MoveToPodium"
+                        "name": "NoteCheckAuto"
                       }
                     }
                   ]
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilReadyToShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "PickUpNote"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "1-2"
                 }
               }
             ]
@@ -169,7 +82,101 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitUntilReadyToShoot"
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "1-2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteCheckAuto"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TurnOnShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MoveToPodium"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "2-3"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteCheckAuto"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TurnOnShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MoveToPodium"
           }
         },
         {

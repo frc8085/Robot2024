@@ -61,10 +61,10 @@ public class RobotContainer {
 
         // The robot's subsystems
         private final DriveSubsystem m_drive = new DriveSubsystem();
-        public final ShooterSubsystem m_shooter = new ShooterSubsystem();
+        private final ShooterSubsystem m_shooter = new ShooterSubsystem();
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
-        public final FeederSubsystem m_feeder = new FeederSubsystem();
-        public final ArmSubsystem m_arm = new ArmSubsystem();
+        private final FeederSubsystem m_feeder = new FeederSubsystem();
+        private final ArmSubsystem m_arm = new ArmSubsystem();
         private final ClimberSubsystem m_climb = new ClimberSubsystem();
         private final LimelightSubsystem m_limelight = new LimelightSubsystem(m_drive, m_arm);
         private final Blinkin m_blinkin = new Blinkin();
@@ -75,10 +75,15 @@ public class RobotContainer {
                                 new EnableShooterAuto(m_feeder, m_shooter),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
-                NamedCommands.registerCommand("MoveToSubwoofer", new ConditionalCommand(
+                NamedCommands.registerCommand("MoveToSubwooferAuto", new ConditionalCommand(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_SUBWOOFER),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
+                NamedCommands.registerCommand("MoveToSubwoofer", new ConditionalCommand(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SUBWOOFER),
+                                new InstantCommand(),
+                                m_feeder::noteInRobot));
+
                 NamedCommands.registerCommand("MoveToPodium", new ConditionalCommand(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.PODIUM),
                                 new InstantCommand(),
@@ -95,7 +100,8 @@ public class RobotContainer {
                 NamedCommands.registerCommand("WaitUntilHome", new WaitUntilCommand(m_arm::atHomePosition));
                 NamedCommands.registerCommand("NoteCheckAuto", new NoteCheckAuto(m_intake, m_feeder));
                 NamedCommands.registerCommand("NoteInRobot", new InstantCommand(m_feeder::notePickedUp));
-                NamedCommands.registerCommand("WaitUntilReadyToShoot", new WaitUntilCommand(m_shooter::readyToShoot));
+                NamedCommands.registerCommand("WaitUntilReadyToShoot",
+                                new WaitUntilCommand(m_shooter::readyToShootPodium));
 
         }
 
@@ -234,7 +240,9 @@ public class RobotContainer {
                 final Trigger autoTarget = m_driverController.leftBumper();
 
                 final Trigger moveToBackSubwooferDriver = m_driverController.x();
+                final Trigger moveToSubwooferDriver = m_driverController.y();
 
+                final Trigger moveToTrapApproachDriver = m_driverController.povLeft();
                 autoTarget.onTrue(new SequentialCommandGroup(
                                 new TargetTwice(m_limelight, m_drive),
                                 new TargetSPTwice(m_limelight, m_arm)));
@@ -249,6 +257,7 @@ public class RobotContainer {
                 // OPERATOR controlled buttons
                 final Trigger toggleShooter = m_operatorController.rightTrigger();
                 final Trigger toggleIntake = m_operatorController.leftTrigger();
+                // final Trigger everythingOff = m_operatorController.button();
                 final Trigger ejectNote = m_operatorController.start();
 
                 final Trigger alternatePosition = m_operatorController.leftBumper();
@@ -317,10 +326,18 @@ public class RobotContainer {
                                                                 Position.HOME),
                                                 new InstantCommand(m_feeder::stop),
                                                 new InstantCommand(m_shooter::stop)));
+
+                moveToTrapApproachDriver.onTrue(new ParallelCommandGroup(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_SECOND),
+                                new RunCommand(() -> m_drive.lock(),
+                                                m_drive)));
                 moveToSubwoofer.onTrue(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SUBWOOFER));
                 moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AMP));
                 moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.PODIUM));
+
+                moveToSubwooferDriver.onTrue(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SUBWOOFER));
 
                 /**
                  * Alternate positions. For these, you need to hold down the Left Bumper too.
