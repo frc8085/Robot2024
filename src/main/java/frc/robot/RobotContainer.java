@@ -134,7 +134,8 @@ public class RobotContainer {
                                                 -MathUtil.applyDeadband(m_driverController.getRightX(),
                                                                 OIConstants.kDriveDeadband),
                                                 true,
-                                                true),
+                                                true,
+                                                false),
                                                 m_drive));
 
                 // Another option that allows you to specify the default auto by its name
@@ -195,12 +196,12 @@ public class RobotContainer {
 
                 /*
                  * Driver Controls:
-                 * Y Button:
+                 * Y Button: Subwoofer
                  * B Button:
                  * A Button:
-                 * X Button:
+                 * X Button: Back Subwoofer
                  * Start Button: Zero Heading
-                 * DPad Left:
+                 * DPad Left: Trap Approach 2
                  * DPad Up:
                  * DPad Right:
                  * DPad Down: Lock Wheels (set X)
@@ -238,11 +239,15 @@ public class RobotContainer {
                 final Trigger lockWheels = m_driverController.povDown();
 
                 final Trigger autoTarget = m_driverController.leftBumper();
+                final Trigger allowTurnFast = m_driverController.rightBumper();
 
                 final Trigger moveToBackSubwooferDriver = m_driverController.x();
                 final Trigger moveToSubwooferDriver = m_driverController.y();
 
                 final Trigger moveToTrapApproachDriver = m_driverController.povLeft();
+
+                final Trigger zeroHeadingButton = m_driverController.start();
+
                 autoTarget.onTrue(new SequentialCommandGroup(
                                 new TargetTwice(m_limelight, m_drive),
                                 new TargetSPTwice(m_limelight, m_arm)));
@@ -250,9 +255,20 @@ public class RobotContainer {
                 lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
                                 m_drive));
 
-                final Trigger zeroHeadingButton = m_driverController.start();
-
                 zeroHeadingButton.onTrue(new InstantCommand(() -> m_drive.zeroHeading(), m_drive));
+
+                allowTurnFast.whileTrue(new RunCommand(() -> m_drive.drive(
+                                m_driverController.getRightTriggerAxis(),
+                                MathUtil.applyDeadband(m_driverController.getLeftY(),
+                                                OIConstants.kDriveDeadband),
+                                MathUtil.applyDeadband(m_driverController.getLeftX(),
+                                                OIConstants.kDriveDeadband),
+                                -MathUtil.applyDeadband(m_driverController.getRightX(),
+                                                OIConstants.kDriveDeadband),
+                                true,
+                                true,
+                                true),
+                                m_drive));
 
                 // OPERATOR controlled buttons
                 final Trigger toggleShooter = m_operatorController.rightTrigger();

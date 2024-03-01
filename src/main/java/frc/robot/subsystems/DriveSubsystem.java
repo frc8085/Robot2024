@@ -189,14 +189,14 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void stop() {
-        drive(0, 0, 0, 0, false, false);
+        drive(0, 0, 0, 0, false, false, false);
     }
 
     public void turn(double speed) {
         double direction = speed > 0 ? 1 : -1;
         double speedWithMinimum = Math.max(0.00, Math.abs(speed)) * direction;
 
-        drive(0, 0, 0, speedWithMinimum, true, false);
+        drive(0, 0, 0, speedWithMinimum, true, false, false);
     }
 
     /**
@@ -211,7 +211,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param rateLimit     Whether to enable rate limiting for smoother control.
      */
     public void drive(double speed, double xSpeed, double ySpeed, double rot, boolean fieldRelative,
-            boolean rateLimit) {
+            boolean rateLimit, boolean turnFast) {
 
         double speedCommanded = speed;
         double xSpeedCommanded;
@@ -265,10 +265,17 @@ public class DriveSubsystem extends SubsystemBase {
             m_currentRotation = rot;
         }
 
-        // Convert the commanded speeds into the correct units for the drivetrain
         double xSpeedDelivered = xSpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
         double ySpeedDelivered = ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
-        double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
+        double rotDelivered;
+
+        if (turnFast) {
+            rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
+
+        } else {
+            // Convert the commanded speeds into the correct units for the drivetrain
+            rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed * DriveConstants.kAngularSpeedAdjustment;
+        }
 
         drive(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered), fieldRelative);
 

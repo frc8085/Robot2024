@@ -422,8 +422,8 @@ public final class Constants {
 
                 // if you want to slow down the rotation speed, change the adjustment factor
                 public static final double kAngularSpeedAdjustment = .85;
-                public static final double kMaxAngularSpeed = 2 * Math.PI * kAngularSpeedAdjustment; // radians per
-                                                                                                     // second
+                public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per
+                                                                           // second
 
                 public static final double kDirectionSlewRate = 1.2; // radians per second
                 public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
