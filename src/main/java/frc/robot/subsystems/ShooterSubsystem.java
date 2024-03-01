@@ -220,6 +220,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
         SmartDashboard.putBoolean("Ready To Shoot", readyToShoot());
         SmartDashboard.putBoolean("Shooter is Running", isShooterRunning());
+        SmartDashboard.putNumber("Shooter1 Velocity", m_shooter1Encoder.getVelocity());
+        SmartDashboard.putNumber("Shooter2 Velocity", m_shooter2Encoder.getVelocity());
 
         if (LoggingConstants.kLogging)
 

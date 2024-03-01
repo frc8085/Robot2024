@@ -338,6 +338,16 @@ public class ArmSubsystem extends SubsystemBase {
         return shooterPivotAtAmp;
     }
 
+    public boolean atPodiumPosition() {
+        double armTolerance = 10;
+        double shooterPivotTolerance = 10;
+
+        return m_armEncoder.getPosition() < (Position.PODIUM.armPosition + armTolerance) &&
+                m_armEncoder.getPosition() > (Position.PODIUM.armPosition - armTolerance) &&
+                m_shooterPivotEncoder.getPosition() < (Position.PODIUM.shooterPivotPosition + shooterPivotTolerance) &&
+                m_shooterPivotEncoder.getPosition() > (Position.PODIUM.shooterPivotPosition - shooterPivotTolerance);
+    }
+
     // Set Arm Brake Mode
     public void setBrakeMode(boolean brake) {
         IdleMode mode = brake ? IdleMode.kBrake : IdleMode.kCoast;
@@ -351,6 +361,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void log() {
         if (LoggingConstants.kLogging) {
+
         }
     }
 

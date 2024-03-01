@@ -32,10 +32,8 @@ import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.ShootChooser;
-import frc.robot.commands.AutoTargetSP;
 import frc.robot.commands.EjectNote;
 import frc.robot.commands.EnableShooterAuto;
-import frc.robot.commands.EnableShooterTrap;
 import frc.robot.commands.ShootNew;
 import frc.robot.commands.ShootTrap;
 import frc.robot.commands.TargetSPTwice;
@@ -235,6 +233,8 @@ public class RobotContainer {
 
                 final Trigger autoTarget = m_driverController.leftBumper();
 
+                final Trigger moveToBackSubwooferDriver = m_driverController.x();
+
                 autoTarget.onTrue(new SequentialCommandGroup(
                                 new TargetTwice(m_limelight, m_drive),
                                 new TargetSPTwice(m_limelight, m_arm)));
@@ -330,12 +330,16 @@ public class RobotContainer {
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.HIGH_PODIUM));
                 // // BACK Podium
                 // moveToAmp.and(alternatePosition).onTrue(
-                // new MoveToPosition(m_arm, m_shooter, m_blinkin, Position.BACK_PODIUM));
-                // // HIGH Subwoofer
+                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.BACK_PODIUM));
+                // // // HIGH Subwoofer
                 moveToSubwoofer.and(alternatePosition).onTrue(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
                                                 Position.BACK_SUBWOOFER));
                 moveToBackSubwoofer.onTrue(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.BACK_SUBWOOFER));
+
+                moveToBackSubwooferDriver.onTrue(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.BACK_SUBWOOFER));
 
                 /**

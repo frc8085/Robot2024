@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 
 public class TargetSPTwice extends SequentialCommandGroup {
@@ -18,9 +17,11 @@ public class TargetSPTwice extends SequentialCommandGroup {
                                                 new InstantCommand(),
                                                 m_limelight::hasTarget),
                                 new WaitCommand(0.1),
-                                new ConditionalCommand(
+                                new ConditionalCommand(new ConditionalCommand(
                                                 new AutoTargetSP(m_limelight, m_arm),
                                                 new InstantCommand(),
-                                                m_limelight::hasTarget));
+                                                m_limelight::hasTarget),
+                                                new InstantCommand(),
+                                                m_arm::atPodiumPosition));
         }
 }
