@@ -88,7 +88,7 @@ public class RobotContainer {
                                 m_feeder::noteInRobot));
 
                 NamedCommands.registerCommand("MoveToPodium", new ConditionalCommand(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.PODIUM),
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_PODIUM),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("Shoot", new ConditionalCommand(
