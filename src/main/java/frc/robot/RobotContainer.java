@@ -206,7 +206,7 @@ public class RobotContainer {
                  * DPad Right:
                  * DPad Down: Lock Wheels (set X)
                  * Left Bumper: Auto Target
-                 * Right Bumper:
+                 * Right Bumper: Allow Fast Turning
                  * Left Trigger: Shoot Note
                  * Right Trigger: Drive Speed
                  * Left Stick Button:
