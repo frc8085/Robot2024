@@ -44,6 +44,8 @@ public class ClimberSubsystem extends SubsystemBase {
     private SparkLimitSwitch m_winchLeftRaiseLimit;
     private SparkLimitSwitch m_winchRightRaiseLimit;
 
+    public boolean trapPressed = false;
+
     public boolean WinchLowerLimitHit() {
         return isWinchLowerLimitHit();
     }
@@ -144,6 +146,14 @@ public class ClimberSubsystem extends SubsystemBase {
 
     public boolean atTrapScore() {
         return (getWinchPosition() > (ClimberConstants.climbAtTrapScore));
+    }
+
+    public void trapPressedNow() {
+        trapPressed = true;
+    }
+
+    public boolean isTrapPressed() {
+        return trapPressed;
     }
 
     public void periodic() {

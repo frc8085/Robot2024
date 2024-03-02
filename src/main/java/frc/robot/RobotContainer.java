@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.time.Instant;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.PathPlannerLogging;
@@ -345,6 +347,7 @@ public class RobotContainer {
 
                 moveToTrapApproachDriver.onTrue(new ParallelCommandGroup(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_SECOND),
+                                new InstantCommand(m_climb::trapPressedNow),
                                 new RunCommand(() -> m_drive.lock(),
                                                 m_drive)));
                 moveToSubwoofer.onTrue(
@@ -408,7 +411,10 @@ public class RobotContainer {
 
                 // Climber motor on and off
                 WinchForwardButton.whileTrue(
-                                new InstantCommand(m_climb::forward))
+                                new ConditionalCommand(
+                                                new InstantCommand(m_climb::forward),
+                                                new InstantCommand(),
+                                                m_climb::isTrapPressed))
                                 .onFalse(new InstantCommand(m_climb::stop));
 
                 WinchBackButton.whileTrue(
@@ -426,4 +432,5 @@ public class RobotContainer {
                 return autoChooser.getSelected();
 
         }
+
 }
