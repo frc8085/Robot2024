@@ -103,8 +103,10 @@ public class RobotContainer {
                 NamedCommands.registerCommand("WaitUntilHome", new WaitUntilCommand(m_arm::atHomePosition));
                 NamedCommands.registerCommand("NoteCheckAuto", new NoteCheckAuto(m_intake, m_feeder));
                 NamedCommands.registerCommand("NoteInRobot", new InstantCommand(m_feeder::notePickedUp));
-                NamedCommands.registerCommand("WaitUntilReadyToShoot",
-                                new WaitUntilCommand(m_shooter::readyToShootPodium));
+                NamedCommands.registerCommand("WaitUntilReadyToShoot", new ConditionalCommand(
+                                new WaitUntilCommand(m_shooter::readyToShootPodium),
+                                new InstantCommand(),
+                                m_feeder::noteInRobot));
 
         }
 
@@ -137,8 +139,7 @@ public class RobotContainer {
                                                 -MathUtil.applyDeadband(m_driverController.getRightX(),
                                                                 OIConstants.kDriveDeadband),
                                                 true,
-                                                true,
-                                                false),
+                                                true),
                                                 m_drive));
 
                 // Another option that allows you to specify the default auto by its name
@@ -242,7 +243,6 @@ public class RobotContainer {
                 final Trigger lockWheels = m_driverController.povDown();
 
                 final Trigger autoTarget = m_driverController.leftBumper();
-                final Trigger allowTurnFast = m_driverController.rightBumper();
 
                 final Trigger moveToBackSubwooferDriver = m_driverController.x();
                 final Trigger moveToSubwooferDriver = m_driverController.y();
@@ -260,19 +260,6 @@ public class RobotContainer {
                                 m_drive));
 
                 zeroHeadingButton.onTrue(new InstantCommand(() -> m_drive.zeroHeading(), m_drive));
-
-                allowTurnFast.whileTrue(new RunCommand(() -> m_drive.drive(
-                                m_driverController.getRightTriggerAxis(),
-                                MathUtil.applyDeadband(m_driverController.getLeftY(),
-                                                OIConstants.kDriveDeadband),
-                                MathUtil.applyDeadband(m_driverController.getLeftX(),
-                                                OIConstants.kDriveDeadband),
-                                -MathUtil.applyDeadband(m_driverController.getRightX(),
-                                                OIConstants.kDriveDeadband),
-                                true,
-                                true,
-                                true),
-                                m_drive));
 
                 oscillate.onTrue(new Oscillate(m_arm, m_shooter, m_feeder, m_blinkin));
 
