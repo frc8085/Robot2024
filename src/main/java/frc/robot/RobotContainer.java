@@ -30,6 +30,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.MoveToPosition;
 import frc.robot.commands.NoteCheckAuto;
 import frc.robot.commands.NoteCorrection;
+import frc.robot.commands.Oscillate;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
@@ -82,7 +83,7 @@ public class RobotContainer {
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("MoveToSubwoofer", new ConditionalCommand(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SUBWOOFER),
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SIDE_SUBWOOFER),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
 
@@ -247,6 +248,7 @@ public class RobotContainer {
                 final Trigger moveToSubwooferDriver = m_driverController.y();
 
                 final Trigger moveToTrapApproachDriver = m_driverController.povLeft();
+                final Trigger oscillate = m_driverController.povUp();
 
                 final Trigger zeroHeadingButton = m_driverController.start();
 
@@ -271,6 +273,8 @@ public class RobotContainer {
                                 true,
                                 true),
                                 m_drive));
+
+                oscillate.onTrue(new Oscillate(m_arm, m_shooter, m_feeder, m_blinkin));
 
                 // OPERATOR controlled buttons
                 final Trigger toggleShooter = m_operatorController.rightTrigger();

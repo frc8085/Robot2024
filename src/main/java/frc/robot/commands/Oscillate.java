@@ -18,22 +18,6 @@ public class Oscillate extends SequentialCommandGroup {
                 new WaitCommand(.1),
                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_SCORE),
                 new WaitCommand(.1),
-                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_FINAL),
-                new WaitCommand(.1),
-                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_SCORE),
-                new WaitCommand(.1),
-                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_FINAL),
-                new WaitCommand(.1),
-                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_SCORE),
-                new WaitCommand(.1),
-                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_FINAL),
-                new WaitCommand(.1),
-                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_SCORE),
-                new WaitCommand(.1),
-                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_FINAL),
-                new WaitCommand(.1),
-                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_SCORE),
-                new WaitCommand(.1),
                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_FINAL));
     }
 
