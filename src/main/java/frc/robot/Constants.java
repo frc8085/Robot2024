@@ -233,7 +233,7 @@ public final class Constants {
                                         ShooterConstants.kShooter1SetPoint),
                         PODIUM("Podium",
                                         260,
-                                        60,
+                                        58,
                                         true,
                                         true,
                                         false,
