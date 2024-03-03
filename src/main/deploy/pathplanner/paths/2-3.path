@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Four Note Auto",
+  "folder": null,
   "previewStartingState": {
     "rotation": -178.90565788631656,
     "velocity": 0
