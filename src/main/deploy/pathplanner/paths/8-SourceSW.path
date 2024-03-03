@@ -3,7 +3,7 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.3,
+        "x": 8.5,
         "y": 0.8
       },
       "prevControl": null,
@@ -32,7 +32,7 @@
     },
     {
       "anchor": {
-        "x": 1.0,
+        "x": 0.79,
         "y": 4.44
       },
       "prevControl": {

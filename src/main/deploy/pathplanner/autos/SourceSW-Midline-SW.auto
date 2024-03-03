@@ -32,12 +32,6 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitUntilReadyToShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Shoot"
           }
         },
@@ -61,7 +55,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
             "commands": [
               {
