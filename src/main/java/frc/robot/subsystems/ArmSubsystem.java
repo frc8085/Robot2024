@@ -399,6 +399,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void periodic() {
         // This method will be called once per scheduler run
+        
         log();
         if (PRACTICE_MODE) {
             practiceDashboard();

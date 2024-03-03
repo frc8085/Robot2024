@@ -112,8 +112,8 @@ public final class Constants {
 
                 public static double kShooter1SetPoint = 4300;
                 public static double kShooter2SetPoint = kShooter1SetPoint * 0.9;
-                public static double kShooter1PodiumToleranceRPMPercent = .02;
-                public static double kShooter2PodiumToleranceRPMPercent = .022;
+                public static double kShooter1PodiumToleranceRPMPercent = .03;
+                public static double kShooter2PodiumToleranceRPMPercent = .04;
                 public static double kShooter1SWToleranceRPMPercent = .03;
                 public static double kShooter2SWToleranceRPMPercent = .04;
 
@@ -238,8 +238,8 @@ public final class Constants {
                                         true,
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
-                        AUTO_PODIUM("Podium",
-                                        270,
+                        AUTO_PODIUM("Auto Podium",
+                                        261,
                                         60,
                                         true,
                                         true,

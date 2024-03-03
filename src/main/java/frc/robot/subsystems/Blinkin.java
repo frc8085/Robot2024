@@ -19,11 +19,11 @@ public class Blinkin extends SubsystemBase {
     }
 
     public void shooterAtSetPoint() {
-        m_blinkin.set(0.69);
+        m_blinkin.set(0.77);
     }
 
     public void intakeOn() {
-        m_blinkin.set(.81);
+        m_blinkin.set(.57);
     }
 
     public void driving() {

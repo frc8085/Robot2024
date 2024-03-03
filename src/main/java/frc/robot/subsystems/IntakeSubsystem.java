@@ -65,6 +65,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("Intake On", isIntakeRunning());
+        
         log();
         if (PRACTICE_MODE) {
 
