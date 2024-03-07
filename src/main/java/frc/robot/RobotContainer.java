@@ -264,6 +264,7 @@ public class RobotContainer {
                 oscillate.onTrue(new Oscillate(m_arm, m_shooter, m_feeder, m_blinkin));
 
                 // OPERATOR controlled buttons
+                final Trigger systemsOff = m_operatorController.back();
                 final Trigger toggleShooter = m_operatorController.rightTrigger();
                 final Trigger toggleIntake = m_operatorController.leftTrigger();
                 // final Trigger everythingOff = m_operatorController.button();
@@ -292,6 +293,10 @@ public class RobotContainer {
                 final Trigger WinchForwardButton = m_operatorController.povDown();
                 final Trigger WinchBackButton = m_operatorController.povUp();
 
+                systemsOff.onTrue(new ParallelCommandGroup(
+                                new InstantCommand(m_intake::stop),
+                                new InstantCommand(m_feeder::stop),
+                                new InstantCommand(m_shooter::stop)));
                 // Testing conditional, check if shooter is at speed, if it is, shoot, if not,
                 // wait til it is at speed then shoot
 
