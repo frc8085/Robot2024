@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.Drive;
 
 import org.littletonrobotics.junction.LoggedRobot;
 
@@ -267,7 +267,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         double xSpeedDelivered = xSpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
         double ySpeedDelivered = ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
-        double rotDelivered  = m_currentRotation * DriveConstants.kMaxAngularSpeed;
+        double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
 
         drive(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered), fieldRelative);
 
