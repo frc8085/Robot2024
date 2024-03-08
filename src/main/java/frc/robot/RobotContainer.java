@@ -263,6 +263,13 @@ public class RobotContainer {
 
                 oscillate.onTrue(new Oscillate(m_arm, m_shooter, m_feeder, m_blinkin));
 
+                // Have robot stop if right trigger is not pressed and no right joystick for
+                // turning
+                if ((m_driverController.getRightTriggerAxis() < (0 + OIConstants.kDriveDeadband))
+                                && (m_driverController.getRightX() < (0 + OIConstants.kDriveDeadband))) {
+                        new RunCommand(() -> m_drive.stop(), m_drive);
+                }
+
                 // OPERATOR controlled buttons
                 final Trigger systemsOff = m_operatorController.back();
                 final Trigger toggleShooter = m_operatorController.rightTrigger();
