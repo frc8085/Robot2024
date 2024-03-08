@@ -115,12 +115,12 @@ public class FeederSubsystem extends SubsystemBase {
         return !lightSensor1.get() && !lightSensor2.get();
     }
 
-    /* When a note is picked up, it's in the robot */
+    /* When a note is picked up, it's in the robot (mind blown) */
     public void notePickedUp() {
         noteTrue = true;
     }
 
-    /* Once a note is shot, it's not in robot */
+    /* Once a note is shot, it's not in robot (mind further blown) */
     public void noteShot() {
         noteTrue = false;
     }
