@@ -221,8 +221,10 @@ public class DriveSubsystem extends SubsystemBase {
 
         // Have robot stop if right trigger is not pressed and no right joystick for
         // turning
+
+        // if right joystick is > deadband || right joystick < -deadband
         if ((speedCommanded < OIConstants.kDriveDeadband)
-                && (rot < OIConstants.kDriveDeadband)) {
+                && (OIConstants.kDriveDeadband > rot && rot > -OIConstants.kDriveDeadband)) {
             speedCommanded = 0;
             rot = 0;
             xSpeedCommanded = 0;
