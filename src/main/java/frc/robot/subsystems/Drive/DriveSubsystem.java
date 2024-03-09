@@ -25,10 +25,12 @@ import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LoggingConstants;
+import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.TuningModeConstants;
 import frc.utils.SwerveUtils;
 
@@ -216,6 +218,16 @@ public class DriveSubsystem extends SubsystemBase {
         double speedCommanded = speed;
         double xSpeedCommanded;
         double ySpeedCommanded;
+
+        // Have robot stop if right trigger is not pressed and no right joystick for
+        // turning
+        if ((speedCommanded < OIConstants.kDriveDeadband)
+                && (rot < OIConstants.kDriveDeadband)) {
+            speedCommanded = 0;
+            rot = 0;
+            xSpeedCommanded = 0;
+            ySpeedCommanded = 0;
+        }
 
         if (rateLimit) {
             // Convert XY to polar for rate limiting
