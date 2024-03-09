@@ -163,7 +163,7 @@ public final class Constants {
 
                 // Shooter Pivot PID coefficients
                 public static final int kShooterPivotPIDSlot = 0;
-                public static final double kShooterPivotP = 0.02;
+                public static final double kShooterPivotP = 0.01;
                 public static final double kShooterPivotI = 0;
                 public static final double kShooterPivotD = 0;
                 public static final double kShooterPivotFF = 0.0005;
@@ -233,21 +233,21 @@ public final class Constants {
                                         ShooterConstants.kShooter1SetPoint),
                         PODIUM("Podium",
                                         260,
-                                        58,
+                                        61,
                                         true,
                                         true,
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_PODIUM("Auto Podium",
-                                        261,
-                                        60,
+                                        260,
+                                        61,
                                         true,
                                         true,
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
                         SUBWOOFER("Subwoofer",
                                         325,
-                                        125,
+                                        121,
                                         true,
                                         false,
                                         true,
