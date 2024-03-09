@@ -291,7 +291,7 @@ public final class Constants {
                                         ShooterConstants.kShooterOff),
                         TRAP_SCORE("Trap Score",
                                         315,
-                                        85,
+                                        98,
                                         true,
                                         true,
                                         false,
