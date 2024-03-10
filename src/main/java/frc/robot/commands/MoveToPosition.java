@@ -22,7 +22,9 @@ public class MoveToPosition extends SequentialCommandGroup {
         // Check if the arm is at a height where if shooter goes vertical the robot will
         // be > 48 inches
         if (position.HeightCheck) {
-            if (m_arm.armShooterAboveMaxHeight()) {
+            if (m_arm.armShooterBelowMaxHeight()) {
+                new InstantCommand();
+            } else if (m_arm.armShooterAboveMaxHeight()) {
                 addCommands(new InstantCommand(() -> m_arm.setArmPosition(300)),
                         new WaitUntilCommand(m_arm::armShooterBelowMaxHeight));
             }
@@ -44,7 +46,7 @@ public class MoveToPosition extends SequentialCommandGroup {
         else {
             addCommands(
                     new InstantCommand(() -> m_arm.setShooterPivotPosition(position.shooterPivotPosition)),
-                    new WaitCommand(1),
+                    new WaitCommand(.25),
                     new InstantCommand(() -> m_arm.setArmPosition(position.armPosition)));
         }
 
