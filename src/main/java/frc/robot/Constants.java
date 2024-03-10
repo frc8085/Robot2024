@@ -219,7 +219,7 @@ public final class Constants {
                 public enum Position {
                         HOME("Home",
                                         236,
-                                        45,
+                                        41,
                                         false,
                                         false,
                                         true,
@@ -240,7 +240,7 @@ public final class Constants {
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_PODIUM("Auto Podium",
                                         260,
-                                        61,
+                                        62,
                                         true,
                                         true,
                                         false,
