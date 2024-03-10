@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutoTargetSP extends SequentialCommandGroup {
 
-    public AutoTargetSP(LimelightSubsystem m_limelight, ArmSubsystem m_arm) {
-        addCommands(
-                new InstantCommand(() -> m_arm.setShooterPivotPosition(m_limelight.getYfromRobotPerspective())));
-    }
+  public AutoTargetSP(LimelightSubsystem m_limelight, ArmSubsystem m_arm) {
+    addCommands(
+        new InstantCommand(() -> m_arm.setShooterPivotPosition(m_limelight.getShooterPivotSetpointFromArea())));
+  }
 }
