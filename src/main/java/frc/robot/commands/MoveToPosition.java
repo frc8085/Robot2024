@@ -19,14 +19,18 @@ public class MoveToPosition extends SequentialCommandGroup {
             Blinkin m_blinkin,
             Position position) {
 
+        // Write to log what position we are moving to
+        new InstantCommand(() -> System.out.println("START Move to " + position.label + " Position**"));
+
         // Check if the arm is at a height where if shooter goes vertical the robot will
         // be > 48 inches
         if (position.HeightCheck) {
             if (m_arm.armShooterBelowMaxHeight()) {
-                new InstantCommand();
+                new InstantCommand(() -> System.out.println("Shooter below max height"));
             } else if (m_arm.armShooterAboveMaxHeight()) {
                 addCommands(new InstantCommand(() -> m_arm.setArmPosition(300)),
-                        new WaitUntilCommand(m_arm::armShooterBelowMaxHeight));
+                        new WaitUntilCommand(m_arm::armShooterBelowMaxHeight),
+                        new InstantCommand(() -> System.out.println("Shooter above max height")));
             }
         }
         // Check if we move Arm and Shooter Pivot at the same time
