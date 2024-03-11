@@ -160,7 +160,7 @@ public class ShooterSubsystem extends SubsystemBase {
         double tolerance = Math.abs(ShooterConstants.kShooter1PodiumToleranceRPMPercent * setpoint);
 
         double minLimit = setpoint - tolerance;
-        double maxLimit = setpoint + tolerance;
+        double maxLimit = setpoint + 2 * tolerance;
 
         boolean withinLimits =
                 // Don't consider us at setpoint for the 'motor off' case
@@ -203,7 +203,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 setpoint != 0 &&
                 // Otherwise check if we're within limits
                         encoderValue >= minLimit;
-                        // && encoderValue <= maxLimit;
+        // && encoderValue <= maxLimit;
 
         return withinLimits;
     }
@@ -221,7 +221,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 setpoint != 0 &&
                 // Otherwise check if we're within limits
                         encoderValue >= minLimit;
-                        // && encoderValue <= maxLimit;
+        // && encoderValue <= maxLimit;
 
         return shooter2WithinLimits;
     }
@@ -262,7 +262,7 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("Shooter is Running", isShooterRunning());
         SmartDashboard.putBoolean("SW Ready To Shoot", readyToShootSW());
 
-                SmartDashboard.putNumber("Shooter1 Velocity", m_shooter1Encoder.getVelocity());
+        SmartDashboard.putNumber("Shooter1 Velocity", m_shooter1Encoder.getVelocity());
         SmartDashboard.putNumber("Shooter2 Velocity", m_shooter2Encoder.getVelocity());
 
         if (LoggingConstants.kLogging)
