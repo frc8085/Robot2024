@@ -19,6 +19,9 @@ public class MoveToPosition extends SequentialCommandGroup {
             Blinkin m_blinkin,
             Position position) {
 
+        // Write to log what command is run
+        new InstantCommand(() -> System.out.println("START Move to " + position.label + " Position**"));
+
         // Check if we move Arm and Shooter Pivot at the same time
         if (position.parallelMovement) {
             addCommands(new InstantCommand(() -> m_arm.moveToPosition(position)));
