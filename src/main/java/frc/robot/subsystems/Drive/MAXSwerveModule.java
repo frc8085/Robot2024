@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems.Drive;
 
-import javax.swing.RowFilter.ComparisonType;
-
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;

@@ -26,18 +26,16 @@ import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.Constants.TuningModeConstants;
 import frc.utils.SwerveUtils;
 
 public class DriveSubsystem extends SubsystemBase {
 
-    private boolean TUNING_MODE = TuningModeConstants.kDriveTuning;
+    // private boolean TUNING_MODE = TuningModeConstants.kDriveTuning;
 
     // Create MAXSwerveModules
     private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
