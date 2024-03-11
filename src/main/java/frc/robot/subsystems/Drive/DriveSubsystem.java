@@ -5,6 +5,7 @@
 package frc.robot.subsystems.Drive;
 
 import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -66,6 +67,10 @@ public class DriveSubsystem extends SubsystemBase {
     private final Pigeon2 m_gyro = new Pigeon2(CanIdConstants.kGyroCanId);
 
     public Field2d field = new Field2d();
+
+    private static final String POSE_LOG_ENTRY = "/Pose";
+    private static final String ACTUAL_SWERVE_STATE_LOG_ENTRY = "/ActualSwerveState";
+    private static final String DESIRED_SWERVE_STATE_LOG_ENTRY = "/DesiredSwerveState";
 
     // Slew rate filter variables for controlling lateral acceleration
     private double m_currentRotation = 0.0;
@@ -135,7 +140,7 @@ public class DriveSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Heading", getHeading());
             SmartDashboard.putNumber("X Pose", getPose().getX());
             SmartDashboard.putNumber("Y Pose", getPose().getY());
-
+            logOutputs();
         }
     }
 
@@ -326,6 +331,8 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.setDesiredState(desiredStates[3]);
 
         if (LoggingConstants.kLogging) {
+            Logger.recordOutput(getName() + DESIRED_SWERVE_STATE_LOG_ENTRY, getModuleStates());
+
         }
     }
 
@@ -370,6 +377,11 @@ public class DriveSubsystem extends SubsystemBase {
         return
         // m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
         m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    }
+
+    private void logOutputs() {
+        Logger.recordOutput(getName() + POSE_LOG_ENTRY, getPose());
+        Logger.recordOutput(getName() + ACTUAL_SWERVE_STATE_LOG_ENTRY, getModuleStates());
     }
 
 }
