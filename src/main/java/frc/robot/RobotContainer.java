@@ -253,7 +253,7 @@ public class RobotContainer {
 
                 final Trigger zeroHeadingButton = m_driverController.start();
 
-                autoTarget.onTrue(new SequentialCommandGroup(
+                autoTarget.onTrue(new ParallelCommandGroup(
                                 new TargetTwice(m_limelight, m_drive),
                                 new TargetSPTwice(m_limelight, m_arm)));
 

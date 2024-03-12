@@ -152,7 +152,7 @@ public final class Constants {
                 // PIDS
                 // Arm PID coefficients
                 public static final int kArmPIDSlot = 0;
-                public static final double kArmP = 0.017;
+                public static final double kArmP = 0.023;
                 public static final double kArmI = 0;
                 public static final double kArmD = 0.1;
                 public static final double kArmFF = 0.0012;
@@ -218,7 +218,7 @@ public final class Constants {
                 // Arm Positions
                 public enum Position {
                         HOME("Home",
-                                        236,
+                                        238,
                                         41,
                                         false,
                                         false,
