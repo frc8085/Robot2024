@@ -14,6 +14,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -79,11 +80,17 @@ public class DriveSubsystem extends SubsystemBase {
     private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
     private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
-    // Odometry class for tracking robot pose
-    SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+    // // Odometry class for tracking robot pose
+    // SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+    // DriveConstants.kDriveKinematics,
+    // getYaw(),
+    // getModulePositions());
+
+    SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
             DriveConstants.kDriveKinematics,
             getYaw(),
-            getModulePositions());
+            getModulePositions(),
+            new Pose2d());
 
     /** Creates a new DriveSubsystem. */
     public DriveSubsystem() {
@@ -154,7 +161,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @return The pose.
      */
     public Pose2d getPose() {
-        return m_odometry.getPoseMeters();
+        return m_odometry.getEstimatedPosition();
     }
 
     /**

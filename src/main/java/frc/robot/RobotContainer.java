@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.MoveToPosition;
+import frc.robot.commands.MoveToPositionManual;
 import frc.robot.commands.NoteCheckAuto;
 import frc.robot.commands.NoteCorrection;
 import frc.robot.commands.Oscillate;
@@ -337,7 +338,7 @@ public class RobotContainer {
 
                 moveToHome.onTrue(
                                 new ParallelCommandGroup(
-                                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                                                new MoveToPositionManual(m_arm, m_shooter, m_feeder, m_blinkin,
                                                                 Position.HOME),
                                                 new InstantCommand(m_feeder::stop),
                                                 new InstantCommand(m_shooter::stop)));
