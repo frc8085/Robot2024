@@ -109,7 +109,7 @@ public class RobotContainer {
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("LLAim", new TargetSPTwice(m_limelight, m_arm));
-
+                NamedCommands.registerCommand("ResetHeading", new InstantCommand(() -> m_drive.zeroHeading(), m_drive));
         }
 
         // The driver's controller

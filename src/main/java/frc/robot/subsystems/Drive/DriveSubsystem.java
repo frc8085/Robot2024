@@ -9,6 +9,7 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -102,7 +103,20 @@ public class DriveSubsystem extends SubsystemBase {
         // Configure PathPlanner AutoBuilder
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
-                this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+                resetOdometry(new Pose2d(initialState.poseMeters.getTranslation(), initialState.holonomicRotation)), // Method
+                                                                                                                     // to
+                                                                                                                     // reset
+                                                                                                                     // odometry
+                                                                                                                     // (will
+                                                                                                                     // be
+                                                                                                                     // called
+                                                                                                                     // if
+                                                                                                                     // your
+                                                                                                                     // auto
+                                                                                                                     // has
+                                                                                                                     // a
+                                                                                                                     // starting
+                                                                                                                     // pose)
                 this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                 this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your

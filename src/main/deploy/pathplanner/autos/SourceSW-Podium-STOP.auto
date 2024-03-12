@@ -106,70 +106,14 @@
                 "data": {
                   "name": "PickUpNote"
                 }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "3-8"
-                }
               }
             ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "8-SW"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "TurnOnShooter"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "MoveToPodium"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LLAim"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilReadyToShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "SW-Rotate"
+            "pathName": "3-rotate"
           }
         },
         {
