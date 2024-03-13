@@ -117,7 +117,7 @@ public final class Constants {
                 public static double kShooter1SWToleranceRPMPercent = .03;
                 public static double kShooter2SWToleranceRPMPercent = .04;
 
-                public static double kShooterSetPointTrap = 2000;
+                public static double kShooterSetPointTrap = 1000;
                 public static double kShooterSetPointAmp = 1000;
                 public static double kShooterOff = 0;
         }
@@ -268,7 +268,7 @@ public final class Constants {
                                         ShooterConstants.kShooter1SetPoint),
 
                         TRAP_APPROACH("Trap Approach",
-                                        320,
+                                        330,
                                         155,
                                         true,
                                         false,
@@ -284,7 +284,7 @@ public final class Constants {
 
                         TRAP_FINAL("Trap Final",
                                         310,
-                                        50,
+                                        45,
                                         true,
                                         true,
                                         false,
