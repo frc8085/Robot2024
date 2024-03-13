@@ -25,6 +25,9 @@ public class ShootNew extends SequentialCommandGroup {
                                                 new WaitUntilCommand(m_shooter::readyToShootSW),
                                                 m_arm::atPodiumPosition),
                                 new InstantCommand(m_feeder::run),
+                                new InstantCommand(() -> System.out
+                                                .println("**Shoot**")),
+
                                 // watch for isNoteDetected to be true and then turn off the feeder after X
                                 // seconds
                                 new WaitUntilCommand(m_feeder::isNoteDetected),

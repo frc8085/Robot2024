@@ -88,6 +88,12 @@
         {
           "type": "named",
           "data": {
+            "name": "LLAim"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "WaitUntilReadyToShoot"
           }
         },
@@ -151,6 +157,12 @@
         {
           "type": "named",
           "data": {
+            "name": "LLAim"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "WaitUntilReadyToShoot"
           }
         },
@@ -158,6 +170,18 @@
           "type": "named",
           "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1-Rotate"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ResetHeading"
           }
         }
       ]
