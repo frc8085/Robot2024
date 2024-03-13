@@ -284,7 +284,7 @@ public final class Constants {
 
                         TRAP_FINAL("Trap Final",
                                         310,
-                                        45,
+                                        40,
                                         true,
                                         true,
                                         false,
