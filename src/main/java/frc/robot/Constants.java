@@ -158,7 +158,7 @@ public final class Constants {
                 public static final double kArmFF = 0.0012;
                 public static final double kArmMaxOutput = kArmMaxSpeed;
                 public static final double kArmMinOutput = -.8;
-                public static final double kArmMaxAccel = 12;
+                public static final double kArmMaxAccel = 6;
                 public static final double kArmMaxVelo = 14;
 
                 // Shooter Pivot PID coefficients
