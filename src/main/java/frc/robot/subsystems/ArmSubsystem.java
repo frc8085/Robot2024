@@ -399,7 +399,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void periodic() {
         // This method will be called once per scheduler run
-        System.out.println("Arm height - " + getArmPosition());
+        // System.out.println("Arm height - " + getArmPosition());
         log();
         if (PRACTICE_MODE) {
             practiceDashboard();
