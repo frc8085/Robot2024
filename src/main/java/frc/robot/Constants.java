@@ -73,7 +73,7 @@ public final class Constants {
                 public static final int kIRPort2 = 1;
 
                 public static final double speed = 1;
-                public static final double intakeSpeed = .3;
+                public static final double pickupSpeed = .3;
                 public static final double speedAuto = 1;
                 public static final double kLoadWaitTime = 0;
 
@@ -337,7 +337,7 @@ public final class Constants {
 
                         EJECT_NOTE("Eject Note",
                                         280,
-                                        140,
+                                        41,
                                         true,
                                         true,
                                         false,

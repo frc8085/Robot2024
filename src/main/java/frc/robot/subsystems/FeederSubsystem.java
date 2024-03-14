@@ -95,7 +95,7 @@ public class FeederSubsystem extends SubsystemBase {
     }
 
     public void runPickup() {
-        m_feederMotor.set(FeederConstants.intakeSpeed);
+        m_feederMotor.set(FeederConstants.pickupSpeed);
     }
 
     // Feeder Speed during Auto
