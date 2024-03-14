@@ -88,12 +88,6 @@
         {
           "type": "named",
           "data": {
-            "name": "LLAim"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "WaitUntilReadyToShoot"
           }
         },
@@ -150,12 +144,6 @@
         {
           "type": "named",
           "data": {
-            "name": "LLAim"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "WaitUntilReadyToShoot"
           }
         },
@@ -206,13 +194,7 @@
         {
           "type": "named",
           "data": {
-            "name": "MoveToPodium"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LLAim"
+            "name": "MoveToPodiumAmp"
           }
         },
         {
