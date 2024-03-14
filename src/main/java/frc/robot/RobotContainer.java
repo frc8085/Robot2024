@@ -28,13 +28,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.MoveToPosition;
-import frc.robot.commands.MoveToPositionManual;
+import frc.robot.commands.MoveToPositionAuto;
 import frc.robot.commands.NoteCheckAuto;
 import frc.robot.commands.NoteCorrection;
 import frc.robot.commands.Oscillate;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
+import frc.robot.commands.ShootAuto;
 import frc.robot.commands.ShootChooser;
 import frc.robot.commands.EjectNote;
 import frc.robot.commands.EnableShooterAuto;
@@ -81,20 +82,29 @@ public class RobotContainer {
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("MoveToSubwooferAuto", new ConditionalCommand(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_SUBWOOFER),
+                                new MoveToPositionAuto(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_SUBWOOFER),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("MoveToSubwoofer", new ConditionalCommand(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SIDE_SUBWOOFER),
+                                new MoveToPositionAuto(m_arm, m_shooter, m_feeder, m_blinkin, Position.SIDE_SUBWOOFER),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
 
                 NamedCommands.registerCommand("MoveToPodium", new ConditionalCommand(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_PODIUM),
+                                new MoveToPositionAuto(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_PODIUM),
+                                new InstantCommand(),
+                                m_feeder::noteInRobot));
+                NamedCommands.registerCommand("MoveToPodiumSource", new ConditionalCommand(
+                                new MoveToPositionAuto(m_arm, m_shooter, m_feeder, m_blinkin,
+                                                Position.AUTO_PODIUM_SOURCE),
+                                new InstantCommand(),
+                                m_feeder::noteInRobot));
+                NamedCommands.registerCommand("MoveToPodiumAmp", new ConditionalCommand(
+                                new MoveToPositionAuto(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_PODIUM_AMP),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("Shoot", new ConditionalCommand(
-                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME),
+                                new ShootAuto(m_feeder, m_arm, m_shooter, m_blinkin),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("PickUpNote",
@@ -109,7 +119,8 @@ public class RobotContainer {
                                 new WaitUntilCommand(m_shooter::readyToShootPodium),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
-                NamedCommands.registerCommand("LLAim", new TargetSPTwice(m_limelight, m_arm));
+                NamedCommands.registerCommand("LLAim",
+                                new LimelightShoot(m_feeder, m_arm, m_shooter, m_blinkin, m_limelight, m_drive));
                 NamedCommands.registerCommand("ResetHeading", new InstantCommand(() -> m_drive.zeroHeading(), m_drive));
         }
 
@@ -337,7 +348,7 @@ public class RobotContainer {
 
                 moveToHome.onTrue(
                                 new ParallelCommandGroup(
-                                                new MoveToPositionManual(m_arm, m_shooter, m_feeder, m_blinkin,
+                                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
                                                                 Position.HOME),
                                                 new InstantCommand(m_feeder::stop),
                                                 new InstantCommand(m_shooter::stop)));

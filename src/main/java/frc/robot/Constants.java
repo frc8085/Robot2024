@@ -54,7 +54,7 @@ public final class Constants {
                 public static final boolean kPracticeMode = false;
                 public static final boolean kTuning = false;
                 public static final boolean kDriveTuning = false;
-                public static final boolean kArmTuning = false;
+                public static final boolean kArmTuning = true;
                 public static final boolean kClimberTuning = false;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = false;
@@ -73,6 +73,7 @@ public final class Constants {
                 public static final int kIRPort2 = 1;
 
                 public static final double speed = 1;
+                public static final double intakeSpeed = .3;
                 public static final double speedAuto = 1;
                 public static final double kLoadWaitTime = 0;
 
@@ -127,8 +128,8 @@ public final class Constants {
                 public static final IdleMode kArmMotorIdleMode = IdleMode.kBrake;
                 public static final IdleMode kShooterPivotMotorIdleMode = IdleMode.kBrake;
 
-                public static final double kArmMaxSpeed = 1;
-                public static final double kArmMinSpeed = -1;
+                public static final double kArmMaxSpeed = .75;
+                public static final double kArmMinSpeed = -.75;
                 public static final double kShooterPivotMaxSpeed = 1;
 
                 // Manual Arm movement speeds
@@ -152,14 +153,14 @@ public final class Constants {
                 // PIDS
                 // Arm PID coefficients
                 public static final int kArmPIDSlot = 0;
-                public static final double kArmP = 0.023;
+                public static final double kArmP = 0.020;
                 public static final double kArmI = 0;
                 public static final double kArmD = 0.1;
                 public static final double kArmFF = 0.0012;
-                public static final double kArmMaxOutput = kArmMaxSpeed;
-                public static final double kArmMinOutput = -.8;
-                public static final double kArmMaxAccel = 6;
-                public static final double kArmMaxVelo = 14;
+                public static final double kArmMaxOutput = .75;
+                public static final double kArmMinOutput = -.7;
+                public static final double kArmMaxAccel = .00000000006;
+                public static final double kArmMaxVelo = .000000000014;
 
                 // Shooter Pivot PID coefficients
                 public static final int kShooterPivotPIDSlot = 0;
@@ -226,42 +227,56 @@ public final class Constants {
                                         ShooterConstants.kShooterOff),
                         AMP("Amp",
                                         325,
-                                        205,
+                                        200,
                                         true,
                                         false,
                                         true,
                                         ShooterConstants.kShooter1SetPoint),
                         PODIUM("Podium",
                                         260,
-                                        61,
+                                        55,
                                         true,
                                         true,
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_PODIUM("Auto Podium",
                                         260,
-                                        60,
+                                        53,
+                                        true,
+                                        true,
+                                        false,
+                                        ShooterConstants.kShooter1SetPoint),
+                        AUTO_PODIUM_SOURCE("Auto Podium Source",
+                                        260,
+                                        56,
+                                        true,
+                                        true,
+                                        false,
+                                        ShooterConstants.kShooter1SetPoint),
+                        AUTO_PODIUM_AMP("Auto Podium Amp",
+                                        260,
+                                        55,
                                         true,
                                         true,
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
                         SUBWOOFER("Subwoofer",
                                         325,
-                                        121,
+                                        116,
                                         true,
                                         false,
                                         true,
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_SUBWOOFER("Auto Subwoofer",
                                         285,
-                                        70.5,
+                                        65,
                                         true,
                                         true,
                                         true,
                                         ShooterConstants.kShooter1SetPoint),
                         SIDE_SUBWOOFER("Side Subwoofer",
                                         330,
-                                        125,
+                                        120,
                                         true,
                                         false,
                                         true,
@@ -298,15 +313,15 @@ public final class Constants {
                                         ShooterConstants.kShooterSetPointTrap),
                         HIGH_PODIUM("High Podium",
                                         322,
-                                        140,
+                                        135,
                                         true,
-                                        true,
+                                        false,
                                         true,
                                         ShooterConstants.kShooter1SetPoint),
 
                         BACK_PODIUM("Back Podium",
                                         338,
-                                        166,
+                                        161,
                                         true,
                                         true,
                                         true,
@@ -314,7 +329,7 @@ public final class Constants {
 
                         BACK_SUBWOOFER("Back Subwoofer",
                                         325,
-                                        42,
+                                        37,
                                         true,
                                         true,
                                         true,
