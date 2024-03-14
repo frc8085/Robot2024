@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Blinkin;
@@ -24,6 +23,6 @@ public class LimelightShoot extends SequentialCommandGroup {
                                 new ParallelCommandGroup(
                                                 new TargetTwice(m_limelight, m_drive),
                                                 new TargetSPTwice(m_limelight, m_arm)),
-                                new ShootPodium(m_feeder, m_arm, m_shooter, m_blinkin));
+                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
         }
 }
