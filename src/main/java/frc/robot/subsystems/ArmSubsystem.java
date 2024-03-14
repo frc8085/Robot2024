@@ -8,6 +8,8 @@ import static frc.robot.Constants.ArmConstants.kShooterPivotMax;
 import static frc.robot.Constants.ArmConstants.kShooterPivotMin;
 import static frc.robot.Constants.ArmConstants.kShooterPivotPositionShift;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
@@ -32,6 +34,11 @@ public class ArmSubsystem extends SubsystemBase {
             CanIdConstants.kArmCanId, MotorDefaultsConstants.NeoVortexMotorType);
     private final CANSparkMax m_shooterPivotMotor = new CANSparkMax(
             CanIdConstants.kShooterPivotCanId, MotorDefaultsConstants.Neo550MotorType);
+
+    private static final String ARM_ENCODER_LOG_ENTRY = "/Arm";
+    private static final String SHOOTERPIVOT_ENCODER_LOG_ENTRY = "/ShooterPivot";
+    private static final String DESIRED_ARM_ENCODER_LOG_ENTRY = "/DesiredArm";
+    private static final String DESIRED_SHOOTERPIVOT_ENCODER_LOG_ENTRY = "/ShooterPivot";
 
     // Encoders
     private SparkAbsoluteEncoder m_armEncoder;
@@ -248,6 +255,11 @@ public class ArmSubsystem extends SubsystemBase {
     public void moveToPosition(Position position) {
         setArmPosition(position.armPosition);
         setShooterPivotPosition(position.shooterPivotPosition);
+        if (LoggingConstants.kLogging) {
+            Logger.recordOutput(getName() + DESIRED_ARM_ENCODER_LOG_ENTRY, position.armPosition);
+            Logger.recordOutput(getName() + DESIRED_SHOOTERPIVOT_ENCODER_LOG_ENTRY, position.shooterPivotPosition);
+
+        }
     }
 
     public boolean atArmSetpoint(double setpoint) {
@@ -364,6 +376,7 @@ public class ArmSubsystem extends SubsystemBase {
             // SmartDashboard.putNumber("Raw Arm Position", getArmPosition());
             // SmartDashboard.putNumber("Raw Shooter Pivot Position",
             // getShooterPivotPosition());
+            logOutputs();
         }
     }
 
@@ -409,6 +422,11 @@ public class ArmSubsystem extends SubsystemBase {
         if (TUNING_MODE) {
             tuneSetPoints();
         }
+    }
+
+    private void logOutputs() {
+        Logger.recordOutput(getName() + ARM_ENCODER_LOG_ENTRY, getArmPosition());
+        Logger.recordOutput(getName() + SHOOTERPIVOT_ENCODER_LOG_ENTRY, getShooterPivotPosition());
     }
 
 }
