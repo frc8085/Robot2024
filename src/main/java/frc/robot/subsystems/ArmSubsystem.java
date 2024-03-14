@@ -361,7 +361,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void log() {
         if (LoggingConstants.kLogging) {
-
+            // SmartDashboard.putNumber("Raw Arm Position", getArmPosition());
+            // SmartDashboard.putNumber("Raw Shooter Pivot Position",
+            // getShooterPivotPosition());
         }
     }
 

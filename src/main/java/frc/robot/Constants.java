@@ -54,7 +54,7 @@ public final class Constants {
                 public static final boolean kPracticeMode = false;
                 public static final boolean kTuning = false;
                 public static final boolean kDriveTuning = false;
-                public static final boolean kArmTuning = true;
+                public static final boolean kArmTuning = false;
                 public static final boolean kClimberTuning = false;
                 public static final boolean kFeederTuning = false;
                 public static final boolean kIntakeTuning = false;
@@ -115,8 +115,8 @@ public final class Constants {
                 public static double kShooter2SetPoint = kShooter1SetPoint * 0.9;
                 public static double kShooter1PodiumToleranceRPMPercent = .03;
                 public static double kShooter2PodiumToleranceRPMPercent = .04;
-                public static double kShooter1SWToleranceRPMPercent = .03;
-                public static double kShooter2SWToleranceRPMPercent = .04;
+                public static double kShooter1SWToleranceRPMPercent = .1;
+                public static double kShooter2SWToleranceRPMPercent = .09;
 
                 public static double kShooterSetPointTrap = 1000;
                 public static double kShooterSetPointAmp = 1000;

@@ -107,10 +107,18 @@ public class LimelightSubsystem extends SubsystemBase {
   public double getShooterPivotSetpointFromArea() {
     // Empricially Derived
     // pivotSetpoint = -44.3* ta + 72.6
-    // fudgefactor + moves pivot shooter lower (if shots are too high)
-    double fudgefactor = 1;
+    // adjusted based on new TA readings and working setpoints
+    /**
+     * TA - Setpoint
+     * 0.21 59 - true measurement 61, but adjusted down because we were missing low
+     * at far distances
+     * 0.26 57
+     * 0.32 55
+     * 0.5 50
+     **/
+
     double ta = getArea();
-    return -44.3 * ta + 72.6 + fudgefactor;
+    return -30.4 * ta + 65;
 
   }
 
