@@ -55,7 +55,7 @@ public class AutoTarget extends PIDCommand {
         // stationary at the setpoint before it is considered as having reached the
         // reference
         getController()
-                .setTolerance(2, AutoConstants.kTurnRateToleranceDegPerS);
+                .setTolerance(5, AutoConstants.kTurnRateToleranceDegPerS);
 
     }
 
