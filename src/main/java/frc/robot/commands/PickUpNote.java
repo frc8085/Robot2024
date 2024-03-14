@@ -29,7 +29,7 @@ public class PickUpNote extends SequentialCommandGroup {
                                 new ParallelCommandGroup(
                                                 new InstantCommand(m_blinkin::intakeOn),
                                                 new InstantCommand(m_intake::run),
-                                                new InstantCommand(m_feeder::run)),
+                                                new InstantCommand(m_feeder::runPickup)),
                                 new WaitUntilCommand(m_feeder::isNoteDetected),
                                 new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin));
         }
