@@ -2,6 +2,9 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -26,6 +29,12 @@ public class FeederSubsystem extends SubsystemBase {
 
     // Robot starts with Note
     private boolean noteTrue = true;
+
+    private boolean feederOn;
+
+    private static final String NOTE_LOG_ENTRY = "/NoteIsInFeeder";
+    private static final String DESIRED_FEEDER_LOG_ENTRY = "/DesiredFeeder";
+    private static final String FEEDER_LOG_ENTRY = "/Feeder";
 
     // private RelativeEncoder m_feederEncoder;
 
@@ -88,14 +97,21 @@ public class FeederSubsystem extends SubsystemBase {
     // Stop the Feeder
     public void stop() {
         m_feederMotor.set(0);
+        feederOn = false;
+    }
+
+    public boolean isFeederOn() {
+        return feederOn;
     }
 
     public void run() {
         m_feederMotor.set(FeederConstants.speed);
+        feederOn = true;
     }
 
     public void runPickup() {
         m_feederMotor.set(FeederConstants.pickupSpeed);
+        feederOn = true;
     }
 
     // Feeder Speed during Auto
@@ -172,4 +188,9 @@ public class FeederSubsystem extends SubsystemBase {
 
     }
 
+    public void logOutputs() {
+        Logger.recordOutput(getName() + NOTE_LOG_ENTRY, isNoteDetected());
+        Logger.recordOutput(getName() + DESIRED_FEEDER_LOG_ENTRY, isFeederOn());
+        Logger.recordOutput(getName() + FEEDER_LOG_ENTRY, m_feederMotor.getEncoder().getVelocity());
+    }
 }
