@@ -3,6 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.ArmConstants.Position;
@@ -20,7 +23,8 @@ public class MoveToPosition extends SequentialCommandGroup {
             Position position) {
 
         // Write to log what position we are moving to
-        addCommands(new InstantCommand(() -> System.out.println("START Move to " + position.label + " Position**")));
+        addCommands(new InstantCommand(() -> System.out.println("START Move to " + position.label + " Position**")),
+                new InstantCommand(() -> Logger.recordOutput("Commands/MoveToPosition", position.label)));
         // Check if we move Arm and Shooter Pivot at the same time
         if (position.parallelMovement) {
             addCommands(new InstantCommand(() -> m_arm.moveToPosition(position)));

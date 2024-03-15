@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.ArmConstants.Position;
@@ -20,13 +22,13 @@ public class ShootNew extends SequentialCommandGroup {
                         Blinkin m_blinkin,
                         Position position) {
                 addCommands(
+                                new InstantCommand(() -> Logger.recordOutput("Commands/ShootNew", false)),
                                 new ConditionalCommand(
                                                 new WaitUntilCommand(m_shooter::readyToShootSW),
                                                 new WaitUntilCommand(m_shooter::readyToShootPodium),
                                                 m_arm::notAtPodiumPosition),
                                 new InstantCommand(m_feeder::run),
-                                new InstantCommand(() -> System.out
-                                                .println("**Shoot**")),
+                                new InstantCommand(() -> Logger.recordOutput("Commands/ShootNew", true)),
 
                                 // watch for isNoteDetected to be true and then turn off the feeder after X
                                 // seconds

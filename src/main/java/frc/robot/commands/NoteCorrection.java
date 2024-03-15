@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.FeederConstants;
 import frc.robot.subsystems.FeederSubsystem;
@@ -12,6 +14,7 @@ public class NoteCorrection extends SequentialCommandGroup {
         public NoteCorrection(
                         FeederSubsystem m_feeder) {
                 addCommands(
+                                new InstantCommand(() -> Logger.recordOutput("Commands/NoteCorrection", false)),
                                 new InstantCommand(m_feeder::stop),
                                 new WaitCommand(FeederConstants.kLoadWaitTime),
                                 new InstantCommand(m_feeder::runBackwards),

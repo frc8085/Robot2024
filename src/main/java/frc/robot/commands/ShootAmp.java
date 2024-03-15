@@ -3,6 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.subsystems.ArmSubsystem;
@@ -18,6 +21,7 @@ public class ShootAmp extends SequentialCommandGroup {
             Blinkin m_blinkin,
             Position position) {
         addCommands(
+                new InstantCommand(() -> Logger.recordOutput("Commands/ShootAmp", false)),
                 new InstantCommand(m_feeder::run),
                 // watch for isNoteDetected to be true and then turn off the feeder after X
                 // seconds
