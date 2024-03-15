@@ -26,6 +26,7 @@ public class TargetSPTwice extends SequentialCommandGroup {
                                                 new InstantCommand(),
                                                 m_limelight::hasTarget),
                                                 new InstantCommand(),
-                                                m_arm::atPodiumPosition));
+                                                m_arm::atPodiumPosition),
+                                new InstantCommand(() -> Logger.recordOutput("Commands/LimelightTargetSP", true)));
         }
 }

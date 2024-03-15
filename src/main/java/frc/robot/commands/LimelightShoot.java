@@ -22,7 +22,7 @@ public class LimelightShoot extends SequentialCommandGroup {
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.PODIUM),
                                 new ParallelCommandGroup(
                                                 new TargetTwice(m_limelight, m_drive),
-                                                new TargetSPTwice(m_limelight, m_arm)),
-                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
+                                                new TargetSPTwice(m_limelight, m_arm)));
+                // new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
         }
 }
