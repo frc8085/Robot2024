@@ -248,14 +248,14 @@ public final class Constants {
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_PODIUM_SOURCE("Auto Podium Source",
                                         260,
-                                        58,
+                                        56,
                                         true,
                                         true,
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_PODIUM_AMP("Auto Podium Amp",
                                         260,
-                                        57,
+                                        55,
                                         true,
                                         true,
                                         false,
@@ -306,7 +306,7 @@ public final class Constants {
                                         ShooterConstants.kShooterOff),
                         TRAP_SCORE("Trap Score",
                                         315,
-                                        90,
+                                        87,
                                         true,
                                         true,
                                         false,
@@ -551,7 +551,7 @@ public final class Constants {
 
         public static final class OIConstants {
                 public static final int kDriverControllerPort = 0;
-                public static final double kDriveDeadband = 0.05;
+                public static final double kDriveDeadband = 0.075;
                 public static final int kOperatorControllerPort = 1;
         }
 
