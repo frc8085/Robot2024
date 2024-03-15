@@ -352,12 +352,13 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean atPodiumPosition() {
         double armTolerance = 10;
-        double shooterPivotTolerance = 10;
 
-        return m_armEncoder.getPosition() < (Position.PODIUM.armPosition + armTolerance) &&
-                m_armEncoder.getPosition() > (Position.PODIUM.armPosition - armTolerance) &&
-                m_shooterPivotEncoder.getPosition() < (Position.PODIUM.shooterPivotPosition + shooterPivotTolerance) &&
-                m_shooterPivotEncoder.getPosition() > (Position.PODIUM.shooterPivotPosition - shooterPivotTolerance);
+        return (m_armEncoder.getPosition() < (Position.PODIUM.armPosition + armTolerance) &&
+                m_armEncoder.getPosition() > (Position.PODIUM.armPosition - armTolerance));
+    }
+
+    public boolean notAtPodiumPosition() {
+        return !(atPodiumPosition());
     }
 
     // Set Arm Brake Mode

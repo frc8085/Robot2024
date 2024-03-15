@@ -115,8 +115,8 @@ public final class Constants {
                 public static double kShooter2SetPoint = kShooter1SetPoint * 0.9;
                 public static double kShooter1PodiumToleranceRPMPercent = .03;
                 public static double kShooter2PodiumToleranceRPMPercent = .04;
-                public static double kShooter1SWToleranceRPMPercent = .1;
-                public static double kShooter2SWToleranceRPMPercent = .09;
+                public static double kShooter1SWToleranceRPMPercent = .03;
+                public static double kShooter2SWToleranceRPMPercent = .04;
 
                 public static double kShooterSetPointTrap = 1000;
                 public static double kShooterSetPointAmp = 1000;
@@ -216,7 +216,7 @@ public final class Constants {
 
                 public static final double kShooterPivotAdjustmentFactor = 0 + kShooterPivotPositionShift;
 
-                // Arm Positions
+                // Arm Positions - Shooter Pivot lower number aims higher
                 public enum Position {
                         HOME("Home",
                                         238,
@@ -241,7 +241,7 @@ public final class Constants {
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_PODIUM("Auto Podium",
                                         260,
-                                        53,
+                                        55,
                                         true,
                                         true,
                                         false,
@@ -306,7 +306,7 @@ public final class Constants {
                                         ShooterConstants.kShooterOff),
                         TRAP_SCORE("Trap Score",
                                         315,
-                                        98,
+                                        93,
                                         true,
                                         true,
                                         false,

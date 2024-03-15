@@ -21,9 +21,9 @@ public class ShootNew extends SequentialCommandGroup {
                         Position position) {
                 addCommands(
                                 new ConditionalCommand(
-                                                new WaitUntilCommand(m_shooter::readyToShootPodium),
                                                 new WaitUntilCommand(m_shooter::readyToShootSW),
-                                                m_arm::atPodiumPosition),
+                                                new WaitUntilCommand(m_shooter::readyToShootPodium),
+                                                m_arm::notAtPodiumPosition),
                                 new InstantCommand(m_feeder::run),
                                 new InstantCommand(() -> System.out
                                                 .println("**Shoot**")),
