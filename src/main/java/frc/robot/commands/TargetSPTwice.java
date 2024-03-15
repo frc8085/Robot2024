@@ -30,3 +30,12 @@ public class TargetSPTwice extends SequentialCommandGroup {
                                 new InstantCommand(() -> Logger.recordOutput("Commands/LimelightTargetSP", true)));
         }
 }
+/*
+ * center low miss
+ * a little closer than stage got it
+ * on black line got in
+ * Joey sucks :( (sw high)
+ * podium to high
+ * podium low???
+ * 
+ */
