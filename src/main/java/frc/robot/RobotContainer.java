@@ -412,7 +412,10 @@ public class RobotContainer {
                                 m_feeder, m_blinkin, Position.TRAP_APPROACH));
                 moveToTrapScore.onTrue(new SequentialCommandGroup(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_SCORE),
-                                new InstantCommand(m_shooter::runTrap)));
+                                new ConditionalCommand(new NoteCorrection(m_feeder)
+                                .andThen(new InstantCommand(m_shooter::runTrap)),
+                                new InstantCommand(m_shooter::runTrap),
+                                m_feeder::needNoteCorrection)));
                 shootTrap.onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 // Climber motor on and off
