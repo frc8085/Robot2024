@@ -87,6 +87,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     /** Creates a new Arm Subsystem. */
     public ArmSubsystem() {
+        // Display the Pivot Offset on the dashboard
+        // We'll update this anytime it's adjusted w/the dashboard buttons
+        updatePivotDashDisplay();
+
         // Factory reset, so we get the SPARKS MAX to a known state before configuring
         // them. This is useful in case a SPARK MAX is swapped out.
 
@@ -428,10 +432,18 @@ public class ArmSubsystem extends SubsystemBase {
     /* TODO:: trying to set pivot offset values */
     public void raiseShooterPivotSW() {
         pivotOffset -= 2;
+        updatePivotDashDisplay();
     }
 
     public void lowerShooterPivotSW() {
         pivotOffset += 2;
+        updatePivotDashDisplay();
+    }
+
+    public void updatePivotDashDisplay(){
+        // Change the sign from +/- on the display
+        // So that raise is shown as positive
+        SmartDashboard.putNumber("Pivot Offset", -1 * pivotOffset);
     }
 
     public void periodic() {
