@@ -71,7 +71,7 @@ public class ArmSubsystem extends SubsystemBase {
     double ktuneArmSetPoint = 232;
     double ktuneSPSetPoint = 50;
     // pivot offset adjustment for smart dashboard subwoofer shot
-    public double pivotOffset = 0;
+    private double pivotOffset = 0;
 
     // limit switches
     private SparkLimitSwitch m_armLowerLimit;
@@ -259,19 +259,17 @@ public class ArmSubsystem extends SubsystemBase {
         setArmPosition(position.armPosition);
 
         // checks if pivot offset adjustment is true
-        // If true, then adjust the commanded position, 
+        // If true, then adjust the commanded position,
         // otehrwise use the original constant position (from position enum)
-        
-        double desiredShooterPivotPosition = 
-                    position.shooterPivotAdjust ?
-                        position.shooterPivotPosition + pivotOffset 
-                        : position.shooterPivotPosition;
 
-        setShooterPivotPosition( desiredShooterPivotPosition );
+        double desiredShooterPivotPosition = position.shooterPivotAdjust ? position.shooterPivotPosition + pivotOffset
+                : position.shooterPivotPosition;
+
+        setShooterPivotPosition(desiredShooterPivotPosition);
 
         if (LoggingConstants.kLogging) {
             Logger.recordOutput(getName() + DESIRED_ARM_ENCODER_LOG_ENTRY, position.armPosition);
-            Logger.recordOutput(getName() + DESIRED_SHOOTERPIVOT_ENCODER_LOG_ENTRY, desiredShooterPivotPosition );
+            Logger.recordOutput(getName() + DESIRED_SHOOTERPIVOT_ENCODER_LOG_ENTRY, desiredShooterPivotPosition);
 
         }
     }
