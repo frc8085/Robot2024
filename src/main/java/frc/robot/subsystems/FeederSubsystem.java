@@ -109,6 +109,11 @@ public class FeederSubsystem extends SubsystemBase {
         feederOn = true;
     }
 
+    public void runResetTrap() {
+        m_feederMotor.set(FeederConstants.resetSpeed);
+        feederOn = true;
+    }
+
     public void runPickup() {
         m_feederMotor.set(FeederConstants.pickupSpeed);
         feederOn = true;

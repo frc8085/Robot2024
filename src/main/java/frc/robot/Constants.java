@@ -76,6 +76,7 @@ public final class Constants {
                 public static final double pickupSpeed = .3;
                 public static final double speedAuto = 1;
                 public static final double kLoadWaitTime = 0;
+                public static final double resetSpeed = -.3;
 
                 public static double kFeederMaxOutput = 1;
                 public static double kFeederMinOutput = -1;
@@ -121,6 +122,7 @@ public final class Constants {
                 public static double kShooterSetPointTrap = 1000;
                 public static double kShooterSetPointAmp = 1000;
                 public static double kShooterOff = 0;
+                public static double kShooterResetTrap = -500;
         }
 
         public static final class ArmConstants {
@@ -224,6 +226,7 @@ public final class Constants {
                                         false,
                                         false,
                                         true,
+                                        false,
                                         ShooterConstants.kShooterOff),
                         AMP("Amp",
                                         325,
@@ -231,12 +234,14 @@ public final class Constants {
                                         true,
                                         false,
                                         true,
+                                        false,
                                         ShooterConstants.kShooter1SetPoint),
                         PODIUM("Podium",
                                         260,
                                         55,
                                         true,
                                         true,
+                                        false,
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_PODIUM("Auto Podium",
@@ -245,12 +250,14 @@ public final class Constants {
                                         true,
                                         true,
                                         false,
+                                        false,
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_PODIUM_SOURCE("Auto Podium Source",
                                         260,
                                         55,
                                         true,
                                         true,
+                                        false,
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_PODIUM_AMP("Auto Podium Amp",
@@ -259,12 +266,14 @@ public final class Constants {
                                         true,
                                         true,
                                         false,
+                                        false,
                                         ShooterConstants.kShooter1SetPoint),
                         SUBWOOFER("Subwoofer",
                                         325,
                                         114,
                                         true,
                                         false,
+                                        true,
                                         true,
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_SUBWOOFER("Auto Subwoofer",
@@ -273,6 +282,7 @@ public final class Constants {
                                         true,
                                         true,
                                         true,
+                                        false,
                                         ShooterConstants.kShooter1SetPoint),
                         SIDE_SUBWOOFER("Side Subwoofer",
                                         330,
@@ -280,12 +290,14 @@ public final class Constants {
                                         true,
                                         false,
                                         true,
+                                        false,
                                         ShooterConstants.kShooter1SetPoint),
 
                         TRAP_APPROACH("Trap Approach",
                                         330,
                                         155,
                                         true,
+                                        false,
                                         false,
                                         false,
                                         ShooterConstants.kShooterOff),
@@ -295,6 +307,7 @@ public final class Constants {
                                         true,
                                         true,
                                         false,
+                                        false,
                                         ShooterConstants.kShooterOff),
 
                         TRAP_FINAL("Trap Final",
@@ -303,12 +316,14 @@ public final class Constants {
                                         true,
                                         true,
                                         false,
+                                        false,
                                         ShooterConstants.kShooterOff),
                         TRAP_SCORE("Trap Score",
                                         315,
                                         87,
                                         true,
                                         true,
+                                        false,
                                         false,
                                         ShooterConstants.kShooterSetPointTrap),
                         HIGH_PODIUM("High Podium",
@@ -317,6 +332,7 @@ public final class Constants {
                                         true,
                                         false,
                                         true,
+                                        false,
                                         ShooterConstants.kShooter1SetPoint),
 
                         BACK_PODIUM("Back Podium",
@@ -325,6 +341,7 @@ public final class Constants {
                                         true,
                                         true,
                                         true,
+                                        false,
                                         ShooterConstants.kShooter1SetPoint),
 
                         BACK_SUBWOOFER("Back Subwoofer",
@@ -333,6 +350,7 @@ public final class Constants {
                                         true,
                                         true,
                                         true,
+                                        false,
                                         ShooterConstants.kShooter1SetPoint),
 
                         EJECT_NOTE("Eject Note",
@@ -340,6 +358,7 @@ public final class Constants {
                                         41,
                                         true,
                                         true,
+                                        false,
                                         false,
                                         ShooterConstants.kShooterOff);
 
@@ -349,6 +368,7 @@ public final class Constants {
                         public final boolean moveArmFirst;
                         public final boolean parallelMovement;
                         public final boolean HeightCheck;
+                        public final boolean shooterPivotAdjust;
                         public final double shooterSpeed;
 
                         private Position(String label,
@@ -357,6 +377,7 @@ public final class Constants {
                                         boolean moveArmFirst,
                                         boolean parallelMovement,
                                         boolean HeightCheck,
+                                        boolean shooterPivotAdjust,
                                         double shooterSpeed) {
                                 this.label = label;
                                 this.armPosition = armPosition;
@@ -364,6 +385,7 @@ public final class Constants {
                                 this.moveArmFirst = moveArmFirst;
                                 this.parallelMovement = parallelMovement;
                                 this.HeightCheck = HeightCheck;
+                                this.shooterPivotAdjust = shooterPivotAdjust;
                                 this.shooterSpeed = shooterSpeed;
                         }
 

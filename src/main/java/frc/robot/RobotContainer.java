@@ -33,6 +33,7 @@ import frc.robot.commands.Oscillate;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
+import frc.robot.commands.ResetTrapScore;
 import frc.robot.commands.ShootAuto;
 import frc.robot.commands.ShootChooser;
 import frc.robot.commands.EjectNote;
@@ -183,6 +184,7 @@ public class RobotContainer {
         }
 
         private void addToDashboard() {
+
                 // Put a button on the dashboard for each setpoint
                 // for (Position pos : Position.values()) {
                 // SmartDashboard.putData(pos.label, new MoveToPosition(m_arm, m_shooter,
@@ -202,6 +204,16 @@ public class RobotContainer {
                 // // Intake Eject on dashboard
                 SmartDashboard.putData("Eject", Commands.sequence(new InstantCommand(m_intake::eject),
                                 new InstantCommand(m_feeder::eject)));
+                /*
+                 * TODO:: trying to add button to smart dahboard to run functions to increase/
+                 * ecrese pivot adjust
+                 */
+
+                // Shooting higher for SW using smart dashboard
+                SmartDashboard.putData("SW Shoot Higher",
+                                Commands.sequence(new InstantCommand(m_arm::raiseShooterPivotSW)));
+                // Shooting lower for SW using smart dashboard
+                SmartDashboard.putData("SW Shoot Lower", lowerShooterPivotSW());
 
         }
 
@@ -260,7 +272,7 @@ public class RobotContainer {
                 final Trigger moveToSubwooferDriver = m_driverController.y();
 
                 final Trigger moveToTrapApproachDriver = m_driverController.povLeft();
-                final Trigger oscillate = m_driverController.povUp();
+                final Trigger resetTrap = m_driverController.povUp();
 
                 final Trigger zeroHeadingButton = m_driverController.start();
 
@@ -271,7 +283,7 @@ public class RobotContainer {
 
                 zeroHeadingButton.onTrue(new InstantCommand(() -> m_drive.zeroHeading(), m_drive));
 
-                oscillate.onTrue(new Oscillate(m_arm, m_shooter, m_feeder, m_blinkin));
+                resetTrap.onTrue(new ResetTrapScore(m_feeder, m_shooter));
 
                 // OPERATOR controlled buttons
                 final Trigger systemsOff = m_operatorController.back();

@@ -138,6 +138,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
     }
 
+    public void runResetTrap() {
+        setShooter1SetPoint(ShooterConstants.kShooterResetTrap);
+        setShooter2SetPoint(ShooterConstants.kShooterResetTrap);
+    }
+
     public void runTrap() {
         setShooter1SetPoint(ShooterConstants.kShooterSetPointTrap);
         setShooter2SetPoint(ShooterConstants.kShooterSetPointTrap);

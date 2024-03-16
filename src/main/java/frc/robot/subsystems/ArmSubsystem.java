@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CanIdConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.MotorDefaultsConstants;
@@ -69,6 +70,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     double ktuneArmSetPoint = 232;
     double ktuneSPSetPoint = 50;
+    // pivot offset adjustment for smart dashboard subwoofer shot
+    public double pivotOffset = 0;
 
     // limit switches
     private SparkLimitSwitch m_armLowerLimit;
@@ -253,6 +256,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void moveToPosition(Position position) {
+
         setArmPosition(position.armPosition);
         setShooterPivotPosition(position.shooterPivotPosition);
         if (LoggingConstants.kLogging) {
@@ -411,6 +415,15 @@ public class ArmSubsystem extends SubsystemBase {
             ktuneSPSetPoint = tuneSPSetPoint;
             setShooterPivotPosition(ktuneSPSetPoint);
         }
+    }
+
+    /* TODO:: trying to set pivot offset values */
+    public void raiseShooterPivotSW() {
+        pivotOffset -= 2;
+    }
+
+    public void lowerShooterPivotSW() {
+        pivotOffset += 2;
     }
 
     public void periodic() {

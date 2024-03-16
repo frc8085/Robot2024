@@ -25,6 +25,18 @@ public class MoveToPosition extends SequentialCommandGroup {
         // Write to log what position we are moving to
         addCommands(new InstantCommand(() -> System.out.println("START Move to " + position.label + " Position**")),
                 new InstantCommand(() -> Logger.recordOutput("Commands/MoveToPosition", position.label)));
+
+        // checks if pivot offset adjustment is true
+        /*
+         * TODO:: fix
+         * check if shooter adjustment is true
+         * if it is apply the pivot offset to shooter pivot position
+         */
+
+        if (position.shooterPivotAdjust) {
+            position.shooterPivotPosition += m_arm.pivotOffset;
+        }
+
         // Check if we move Arm and Shooter Pivot at the same time
         if (position.parallelMovement) {
             addCommands(new InstantCommand(() -> m_arm.moveToPosition(position)));
