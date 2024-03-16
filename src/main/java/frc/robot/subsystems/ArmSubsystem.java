@@ -256,12 +256,22 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void moveToPosition(Position position) {
-
         setArmPosition(position.armPosition);
-        setShooterPivotPosition(position.shooterPivotPosition);
+
+        // checks if pivot offset adjustment is true
+        // If true, then adjust the commanded position, 
+        // otehrwise use the original constant position (from position enum)
+        
+        double desiredShooterPivotPosition = 
+                    position.shooterPivotAdjust ?
+                        position.shooterPivotPosition + pivotOffset 
+                        : position.shooterPivotPosition;
+
+        setShooterPivotPosition( desiredShooterPivotPosition );
+
         if (LoggingConstants.kLogging) {
             Logger.recordOutput(getName() + DESIRED_ARM_ENCODER_LOG_ENTRY, position.armPosition);
-            Logger.recordOutput(getName() + DESIRED_SHOOTERPIVOT_ENCODER_LOG_ENTRY, position.shooterPivotPosition);
+            Logger.recordOutput(getName() + DESIRED_SHOOTERPIVOT_ENCODER_LOG_ENTRY, desiredShooterPivotPosition );
 
         }
     }

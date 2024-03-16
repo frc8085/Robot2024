@@ -210,11 +210,9 @@ public class RobotContainer {
                  */
 
                 // Shooting higher for SW using smart dashboard
-                SmartDashboard.putData("SW Shoot Higher",
-                                Commands.sequence(new InstantCommand(m_arm::raiseShooterPivotSW)));
+                SmartDashboard.putData("SW Shoot Higher", new InstantCommand(m_arm::raiseShooterPivotSW));
                 // Shooting lower for SW using smart dashboard
-                SmartDashboard.putData("SW Shoot Lower", lowerShooterPivotSW());
-
+                SmartDashboard.putData("SW Shoot Lower", new InstantCommand(m_arm::lowerShooterPivotSW));
         }
 
         /**
