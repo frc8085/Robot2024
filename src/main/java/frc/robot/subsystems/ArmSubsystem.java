@@ -206,24 +206,33 @@ public class ArmSubsystem extends SubsystemBase {
         }
     }
 
-    public void setShooterPivotPosition(double shooterPivotPosition) {
-        double shooterPivotPositionDisplay;
-        if (shooterPivotPosition > kShooterPivotMax) {
-            shooterPivotPositionDisplay = kShooterPivotMax;
+    public void setShooterPivotPosition(double shooterPivotPosition, boolean isShooterPivotAdjustable) {
+        double desiredShooterPivotPosition = isShooterPivotAdjustable ? shooterPivotPosition + pivotOffset
+                : shooterPivotPosition;
+
+        if (desiredShooterPivotPosition > kShooterPivotMax) {
             m_shooterPivotPIDController.setReference(kShooterPivotMax, ControlType.kPosition);
-        } else if (shooterPivotPosition < kShooterPivotMin) {
-            shooterPivotPositionDisplay = kShooterPivotMin;
+        } else if (desiredShooterPivotPosition < kShooterPivotMin) {
             m_shooterPivotPIDController.setReference(kShooterPivotMin, ControlType.kPosition);
         } else {
-            shooterPivotPositionDisplay = shooterPivotPosition - kShooterPivotPositionShift;
-            m_shooterPivotPIDController.setReference(shooterPivotPosition, ControlType.kPosition);
+            m_shooterPivotPIDController.setReference(desiredShooterPivotPosition, ControlType.kPosition);
         }
 
         if (TUNING_MODE) {
-            SmartDashboard.putNumber("Desired Shooter Pivot Position", shooterPivotPositionDisplay);
-            SmartDashboard.putNumber("Raw Desired Shooter Pivot Position", shooterPivotPosition);
+            SmartDashboard.putNumber("Raw Desired Shooter Pivot Position", desiredShooterPivotPosition);
 
-            System.out.println("Keep SHOOTER PIVOT Position " + shooterPivotPositionDisplay);
+        }
+    }
+
+    public void moveToPositionInParallel(Position position) {
+        setArmPosition(position.armPosition);
+
+        setShooterPivotPosition(position.shooterPivotPosition, position.shooterPivotAdjust);
+
+        if (LoggingConstants.kLogging) {
+            Logger.recordOutput(getName() + DESIRED_ARM_ENCODER_LOG_ENTRY, position.armPosition);
+            Logger.recordOutput(getName() + DESIRED_SHOOTERPIVOT_ENCODER_LOG_ENTRY, position.shooterPivotPosition);
+
         }
     }
 
@@ -256,25 +265,6 @@ public class ArmSubsystem extends SubsystemBase {
             m_shooterPivotPIDController.setReference(kShooterPivotMin, ControlType.kPosition, 1);
         } else {
             m_shooterPivotPIDController.setReference(shooterPivotPosition, ControlType.kPosition, 1);
-        }
-    }
-
-    public void moveToPosition(Position position) {
-        setArmPosition(position.armPosition);
-
-        // checks if pivot offset adjustment is true
-        // If true, then adjust the commanded position,
-        // otehrwise use the original constant position (from position enum)
-
-        double desiredShooterPivotPosition = position.shooterPivotAdjust ? position.shooterPivotPosition + pivotOffset
-                : position.shooterPivotPosition;
-
-        setShooterPivotPosition(desiredShooterPivotPosition);
-
-        if (LoggingConstants.kLogging) {
-            Logger.recordOutput(getName() + DESIRED_ARM_ENCODER_LOG_ENTRY, position.armPosition);
-            Logger.recordOutput(getName() + DESIRED_SHOOTERPIVOT_ENCODER_LOG_ENTRY, desiredShooterPivotPosition);
-
         }
     }
 
@@ -425,7 +415,7 @@ public class ArmSubsystem extends SubsystemBase {
         }
         if ((tuneSPSetPoint != ktuneSPSetPoint)) {
             ktuneSPSetPoint = tuneSPSetPoint;
-            setShooterPivotPosition(ktuneSPSetPoint);
+            setShooterPivotPosition(ktuneSPSetPoint, false);
         }
     }
 
@@ -440,7 +430,7 @@ public class ArmSubsystem extends SubsystemBase {
         updatePivotDashDisplay();
     }
 
-    public void updatePivotDashDisplay(){
+    public void updatePivotDashDisplay() {
         // Change the sign from +/- on the display
         // So that raise is shown as positive
         SmartDashboard.putNumber("Pivot Offset", -1 * pivotOffset);
