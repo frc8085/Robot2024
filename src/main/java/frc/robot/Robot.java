@@ -32,174 +32,176 @@ import frc.robot.Constants.TuningModeConstants;
  * project.
  */
 public class Robot extends LoggedRobot {
-  private Command m_autonomousCommand;
+    private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+    private RobotContainer m_robotContainer;
 
-  UsbCamera camera1;
+    UsbCamera camera1;
 
-  /**
-   * This function is run when the robot is first started up and should be used
-   * for any
-   * initialization code.
-   */
-  @Override
-  public void robotInit() {
-    Logger.recordMetadata("TuningMode", Boolean.toString(TuningModeConstants.kTuning));
-    Logger.recordMetadata("RuntimeType", getRuntimeType().toString());
-    Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
-    Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
-    Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
-    Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
-    Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
-
-    if (isReal()) {
-      Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
-      Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
-      new PowerDistribution(1, ModuleType.kRev); // Enables power distribution logging
-    } else {
-      setUseTiming(false); // Run as fast as possible
-      String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
-      Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
-      Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
-    }
-
-    // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
-    // the "Understanding Data Flow" page
-    Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
-                    // be added.
-    // Instantiate our RobotContainer. This will perform all our button bindings,
-    // and put our
-    // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
-
-    // Setup Port Forwarding to enable communication
-    // while tethered to our robot over USB
-
-    for (int port = 5800; port <= 5807; port++) {
-      PortForwarder.add(port, "limelight.local", port);
-    }
-
-    if (Robot.isReal()) {
-      camera1 = CameraServer.startAutomaticCapture(0);
-    }
-
-    // // Attempting to set the arm to coast mode after disabled for 3 sec
-    // new Trigger(this::isEnabled)
-    // // Create a trigger that is active when the robot is enabled
-    // .negate() // Negate the trigger, so it is active when the robot is disabled
-    // .debounce(3) // Delay action until robot has been disabled for a certain time
-    // .onTrue( // Finally take action
-    // new InstantCommand( // Instant command will execute our "initialize" method
-    // and finish immediately
-    // () -> m_robotContainer.m_arm.setBrakeMode(false),
-    // // Enable coast mode for arm when disabled
-    // m_robotContainer.m_arm) // command requires subsystem
-    // .ignoringDisable(true)); // This command can run when the robot is disabled
-  }
-
-  /**
-   * This function is called every 20 ms, no matter the mode. Use this for items
-   * like diagnostics
-   * that you want ran during disabled, autonomous, teleoperated and test.
-   *
-   * <p>
-   * This runs after the mode specific periodic functions, but before LiveWindow
-   * and
-   * SmartDashboard integrated updating.
-   */
-  @Override
-  public void robotPeriodic() {
-    // Runs the Scheduler. This is responsible for polling buttons, adding
-    // newly-scheduled
-    // commands, running already-scheduled commands, removing finished or
-    // interrupted commands,
-    // and running subsystem periodic() methods. This must be called from the
-    // robot's periodic
-    // block in order for anything in the Command-based framework to work.
-    CommandScheduler.getInstance().run();
-  }
-
-  /** This function is called once each time the robot enters Disabled mode. */
-  @Override
-  public void disabledInit() {
-  }
-
-  @Override
-  public void disabledPeriodic() {
-  }
-
-  /**
-   * This autonomous runs the autonomous command selected by your
-   * {@link RobotContainer} class.
-   */
-  @Override
-  public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-    /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-     * = new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
+    /**
+     * This function is run when the robot is first started up and should be used
+     * for any
+     * initialization code.
      */
+    @Override
+    public void robotInit() {
+        Logger.recordMetadata("TuningMode", Boolean.toString(TuningModeConstants.kTuning));
+        Logger.recordMetadata("RuntimeType", getRuntimeType().toString());
+        // Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
+        // Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
+        // Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
+        // Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
+        // Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+        if (isReal()) {
+            Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
+            Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+            new PowerDistribution(1, ModuleType.kRev); // Enables power distribution logging
+        } else {
+            setUseTiming(false); // Run as fast as possible
+            String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the
+                                                          // user)
+            Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
+            Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a
+                                                                                                  // new log
+        }
+
+        // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
+        // the "Understanding Data Flow" page
+        Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
+                        // be added.
+        // Instantiate our RobotContainer. This will perform all our button bindings,
+        // and put our
+        // autonomous chooser on the dashboard.
+        m_robotContainer = new RobotContainer();
+
+        // Setup Port Forwarding to enable communication
+        // while tethered to our robot over USB
+
+        for (int port = 5800; port <= 5807; port++) {
+            PortForwarder.add(port, "limelight.local", port);
+        }
+
+        if (Robot.isReal()) {
+            camera1 = CameraServer.startAutomaticCapture(0);
+        }
+
+        // // Attempting to set the arm to coast mode after disabled for 3 sec
+        // new Trigger(this::isEnabled)
+        // // Create a trigger that is active when the robot is enabled
+        // .negate() // Negate the trigger, so it is active when the robot is disabled
+        // .debounce(3) // Delay action until robot has been disabled for a certain time
+        // .onTrue( // Finally take action
+        // new InstantCommand( // Instant command will execute our "initialize" method
+        // and finish immediately
+        // () -> m_robotContainer.m_arm.setBrakeMode(false),
+        // // Enable coast mode for arm when disabled
+        // m_robotContainer.m_arm) // command requires subsystem
+        // .ignoringDisable(true)); // This command can run when the robot is disabled
     }
 
-    // // // Attempting to set the arm to coast mode after disabled for 3 sec
-    // m_robotContainer.m_arm.setBrakeMode(true); // Enable brake mode
-
-  }
-
-  /** This function is called periodically during autonomous. */
-  @Override
-  public void autonomousPeriodic() {
-  }
-
-  @Override
-  public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    /**
+     * This function is called every 20 ms, no matter the mode. Use this for items
+     * like diagnostics
+     * that you want ran during disabled, autonomous, teleoperated and test.
+     *
+     * <p>
+     * This runs after the mode specific periodic functions, but before LiveWindow
+     * and
+     * SmartDashboard integrated updating.
+     */
+    @Override
+    public void robotPeriodic() {
+        // Runs the Scheduler. This is responsible for polling buttons, adding
+        // newly-scheduled
+        // commands, running already-scheduled commands, removing finished or
+        // interrupted commands,
+        // and running subsystem periodic() methods. This must be called from the
+        // robot's periodic
+        // block in order for anything in the Command-based framework to work.
+        CommandScheduler.getInstance().run();
     }
-    // // Attempting to set the arm to coast mode after disabled for 3 sec
-    // m_robotContainer.m_arm.setBrakeMode(true); // Enable brake mode
 
-    // Turn off shooter and feeder at the start of teleop
-    // m_robotContainer.m_shooter.stop();
-    // m_robotContainer.m_feeder.stop();
+    /** This function is called once each time the robot enters Disabled mode. */
+    @Override
+    public void disabledInit() {
+    }
 
-  }
+    @Override
+    public void disabledPeriodic() {
+    }
 
-  /** This function is called periodically during operator control. */
-  @Override
-  public void teleopPeriodic() {
-  }
+    /**
+     * This autonomous runs the autonomous command selected by your
+     * {@link RobotContainer} class.
+     */
+    @Override
+    public void autonomousInit() {
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-  @Override
-  public void testInit() {
-    // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
-  }
+        /*
+         * String autoSelected = SmartDashboard.getString("Auto Selector",
+         * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+         * = new MyAutoCommand(); break; case "Default Auto": default:
+         * autonomousCommand = new ExampleCommand(); break; }
+         */
 
-  /** This function is called periodically during test mode. */
-  @Override
-  public void testPeriodic() {
-  }
+        // schedule the autonomous command (example)
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.schedule();
+        }
 
-  /** This function is called once when the robot is first started up. */
-  @Override
-  public void simulationInit() {
-  }
+        // // // Attempting to set the arm to coast mode after disabled for 3 sec
+        // m_robotContainer.m_arm.setBrakeMode(true); // Enable brake mode
 
-  /** This function is called periodically whilst in simulation. */
-  @Override
-  public void simulationPeriodic() {
-  }
+    }
+
+    /** This function is called periodically during autonomous. */
+    @Override
+    public void autonomousPeriodic() {
+    }
+
+    @Override
+    public void teleopInit() {
+        // This makes sure that the autonomous stops running when
+        // teleop starts running. If you want the autonomous to
+        // continue until interrupted by another command, remove
+        // this line or comment it out.
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
+        }
+        // // Attempting to set the arm to coast mode after disabled for 3 sec
+        // m_robotContainer.m_arm.setBrakeMode(true); // Enable brake mode
+
+        // Turn off shooter and feeder at the start of teleop
+        // m_robotContainer.m_shooter.stop();
+        // m_robotContainer.m_feeder.stop();
+
+    }
+
+    /** This function is called periodically during operator control. */
+    @Override
+    public void teleopPeriodic() {
+    }
+
+    @Override
+    public void testInit() {
+        // Cancels all running commands at the start of test mode.
+        CommandScheduler.getInstance().cancelAll();
+    }
+
+    /** This function is called periodically during test mode. */
+    @Override
+    public void testPeriodic() {
+    }
+
+    /** This function is called once when the robot is first started up. */
+    @Override
+    public void simulationInit() {
+    }
+
+    /** This function is called periodically whilst in simulation. */
+    @Override
+    public void simulationPeriodic() {
+    }
 }

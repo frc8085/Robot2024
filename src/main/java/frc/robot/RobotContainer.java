@@ -274,6 +274,9 @@ public class RobotContainer {
             // Stop rumble when robot moves to podium
             m_driverController.getHID().setRumble(GenericHID.RumbleType.kLeftRumble, 0.0);
             m_driverController.getHID().setRumble(GenericHID.RumbleType.kRightRumble, 0.0);
+        } else {
+            m_driverController.getHID().setRumble(GenericHID.RumbleType.kLeftRumble, 0.0);
+            m_driverController.getHID().setRumble(GenericHID.RumbleType.kRightRumble, 0.0);
         }
 
         // OPERATOR controlled buttons
@@ -403,12 +406,12 @@ public class RobotContainer {
         ShooterPivotRaiseButton.whileTrue(new InstantCommand(m_arm::shooterPivotRaise, m_arm))
                 .onFalse(new InstantCommand(
                         () -> m_arm.setShooterPivotPosition(
-                                m_arm.getShooterPivotPosition())));
+                                m_arm.getShooterPivotPosition(), false)));
 
         ShooterPivotLowerButton.whileTrue(new InstantCommand(m_arm::shooterPivotLower, m_arm))
                 .onFalse(new InstantCommand(
                         () -> m_arm.setShooterPivotPosition(
-                                m_arm.getShooterPivotPosition())));
+                                m_arm.getShooterPivotPosition(), false)));
 
         // trap
         moveToTrapApproach.onTrue(new MoveToPosition(m_arm, m_shooter,
