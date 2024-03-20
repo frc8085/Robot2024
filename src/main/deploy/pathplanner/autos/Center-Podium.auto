@@ -166,22 +166,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "PickUpNote"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Center-8"
-                }
-              }
-            ]
+            "pathName": "Center-8"
           }
         }
       ]
