@@ -1,0 +1,130 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.35,
+      "y": 5.55
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "NoteInRobot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TurnOnShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MoveToSubwooferAuto"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilReadyToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "CenterSW-2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteCheckAuto"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TurnOnShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MoveToPodium"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilReadyToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2-Disruptor2"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "End-Pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpNote"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
