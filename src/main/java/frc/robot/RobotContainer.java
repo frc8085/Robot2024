@@ -40,6 +40,7 @@ import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.ShootChooser;
+import frc.robot.commands.ShootInstant;
 import frc.robot.commands.EjectNote;
 import frc.robot.commands.EnableShooterAuto;
 import frc.robot.commands.ShootNew;
@@ -215,7 +216,7 @@ public class RobotContainer {
                  * DPad Right:
                  * DPad Down: Lock Wheels
                  * Left Bumper: Auto Target
-                 * Right Bumper:
+                 * Right Bumper: Shoot Instant
                  * Left Trigger: Shoot Note
                  * Right Trigger: Drive Speed
                  * Left Stick Button:
@@ -245,6 +246,7 @@ public class RobotContainer {
 
                 // DRIVER controlled buttons
                 final Trigger shoot = m_driverController.leftTrigger();
+                final Trigger shootInstant = m_driverController.rightBumper();
                 final Trigger lockWheels = m_driverController.povDown();
 
                 final Trigger autoTarget = m_driverController.leftBumper();
@@ -260,6 +262,8 @@ public class RobotContainer {
                 autoTarget.onTrue(new SequentialCommandGroup(
                                 new TargetTwice(m_limelight, m_drive),
                                 new TargetSPTwice(m_limelight, m_arm)));
+
+                shootInstant.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
                                 m_drive));
