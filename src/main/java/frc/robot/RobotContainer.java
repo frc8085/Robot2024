@@ -67,11 +67,18 @@ public class RobotContainer {
 
         private final Field2d field;
 
+        // The driver's controller
+        CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+        // The operator's controller
+        CommandXboxController m_operatorController = new CommandXboxController(OIConstants.kOperatorControllerPort);
+
         // The robot's subsystems
         private final DriveSubsystem m_drive = new DriveSubsystem();
         private final ShooterSubsystem m_shooter = new ShooterSubsystem();
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
-        private final FeederSubsystem m_feeder = new FeederSubsystem();
+        private final FeederSubsystem m_feeder = new FeederSubsystem(
+                        m_driverController,
+                        m_operatorController);
         private final ArmSubsystem m_arm = new ArmSubsystem();
         private final ClimberSubsystem m_climb = new ClimberSubsystem();
         private final LimelightSubsystem m_limelight = new LimelightSubsystem(m_drive, m_arm);
@@ -114,11 +121,6 @@ public class RobotContainer {
                                 m_feeder::noteInRobot));
 
         }
-
-        // The driver's controller
-        CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
-        // The operator's controller
-        CommandXboxController m_operatorController = new CommandXboxController(OIConstants.kOperatorControllerPort);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -267,31 +269,6 @@ public class RobotContainer {
                 zeroHeadingButton.onTrue(new InstantCommand(() -> m_drive.zeroHeading(), m_drive));
 
                 oscillate.onTrue(new Oscillate(m_arm, m_shooter, m_feeder, m_blinkin));
-
-                // Rumble after note in robot for driver controller
-
-                if (m_feeder.noteInRobot()) {
-                        Commands.sequence(
-                                        Commands.runOnce(
-                                                        () -> {
-                                                                m_driverController.getHID().setRumble(
-                                                                                RumbleType.kBothRumble,
-                                                                                1.0);
-                                                                m_operatorController.getHID().setRumble(
-                                                                                RumbleType.kBothRumble,
-                                                                                1.0);
-                                                        }),
-                                        Commands.waitSeconds(.5),
-                                        Commands.runOnce(
-                                                        () -> {
-                                                                m_driverController.getHID().setRumble(
-                                                                                RumbleType.kBothRumble,
-                                                                                0.0);
-                                                                m_operatorController.getHID().setRumble(
-                                                                                RumbleType.kBothRumble,
-                                                                                0.0);
-                                                        }));
-                }
 
                 // OPERATOR controlled buttons
                 final Trigger systemsOff = m_operatorController.back();
