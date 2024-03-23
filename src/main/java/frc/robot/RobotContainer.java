@@ -76,9 +76,7 @@ public class RobotContainer {
         private final DriveSubsystem m_drive = new DriveSubsystem();
         private final ShooterSubsystem m_shooter = new ShooterSubsystem();
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
-        private final FeederSubsystem m_feeder = new FeederSubsystem(
-                        m_driverController,
-                        m_operatorController);
+        private final FeederSubsystem m_feeder = new FeederSubsystem();
         private final ArmSubsystem m_arm = new ArmSubsystem();
         private final ClimberSubsystem m_climb = new ClimberSubsystem();
         private final LimelightSubsystem m_limelight = new LimelightSubsystem(m_drive, m_arm);
@@ -327,7 +325,8 @@ public class RobotContainer {
                                                 new InstantCommand(m_intake::stop),
                                                 new InstantCommand(m_feeder::stop),
                                                 new InstantCommand(m_blinkin::driving)),
-                                new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin),
+                                new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_driverController,
+                                                m_operatorController, m_blinkin),
                                 m_intake::isIntakeRunning));
 
                 // Operator Shooter Controls

@@ -58,16 +58,13 @@ public class FeederSubsystem extends SubsystemBase {
     double kFeederSetPoint = FeederConstants.kFeederSetPoint;
 
     /** Creates a new ExampleSubsystem. */
-    public FeederSubsystem(
-            CommandXboxController driverController,
-            CommandXboxController operatorController) {
+    public FeederSubsystem() {
         // Factory reset, so we get the SPARK MAX to a known state before configuring
         // them. This is useful in case a SPARK MAX is swapped out.
         m_feederMotor.restoreFactoryDefaults();
         m_feederMotor.setIdleMode(IdleMode.kBrake);
         m_feederMotor.setSmartCurrentLimit(MotorDefaultsConstants.Neo550CurrentLimit);
-        m_driverController = driverController;
-        m_operatorController = operatorController;
+
         // // Setup encoders and PID controllers for the Feeder and shooter Feeders.
         // m_feederEncoder = m_feederMotor.getEncoder();
         // m_feederPIDController = m_feederMotor.getPIDController();
@@ -185,32 +182,8 @@ public class FeederSubsystem extends SubsystemBase {
 
     // This method will be called once per scheduler run
     public void periodic() {
-
         // Put Indicator on Dashboard that a Note is in the Robot
         SmartDashboard.putBoolean("Note in Robot", noteInRobot());
-
-        if (noteInRobot()) {
-            Commands.sequence(
-                    Commands.runOnce(
-                            () -> {
-                                m_driverController.getHID().setRumble(
-                                        RumbleType.kBothRumble,
-                                        1.0);
-                                m_operatorController.getHID().setRumble(
-                                        RumbleType.kBothRumble,
-                                        1.0);
-                            }),
-                    Commands.waitSeconds(.5),
-                    Commands.runOnce(
-                            () -> {
-                                m_driverController.getHID().setRumble(
-                                        RumbleType.kBothRumble,
-                                        0.0);
-                                m_operatorController.getHID().setRumble(
-                                        RumbleType.kBothRumble,
-                                        0.0);
-                            }));
-        }
 
         if (LoggingConstants.kLogging) {
             log();
