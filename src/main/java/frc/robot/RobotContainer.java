@@ -292,7 +292,7 @@ public class RobotContainer {
                 // Climb Controls TBD
                 final Trigger moveToTrapApproach = m_operatorController.povLeft();
                 final Trigger moveToTrapScore = m_operatorController.povRight();
-                // final Trigger moveToTrapClimb = m_operatorController.povDown();
+                final Trigger moveToTrapClimb = m_operatorController.povDown();
 
                 // manual arm and shooter movement - arm left joystick, shooter right joystick
                 final Trigger ArmRaiseButton = m_operatorController.axisLessThan(1, -.25);
@@ -317,13 +317,13 @@ public class RobotContainer {
                 // intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter,
                 // m_blinkin));
 
-                ejectNote.toggleOnTrue(new ConditionalCommand(
-                                new ParallelCommandGroup(
-                                                new InstantCommand(m_intake::stop),
-                                                new InstantCommand(m_feeder::stop),
-                                                new InstantCommand(m_blinkin::driving)),
-                                new EjectNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin),
-                                m_intake::isIntakeRunning));
+                // ejectNote.toggleOnTrue(new ConditionalCommand(
+                // new ParallelCommandGroup(
+                // new InstantCommand(m_intake::stop),
+                // new InstantCommand(m_feeder::stop),
+                // new InstantCommand(m_blinkin::driving)),
+                // new EjectNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin),
+                // m_intake::isIntakeRunning));
 
                 toggleIntake.toggleOnTrue(new ConditionalCommand(
                                 new ParallelCommandGroup(
@@ -344,88 +344,99 @@ public class RobotContainer {
                                                                 m_feeder::needNoteCorrection),
                                                 m_shooter::isShooterRunning));
 
-                moveToHome.onTrue(
-                                new ParallelCommandGroup(
-                                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
-                                                                Position.HOME),
-                                                new InstantCommand(m_feeder::stop),
-                                                new InstantCommand(m_shooter::stop)));
+                // moveToHome.onTrue(
+                // new ParallelCommandGroup(
+                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.HOME),
+                // new InstantCommand(m_feeder::stop),
+                // new InstantCommand(m_shooter::stop)));
 
-                moveToTrapApproachDriver.onTrue(new ParallelCommandGroup(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_SECOND),
-                                new InstantCommand(m_climb::trapPressedNow),
-                                new RunCommand(() -> m_drive.lock(),
-                                                m_drive)));
-                moveToSubwoofer.onTrue(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SUBWOOFER));
-                moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AMP));
-                moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.PODIUM));
+                // moveToTrapApproachDriver.onTrue(new ParallelCommandGroup(
+                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.TRAP_SECOND),
+                // new InstantCommand(m_climb::trapPressedNow),
+                // new RunCommand(() -> m_drive.lock(),
+                // m_drive)));
+                // moveToSubwoofer.onTrue(
+                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.SUBWOOFER));
+                // moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.AMP));
+                // moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.PODIUM));
 
-                moveToSubwooferDriver.onTrue(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SUBWOOFER));
+                // moveToSubwooferDriver.onTrue(
+                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.SUBWOOFER));
 
                 /**
                  * Alternate positions. For these, you need to hold down the Left Bumper too.
                  **/
                 // HIGH Podium
-                moveToPodium.and(alternatePosition).onTrue(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.HIGH_PODIUM));
+                // moveToPodium.and(alternatePosition).onTrue(
+                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.HIGH_PODIUM));
                 // // BACK Podium
                 // moveToAmp.and(alternatePosition).onTrue(
                 // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
                 // Position.BACK_PODIUM));
                 // // // HIGH Subwoofer
-                moveToSubwoofer.and(alternatePosition).onTrue(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
-                                                Position.BACK_SUBWOOFER));
-                moveToBackSubwoofer.onTrue(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.BACK_SUBWOOFER));
+                // moveToSubwoofer.and(alternatePosition).onTrue(
+                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.BACK_SUBWOOFER));
+                // moveToBackSubwoofer.onTrue(
+                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.BACK_SUBWOOFER));
 
-                moveToBackSubwooferDriver.onTrue(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.BACK_SUBWOOFER));
+                // moveToBackSubwooferDriver.onTrue(
+                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.BACK_SUBWOOFER));
 
                 /**
                  * Manual Arm raise and lower
                  **/
-                ArmRaiseButton.whileTrue(new InstantCommand(m_arm::armRaise, m_arm))
-                                .onFalse(new InstantCommand(
-                                                () -> m_arm.setArmPosition(
-                                                                m_arm.getArmPosition())));
+                // ArmRaiseButton.whileTrue(new InstantCommand(m_arm::armRaise, m_arm))
+                // .onFalse(new InstantCommand(
+                // () -> m_arm.setArmPosition(
+                // m_arm.getArmPosition())));
 
-                ArmLowerButton.whileTrue(new InstantCommand(m_arm::armLower, m_arm))
-                                .onFalse(new InstantCommand(
-                                                () -> m_arm.setArmPosition(
-                                                                m_arm.getArmPosition())));
+                // ArmLowerButton.whileTrue(new InstantCommand(m_arm::armLower, m_arm))
+                // .onFalse(new InstantCommand(
+                // () -> m_arm.setArmPosition(
+                // m_arm.getArmPosition())));
 
-                ShooterPivotRaiseButton.whileTrue(new InstantCommand(m_arm::shooterPivotRaise, m_arm))
-                                .onFalse(new InstantCommand(
-                                                () -> m_arm.setShooterPivotPosition(
-                                                                m_arm.getShooterPivotPosition())));
+                // ShooterPivotRaiseButton.whileTrue(new
+                // InstantCommand(m_arm::shooterPivotRaise, m_arm))
+                // .onFalse(new InstantCommand(
+                // () -> m_arm.setShooterPivotPosition(
+                // m_arm.getShooterPivotPosition())));
 
-                ShooterPivotLowerButton.whileTrue(new InstantCommand(m_arm::shooterPivotLower, m_arm))
-                                .onFalse(new InstantCommand(
-                                                () -> m_arm.setShooterPivotPosition(
-                                                                m_arm.getShooterPivotPosition())));
+                // ShooterPivotLowerButton.whileTrue(new
+                // InstantCommand(m_arm::shooterPivotLower, m_arm))
+                // .onFalse(new InstantCommand(
+                // () -> m_arm.setShooterPivotPosition(
+                // m_arm.getShooterPivotPosition())));
 
                 // trap
-                moveToTrapApproach.onTrue(new MoveToPosition(m_arm, m_shooter,
-                                m_feeder, m_blinkin, Position.TRAP_APPROACH));
-                moveToTrapScore.onTrue(new SequentialCommandGroup(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_SCORE),
-                                new InstantCommand(m_shooter::runTrap)));
-                shootTrap.onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin));
+                // moveToTrapApproach.onTrue(new MoveToPosition(m_arm, m_shooter,
+                // m_feeder, m_blinkin, Position.TRAP_APPROACH));
+                // moveToTrapScore.onTrue(new SequentialCommandGroup(
+                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                // Position.TRAP_SCORE),
+                // new InstantCommand(m_shooter::runTrap)));
+                // shootTrap.onTrue(new ShootTrap(m_feeder, m_arm, m_shooter, m_blinkin));
 
-                // Climber motor on and off
-                WinchForwardButton.whileTrue(
-                                new ConditionalCommand(
-                                                new InstantCommand(m_climb::forward),
-                                                new InstantCommand(),
-                                                m_climb::isTrapPressed))
-                                .onFalse(new InstantCommand(m_climb::stop));
+                // // Climber motor on and off
+                // WinchForwardButton.whileTrue(
+                // new ConditionalCommand(
+                // new InstantCommand(m_climb::forward),
+                // new InstantCommand(),
+                // m_climb::isTrapPressed))
+                // .onFalse(new InstantCommand(m_climb::stop));
 
-                WinchBackButton.whileTrue(
-                                new InstantCommand(m_climb::back))
-                                .onFalse(new InstantCommand(m_climb::stop));
+                // WinchBackButton.whileTrue(
+                // new InstantCommand(m_climb::back))
+                // .onFalse(new InstantCommand(m_climb::stop));
 
         }
 

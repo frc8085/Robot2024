@@ -447,11 +447,11 @@ public final class Constants {
         public static final class DriveConstants {
                 // Driving Parameters - Note that these are not the maximum capable speeds of
                 // the robot, rather the allowed maximum speeds
-                public static final double kMaxSpeedAdjustment = 1;
+                public static final double kMaxSpeedAdjustment = .25;
                 public static final double kMaxSpeedMetersPerSecond = 5.75 * kMaxSpeedAdjustment;
 
                 // if you want to slow down the rotation speed, change the adjustment factor
-                public static final double kAngularSpeedAdjustment = .95;
+                public static final double kAngularSpeedAdjustment = .25;
                 public static final double kMaxAngularSpeed = 2 * Math.PI * kAngularSpeedAdjustment; // radians per
                 // second
 
