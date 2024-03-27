@@ -35,7 +35,7 @@ public class Robot extends LoggedRobot {
 
   private RobotContainer m_robotContainer;
 
-  UsbCamera camera1;
+  // UsbCamera camera1;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -74,7 +74,7 @@ public class Robot extends LoggedRobot {
     }
 
     if (Robot.isReal()) {
-      camera1 = CameraServer.startAutomaticCapture(0);
+      // camera1 = CameraServer.startAutomaticCapture(0);
     }
 
     // // Attempting to set the arm to coast mode after disabled for 3 sec
