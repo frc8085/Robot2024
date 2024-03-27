@@ -13,6 +13,6 @@ public class AutoTargetSP extends SequentialCommandGroup {
 
   public AutoTargetSP(LimelightSubsystem m_limelight, ArmSubsystem m_arm) {
     addCommands(
-        new InstantCommand(() -> m_arm.setShooterPivotPosition(m_limelight.getShooterPivotSetpointFromArea())));
+        new InstantCommand(() -> m_arm.setShooterPivotPosition(m_limelight.getShooterPivotSetpointFromArea(), false)));
   }
 }

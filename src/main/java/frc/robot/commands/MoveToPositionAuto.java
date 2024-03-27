@@ -24,7 +24,7 @@ public class MoveToPositionAuto extends SequentialCommandGroup {
                 new InstantCommand(() -> System.out.println("START Move to " + position.label + " Auto Position**")));
         // Check if we move Arm and Shooter Pivot at the same time
         if (position.parallelMovement) {
-            addCommands(new InstantCommand(() -> m_arm.moveToPosition(position)));
+            addCommands(new InstantCommand(() -> m_arm.moveToPositionInParallel(position)));
         }
 
         // If they don't move together, check if we need to move the Arm first
@@ -32,13 +32,15 @@ public class MoveToPositionAuto extends SequentialCommandGroup {
             addCommands(
                     new InstantCommand(() -> m_arm.setArmPosition(position.armPosition)),
                     new WaitCommand(0.25),
-                    new InstantCommand(() -> m_arm.setShooterPivotPosition(position.shooterPivotPosition)));
+                    new InstantCommand(() -> m_arm.setShooterPivotPosition(position.shooterPivotPosition,
+                            position.shooterPivotAdjust)));
         }
 
         // Otherwise, move the Shooter Pivot first, then the Arm
         else {
             addCommands(
-                    new InstantCommand(() -> m_arm.setShooterPivotPosition(position.shooterPivotPosition)),
+                    new InstantCommand(() -> m_arm.setShooterPivotPosition(position.shooterPivotPosition,
+                            position.shooterPivotAdjust)),
                     new WaitCommand(.25),
                     new InstantCommand(() -> m_arm.setArmPosition(position.armPosition)));
         }

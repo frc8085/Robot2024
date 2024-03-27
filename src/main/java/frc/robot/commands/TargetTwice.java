@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -12,6 +14,7 @@ public class TargetTwice extends SequentialCommandGroup {
                         LimelightSubsystem m_limelight,
                         DriveSubsystem m_drive) {
                 addCommands(
+                                new InstantCommand(() -> Logger.recordOutput("Commands/LimelightTarget", false)),
                                 new ConditionalCommand(
                                                 new AutoTarget(m_limelight, m_drive),
                                                 new InstantCommand(),
@@ -20,6 +23,7 @@ public class TargetTwice extends SequentialCommandGroup {
                                 new ConditionalCommand(
                                                 new AutoTarget(m_limelight, m_drive),
                                                 new InstantCommand(),
-                                                m_limelight::hasTarget));
+                                                m_limelight::hasTarget),
+                                new InstantCommand(() -> Logger.recordOutput("Commands/LimelightTarget", true)));
         }
 }

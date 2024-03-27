@@ -9,7 +9,6 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -71,6 +70,7 @@ public class DriveSubsystem extends SubsystemBase {
     private static final String POSE_LOG_ENTRY = "/Pose";
     private static final String ACTUAL_SWERVE_STATE_LOG_ENTRY = "/ActualSwerveState";
     private static final String DESIRED_SWERVE_STATE_LOG_ENTRY = "/DesiredSwerveState";
+    private static final String DESIRED_SPEED_LOG_ENTRY = "/DesiredSpeed";
 
     // Slew rate filter variables for controlling lateral acceleration
     private double m_currentRotation = 0.0;
@@ -296,6 +296,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         drive(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered), fieldRelative);
 
+        Logger.recordOutput(getName() + DESIRED_SPEED_LOG_ENTRY, speedCommanded);
     }
 
     private void driveRobotRelative(ChassisSpeeds speeds) {
@@ -311,6 +312,7 @@ public class DriveSubsystem extends SubsystemBase {
         var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
         setModuleStates(swerveModuleStates);
+
     }
 
     /**

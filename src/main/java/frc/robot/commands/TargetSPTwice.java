@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -12,6 +14,8 @@ public class TargetSPTwice extends SequentialCommandGroup {
                         LimelightSubsystem m_limelight,
                         ArmSubsystem m_arm) {
                 addCommands(
+                                new InstantCommand(() -> Logger.recordOutput("Commands/LimelightTargetSP", false)),
+
                                 new ConditionalCommand(
                                                 new AutoTargetSP(m_limelight, m_arm),
                                                 new InstantCommand(),
@@ -22,6 +26,16 @@ public class TargetSPTwice extends SequentialCommandGroup {
                                                 new InstantCommand(),
                                                 m_limelight::hasTarget),
                                                 new InstantCommand(),
-                                                m_arm::atPodiumPosition));
+                                                m_arm::atPodiumPosition),
+                                new InstantCommand(() -> Logger.recordOutput("Commands/LimelightTargetSP", true)));
         }
 }
+/*
+ * center low miss
+ * a little closer than stage got it
+ * on black line got in
+ * Joey sucks :( (sw high)
+ * podium to high
+ * podium low???
+ * 
+ */

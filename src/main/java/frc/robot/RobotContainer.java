@@ -4,12 +4,16 @@
 
 package frc.robot;
 
+import java.time.Instant;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,23 +22,25 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.MoveToPosition;
-import frc.robot.commands.MoveToPositionAuto;
 import frc.robot.commands.NoteCheckAuto;
 import frc.robot.commands.NoteCorrection;
 import frc.robot.commands.Oscillate;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
-import frc.robot.commands.ShootAuto;
 import frc.robot.commands.ShootChooser;
+import frc.robot.commands.ShootInstant;
 import frc.robot.commands.EjectNote;
 import frc.robot.commands.EnableShooterAuto;
 import frc.robot.commands.LimelightShoot;
@@ -63,6 +69,11 @@ public class RobotContainer {
 
         private final Field2d field;
 
+        // The driver's controller
+        CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+        // The operator's controller
+        CommandXboxController m_operatorController = new CommandXboxController(OIConstants.kOperatorControllerPort);
+
         // The robot's subsystems
         private final DriveSubsystem m_drive = new DriveSubsystem();
         private final ShooterSubsystem m_shooter = new ShooterSubsystem();
@@ -80,29 +91,20 @@ public class RobotContainer {
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("MoveToSubwooferAuto", new ConditionalCommand(
-                                new MoveToPositionAuto(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_SUBWOOFER),
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_SUBWOOFER),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("MoveToSubwoofer", new ConditionalCommand(
-                                new MoveToPositionAuto(m_arm, m_shooter, m_feeder, m_blinkin, Position.SIDE_SUBWOOFER),
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SIDE_SUBWOOFER),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
 
                 NamedCommands.registerCommand("MoveToPodium", new ConditionalCommand(
-                                new MoveToPositionAuto(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_PODIUM),
-                                new InstantCommand(),
-                                m_feeder::noteInRobot));
-                NamedCommands.registerCommand("MoveToPodiumSource", new ConditionalCommand(
-                                new MoveToPositionAuto(m_arm, m_shooter, m_feeder, m_blinkin,
-                                                Position.AUTO_PODIUM_SOURCE),
-                                new InstantCommand(),
-                                m_feeder::noteInRobot));
-                NamedCommands.registerCommand("MoveToPodiumAmp", new ConditionalCommand(
-                                new MoveToPositionAuto(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_PODIUM_AMP),
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_PODIUM),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("Shoot", new ConditionalCommand(
-                                new ShootAuto(m_feeder, m_arm, m_shooter, m_blinkin),
+                                new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("PickUpNote",
@@ -117,15 +119,8 @@ public class RobotContainer {
                                 new WaitUntilCommand(m_shooter::readyToShootPodium),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
-                NamedCommands.registerCommand("LLAim",
-                                new LimelightShoot(m_feeder, m_arm, m_shooter, m_blinkin, m_limelight, m_drive));
-                NamedCommands.registerCommand("ResetHeading", new InstantCommand(() -> m_drive.zeroHeading(), m_drive));
-        }
 
-        // The driver's controller
-        CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
-        // The operator's controller
-        CommandXboxController m_operatorController = new CommandXboxController(OIConstants.kOperatorControllerPort);
+        }
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -220,9 +215,9 @@ public class RobotContainer {
                  * DPad Left: Trap Approach 2
                  * DPad Up:
                  * DPad Right:
-                 * DPad Down: Lock Wheels (set X)
+                 * DPad Down: Lock Wheels
                  * Left Bumper: Auto Target
-                 * Right Bumper:
+                 * Right Bumper: Shoot Instant
                  * Left Trigger: Shoot Note
                  * Right Trigger: Drive Speed
                  * Left Stick Button:
@@ -252,6 +247,7 @@ public class RobotContainer {
 
                 // DRIVER controlled buttons
                 final Trigger shoot = m_driverController.leftTrigger();
+                final Trigger shootInstant = m_driverController.rightBumper();
                 final Trigger lockWheels = m_driverController.povDown();
 
                 final Trigger autoTarget = m_driverController.leftBumper();
@@ -264,7 +260,9 @@ public class RobotContainer {
 
                 final Trigger zeroHeadingButton = m_driverController.start();
 
-                autoTarget.onTrue(new LimelightShoot(m_feeder, m_arm, m_shooter, m_blinkin, m_limelight, m_drive));
+                autoTarget.onTrue(new LimelightShoot(m_arm, m_limelight, m_drive));
+
+                shootInstant.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
                                 m_drive));
@@ -330,7 +328,8 @@ public class RobotContainer {
                                                 new InstantCommand(m_intake::stop),
                                                 new InstantCommand(m_feeder::stop),
                                                 new InstantCommand(m_blinkin::driving)),
-                                new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_blinkin),
+                                new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_driverController,
+                                                m_operatorController, m_blinkin),
                                 m_intake::isIntakeRunning));
 
                 // Operator Shooter Controls
@@ -438,6 +437,11 @@ public class RobotContainer {
                 // new InstantCommand(m_climb::back))
                 // .onFalse(new InstantCommand(m_climb::stop));
 
+        }
+
+        private void ParallelDeadlineGroup(WaitCommand waitCommand, Object setRumble) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'ParallelDeadlineGroup'");
         }
 
         /**
