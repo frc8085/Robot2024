@@ -111,10 +111,10 @@ public final class Constants {
                 public static double kShooterEncoder1VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder1PositionFactor = (2 * Math.PI);
 
-                public static double kShooter1SetPoint = 4300;
-                public static double kShooter2SetPoint = kShooter1SetPoint * 0.9;
-                public static double kShooter1PodiumToleranceRPMPercent = .03;
-                public static double kShooter2PodiumToleranceRPMPercent = .04;
+                public static double kShooter1SetPoint = 1200;
+                public static double kShooter2SetPoint = kShooter1SetPoint * 1;
+                public static double kShooter1PodiumToleranceRPMPercent = .1;
+                public static double kShooter2PodiumToleranceRPMPercent = .1;
                 public static double kShooter1SWToleranceRPMPercent = .1;
                 public static double kShooter2SWToleranceRPMPercent = .09;
 
