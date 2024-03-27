@@ -361,8 +361,8 @@ public class RobotContainer {
                 // Position.SUBWOOFER));
                 // moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
                 // Position.AMP));
-                // moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
-                // Position.PODIUM));
+                moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                                Position.PODIUM));
 
                 // moveToSubwooferDriver.onTrue(
                 // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
