@@ -35,9 +35,6 @@ import frc.robot.Constants.OIConstants;
 import frc.utils.SwerveUtils;
 
 public class DriveSubsystem extends SubsystemBase {
-
-    // private boolean TUNING_MODE = TuningModeConstants.kDriveTuning;
-
     // Create MAXSwerveModules
     private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
             DriveConstants.kFrontLeftDrivingCanId,
@@ -242,7 +239,7 @@ public class DriveSubsystem extends SubsystemBase {
             ySpeedCommanded = 0;
         }
 
-        if (rateLimit) {
+        if (false) {
             // Convert XY to polar for rate limiting
             double inputTranslationDir = Math.atan2(speedCommanded * ySpeed, speedCommanded * xSpeed);
             double inputTranslationMag = Math
@@ -285,8 +282,13 @@ public class DriveSubsystem extends SubsystemBase {
             m_currentRotation = m_rotLimiter.calculate(rot);
 
         } else {
-            xSpeedCommanded = xSpeed;
-            ySpeedCommanded = ySpeed;
+            xSpeedCommanded = xSpeed * speedCommanded;
+            ySpeedCommanded = ySpeed * speedCommanded;
+
+            // xSpeedCommanded = Math.sin(
+            // Math.atan2(xSpeed, ySpeed));
+            // ySpeedCommanded = Math.cos(
+            // Math.atan2(xSpeed, ySpeed));
             m_currentRotation = rot;
         }
 
