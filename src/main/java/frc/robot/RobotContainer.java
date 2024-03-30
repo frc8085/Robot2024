@@ -146,7 +146,7 @@ public class RobotContainer {
                                                 -MathUtil.applyDeadband(m_driverController.getRightX(),
                                                                 OIConstants.kDriveDeadband),
                                                 true,
-                                                true),
+                                                false),
                                                 m_drive));
 
                 // Another option that allows you to specify the default auto by its name

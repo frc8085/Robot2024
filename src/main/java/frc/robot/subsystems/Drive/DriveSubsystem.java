@@ -35,6 +35,10 @@ import frc.robot.Constants.OIConstants;
 import frc.utils.SwerveUtils;
 
 public class DriveSubsystem extends SubsystemBase {
+
+    // private boolean TUNING_MODE = TuningModeConstants.kDriveTuning;
+    private boolean FILTER_VELOCITY = true;
+
     // Create MAXSwerveModules
     private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
             DriveConstants.kFrontLeftDrivingCanId,
@@ -231,15 +235,15 @@ public class DriveSubsystem extends SubsystemBase {
         // turning
 
         // if right joystick is > deadband || right joystick < -deadband
-        if ((speedCommanded < OIConstants.kDriveDeadband)
-                && (OIConstants.kDriveDeadband > rot && rot > -OIConstants.kDriveDeadband)) {
-            speedCommanded = 0;
-            rot = 0;
-            xSpeedCommanded = 0;
-            ySpeedCommanded = 0;
-        }
+        // if ((speedCommanded < OIConstants.kDriveDeadband)
+        // && (OIConstants.kDriveDeadband > rot && rot > -OIConstants.kDriveDeadband)) {
+        // speedCommanded = 0;
+        // rot = 0;
+        // xSpeedCommanded = 0;
+        // ySpeedCommanded = 0;
+        // }
 
-        if (false) {
+        if (rateLimit) {
             // Convert XY to polar for rate limiting
             double inputTranslationDir = Math.atan2(speedCommanded * ySpeed, speedCommanded * xSpeed);
             double inputTranslationMag = Math
@@ -287,9 +291,21 @@ public class DriveSubsystem extends SubsystemBase {
 
             // xSpeedCommanded = Math.sin(
             // Math.atan2(xSpeed, ySpeed));
-            // ySpeedCommanded = Math.cos(
+            // ySpeedCommanded = Math.sin(
             // Math.atan2(xSpeed, ySpeed));
             m_currentRotation = rot;
+        }
+
+        if (FILTER_VELOCITY) {
+            double currentTime = WPIUtilJNI.now() * 1e-6;
+            double elapsedTime = currentTime - m_prevTime;
+            m_prevTime = currentTime;
+            double commandBandwidth = 8;
+
+            xSpeedCommanded = xSpeedCommanded + (xSpeed - xSpeedCommanded) * commandBandwidth * elapsedTime;
+            ySpeedCommanded = ySpeedCommanded + (ySpeed - ySpeedCommanded) * commandBandwidth * elapsedTime;
+
+            m_currentRotation = m_rotLimiter.calculate(rot);
         }
 
         double xSpeedDelivered = xSpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
