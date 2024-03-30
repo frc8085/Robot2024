@@ -1,25 +1,21 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 
-public class NoteDetection extends SequentialCommandGroup {
+public class AutoNotePickup extends SequentialCommandGroup {
 
-    public double kTurnSpeed = 1;
-    public double kForwardSpeed = 1;
+    public double kTurnSpeed = 0.3;
+    public double kForwardSpeed = 0.18;
 
-    public NoteDetection(LimelightSubsystem m_LimelightSubsystem, DriveSubsystem m_DriveSubsystem,
-            IntakeSubsystem m_IntakeSubsystem, SmartDashboard m_SmartDashboard, FeederSubsystem m_FeederSubsystem) {
+    public AutoNotePickup(LimelightSubsystem m_LimelightSubsystem, DriveSubsystem m_DriveSubsystem,
+            IntakeSubsystem m_IntakeSubsystem, FeederSubsystem m_FeederSubsystem) {
 
-        m_LimelightSubsystem.setPipeline(3);
+        // m_LimelightSubsystem.setPipeline(3);
 
         if (m_LimelightSubsystem.hasTarget()) {
 

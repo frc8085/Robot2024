@@ -35,6 +35,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.MoveToPosition;
 import frc.robot.commands.NoteCheckAuto;
 import frc.robot.commands.NoteCorrection;
+import frc.robot.commands.AutoNotePickup;
 import frc.robot.commands.Oscillate;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.PickUpNoteAuto;
@@ -208,7 +209,7 @@ public class RobotContainer {
                 /*
                  * Driver Controls:
                  * Y Button: Subwoofer
-                 * B Button:
+                 * B Button: Drive to intake Note
                  * A Button:
                  * X Button: Back Subwoofer
                  * Start Button: Zero Heading
@@ -251,6 +252,7 @@ public class RobotContainer {
                 final Trigger lockWheels = m_driverController.povDown();
 
                 final Trigger autoTarget = m_driverController.leftBumper();
+                final Trigger getNote = m_driverController.b();
 
                 final Trigger moveToBackSubwooferDriver = m_driverController.x();
                 final Trigger moveToSubwooferDriver = m_driverController.y();
@@ -261,6 +263,7 @@ public class RobotContainer {
                 final Trigger zeroHeadingButton = m_driverController.start();
 
                 autoTarget.onTrue(new LimelightShoot(m_arm, m_limelight, m_drive));
+                getNote.onTrue(new AutoNotePickup(m_limelight, m_drive, m_intake, m_feeder));
 
                 shootInstant.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
 
