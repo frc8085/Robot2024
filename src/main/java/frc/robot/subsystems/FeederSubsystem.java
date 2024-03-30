@@ -8,12 +8,16 @@ import org.littletonrobotics.junction.Logger;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.FeederConstants;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.MotorDefaultsConstants;
+import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.TuningModeConstants;
 
 public class FeederSubsystem extends SubsystemBase {
@@ -26,6 +30,9 @@ public class FeederSubsystem extends SubsystemBase {
 
     private final CANSparkMax m_feederMotor = new CANSparkMax(
             CanIdConstants.kFeederCanId, MotorDefaultsConstants.Neo550MotorType);
+
+    CommandXboxController m_driverController;
+    CommandXboxController m_operatorController;
 
     // Robot starts with Note
     private boolean noteTrue = true;
@@ -175,7 +182,6 @@ public class FeederSubsystem extends SubsystemBase {
 
     // This method will be called once per scheduler run
     public void periodic() {
-
         // Put Indicator on Dashboard that a Note is in the Robot
         SmartDashboard.putBoolean("Note in Robot", noteInRobot());
 
