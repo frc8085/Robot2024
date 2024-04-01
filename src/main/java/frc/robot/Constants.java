@@ -121,6 +121,7 @@ public final class Constants {
 
                 public static double kShooterSetPointTrap = 1000;
                 public static double kShooterSetPointAmp = 1000;
+                public static double kShooterSetPointFeeder = 4500;
                 public static double kShooterSetPointPickup = -300;
                 public static double kShooterOff = 0;
                 public static double kShooterResetTrap = -500;

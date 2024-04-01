@@ -118,10 +118,10 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2Motor.set(0);
     }
 
-    // public void run() {
-    // m_shooter1Motor.set(1);
-    // m_shooter2Motor.set(-.8);
-    // }
+    public void runTest() {
+        m_shooter1Motor.set(1);
+        m_shooter2Motor.set(-1);
+    }
 
     public void setShooterSpeed(double shooterSpeed) {
         setShooter1SetPoint(shooterSpeed);
@@ -157,6 +157,11 @@ public class ShooterSubsystem extends SubsystemBase {
     public void runPickup() {
         setShooter1SetPoint(ShooterConstants.kShooterSetPointPickup);
         setShooter2SetPoint(ShooterConstants.kShooterSetPointPickup);
+    }
+
+    public void runFeeder() {
+        setShooter1SetPoint(ShooterConstants.kShooterSetPointFeeder);
+        setShooter2SetPoint(ShooterConstants.kShooterSetPointFeeder);
     }
 
     public void setShooter1SetPoint(double shooter1SetPoint) {
