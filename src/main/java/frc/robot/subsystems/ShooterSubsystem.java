@@ -154,6 +154,7 @@ public class ShooterSubsystem extends SubsystemBase {
         setShooter2SetPoint(ShooterConstants.kShooterSetPointAmp);
     }
 
+<<<<<<< HEAD
     public void runPickup() {
         setShooter1SetPoint(ShooterConstants.kShooterSetPointPickup);
         setShooter2SetPoint(ShooterConstants.kShooterSetPointPickup);
@@ -164,6 +165,8 @@ public class ShooterSubsystem extends SubsystemBase {
         setShooter2SetPoint(ShooterConstants.kShooterSetPointFeeder);
     }
 
+=======
+>>>>>>> parent of ed54b79 (trying to reverse shooter wheels during pickup to keep note in right spot)
     public void setShooter1SetPoint(double shooter1SetPoint) {
         if (shooter1SetPoint >= 4500) {
             kShooter1SetPoint = 4500;

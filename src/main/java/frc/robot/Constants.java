@@ -113,16 +113,19 @@ public final class Constants {
                 public static double kShooterEncoder1PositionFactor = (2 * Math.PI);
 
                 public static double kShooter1SetPoint = 4300;
-                public static double kShooter2SetPoint = kShooter1SetPoint * 0.9;
-                public static double kShooter1PodiumToleranceRPMPercent = .03;
-                public static double kShooter2PodiumToleranceRPMPercent = .04;
+                public static double kShooter2SetPoint = kShooter1SetPoint * 0.85;
+                public static double kShooter1PodiumToleranceRPMPercent = .5;
+                public static double kShooter2PodiumToleranceRPMPercent = .5;
                 public static double kShooter1SWToleranceRPMPercent = .03;
                 public static double kShooter2SWToleranceRPMPercent = .04;
 
                 public static double kShooterSetPointTrap = 1000;
                 public static double kShooterSetPointAmp = 1000;
+<<<<<<< HEAD
                 public static double kShooterSetPointFeeder = 4500;
-                public static double kShooterSetPointPickup = -300;
+                public static double kShooterSetPointPickup = 0;
+=======
+>>>>>>> parent of ed54b79 (trying to reverse shooter wheels during pickup to keep note in right spot)
                 public static double kShooterOff = 0;
                 public static double kShooterResetTrap = -500;
         }
