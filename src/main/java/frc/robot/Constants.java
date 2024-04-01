@@ -221,7 +221,7 @@ public final class Constants {
                 // Arm Positions - Shooter Pivot lower number aims higher
                 public enum Position {
                         HOME("Home",
-                                        238,
+                                        236,
                                         41,
                                         false,
                                         false,
