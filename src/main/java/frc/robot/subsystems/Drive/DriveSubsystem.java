@@ -290,9 +290,10 @@ public class DriveSubsystem extends SubsystemBase {
             ySpeedCommanded = ySpeed * speedCommanded;
 
             // xSpeedCommanded = Math.sin(
-            // Math.atan2(xSpeed, ySpeed));
+            // Math.atan2(xSpeed, ySpeed)) * speedCommanded;
             // ySpeedCommanded = Math.sin(
-            // Math.atan2(xSpeed, ySpeed));
+            // Math.atan2(xSpeed, ySpeed)) * speedCommanded;
+
             m_currentRotation = rot;
         }
 
@@ -302,8 +303,10 @@ public class DriveSubsystem extends SubsystemBase {
             m_prevTime = currentTime;
             double commandBandwidth = 8;
 
-            xSpeedCommanded = xSpeedCommanded + (xSpeed - xSpeedCommanded) * commandBandwidth * elapsedTime;
-            ySpeedCommanded = ySpeedCommanded + (ySpeed - ySpeedCommanded) * commandBandwidth * elapsedTime;
+            xSpeedCommanded = speedCommanded
+                    * (xSpeedCommanded + (xSpeed - xSpeedCommanded) * commandBandwidth * elapsedTime);
+            ySpeedCommanded = speedCommanded
+                    * (ySpeedCommanded + (ySpeed - ySpeedCommanded) * commandBandwidth * elapsedTime);
 
             m_currentRotation = m_rotLimiter.calculate(rot);
         }
