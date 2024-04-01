@@ -121,11 +121,8 @@ public final class Constants {
 
                 public static double kShooterSetPointTrap = 1000;
                 public static double kShooterSetPointAmp = 1000;
-<<<<<<< HEAD
                 public static double kShooterSetPointFeeder = 4500;
                 public static double kShooterSetPointPickup = 0;
-=======
->>>>>>> parent of ed54b79 (trying to reverse shooter wheels during pickup to keep note in right spot)
                 public static double kShooterOff = 0;
                 public static double kShooterResetTrap = -500;
         }
