@@ -154,6 +154,11 @@ public class ShooterSubsystem extends SubsystemBase {
         setShooter2SetPoint(ShooterConstants.kShooterSetPointAmp);
     }
 
+    public void runPickup() {
+        setShooter1SetPoint(ShooterConstants.kShooterSetPointPickup);
+        setShooter2SetPoint(ShooterConstants.kShooterSetPointPickup);
+    }
+
     public void setShooter1SetPoint(double shooter1SetPoint) {
         if (shooter1SetPoint >= 4500) {
             kShooter1SetPoint = 4500;

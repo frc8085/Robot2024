@@ -110,7 +110,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("PickUpNote",
                                 new PickUpNoteAuto(m_intake, m_feeder, m_arm, m_shooter, m_blinkin));
                 NamedCommands.registerCommand("PickUpNoteCompleted",
-                                new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin));
+                                new PickUpNoteCompleted(m_intake, m_shooter, m_feeder, m_blinkin));
                 NamedCommands.registerCommand("WaitUntilNoteDetected", new WaitUntilCommand(m_feeder::isNoteDetected));
                 NamedCommands.registerCommand("WaitUntilHome", new WaitUntilCommand(m_arm::atHomePosition));
                 NamedCommands.registerCommand("NoteCheckAuto", new NoteCheckAuto(m_intake, m_feeder));

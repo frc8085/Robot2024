@@ -9,10 +9,12 @@ import frc.robot.Constants.FeederConstants;
 import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class PickUpNoteCompleted extends SequentialCommandGroup {
         public PickUpNoteCompleted(
                         IntakeSubsystem m_intake,
+                        ShooterSubsystem m_shooter,
                         FeederSubsystem m_feeder,
                         Blinkin m_blinkin) {
                 addCommands(
@@ -20,6 +22,7 @@ public class PickUpNoteCompleted extends SequentialCommandGroup {
                                 new InstantCommand(m_feeder::notePickedUp),
                                 new ParallelCommandGroup(
                                                 new InstantCommand(m_intake::stop),
+                                                new InstantCommand(m_shooter::stop),
                                                 new InstantCommand(m_feeder::stop)),
                                 new WaitCommand(FeederConstants.kLoadWaitTime),
                                 // Check if Note is touching shooter wheels and run backwards if needed
