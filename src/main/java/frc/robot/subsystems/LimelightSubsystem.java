@@ -118,7 +118,7 @@ public class LimelightSubsystem extends SubsystemBase {
      **/
 
     double ta = getArea();
-    return -30.4 * ta + 65;
+    return -48.5 * ta + 72;
   }
 
   public boolean hasTarget() {
