@@ -94,28 +94,29 @@ public final class Constants {
                 public static final IdleMode kShooterMotor2IdleMode = IdleMode.kBrake;
                 public static IdleMode kShooterMotor1IdleMode = IdleMode.kBrake;
                 public static double kShooter2MaxOutput = 1;
-                public static double kShooter2MinOutput = -1;
-                public static double kShooter2FF = 0.000235;
-                public static double kShooter2P = 0.0006;
-                public static double kShooter2I = 0.00;
-                public static double kShooter2D = .6;
+                public static double kShooter2MinOutput = -0.25;
+                public static double kShooter2FF = 0.00019;
+                /// P=.0006, I=0, D=.6
+                public static double kShooter2P = 0.0012;
+                public static double kShooter2I = 0;
+                public static double kShooter2D = 0;
 
                 public static double kShooter1MaxOutput = 1;
-                public static double kShooter1MinOutput = -1;
-                public static double kShooter1FF = 0.000235;
-                public static double kShooter1P = 0.0006;
+                public static double kShooter1MinOutput = -0.25;
+                public static double kShooter1FF = 0.00018;
+                public static double kShooter1P = 0.0012;
                 public static double kShooter1I = 0.00;
-                public static double kShooter1D = .6;
+                public static double kShooter1D = 0;
 
                 public static double kShooterEncoder2VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder2PositionFactor = (2 * Math.PI);
                 public static double kShooterEncoder1VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder1PositionFactor = (2 * Math.PI);
 
-                public static double kShooter1SetPoint = 4300;
-                public static double kShooter2SetPoint = kShooter1SetPoint * 0.85;
-                public static double kShooter1PodiumToleranceRPMPercent = .5;
-                public static double kShooter2PodiumToleranceRPMPercent = .5;
+                public static double kShooter1SetPoint = 4600;
+                public static double kShooter2SetPoint = kShooter1SetPoint * .9;
+                public static double kShooter1PodiumToleranceRPMPercent = .03;
+                public static double kShooter2PodiumToleranceRPMPercent = .035;
                 public static double kShooter1SWToleranceRPMPercent = .03;
                 public static double kShooter2SWToleranceRPMPercent = .04;
 
@@ -239,8 +240,8 @@ public final class Constants {
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
                         PODIUM("Podium",
-                                        260,
-                                        55,
+                                        262,
+                                        59,
                                         true,
                                         true,
                                         false,
