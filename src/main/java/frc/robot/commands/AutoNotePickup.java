@@ -25,6 +25,7 @@ public class AutoNotePickup extends SequentialCommandGroup {
                 while (-0.5 < xOffset || xOffset < 0.5) {
                     m_DriveSubsystem.turn(kTurnSpeed);
                     xOffset = m_LimelightSubsystem.getXfromRobotPerspective();
+                    new WaitCommand(0.001);
                 }
 
             } else if (xOffset < 0) {
@@ -37,7 +38,7 @@ public class AutoNotePickup extends SequentialCommandGroup {
 
             m_IntakeSubsystem.run();
 
-            m_DriveSubsystem.drive(kForwardSpeed, 1, 0, 0, false, false);
+            m_DriveSubsystem.drive(kForwardSpeed, -1, 0, 0, false, false);
 
             while (true) {
                 if (m_FeederSubsystem.isNoteDetected() == true) {
@@ -45,11 +46,9 @@ public class AutoNotePickup extends SequentialCommandGroup {
                     m_IntakeSubsystem.stop();
                     break;
                 }
-
+                new WaitCommand(0.001);
             }
 
-            // Not written yet:
-            // Detects note in robot and disables drive motors
         } else {
             System.out.println("No Target");
         }
