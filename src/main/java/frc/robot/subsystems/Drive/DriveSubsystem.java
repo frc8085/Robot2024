@@ -360,8 +360,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.setDesiredState(desiredStates[3]);
 
         if (LoggingConstants.kLogging) {
-            Logger.recordOutput(getName() + DESIRED_SWERVE_STATE_LOG_ENTRY, getModuleStates());
-
+            Logger.recordOutput(getName() + DESIRED_SWERVE_STATE_LOG_ENTRY, desiredStates);
         }
     }
 
