@@ -46,6 +46,7 @@ import frc.robot.commands.EnableShooterAuto;
 import frc.robot.commands.SpitNote;
 import frc.robot.commands.FeedNote;
 import frc.robot.commands.LimelightShoot;
+import frc.robot.commands.LimelightTarget;
 import frc.robot.commands.ShootNew;
 import frc.robot.commands.ShootTrap;
 import frc.robot.commands.TargetSPTwice;
@@ -264,7 +265,7 @@ public class RobotContainer {
 
                 final Trigger zeroHeadingButton = m_driverController.start();
 
-                autoTarget.onTrue(new LimelightShoot(m_arm, m_limelight, m_drive));
+                autoTarget.onTrue(new LimelightTarget(m_arm, m_limelight, m_drive));
 
                 shootInstant.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
 
