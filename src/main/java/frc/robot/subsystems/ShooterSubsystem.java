@@ -74,10 +74,10 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2PIDController = m_shooter2Motor.getPIDController();
         m_shooter2PIDController.setFeedbackDevice(m_shooter2Encoder);
 
-        m_shooter1PIDController.setP(ShooterConstants.kShooter1P);
-        m_shooter1PIDController.setI(ShooterConstants.kShooter1I);
-        m_shooter1PIDController.setD(ShooterConstants.kShooter1D);
-        m_shooter1PIDController.setFF(ShooterConstants.kShooter1FF);
+        m_shooter1PIDController.setP(ShooterConstants.kShooter1P, 0);
+        m_shooter1PIDController.setI(ShooterConstants.kShooter1I, 0);
+        m_shooter1PIDController.setD(ShooterConstants.kShooter1D, 0);
+        m_shooter1PIDController.setFF(ShooterConstants.kShooter1FF, 0);
         m_shooter1PIDController.setOutputRange(ShooterConstants.kShooter1MinOutput,
                 ShooterConstants.kShooter1MaxOutput);
         m_shooter1PIDController.setIZone(0);
@@ -86,10 +86,15 @@ public class ShooterSubsystem extends SubsystemBase {
         // m_shooter1PIDController.setSmartMotionMaxAccel(3000, 0);
         m_shooter1PIDController.setSmartMotionAllowedClosedLoopError(0, 0);
 
-        m_shooter2PIDController.setP(ShooterConstants.kShooter2P);
-        m_shooter2PIDController.setI(ShooterConstants.kShooter2I);
-        m_shooter2PIDController.setD(ShooterConstants.kShooter2D);
-        m_shooter2PIDController.setFF(ShooterConstants.kShooter2FF);
+        m_shooter1PIDController.setP(0.0006, 1);
+        m_shooter1PIDController.setFF(0.000175, 1);
+        m_shooter2PIDController.setP(0.0006, 1);
+        m_shooter2PIDController.setFF(0.000175, 1);
+
+        m_shooter2PIDController.setP(ShooterConstants.kShooter2P, 0);
+        m_shooter2PIDController.setI(ShooterConstants.kShooter2I, 0);
+        m_shooter2PIDController.setD(ShooterConstants.kShooter2D, 0);
+        m_shooter2PIDController.setFF(ShooterConstants.kShooter2FF, 0);
         m_shooter2PIDController.setOutputRange(ShooterConstants.kShooter2MinOutput,
                 ShooterConstants.kShooter2MaxOutput);
         m_shooter2PIDController.setIZone(0);
@@ -144,8 +149,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void runTrap() {
-        setShooter1SetPoint(ShooterConstants.kShooterSetPointTrap);
-        setShooter2SetPoint(ShooterConstants.kShooterSetPointTrap);
+        setTrapSetPoint(ShooterConstants.kShooterSetPointTrap);
+        setTrapSetPoint(ShooterConstants.kShooterSetPointTrap);
         System.out.println("Running Trap Score");
     }
 
@@ -170,7 +175,13 @@ public class ShooterSubsystem extends SubsystemBase {
         } else {
             kShooter1SetPoint = shooter1SetPoint;
         }
-        m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkFlex.ControlType.kVelocity);
+        m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkFlex.ControlType.kVelocity, 0);
+    }
+
+    public void setTrapSetPoint(double shooter1SetPoint) {
+        kShooter1SetPoint = shooter1SetPoint;
+        m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkFlex.ControlType.kVelocity, 1);
+        m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkFlex.ControlType.kVelocity, 1);
     }
 
     public void setShooter2SetPoint(double shooter2SetPoint) {
@@ -179,7 +190,7 @@ public class ShooterSubsystem extends SubsystemBase {
         } else {
             kShooter2SetPoint = shooter2SetPoint;
         }
-        m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkFlex.ControlType.kVelocity);
+        m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkFlex.ControlType.kVelocity, 0);
     }
 
     public boolean shooter1AtPodiumSetpoint() {
