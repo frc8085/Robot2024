@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.SparkRelativeEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.SparkAbsoluteEncoder;
@@ -23,7 +22,7 @@ public class ClimberSubsystem extends SubsystemBase {
             CanIdConstants.kWinchCanId, MotorDefaultsConstants.NeoVortexMotorType);
 
     // Encoder
-    // private SparkRelativeEncoder m_winchEncoder;
+    // private RelativeEncoder m_winchEncoder;
     private SparkAbsoluteEncoder m_winchEncoder;
 
     // PID for Winch
@@ -72,8 +71,7 @@ public class ClimberSubsystem extends SubsystemBase {
         // Setup encoders and PID controllers for the arm and shooter arms.
 
         // alternate encoder
-        // m_winchEncoder =
-        // m_winchMotor.getExternalEncoder(SparkRelativeEncoder.Type.kQuadrature, 8192);
+        // m_winchEncoder = m_winchMotor.getEncoder(RelativeEncoder.class, 8192);
         // absolute encoder
         m_winchEncoder = m_winchMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
         m_winchPIDController.setFeedbackDevice(m_winchEncoder);
@@ -98,12 +96,11 @@ public class ClimberSubsystem extends SubsystemBase {
         m_winchLeftRaiseLimit = m_winchMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
         m_winchRightRaiseLimit = m_winchMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
-        addClimberLimitSwitchDisableToDashboard();
+        m_winchMotor.burnFlash();
 
         if (TUNING_MODE) {
 
         }
-        m_winchMotor.burnFlash();
 
     }
 
@@ -159,28 +156,10 @@ public class ClimberSubsystem extends SubsystemBase {
         return trapPressed;
     }
 
-    public void displayDisableClimberLimitSwitch() {
-
-        // enable/disable limit switches based on value read from SmartDashboard
-        m_winchLeftRaiseLimit.enableLimitSwitch(SmartDashboard.getBoolean("Climber Limit Switch Enabled", true));
-        m_winchRightRaiseLimit.enableLimitSwitch(SmartDashboard.getBoolean("Climber Right Limit Switch Enabled", true));
-
-    }
-
-    private void addClimberLimitSwitchDisableToDashboard() {
-        m_winchLeftRaiseLimit.enableLimitSwitch(true);
-        m_winchRightRaiseLimit.enableLimitSwitch(true);
-        SmartDashboard.putBoolean("Climber Left Limit Switch Enabled", m_winchLeftRaiseLimit.isLimitSwitchEnabled());
-        SmartDashboard.putBoolean("Climber Right Limit Switch Enabled",
-                m_winchRightRaiseLimit.isLimitSwitchEnabled());
-    }
-
     public void periodic() {
         // This method will be called once per scheduler run
 
         log();
-        displayDisableClimberLimitSwitch();
-
         if (PRACTICE_MODE) {
             practiceDashboard();
         }
