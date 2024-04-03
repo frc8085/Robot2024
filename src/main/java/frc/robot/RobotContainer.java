@@ -43,6 +43,7 @@ import frc.robot.commands.ShootChooser;
 import frc.robot.commands.ShootInstant;
 import frc.robot.commands.EjectNote;
 import frc.robot.commands.EnableShooterAuto;
+import frc.robot.commands.SpitNote;
 import frc.robot.commands.FeedNote;
 import frc.robot.commands.LimelightShoot;
 import frc.robot.commands.ShootNew;
@@ -255,7 +256,7 @@ public class RobotContainer {
 
                 final Trigger moveToBackSubwooferDriver = m_driverController.x();
                 final Trigger moveToSubwooferDriver = m_driverController.y();
-                final Trigger testShooterSpeed = m_driverController.a();
+                final Trigger spitNote = m_driverController.a();
                 final Trigger feedNote = m_driverController.b();
 
                 final Trigger moveToTrapApproachDriver = m_driverController.povLeft();
@@ -274,10 +275,7 @@ public class RobotContainer {
 
                 oscillate.onTrue(new Oscillate(m_arm, m_shooter, m_feeder, m_blinkin));
 
-                testShooterSpeed.toggleOnTrue(
-                                new ConditionalCommand(new InstantCommand(m_shooter::stop),
-                                                new InstantCommand(m_shooter::runTest),
-                                                m_shooter::isShooterRunning));
+                spitNote.onTrue(new SpitNote(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 feedNote.onTrue(new FeedNote(m_feeder, m_arm, m_shooter, m_blinkin));
 
