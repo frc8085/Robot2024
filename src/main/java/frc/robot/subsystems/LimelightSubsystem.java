@@ -20,10 +20,12 @@ public class LimelightSubsystem extends SubsystemBase {
 
   /** Creates a new LimelightSubsystem. */
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTable intakeTable = NetworkTableInstance.getDefault().getTable("limelight-intake");
   DriveSubsystem m_drive;
   ArmSubsystem m_arm;
 
   public static HttpCamera m_limelight;
+  public static HttpCamera m_limelightIntake;
 
   private boolean m_visionMode;
 
@@ -38,6 +40,11 @@ public class LimelightSubsystem extends SubsystemBase {
 
     CameraServer.addCamera(m_limelight);
 
+    m_limelightIntake = new HttpCamera("LL-intake", "http://limelight-intake:5809/stream.mjpg");
+    m_limelightIntake.setResolution(320, 240);
+    m_limelightIntake.setFPS(90);
+
+    CameraServer.addCamera(m_limelightIntake);
   }
 
   public static double getAprilTagID() {
