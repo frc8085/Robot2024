@@ -15,22 +15,33 @@ public class Blinkin extends SubsystemBase {
     }
 
     public void withNote() {
-        m_blinkin.set(0.63);
+        // lime green .73
+        m_blinkin.set(0.73);
+    }
+
+    public void shooterOn() {
+        // yellow flashing light - shooter motor on
+        // STROBE_GOLD(-0.07),
+        m_blinkin.set(-0.07);
     }
 
     public void shooterAtSetPoint() {
-        m_blinkin.set(0.77);
+        // blue .87
+        m_blinkin.set(0.87);
     }
 
     public void intakeOn() {
-        m_blinkin.set(.57);
+        // HEARTBEAT_RED(-0.25),
+        m_blinkin.set(-.25);
     }
 
     public void driving() {
-        m_blinkin.set(0.37);
+        // black .99
+        m_blinkin.set(0.99);
     }
 
     public void climbed() {
+        // RAINBOW_PARTY_PALETTE(-0.97),
         m_blinkin.set(-0.97);
     }
 
