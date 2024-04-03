@@ -50,10 +50,14 @@ public class MoveToPosition extends SequentialCommandGroup {
         }
 
         if (position.shooterSpeed > 0) {
-            addCommands(new ConditionalCommand(new NoteCorrection(m_feeder)
-                    .andThen(new InstantCommand(() -> m_shooter.setShooterSpeed(position.shooterSpeed))),
-                    new InstantCommand(() -> m_shooter.setShooterSpeed(position.shooterSpeed)),
-                    m_feeder::needNoteCorrection));
+            // addCommands(new ConditionalCommand(new NoteCorrection(m_feeder)
+            // .andThen(new InstantCommand(() ->
+            // m_shooter.setShooterSpeed(position.shooterSpeed))),
+            // new InstantCommand(() -> m_shooter.setShooterSpeed(position.shooterSpeed)),
+            // m_feeder::needNoteCorrection));
+            addCommands(new NoteCorrection(m_feeder)
+                    .andThen(new InstantCommand(() -> m_shooter.setShooterSpeed(position.shooterSpeed)))
+                    .andThen(new InstantCommand(m_blinkin::shooterOn)));
         } else {
             addCommands(new InstantCommand(m_shooter::stop));
         }

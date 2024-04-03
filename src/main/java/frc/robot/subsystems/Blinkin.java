@@ -15,8 +15,8 @@ public class Blinkin extends SubsystemBase {
     }
 
     public void withNote() {
-        // lime green .73
-        m_blinkin.set(0.73);
+        // green .77
+        m_blinkin.set(0.77);
     }
 
     public void shooterOn() {

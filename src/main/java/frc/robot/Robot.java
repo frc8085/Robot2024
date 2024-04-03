@@ -43,11 +43,11 @@ public class Robot extends LoggedRobot {
     public void robotInit() {
         Logger.recordMetadata("TuningMode", Boolean.toString(TuningModeConstants.kTuning));
         Logger.recordMetadata("RuntimeType", getRuntimeType().toString());
-        Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
-        Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
-        Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
-        Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
-        Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
+        // Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
+        // Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
+        // Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
+        // Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
+        // Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
 
         if (isReal()) {
             Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
@@ -75,7 +75,11 @@ public class Robot extends LoggedRobot {
         // while tethered to our robot over USB
 
         for (int port = 5800; port <= 5807; port++) {
-            PortForwarder.add(port, "limelight.local", port);
+            PortForwarder.add(port, "limelight-shooter.local", port);
+        }
+
+        for (int port = 5800; port <= 5807; port++) {
+            PortForwarder.add(port, "limelight-intake.local", port);
         }
 
         if (Robot.isReal()) {
