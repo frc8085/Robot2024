@@ -22,10 +22,7 @@ public class LimelightShoot extends SequentialCommandGroup {
                         LimelightSubsystem m_limelight,
                         DriveSubsystem m_drive) {
                 addCommands(
-                                new ParallelCommandGroup(
-                                                new TargetTwice(m_limelight, m_drive),
-                                                new ConditionalCommand(new TargetSPTwice(m_limelight, m_arm),
-                                                                new InstantCommand(), m_arm::atPodiumPosition)),
+                                new LimelightTarget(m_arm, m_limelight, m_drive),
                                 new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
         }
 }
