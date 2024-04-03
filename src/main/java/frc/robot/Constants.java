@@ -330,7 +330,7 @@ public final class Constants {
                                         false,
                                         ShooterConstants.kShooterSetPointTrap),
                         HIGH_PODIUM("High Podium",
-                                        322,
+                                        324,
                                         133,
                                         true,
                                         false,
@@ -363,7 +363,16 @@ public final class Constants {
                                         true,
                                         false,
                                         false,
-                                        ShooterConstants.kShooterOff);
+                                        ShooterConstants.kShooterOff),
+
+                        FEEDER("Feeder",
+                                        248,
+                                        41,
+                                        true,
+                                        true,
+                                        false,
+                                        false,
+                                        ShooterConstants.kShooter1SetPoint);
 
                         public final String label;
                         public final double armPosition;
@@ -477,7 +486,7 @@ public final class Constants {
 
                 // if you want to slow down the rotation speed, change the adjustment factor
                 public static final double kAngularSpeedAdjustment = 1;
-                public static final double kMaxAngularSpeed = 2 * Math.PI * kAngularSpeedAdjustment; // radians per
+                public static final double kMaxAngularSpeed = 2.5 * Math.PI * kAngularSpeedAdjustment; // radians per
                 // second
 
                 public static final double kDirectionSlewRate = 1.2; // radians per second

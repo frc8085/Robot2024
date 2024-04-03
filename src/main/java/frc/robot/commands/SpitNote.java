@@ -14,15 +14,13 @@ import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class FeedNote extends SequentialCommandGroup {
-    public FeedNote(
+public class SpitNote extends SequentialCommandGroup {
+    public SpitNote(
             FeederSubsystem m_feeder,
             ArmSubsystem m_arm,
             ShooterSubsystem m_shooter,
             Blinkin m_blinkin) {
         addCommands(
-                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.FEEDER),
-                new WaitCommand(.4),
                 new InstantCommand(m_shooter::runFeeder),
                 new WaitCommand(.5),
                 new InstantCommand(m_feeder::run),
@@ -35,7 +33,6 @@ public class FeedNote extends SequentialCommandGroup {
                 new InstantCommand(m_feeder::noteShot),
                 new WaitCommand(.5),
                 new InstantCommand(m_shooter::stop),
-                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.HOME),
                 new InstantCommand(m_blinkin::driving));
     }
 }
