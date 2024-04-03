@@ -79,13 +79,13 @@ public class RobotContainer {
 
         // The robot's subsystems
         private final DriveSubsystem m_drive = new DriveSubsystem();
-        private final ShooterSubsystem m_shooter = new ShooterSubsystem();
+        private final Blinkin m_blinkin = new Blinkin();
+        private final ShooterSubsystem m_shooter = new ShooterSubsystem(m_blinkin);
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
         private final FeederSubsystem m_feeder = new FeederSubsystem();
         private final ArmSubsystem m_arm = new ArmSubsystem();
         private final ClimberSubsystem m_climb = new ClimberSubsystem();
         private final LimelightSubsystem m_limelight = new LimelightSubsystem(m_drive, m_arm);
-        private final Blinkin m_blinkin = new Blinkin();
 
         // Register Named Commands for PathPlanner
         private void configureAutoCommands() {
@@ -267,7 +267,8 @@ public class RobotContainer {
 
                 autoTarget.onTrue(new LimelightTarget(m_arm, m_limelight, m_drive));
 
-                shootInstant.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
+                shootInstant.onTrue(new LimelightShoot(m_feeder, m_arm, m_shooter, m_blinkin, m_limelight, m_drive));
+                // shootInstant.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
                                 m_drive));

@@ -17,6 +17,8 @@ import frc.robot.Constants.TuningModeConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
+    Blinkin m_blinkin;
+
     private boolean TUNING_MODE = TuningModeConstants.kShooterTuning;
     private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
 
@@ -56,7 +58,10 @@ public class ShooterSubsystem extends SubsystemBase {
     double kShooter2SetPoint = ShooterConstants.kShooter2SetPoint;
 
     /** Creates a new ExampleSubsystem. */
-    public ShooterSubsystem() {
+    public ShooterSubsystem(Blinkin blinkin) {
+
+        m_blinkin = blinkin;
+
         // Factory reset, so we get the SPARK to a known state before configuring
         // them. This is useful in case a SPARK is swapped out.
         m_shooter1Motor.restoreFactoryDefaults();
@@ -176,6 +181,7 @@ public class ShooterSubsystem extends SubsystemBase {
             kShooter1SetPoint = shooter1SetPoint;
         }
         m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkFlex.ControlType.kVelocity, 0);
+        m_blinkin.shooterOn();
     }
 
     public void setTrapSetPoint(double shooter1SetPoint) {
@@ -265,6 +271,10 @@ public class ShooterSubsystem extends SubsystemBase {
         return shooter2WithinLimits;
     }
 
+    public void shooterAtSetPoint() {
+        m_blinkin.shooterAtSetPoint();
+    }
+
     public boolean readyToShootPodium() {
         return shooter1AtPodiumSetpoint();
     }
@@ -307,6 +317,10 @@ public class ShooterSubsystem extends SubsystemBase {
         if (LoggingConstants.kLogging) {
             log();
             logOutputs();
+        }
+
+        if (readyToShootPodium()) {
+            shooterAtSetPoint();
         }
 
         if (PRACTICE_MODE) {
