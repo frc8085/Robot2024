@@ -106,7 +106,14 @@ public class RobotContainer {
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SIDE_SUBWOOFER),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
-
+                NamedCommands.registerCommand("MoveToPodiumAmp", new ConditionalCommand(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_PODIUM_AMP),
+                                new InstantCommand(),
+                                m_feeder::noteInRobot));
+                NamedCommands.registerCommand("MoveToPodiumSource", new ConditionalCommand(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_PODIUM_SOURCE),
+                                new InstantCommand(),
+                                m_feeder::noteInRobot));
                 NamedCommands.registerCommand("MoveToPodium", new ConditionalCommand(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_PODIUM),
                                 new InstantCommand(),
