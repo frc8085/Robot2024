@@ -137,6 +137,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void ignoreWinchRaseLimit() {
     ignoringWinchRaseLimit = true;
+    m_winchLeftRaiseLimit.enableLimitSwitch(false);
+    m_winchRightRaiseLimit.enableLimitSwitch(false);
   }
 
   public void lower() {
