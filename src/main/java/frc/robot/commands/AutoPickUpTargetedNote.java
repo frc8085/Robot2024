@@ -20,55 +20,57 @@ import frc.robot.subsystems.Drive.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class AutoPickUpTargetedNote extends SequentialCommandGroup {
-        public AutoPickUpTargetedNote(
-                        IntakeSubsystem m_intake,
-                        FeederSubsystem m_feeder,
-                        ArmSubsystem m_arm,
-                        ShooterSubsystem m_shooter,
-                        LimelightIntakeSubsystem m_limelightIntake,
-                        DriveSubsystem m_drive,
-                        CommandXboxController m_driverController,
-                        CommandXboxController m_operatorController,
-                        Blinkin m_blinkin) {
-                addCommands(
-                                new AutoTargetNote(m_limelightIntake, m_drive),
-                                new ParallelCommandGroup(
-                                                new InstantCommand(m_blinkin::intakeOn),
-                                                new InstantCommand(m_intake::run),
-                                                new InstantCommand(m_feeder::run)),
-                                new ParallelDeadlineGroup(
-                                                new SequentialCommandGroup(
-                                                                new WaitUntilCommand(m_feeder::isNoteDetected),
-                                                                new InstantCommand(m_blinkin::withNote),
+  public AutoPickUpTargetedNote(
+      IntakeSubsystem m_intake,
+      FeederSubsystem m_feeder,
+      ArmSubsystem m_arm,
+      ShooterSubsystem m_shooter,
+      LimelightIntakeSubsystem m_limelightIntake,
+      DriveSubsystem m_drive,
+      CommandXboxController m_driverController,
+      CommandXboxController m_operatorController,
+      Blinkin m_blinkin) {
+    addCommands(
+        new AutoTargetNote(m_limelightIntake, m_drive),
+        new ParallelCommandGroup(
+            new InstantCommand(m_blinkin::intakeOn),
+            new InstantCommand(m_intake::run),
+            new InstantCommand(m_feeder::run)),
+        new InstantCommand(() -> m_drive.drive(0.3, 1, 0, 0, true, false)),
+        new ParallelDeadlineGroup(
+            new SequentialCommandGroup(
+                new WaitUntilCommand(m_feeder::isNoteDetected),
+                new InstantCommand(m_blinkin::withNote),
 
-                                                                // Rumble after pickup
-                                                                Commands.sequence(
-                                                                                Commands.runOnce(() -> {
-                                                                                        m_driverController.getHID()
-                                                                                                        .setRumble(
-                                                                                                                        RumbleType.kBothRumble,
-                                                                                                                        1.0);
-                                                                                        m_operatorController.getHID()
-                                                                                                        .setRumble(
-                                                                                                                        RumbleType.kBothRumble,
-                                                                                                                        1.0);
-                                                                                }),
-                                                                                Commands.waitSeconds(.5),
-                                                                                Commands.runOnce(() -> {
-                                                                                        m_driverController.getHID()
-                                                                                                        .setRumble(
-                                                                                                                        RumbleType.kBothRumble,
-                                                                                                                        0.0);
-                                                                                        m_operatorController.getHID()
-                                                                                                        .setRumble(
-                                                                                                                        RumbleType.kBothRumble,
-                                                                                                                        0.0);
-                                                                                })),
+                // Rumble after pickup
+                Commands.sequence(
+                    Commands.runOnce(() -> {
+                      m_driverController.getHID()
+                          .setRumble(
+                              RumbleType.kBothRumble,
+                              1.0);
+                      m_operatorController.getHID()
+                          .setRumble(
+                              RumbleType.kBothRumble,
+                              1.0);
+                    }),
+                    Commands.waitSeconds(.5),
+                    Commands.runOnce(() -> {
+                      m_driverController.getHID()
+                          .setRumble(
+                              RumbleType.kBothRumble,
+                              0.0);
+                      m_operatorController.getHID()
+                          .setRumble(
+                              RumbleType.kBothRumble,
+                              0.0);
+                    })),
 
-                                                                new PickUpNoteCompleted(m_intake, m_feeder,
-                                                                                m_blinkin))),
-                                new WaitCommand(1));
+                new PickUpNoteCompleted(m_intake, m_feeder,
+                    m_blinkin)),
+            new WaitCommand(1)),
 
-                ;
-        }
+        new InstantCommand(m_drive::stop));
+    ;
+  }
 }
