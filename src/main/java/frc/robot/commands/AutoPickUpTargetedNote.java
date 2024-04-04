@@ -37,8 +37,8 @@ public class AutoPickUpTargetedNote extends SequentialCommandGroup {
                                                 new InstantCommand(m_blinkin::intakeOn),
                                                 new InstantCommand(m_intake::run),
                                                 new InstantCommand(m_feeder::run)),
-                                new WaitCommand(.5),
-                                new InstantCommand(() -> m_drive.drive(0.1, -1, 0, 0, false, false)),
+                                new WaitCommand(0),
+                                new InstantCommand(() -> m_drive.drive(0.3, -1, 0, 0, false, false)),
                                 new ParallelRaceGroup(
                                                 new SequentialCommandGroup(
                                                                 new WaitUntilCommand(m_feeder::isNoteDetected),
