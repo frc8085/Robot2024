@@ -24,6 +24,7 @@ public class TargetTwice extends SequentialCommandGroup {
                                                 new AutoTarget(m_limelight, m_drive),
                                                 new InstantCommand(),
                                                 m_limelight::hasTarget),
+                                new InstantCommand(() -> m_drive.stop()),
                                 new InstantCommand(() -> Logger.recordOutput("Commands/LimelightTarget", true)));
         }
 }

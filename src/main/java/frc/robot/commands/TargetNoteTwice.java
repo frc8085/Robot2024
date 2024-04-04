@@ -22,6 +22,7 @@ public class TargetNoteTwice extends SequentialCommandGroup {
                                 new ConditionalCommand(
                                                 new AutoTargetNote(m_limelightIntake, m_drive),
                                                 new InstantCommand(),
-                                                m_limelightIntake::hasTarget));
+                                                m_limelightIntake::hasTarget),
+                                new InstantCommand(() -> m_drive.stop()));
         }
 }
