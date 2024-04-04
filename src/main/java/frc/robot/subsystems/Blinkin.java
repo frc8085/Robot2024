@@ -32,7 +32,7 @@ public class Blinkin extends SubsystemBase {
 
     public void intakeOn() {
         // HEARTBEAT_RED(-0.25),
-        m_blinkin.set(-.25);
+        m_blinkin.set(-.11);
     }
 
     public void driving() {

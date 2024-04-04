@@ -32,6 +32,7 @@ public class PickUpNoteAuto extends SequentialCommandGroup {
                                                 new InstantCommand(m_intake::run),
                                                 new InstantCommand(m_feeder::runAuto)),
                                 new WaitUntilCommand(m_feeder::isNoteDetected),
+                                new InstantCommand(m_blinkin::withNote),
                                 new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin));
         }
 }

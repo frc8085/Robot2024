@@ -35,6 +35,7 @@ public class PickUpNote extends SequentialCommandGroup {
                                                 new InstantCommand(m_intake::run),
                                                 new InstantCommand(m_feeder::run)),
                                 new WaitUntilCommand(m_feeder::isNoteDetected),
+                                new InstantCommand(m_blinkin::withNote),
 
                                 // Rumble after pickup
                                 Commands.sequence(

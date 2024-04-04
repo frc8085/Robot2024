@@ -24,8 +24,6 @@ public class PickUpNoteCompleted extends SequentialCommandGroup {
                                 new WaitCommand(FeederConstants.kLoadWaitTime),
                                 // Check if Note is touching shooter wheels and run backwards if needed
                                 new ConditionalCommand(new NoteCorrection(m_feeder), new InstantCommand(),
-                                                m_feeder::needNoteCorrection),
-                                // Change the LEDs to show note is in robot
-                                new InstantCommand(m_blinkin::withNote));
+                                                m_feeder::needNoteCorrection));
         }
 }
