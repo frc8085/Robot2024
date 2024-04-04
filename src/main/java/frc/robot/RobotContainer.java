@@ -41,6 +41,7 @@ import frc.robot.commands.PickUpNoteAuto;
 import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.ShootChooser;
 import frc.robot.commands.ShootInstant;
+import frc.robot.commands.AutoTargetNote;
 import frc.robot.commands.EjectNote;
 import frc.robot.commands.EnableShooterAuto;
 import frc.robot.commands.SpitNote;
@@ -58,6 +59,7 @@ import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.LimelightIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /*
@@ -86,6 +88,7 @@ public class RobotContainer {
         private final ArmSubsystem m_arm = new ArmSubsystem();
         private final ClimberSubsystem m_climb = new ClimberSubsystem();
         private final LimelightSubsystem m_limelight = new LimelightSubsystem(m_drive, m_arm);
+        private final LimelightIntakeSubsystem m_limelightIntake = new LimelightIntakeSubsystem(m_drive, m_arm);
 
         // Register Named Commands for PathPlanner
         private void configureAutoCommands() {
@@ -279,7 +282,8 @@ public class RobotContainer {
 
                 spitNote.onTrue(new SpitNote(m_feeder, m_arm, m_shooter, m_blinkin));
 
-                feedNote.onTrue(new FeedNote(m_feeder, m_arm, m_shooter, m_blinkin));
+                // feedNote.onTrue(new FeedNote(m_feeder, m_arm, m_shooter, m_blinkin));
+                feedNote.onTrue(new AutoTargetNote(m_limelightIntake, m_drive));
 
                 // OPERATOR controlled buttons
                 final Trigger systemsOff = m_operatorController.back();
