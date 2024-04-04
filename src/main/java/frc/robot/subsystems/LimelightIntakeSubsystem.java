@@ -19,13 +19,10 @@ public class LimelightIntakeSubsystem extends SubsystemBase {
   private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
 
   /** Creates a new LimelightIntakeSubsystem. */
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  // NetworkTable intakeTable =
-  // NetworkTableInstance.getDefault().getTable("limelight-intake");
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-intake");
   DriveSubsystem m_drive;
   ArmSubsystem m_arm;
 
-  public static HttpCamera m_limelight;
   public static HttpCamera m_limelightIntake;
 
   private boolean m_visionMode;

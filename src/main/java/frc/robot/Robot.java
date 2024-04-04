@@ -75,7 +75,7 @@ public class Robot extends LoggedRobot {
         // while tethered to our robot over USB
 
         for (int port = 5800; port <= 5807; port++) {
-            PortForwarder.add(port, "limelight-shooter.local", port);
+            PortForwarder.add(port, "limelight.local", port);
         }
 
         for (int port = 5800; port <= 5807; port++) {
