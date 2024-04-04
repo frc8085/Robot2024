@@ -14,11 +14,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TuningModeConstants;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 
-public class LimelightSubsystem extends SubsystemBase {
+public class LimelightIntakeSubsystem extends SubsystemBase {
   private boolean TUNING_MODE = TuningModeConstants.kLimelightTuning;
   private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
 
-  /** Creates a new LimelightSubsystem. */
+  /** Creates a new LimelightIntakeSubsystem. */
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   // NetworkTable intakeTable =
   // NetworkTableInstance.getDefault().getTable("limelight-intake");
@@ -30,38 +30,17 @@ public class LimelightSubsystem extends SubsystemBase {
 
   private boolean m_visionMode;
 
-  public LimelightSubsystem(
+  public LimelightIntakeSubsystem(
       DriveSubsystem drive, ArmSubsystem arm) {
     m_drive = drive;
     m_arm = arm;
 
-    m_limelight = new HttpCamera("LL", "http://limelight:5809/stream.mjpg");
-    m_limelight.setResolution(1280, 960);
-    m_limelight.setFPS(40);
+    m_limelightIntake = new HttpCamera("LL-intake", "http://limelight-intake:5809/stream.mjpg");
+    m_limelightIntake.setResolution(320, 240);
+    m_limelightIntake.setFPS(90);
 
-    CameraServer.addCamera(m_limelight);
+    CameraServer.addCamera(m_limelightIntake);
 
-    // m_limelightIntake = new HttpCamera("LL-intake",
-    // "http://limelight-intake:5809/stream.mjpg");
-    // m_limelightIntake.setResolution(320, 240);
-    // m_limelightIntake.setFPS(90);
-
-    // CameraServer.addCamera(m_limelightIntake);
-  }
-
-  public static double getAprilTagID() {
-    // The computer fought with us :( thats why it looks so weird
-    double[] id = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid")
-        .getDoubleArray(new double[6]);
-    return id[0];
-  };
-
-  public static double[] getRobotLocation() {
-    // gets robot position realtive to AprilTag
-    double[] location = NetworkTableInstance.getDefault().getTable("limelight")
-        .getEntry("botpose_targetspace")
-        .getDoubleArray(new double[6]);
-    return location;
   }
 
   @Override
@@ -71,8 +50,6 @@ public class LimelightSubsystem extends SubsystemBase {
     // SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelight));
     // SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelightRight));
     if (TUNING_MODE) {
-      SmartDashboard.putNumber("April tag ID", getAprilTagID());
-      SmartDashboard.putNumberArray("LL Bot Location", getRobotLocation());
       SmartDashboard.putBoolean("Target", hasTarget());
       SmartDashboard.putNumber("LL ID", getID());
 
