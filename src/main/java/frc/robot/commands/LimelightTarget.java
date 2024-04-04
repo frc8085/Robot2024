@@ -18,6 +18,5 @@ public class LimelightTarget extends SequentialCommandGroup {
                                                 new TargetTwice(m_limelight, m_drive),
                                                 new ConditionalCommand(new TargetSPTwice(m_limelight, m_arm),
                                                                 new InstantCommand(), m_arm::atPodiumPosition)));
-                // new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
         }
 }

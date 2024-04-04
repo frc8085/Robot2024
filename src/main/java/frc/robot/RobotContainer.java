@@ -42,6 +42,7 @@ import frc.robot.commands.PickUpNoteCompleted;
 import frc.robot.commands.ShootChooser;
 import frc.robot.commands.ShootInstant;
 import frc.robot.commands.AutoTargetNote;
+import frc.robot.commands.AutoPickUpTargetedNote;
 import frc.robot.commands.EjectNote;
 import frc.robot.commands.EnableShooterAuto;
 import frc.robot.commands.SpitNote;
@@ -217,8 +218,8 @@ public class RobotContainer {
                 /*
                  * Driver Controls:
                  * Y Button: Subwoofer
-                 * B Button:
-                 * A Button:
+                 * B Button: Feed Note
+                 * A Button: Spit Note
                  * X Button: Back Subwoofer
                  * Start Button: Zero Heading
                  * DPad Left: Trap Approach 2
@@ -273,8 +274,11 @@ public class RobotContainer {
 
                 autoTarget.onTrue(new LimelightTarget(m_arm, m_limelight, m_drive));
 
-                shootInstant.onTrue(new LimelightShoot(m_feeder, m_arm, m_shooter, m_blinkin, m_limelight, m_drive));
+                // shootInstant.onTrue(new LimelightShoot(m_feeder, m_arm, m_shooter, m_blinkin,
+                // m_limelight, m_drive));
                 // shootInstant.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
+                shootInstant.onTrue(new AutoPickUpTargetedNote(m_intake, m_feeder, m_arm, m_shooter, m_limelightIntake,
+                                m_drive, m_driverController, m_operatorController, m_blinkin));
 
                 lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
                                 m_drive));
@@ -285,8 +289,7 @@ public class RobotContainer {
 
                 spitNote.onTrue(new SpitNote(m_feeder, m_arm, m_shooter, m_blinkin));
 
-                // feedNote.onTrue(new FeedNote(m_feeder, m_arm, m_shooter, m_blinkin));
-                feedNote.onTrue(new AutoTargetNote(m_limelightIntake, m_drive));
+                feedNote.onTrue(new FeedNote(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 // OPERATOR controlled buttons
                 final Trigger systemsOff = m_operatorController.back();

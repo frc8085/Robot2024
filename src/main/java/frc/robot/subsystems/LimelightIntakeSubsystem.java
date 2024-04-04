@@ -58,7 +58,7 @@ public class LimelightIntakeSubsystem extends SubsystemBase {
   }
 
   public double getX() {
-    return table.getEntry("tx").getDouble(0.0);
+    return table.getEntry("tx").getDouble(.5);
   }
 
   // Account for the Robot's current heading when returning the X value

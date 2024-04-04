@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants.Position;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -23,6 +23,7 @@ public class LimelightShoot extends SequentialCommandGroup {
                         DriveSubsystem m_drive) {
                 addCommands(
                                 new LimelightTarget(m_arm, m_limelight, m_drive),
+                                new WaitCommand(.5),
                                 new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME));
         }
 }
