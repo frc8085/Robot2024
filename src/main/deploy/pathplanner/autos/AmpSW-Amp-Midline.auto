@@ -88,12 +88,6 @@
         {
           "type": "named",
           "data": {
-            "name": "LLAim"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "WaitUntilReadyToShoot"
           }
         },

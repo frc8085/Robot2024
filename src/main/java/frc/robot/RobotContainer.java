@@ -296,7 +296,8 @@ public class RobotContainer {
 
                 spitNote.onTrue(new SpitNote(m_feeder, m_arm, m_shooter, m_blinkin));
 
-                feedNote.onTrue(new FeedNote(m_feeder, m_arm, m_shooter, m_blinkin));
+                feedNote.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.FEEDER));
+                // feedNote.onTrue(new FeedNote(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 // OPERATOR controlled buttons
                 final Trigger systemsOff = m_operatorController.back();

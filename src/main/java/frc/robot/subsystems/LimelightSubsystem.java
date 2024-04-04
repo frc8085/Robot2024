@@ -130,7 +130,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // -22.5 * ta + 65.3 - hits close and to podium line but misses farther high
 
     double ta = getArea();
-    return -24 * ta + 65.7;
+    return -25 * ta + 66;
   }
 
   public boolean hasTarget() {
