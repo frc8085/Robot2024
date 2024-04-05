@@ -284,8 +284,7 @@ public class RobotContainer {
                 // shootInstant.onTrue(new LimelightShoot(m_feeder, m_arm, m_shooter, m_blinkin,
                 // m_limelight, m_drive));
                 // shootInstant.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
-                shootInstant.onTrue(new AutoPickUpTargetedNote(m_intake, m_feeder, m_arm, m_shooter, m_limelightIntake,
-                                m_drive, m_driverController, m_operatorController, m_blinkin));
+                shootInstant.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
                                 m_drive));
