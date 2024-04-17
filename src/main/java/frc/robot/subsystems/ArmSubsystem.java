@@ -135,6 +135,7 @@ public class ArmSubsystem extends SubsystemBase {
                 ArmConstants.kArmMaxOutput);
         m_armPIDController.setSmartMotionMaxAccel(ArmConstants.kArmMaxAccel, 0);
         m_armPIDController.setSmartMotionMaxVelocity(ArmConstants.kArmMaxVelo, 0);
+        m_armMotor.setClosedLoopRampRate(0.25);
 
         m_shooterPivotPIDController.setP(ArmConstants.kShooterPivotP);
         m_shooterPivotPIDController.setI(ArmConstants.kShooterPivotI);
