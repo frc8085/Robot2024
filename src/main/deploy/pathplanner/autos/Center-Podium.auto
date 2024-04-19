@@ -46,19 +46,51 @@
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "race",
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
+                      "type": "sequential",
                       "data": {
-                        "pathName": "CenterSW-2"
+                        "commands": [
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "CenterSW-2"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "NoteCheckAuto"
+                            }
+                          }
+                        ]
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "sequential",
                       "data": {
-                        "name": "NoteCheckAuto"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "WriteToLogStart"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 3.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "WriteToLogEnd"
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
