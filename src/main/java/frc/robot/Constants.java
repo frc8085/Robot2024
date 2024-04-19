@@ -95,16 +95,16 @@ public final class Constants {
                 public static IdleMode kShooterMotor1IdleMode = IdleMode.kBrake;
                 public static double kShooter2MaxOutput = 1;
                 public static double kShooter2MinOutput = -0.25;
-                public static double kShooter2FF = 0.00019;
-                /// P=.0006, I=0, D=.6
-                public static double kShooter2P = 0.0012;
+                public static double kShooter2FF = 0.000195;
+                /// P=.0012
+                public static double kShooter2P = 0.0024;
                 public static double kShooter2I = 0;
                 public static double kShooter2D = 0;
-
+                // P=.0012
                 public static double kShooter1MaxOutput = 1;
                 public static double kShooter1MinOutput = -0.25;
-                public static double kShooter1FF = 0.00018;
-                public static double kShooter1P = 0.0012;
+                public static double kShooter1FF = 0.000195;
+                public static double kShooter1P = 0.00;
                 public static double kShooter1I = 0.00;
                 public static double kShooter1D = 0;
 
@@ -113,7 +113,7 @@ public final class Constants {
                 public static double kShooterEncoder1VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder1PositionFactor = (2 * Math.PI);
 
-                public static double kShooter1SetPoint = 4600;
+                public static double kShooter1SetPoint = 5000;
                 public static double kShooter2SetPoint = kShooter1SetPoint * .9;
                 public static double kShooter1PodiumToleranceRPMPercent = .03;
                 public static double kShooter2PodiumToleranceRPMPercent = .035;
@@ -122,7 +122,7 @@ public final class Constants {
 
                 public static double kShooterSetPointTrap = 1000;
                 public static double kShooterSetPointAmp = 1000;
-                public static double kShooterSetPointFeeder = 2500;
+                public static double kShooterSetPointFeeder = 5000;
                 public static double kShooterSetPointPickup = 0;
                 public static double kShooterOff = 0;
                 public static double kShooterResetTrap = -500;
@@ -133,7 +133,7 @@ public final class Constants {
                 public static final IdleMode kArmMotorIdleMode = IdleMode.kBrake;
                 public static final IdleMode kShooterPivotMotorIdleMode = IdleMode.kBrake;
 
-                public static final double kArmMaxSpeed = .75;
+                public static final double kArmMaxSpeed = 1;
                 public static final double kArmMinSpeed = -.75;
                 public static final double kShooterPivotMaxSpeed = 1;
 
@@ -366,13 +366,13 @@ public final class Constants {
                                         ShooterConstants.kShooterOff),
 
                         FEEDER("Feeder",
-                                        248,
+                                        253,
                                         41,
                                         true,
                                         true,
                                         false,
                                         false,
-                                        ShooterConstants.kShooter1SetPoint);
+                                        ShooterConstants.kShooterSetPointFeeder);
 
                         public final String label;
                         public final double armPosition;
