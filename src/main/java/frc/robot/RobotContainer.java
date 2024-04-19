@@ -53,6 +53,7 @@ import frc.robot.commands.ShootNew;
 import frc.robot.commands.ShootTrap;
 import frc.robot.commands.TargetSPTwice;
 import frc.robot.commands.TargetTwice;
+import frc.robot.commands.WriteToLog;
 import frc.robot.commands.TargetNoteTwice;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Blinkin;
@@ -134,8 +135,9 @@ public class RobotContainer {
                                 new WaitUntilCommand(m_shooter::readyToShootPodium),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
-
-        }
+                NamedCommands.registerCommand("WriteToLogStart", new WriteToLog("Started race wait"));
+                NamedCommands.registerCommand("WriteToLogEnd", new WriteToLog("Ended race wait"));
+        };
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -263,8 +265,8 @@ public class RobotContainer {
                  */
 
                 // DRIVER controlled buttons
-                final Trigger shoot = m_driverController.leftTrigger();
-                final Trigger shootInstant = m_driverController.rightBumper();
+                final Trigger shootInstant = m_driverController.leftTrigger();
+                final Trigger shoot = m_driverController.rightBumper();
                 final Trigger lockWheels = m_driverController.povDown();
 
                 final Trigger autoTarget = m_driverController.leftBumper();
@@ -337,7 +339,8 @@ public class RobotContainer {
 
                 // Add another conditional command to shootnew to check if arm is in amp
                 // position, so it doesn't return home after shooting
-                shoot.onTrue(new ShootChooser(m_feeder, m_arm, m_shooter, m_blinkin));
+                shoot.onTrue(new ConditionalCommand(new ShootChooser(m_feeder, m_arm, m_shooter, m_blinkin),
+                                new InstantCommand(), m_shooter::isShooterRunning));
 
                 // intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter,
                 // m_blinkin));
@@ -369,7 +372,6 @@ public class RobotContainer {
                                                                 new InstantCommand(m_shooter::run),
                                                                 m_feeder::needNoteCorrection),
                                                 m_shooter::isShooterRunning));
-
                 moveToHome.onTrue(
                                 new ParallelCommandGroup(
                                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
