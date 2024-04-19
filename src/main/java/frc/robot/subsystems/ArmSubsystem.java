@@ -98,7 +98,7 @@ public class ArmSubsystem extends SubsystemBase {
         m_shooterPivotMotor.restoreFactoryDefaults();
 
         m_armMotor.setIdleMode(ArmConstants.kArmMotorIdleMode);
-        m_armMotor.setSmartCurrentLimit(MotorDefaultsConstants.NeoVortexCurrentLimit);
+        m_armMotor.setSmartCurrentLimit(30);
 
         m_shooterPivotMotor.setIdleMode(ArmConstants.kShooterPivotMotorIdleMode);
         m_shooterPivotMotor.setSmartCurrentLimit(MotorDefaultsConstants.Neo550CurrentLimit);
