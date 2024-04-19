@@ -124,8 +124,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Stop the Shooter
     public void stop() {
-        m_shooter1Motor.set(0);
-        m_shooter2Motor.set(0);
+        m_shooter1Motor.setVoltage(0);
+        m_shooter2Motor.setVoltage(0);
     }
 
     public void runTest() {
@@ -175,8 +175,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setShooter1SetPoint(double shooter1SetPoint) {
-        if (shooter1SetPoint >= 4500) {
-            kShooter1SetPoint = 4500;
+        if (shooter1SetPoint >= 5400) {
+            kShooter1SetPoint = 5400;
         } else {
             kShooter1SetPoint = shooter1SetPoint;
         }
@@ -191,8 +191,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setShooter2SetPoint(double shooter2SetPoint) {
-        if (shooter2SetPoint >= 4500) {
-            kShooter2SetPoint = 4500;
+        if (shooter2SetPoint >= 5400) {
+            kShooter2SetPoint = 5400;
         } else {
             kShooter2SetPoint = shooter2SetPoint;
         }
@@ -205,14 +205,13 @@ public class ShooterSubsystem extends SubsystemBase {
         double tolerance = Math.abs(ShooterConstants.kShooter1PodiumToleranceRPMPercent * setpoint);
 
         double minLimit = setpoint - tolerance;
-        double maxLimit = setpoint + 2 * tolerance;
+        // double maxLimit = setpoint + 2 * tolerance;
 
         boolean withinLimits =
                 // Don't consider us at setpoint for the 'motor off' case
                 setpoint != 0 &&
                 // Otherwise check if we're within limits
-                        encoderValue >= minLimit
-                        && encoderValue <= maxLimit;
+                        encoderValue >= minLimit;
 
         return withinLimits;
     }
@@ -223,14 +222,12 @@ public class ShooterSubsystem extends SubsystemBase {
         double tolerance = Math.abs(ShooterConstants.kShooter2PodiumToleranceRPMPercent * setpoint);
 
         double minLimit = setpoint - tolerance;
-        double maxLimit = setpoint + tolerance;
 
         boolean shooter2WithinLimits =
                 // Don't consider us at setpoint for the 'motor off' case
                 setpoint != 0 &&
                 // Otherwise check if we're within limits
-                        encoderValue >= minLimit
-                        && encoderValue <= maxLimit;
+                        encoderValue >= minLimit;
 
         return shooter2WithinLimits;
     }
