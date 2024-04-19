@@ -15,6 +15,7 @@ public class NoteCheckAuto extends SequentialCommandGroup {
                         IntakeSubsystem m_intake,
                         FeederSubsystem m_feeder) {
                 addCommands(
+                                new WriteToLog("started note check auto"),
                                 // Check if Note has been picked up already, and if it hasn't, wait one
                                 // sec then end
                                 new ConditionalCommand(new InstantCommand(),
