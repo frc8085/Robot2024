@@ -356,9 +356,9 @@ public class RobotContainer {
                 // new InstantCommand(m_climb::trapPressedNow),
                 // new RunCommand(() -> m_drive.lock(),
                 // m_drive)));
-                // moveToSubwoofer.onTrue(
-                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
-                // Position.SUBWOOFER));
+                moveToSubwoofer.onTrue(
+                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                                                Position.SUBWOOFER));
                 // moveToAmp.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
                 // Position.AMP));
                 moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
