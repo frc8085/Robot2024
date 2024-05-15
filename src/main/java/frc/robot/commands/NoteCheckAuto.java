@@ -17,7 +17,6 @@ public class NoteCheckAuto extends SequentialCommandGroup {
                 addCommands(
                                 // Check if Note has been picked up already, and if it hasn't, wait one
                                 // sec then end
-
                                 new ConditionalCommand(new InstantCommand(),
                                                 new SequentialCommandGroup(
                                                                 new WaitCommand(1),

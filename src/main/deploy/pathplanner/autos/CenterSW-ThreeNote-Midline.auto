@@ -76,7 +76,7 @@
         {
           "type": "named",
           "data": {
-            "name": "MoveToPodium"
+            "name": "MoveToPodiumAmp"
           }
         },
         {
@@ -133,7 +133,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "MoveToPodium"
+                        "name": "MoveToPodiumAmp"
                       }
                     }
                   ]

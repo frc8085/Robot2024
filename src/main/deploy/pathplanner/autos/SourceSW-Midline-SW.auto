@@ -57,7 +57,56 @@
         {
           "type": "path",
           "data": {
-            "pathName": "8-SourceSW"
+            "pathName": "8-SW"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "TurnOnShooter"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveToPodiumAmp"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MoveToSubwoofer"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilReadyToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SW-Rotate"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ResetHeading"
           }
         }
       ]

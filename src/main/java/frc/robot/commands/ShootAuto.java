@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.ArmConstants.Position;
@@ -19,13 +21,13 @@ public class ShootAuto extends SequentialCommandGroup {
                         ShooterSubsystem m_shooter,
                         Blinkin m_blinkin) {
                 addCommands(
+                                new InstantCommand(() -> Logger.recordOutput("Commands/ShootAuto", false)),
                                 new ConditionalCommand(
                                                 new WaitUntilCommand(m_shooter::readyToShootPodium),
                                                 new WaitUntilCommand(m_shooter::readyToShootSW),
                                                 m_arm::atPodiumPosition),
                                 new InstantCommand(m_feeder::run),
-                                new InstantCommand(() -> System.out
-                                                .println("**AutoShoot**")),
+                                new InstantCommand(() -> Logger.recordOutput("Commands/ShootAuto", true)),
 
                                 // watch for isNoteDetected to be true and then turn off the feeder after X
                                 // seconds

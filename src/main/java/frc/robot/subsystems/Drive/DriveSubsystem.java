@@ -9,7 +9,6 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -38,6 +37,7 @@ import frc.utils.SwerveUtils;
 public class DriveSubsystem extends SubsystemBase {
 
     // private boolean TUNING_MODE = TuningModeConstants.kDriveTuning;
+    private boolean FILTER_VELOCITY = true;
 
     // Create MAXSwerveModules
     private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
@@ -71,6 +71,7 @@ public class DriveSubsystem extends SubsystemBase {
     private static final String POSE_LOG_ENTRY = "/Pose";
     private static final String ACTUAL_SWERVE_STATE_LOG_ENTRY = "/ActualSwerveState";
     private static final String DESIRED_SWERVE_STATE_LOG_ENTRY = "/DesiredSwerveState";
+    private static final String DESIRED_SPEED_LOG_ENTRY = "/DesiredSpeed";
 
     // Slew rate filter variables for controlling lateral acceleration
     private double m_currentRotation = 0.0;
@@ -234,13 +235,13 @@ public class DriveSubsystem extends SubsystemBase {
         // turning
 
         // if right joystick is > deadband || right joystick < -deadband
-        if ((speedCommanded < OIConstants.kDriveDeadband)
-                && (OIConstants.kDriveDeadband > rot && rot > -OIConstants.kDriveDeadband)) {
-            speedCommanded = 0;
-            rot = 0;
-            xSpeedCommanded = 0;
-            ySpeedCommanded = 0;
-        }
+        // if ((speedCommanded < OIConstants.kDriveDeadband)
+        // && (OIConstants.kDriveDeadband > rot && rot > -OIConstants.kDriveDeadband)) {
+        // speedCommanded = 0;
+        // rot = 0;
+        // xSpeedCommanded = 0;
+        // ySpeedCommanded = 0;
+        // }
 
         if (rateLimit) {
             // Convert XY to polar for rate limiting
@@ -285,9 +286,29 @@ public class DriveSubsystem extends SubsystemBase {
             m_currentRotation = m_rotLimiter.calculate(rot);
 
         } else {
-            xSpeedCommanded = xSpeed;
-            ySpeedCommanded = ySpeed;
+            xSpeedCommanded = xSpeed * speedCommanded;
+            ySpeedCommanded = ySpeed * speedCommanded;
+
+            // xSpeedCommanded = Math.sin(
+            // Math.atan2(xSpeed, ySpeed)) * speedCommanded;
+            // ySpeedCommanded = Math.sin(
+            // Math.atan2(xSpeed, ySpeed)) * speedCommanded;
+
             m_currentRotation = rot;
+        }
+
+        if (FILTER_VELOCITY) {
+            double currentTime = WPIUtilJNI.now() * 1e-6;
+            double elapsedTime = currentTime - m_prevTime;
+            m_prevTime = currentTime;
+            double commandBandwidth = 8;
+
+            xSpeedCommanded = speedCommanded
+                    * (xSpeedCommanded + (xSpeed - xSpeedCommanded) * commandBandwidth * elapsedTime);
+            ySpeedCommanded = speedCommanded
+                    * (ySpeedCommanded + (ySpeed - ySpeedCommanded) * commandBandwidth * elapsedTime);
+
+            m_currentRotation = m_rotLimiter.calculate(rot);
         }
 
         double xSpeedDelivered = xSpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
@@ -296,6 +317,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         drive(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered), fieldRelative);
 
+        Logger.recordOutput(getName() + DESIRED_SPEED_LOG_ENTRY, speedCommanded);
     }
 
     private void driveRobotRelative(ChassisSpeeds speeds) {
@@ -311,6 +333,7 @@ public class DriveSubsystem extends SubsystemBase {
         var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
         setModuleStates(swerveModuleStates);
+
     }
 
     /**

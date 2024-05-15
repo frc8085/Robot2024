@@ -1,7 +1,9 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
+import org.littletonrobotics.junction.Logger;
+
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
@@ -19,10 +21,16 @@ public class ShooterSubsystem extends SubsystemBase {
     private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
 
     // imports motor id
-    private final CANSparkMax m_shooter1Motor = new CANSparkMax(
-            CanIdConstants.kShooter1CanId, MotorDefaultsConstants.NeoMotorType);
-    private final CANSparkMax m_shooter2Motor = new CANSparkMax(
-            CanIdConstants.kShooter2CanId, MotorDefaultsConstants.NeoMotorType);
+    private final CANSparkFlex m_shooter1Motor = new CANSparkFlex(
+            CanIdConstants.kShooter1CanId, MotorDefaultsConstants.NeoVortexMotorType);
+    private final CANSparkFlex m_shooter2Motor = new CANSparkFlex(
+            CanIdConstants.kShooter2CanId, MotorDefaultsConstants.NeoVortexMotorType);
+
+    // log titles
+    private static final String SHOOTER1_LOG_ENTRY = "/Shooter1";
+    private static final String SHOOTER2_LOG_ENTRY = "/Shooter2";
+    private static final String DESIRED_SHOOTER1_LOG_ENTRY = "/DesiredShooter1";
+    private static final String DESIRED_SHOOTER2_LOG_ENTRY = "/ShooterShooter2";
 
     // Encoders
     private RelativeEncoder m_shooter1Encoder;
@@ -123,6 +131,16 @@ public class ShooterSubsystem extends SubsystemBase {
     public void run() {
         setShooter1SetPoint(kShooter1SetPoint);
         setShooter2SetPoint(kShooter2SetPoint);
+        if (LoggingConstants.kLogging) {
+            Logger.recordOutput(getName() + DESIRED_SHOOTER1_LOG_ENTRY, kShooter1SetPoint);
+            Logger.recordOutput(getName() + DESIRED_SHOOTER2_LOG_ENTRY, kShooter2SetPoint);
+        }
+
+    }
+
+    public void runResetTrap() {
+        setShooter1SetPoint(ShooterConstants.kShooterResetTrap);
+        setShooter2SetPoint(ShooterConstants.kShooterResetTrap);
     }
 
     public void runTrap() {
@@ -142,7 +160,7 @@ public class ShooterSubsystem extends SubsystemBase {
         } else {
             kShooter1SetPoint = shooter1SetPoint;
         }
-        m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkMax.ControlType.kVelocity);
+        m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkFlex.ControlType.kVelocity);
     }
 
     public void setShooter2SetPoint(double shooter2SetPoint) {
@@ -151,7 +169,7 @@ public class ShooterSubsystem extends SubsystemBase {
         } else {
             kShooter2SetPoint = shooter2SetPoint;
         }
-        m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkMax.ControlType.kVelocity);
+        m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkFlex.ControlType.kVelocity);
     }
 
     public boolean shooter1AtPodiumSetpoint() {
@@ -265,10 +283,9 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Shooter1 Velocity", m_shooter1Encoder.getVelocity());
         SmartDashboard.putNumber("Shooter2 Velocity", m_shooter2Encoder.getVelocity());
 
-        if (LoggingConstants.kLogging)
-
-        {
+        if (LoggingConstants.kLogging) {
             log();
+            logOutputs();
         }
 
         if (PRACTICE_MODE) {
@@ -279,6 +296,11 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void log() {
+    }
+
+    private void logOutputs() {
+        Logger.recordOutput(getName() + SHOOTER1_LOG_ENTRY, m_shooter1Encoder.getVelocity());
+        Logger.recordOutput(getName() + SHOOTER2_LOG_ENTRY, m_shooter2Encoder.getVelocity());
     }
 
 }

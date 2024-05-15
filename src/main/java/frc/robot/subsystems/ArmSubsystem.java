@@ -8,6 +8,8 @@ import static frc.robot.Constants.ArmConstants.kShooterPivotMax;
 import static frc.robot.Constants.ArmConstants.kShooterPivotMin;
 import static frc.robot.Constants.ArmConstants.kShooterPivotPositionShift;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
@@ -18,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CanIdConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.MotorDefaultsConstants;
@@ -32,6 +35,11 @@ public class ArmSubsystem extends SubsystemBase {
             CanIdConstants.kArmCanId, MotorDefaultsConstants.NeoVortexMotorType);
     private final CANSparkMax m_shooterPivotMotor = new CANSparkMax(
             CanIdConstants.kShooterPivotCanId, MotorDefaultsConstants.Neo550MotorType);
+
+    private static final String ARM_ENCODER_LOG_ENTRY = "/Arm";
+    private static final String SHOOTERPIVOT_ENCODER_LOG_ENTRY = "/ShooterPivot";
+    private static final String DESIRED_ARM_ENCODER_LOG_ENTRY = "/DesiredArm";
+    private static final String DESIRED_SHOOTERPIVOT_ENCODER_LOG_ENTRY = "/ShooterPivot";
 
     // Encoders
     private SparkAbsoluteEncoder m_armEncoder;
@@ -62,6 +70,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     double ktuneArmSetPoint = 232;
     double ktuneSPSetPoint = 50;
+    // pivot offset adjustment for smart dashboard subwoofer shot
+    private double pivotOffset = 0;
 
     // limit switches
     private SparkLimitSwitch m_armLowerLimit;
@@ -77,6 +87,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     /** Creates a new Arm Subsystem. */
     public ArmSubsystem() {
+        // Display the Pivot Offset on the dashboard
+        // We'll update this anytime it's adjusted w/the dashboard buttons
+        updatePivotDashDisplay();
+
         // Factory reset, so we get the SPARKS MAX to a known state before configuring
         // them. This is useful in case a SPARK MAX is swapped out.
 
@@ -192,24 +206,33 @@ public class ArmSubsystem extends SubsystemBase {
         }
     }
 
-    public void setShooterPivotPosition(double shooterPivotPosition) {
-        double shooterPivotPositionDisplay;
-        if (shooterPivotPosition > kShooterPivotMax) {
-            shooterPivotPositionDisplay = kShooterPivotMax;
+    public void setShooterPivotPosition(double shooterPivotPosition, boolean isShooterPivotAdjustable) {
+        double desiredShooterPivotPosition = isShooterPivotAdjustable ? shooterPivotPosition + pivotOffset
+                : shooterPivotPosition;
+
+        if (desiredShooterPivotPosition > kShooterPivotMax) {
             m_shooterPivotPIDController.setReference(kShooterPivotMax, ControlType.kPosition);
-        } else if (shooterPivotPosition < kShooterPivotMin) {
-            shooterPivotPositionDisplay = kShooterPivotMin;
+        } else if (desiredShooterPivotPosition < kShooterPivotMin) {
             m_shooterPivotPIDController.setReference(kShooterPivotMin, ControlType.kPosition);
         } else {
-            shooterPivotPositionDisplay = shooterPivotPosition - kShooterPivotPositionShift;
-            m_shooterPivotPIDController.setReference(shooterPivotPosition, ControlType.kPosition);
+            m_shooterPivotPIDController.setReference(desiredShooterPivotPosition, ControlType.kPosition);
         }
 
         if (TUNING_MODE) {
-            SmartDashboard.putNumber("Desired Shooter Pivot Position", shooterPivotPositionDisplay);
-            SmartDashboard.putNumber("Raw Desired Shooter Pivot Position", shooterPivotPosition);
+            SmartDashboard.putNumber("Raw Desired Shooter Pivot Position", desiredShooterPivotPosition);
 
-            System.out.println("Keep SHOOTER PIVOT Position " + shooterPivotPositionDisplay);
+        }
+    }
+
+    public void moveToPositionInParallel(Position position) {
+        setArmPosition(position.armPosition);
+
+        setShooterPivotPosition(position.shooterPivotPosition, position.shooterPivotAdjust);
+
+        if (LoggingConstants.kLogging) {
+            Logger.recordOutput(getName() + DESIRED_ARM_ENCODER_LOG_ENTRY, position.armPosition);
+            Logger.recordOutput(getName() + DESIRED_SHOOTERPIVOT_ENCODER_LOG_ENTRY, position.shooterPivotPosition);
+
         }
     }
 
@@ -243,11 +266,6 @@ public class ArmSubsystem extends SubsystemBase {
         } else {
             m_shooterPivotPIDController.setReference(shooterPivotPosition, ControlType.kPosition, 1);
         }
-    }
-
-    public void moveToPosition(Position position) {
-        setArmPosition(position.armPosition);
-        setShooterPivotPosition(position.shooterPivotPosition);
     }
 
     public boolean atArmSetpoint(double setpoint) {
@@ -340,12 +358,13 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean atPodiumPosition() {
         double armTolerance = 10;
-        double shooterPivotTolerance = 10;
 
-        return m_armEncoder.getPosition() < (Position.PODIUM.armPosition + armTolerance) &&
-                m_armEncoder.getPosition() > (Position.PODIUM.armPosition - armTolerance) &&
-                m_shooterPivotEncoder.getPosition() < (Position.PODIUM.shooterPivotPosition + shooterPivotTolerance) &&
-                m_shooterPivotEncoder.getPosition() > (Position.PODIUM.shooterPivotPosition - shooterPivotTolerance);
+        return (m_armEncoder.getPosition() < (Position.PODIUM.armPosition + armTolerance) &&
+                m_armEncoder.getPosition() > (Position.PODIUM.armPosition - armTolerance));
+    }
+
+    public boolean notAtPodiumPosition() {
+        return !(atPodiumPosition());
     }
 
     // Set Arm Brake Mode
@@ -364,6 +383,7 @@ public class ArmSubsystem extends SubsystemBase {
             // SmartDashboard.putNumber("Raw Arm Position", getArmPosition());
             // SmartDashboard.putNumber("Raw Shooter Pivot Position",
             // getShooterPivotPosition());
+            logOutputs();
         }
     }
 
@@ -395,8 +415,25 @@ public class ArmSubsystem extends SubsystemBase {
         }
         if ((tuneSPSetPoint != ktuneSPSetPoint)) {
             ktuneSPSetPoint = tuneSPSetPoint;
-            setShooterPivotPosition(ktuneSPSetPoint);
+            setShooterPivotPosition(ktuneSPSetPoint, false);
         }
+    }
+
+    /* TODO:: trying to set pivot offset values */
+    public void raiseShooterPivotSW() {
+        pivotOffset -= 2;
+        updatePivotDashDisplay();
+    }
+
+    public void lowerShooterPivotSW() {
+        pivotOffset += 2;
+        updatePivotDashDisplay();
+    }
+
+    public void updatePivotDashDisplay() {
+        // Change the sign from +/- on the display
+        // So that raise is shown as positive
+        SmartDashboard.putNumber("Pivot Offset", -1 * pivotOffset);
     }
 
     public void periodic() {
@@ -409,6 +446,11 @@ public class ArmSubsystem extends SubsystemBase {
         if (TUNING_MODE) {
             tuneSetPoints();
         }
+    }
+
+    private void logOutputs() {
+        Logger.recordOutput(getName() + ARM_ENCODER_LOG_ENTRY, getArmPosition());
+        Logger.recordOutput(getName() + SHOOTERPIVOT_ENCODER_LOG_ENTRY, getShooterPivotPosition());
     }
 
 }

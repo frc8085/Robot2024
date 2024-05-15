@@ -21,6 +21,7 @@ public class EjectNote extends SequentialCommandGroup {
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.EJECT_NOTE),
                                 new ParallelCommandGroup(
                                                 new InstantCommand(m_intake::eject),
-                                                new InstantCommand(m_feeder::eject)));
+                                                new InstantCommand(m_feeder::run),
+                                                new InstantCommand(m_shooter::run)));
         }
 }

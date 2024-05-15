@@ -13,7 +13,7 @@ public class AutoAimAndShoot extends SequentialCommandGroup {
             Position position) {
         addCommands(
                 new InstantCommand(() -> System.out.println("**START Move to " + position.label + " Position**")),
-                new InstantCommand(() -> m_arm.moveToPosition(position)),
+                new InstantCommand(() -> m_arm.moveToPositionInParallel(position)),
                 new InstantCommand(m_shooter::run));
     }
 

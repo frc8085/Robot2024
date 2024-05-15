@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
 
@@ -17,6 +19,9 @@ public class IntakeSubsystem extends SubsystemBase {
     private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
 
     private boolean intakeOn = false;
+
+    private static final String INTAKE_LOG_ENTRY = "/Intake";
+    private static final String DESIRED_INTAKE_LOG_ENTRY = "/DesiredIntake";
 
     // imports motor id
     private final CANSparkMax m_intakeMotor = new CANSparkMax(CanIdConstants.kIntakeCanId,
@@ -66,7 +71,7 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("Intake On", isIntakeRunning());
-        
+        logOutputs();
         log();
         if (PRACTICE_MODE) {
 
@@ -94,5 +99,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
         }
 
+    }
+
+    private void logOutputs() {
+        Logger.recordOutput(getName() + INTAKE_LOG_ENTRY, m_intakeMotor.getEncoder().getVelocity());
+        Logger.recordOutput(getName() + DESIRED_INTAKE_LOG_ENTRY, isIntakeRunning());
     }
 }
