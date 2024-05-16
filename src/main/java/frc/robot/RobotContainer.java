@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants.Position;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.MoveToPosition;
+import frc.robot.commands.MoveToPositionAuto;
 import frc.robot.commands.NoteCheckAuto;
 import frc.robot.commands.NoteCorrection;
 import frc.robot.commands.Oscillate;
@@ -104,7 +105,7 @@ public class RobotContainer {
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("MoveToSubwoofer", new ConditionalCommand(
-                                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.SIDE_SUBWOOFER),
+                                new MoveToPositionAuto(m_arm, m_shooter, m_feeder, m_blinkin, Position.SIDE_SUBWOOFER),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("MoveToPodiumAmp", new ConditionalCommand(
@@ -120,6 +121,10 @@ public class RobotContainer {
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
                 NamedCommands.registerCommand("Shoot", new ConditionalCommand(
+                                new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin),
+                                new InstantCommand(),
+                                m_feeder::noteInRobot));
+                NamedCommands.registerCommand("ShootCheck", new ConditionalCommand(
                                 new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));

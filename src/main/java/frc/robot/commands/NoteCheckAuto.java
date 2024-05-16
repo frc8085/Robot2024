@@ -20,7 +20,7 @@ public class NoteCheckAuto extends SequentialCommandGroup {
                                 // sec then end
                                 new ConditionalCommand(new InstantCommand(),
                                                 new SequentialCommandGroup(
-                                                                new WaitCommand(1),
+                                                                new WaitCommand(.5),
                                                                 new ParallelCommandGroup(
                                                                                 new InstantCommand(m_intake::stop),
                                                                                 new InstantCommand(m_feeder::stop))),

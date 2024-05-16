@@ -30,97 +30,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "WaitUntilReadyToShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "race",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "sequential",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "path",
-                            "data": {
-                              "pathName": "CenterSW-2"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "NoteCheckAuto"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "sequential",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "WriteToLogStart"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 3.0
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "WriteToLogEnd"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "PickUpNote"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TurnOnShooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MoveToPodium"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilReadyToShoot"
+            "waitTime": 0.5
           }
         },
         {
@@ -140,7 +52,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "2-3"
+                        "pathName": "CenterSW-2"
                       }
                     },
                     {
@@ -168,9 +80,65 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "2-CenterSW"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "MoveToPodiumSource"
+            "name": "MoveToSubwooferAuto"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "CenterSW-Podium"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteCheckAuto"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TurnOnShooter"
           }
         },
         {
@@ -183,12 +151,6 @@
           "type": "named",
           "data": {
             "name": "MoveToSubwooferAuto"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilReadyToShoot"
           }
         },
         {

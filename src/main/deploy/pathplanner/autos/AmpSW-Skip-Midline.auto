@@ -30,9 +30,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "WaitUntilReadyToShoot"
+            "waitTime": 0.5
           }
         },
         {

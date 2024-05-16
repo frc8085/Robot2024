@@ -26,13 +26,13 @@
         {
           "type": "named",
           "data": {
-            "name": "MoveToSubwoofer"
+            "name": "MoveToSubwooferAuto"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "WaitUntilReadyToShoot"
+            "waitTime": 0.5
           }
         },
         {
