@@ -241,7 +241,7 @@ public final class Constants {
                                         ShooterConstants.kShooter1SetPoint),
                         PODIUM("Podium",
                                         262,
-                                        59,
+                                        55,
                                         true,
                                         true,
                                         false,
@@ -349,7 +349,7 @@ public final class Constants {
 
                         BACK_SUBWOOFER("Back Subwoofer",
                                         325,
-                                        37,
+                                        40,
                                         true,
                                         true,
                                         true,

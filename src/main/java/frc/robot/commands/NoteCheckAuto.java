@@ -24,7 +24,9 @@ public class NoteCheckAuto extends SequentialCommandGroup {
                                                                 new ParallelCommandGroup(
                                                                                 new InstantCommand(m_intake::stop),
                                                                                 new InstantCommand(m_feeder::stop))),
-                                                m_feeder::noteInRobot));
+                                                m_feeder::noteInRobot),
+                                new WriteToLog("ended note check auto"));
+                ;
 
         }
 }

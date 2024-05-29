@@ -96,10 +96,13 @@ public class RobotContainer {
 
         // Register Named Commands for PathPlanner
         private void configureAutoCommands() {
-                NamedCommands.registerCommand("TurnOnShooter", new ConditionalCommand(
-                                new EnableShooterAuto(m_feeder, m_shooter),
-                                new InstantCommand(),
-                                m_feeder::noteInRobot));
+                NamedCommands.registerCommand("TurnOnShooter",
+                                new SequentialCommandGroup(new WriteToLog("TurnOnShooter Started!"),
+                                                new ConditionalCommand(
+                                                                new EnableShooterAuto(m_feeder, m_shooter),
+                                                                new InstantCommand(),
+                                                                m_feeder::noteInRobot),
+                                                new WriteToLog("TurnOnShooter ended!")));
                 NamedCommands.registerCommand("MoveToSubwooferAuto", new ConditionalCommand(
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_SUBWOOFER),
                                 new InstantCommand(),
@@ -120,10 +123,13 @@ public class RobotContainer {
                                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.AUTO_PODIUM),
                                 new InstantCommand(),
                                 m_feeder::noteInRobot));
-                NamedCommands.registerCommand("Shoot", new ConditionalCommand(
-                                new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin),
-                                new InstantCommand(),
-                                m_feeder::noteInRobot));
+                NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
+                                new WriteToLog("Started Shoot"),
+                                new ConditionalCommand(
+                                                new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin),
+                                                new InstantCommand(),
+                                                m_feeder::noteInRobot),
+                                new WriteToLog("Ended shoot")));
                 NamedCommands.registerCommand("ShootCheck", new ConditionalCommand(
                                 new ShootNew(m_feeder, m_arm, m_shooter, m_blinkin, Position.HOME),
                                 new InstantCommand(),
@@ -136,10 +142,13 @@ public class RobotContainer {
                 NamedCommands.registerCommand("WaitUntilHome", new WaitUntilCommand(m_arm::atHomePosition));
                 NamedCommands.registerCommand("NoteCheckAuto", new NoteCheckAuto(m_intake, m_feeder));
                 NamedCommands.registerCommand("NoteInRobot", new InstantCommand(m_feeder::notePickedUp));
-                NamedCommands.registerCommand("WaitUntilReadyToShoot", new ConditionalCommand(
-                                new WaitUntilCommand(m_shooter::readyToShootPodium),
-                                new InstantCommand(),
-                                m_feeder::noteInRobot));
+                NamedCommands.registerCommand("WaitUntilReadyToShoot", new SequentialCommandGroup(
+                                new WriteToLog("started Wait untill ready to shoot"),
+                                new ConditionalCommand(
+                                                new WaitUntilCommand(m_shooter::readyToShootPodium),
+                                                new InstantCommand(),
+                                                m_feeder::noteInRobot),
+                                new WriteToLog("ended Wait untill ready to shoot")));
                 NamedCommands.registerCommand("WriteToLogStart", new WriteToLog("Started race wait"));
                 NamedCommands.registerCommand("WriteToLogEnd", new WriteToLog("Ended race wait"));
         };
