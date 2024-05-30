@@ -23,10 +23,7 @@ public class ShootNew extends SequentialCommandGroup {
                         Position position) {
                 addCommands(
                                 new InstantCommand(() -> Logger.recordOutput("Commands/ShootNew", false)),
-                                new ConditionalCommand(
-                                                new WaitUntilCommand(m_shooter::readyToShootSW),
-                                                new WaitUntilCommand(m_shooter::readyToShootPodium),
-                                                m_arm::notAtPodiumPosition),
+                                new WaitUntilCommand(m_shooter::readyToShootPodium),
                                 new InstantCommand(m_feeder::run),
                                 new InstantCommand(() -> Logger.recordOutput("Commands/ShootNew", true)),
 

@@ -294,7 +294,7 @@ public class DriveSubsystem extends SubsystemBase {
             // ySpeedCommanded = Math.sin(
             // Math.atan2(xSpeed, ySpeed)) * speedCommanded;
 
-            m_currentRotation = rot;
+            m_currentRotation = rot * rot * rot;
         }
 
         if (FILTER_VELOCITY) {

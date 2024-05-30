@@ -58,6 +58,6 @@ public class PickUpNote extends SequentialCommandGroup {
                                                                         0.0);
                                                 })),
 
-                                new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin));
+                                new PickUpNoteCompleted(m_intake, m_feeder, m_shooter, m_blinkin));
         }
 }

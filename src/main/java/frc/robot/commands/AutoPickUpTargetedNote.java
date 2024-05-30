@@ -78,6 +78,7 @@ public class AutoPickUpTargetedNote extends SequentialCommandGroup {
                                                                                                 new PickUpNoteCompleted(
                                                                                                                 m_intake,
                                                                                                                 m_feeder,
+                                                                                                                m_shooter,
                                                                                                                 m_blinkin)),
                                                                                 new WaitCommand(1)),
                                                                 new InstantCommand(m_drive::stop)),

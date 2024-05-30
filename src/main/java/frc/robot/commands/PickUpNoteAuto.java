@@ -28,11 +28,12 @@ public class PickUpNoteAuto extends SequentialCommandGroup {
                                                 m_arm::atHomePosition),
                                 new WaitUntilCommand(m_arm::atHomePosition),
                                 new ParallelCommandGroup(
+                                                new InstantCommand(m_shooter::runHold),
                                                 new InstantCommand(m_blinkin::intakeOn),
                                                 new InstantCommand(m_intake::run),
                                                 new InstantCommand(m_feeder::runAuto)),
                                 new WaitUntilCommand(m_feeder::isNoteDetected),
                                 new InstantCommand(m_blinkin::withNote),
-                                new PickUpNoteCompleted(m_intake, m_feeder, m_blinkin));
+                                new PickUpNoteCompleted(m_intake, m_feeder, m_shooter, m_blinkin));
         }
 }

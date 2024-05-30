@@ -485,7 +485,7 @@ public final class Constants {
                 public static final double kMaxSpeedMetersPerSecond = 5.75 * kMaxSpeedAdjustment;
 
                 // if you want to slow down the rotation speed, change the adjustment factor
-                public static final double kAngularSpeedAdjustment = 1;
+                public static final double kAngularSpeedAdjustment = .7;
                 public static final double kMaxAngularSpeed = 2.5 * Math.PI * kAngularSpeedAdjustment; // radians per
                 // second
 
