@@ -13,10 +13,14 @@ import frc.robot.Constants.CanIdConstants;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.MotorDefaultsConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.TuningModeConstants;
 
-public class ShooterSubsystem extends SubsystemBase {
+public class ShooterSubsystemOld extends SubsystemBase {
 
     Blinkin m_blinkin;
+
+    private boolean TUNING_MODE = TuningModeConstants.kShooterTuning;
+    private boolean PRACTICE_MODE = TuningModeConstants.kPracticeMode;
 
     // imports motor id
     private final CANSparkFlex m_shooter1Motor = new CANSparkFlex(
@@ -54,7 +58,7 @@ public class ShooterSubsystem extends SubsystemBase {
     double kShooter2SetPoint = ShooterConstants.kShooter2SetPoint;
 
     /** Creates a new ExampleSubsystem. */
-    public ShooterSubsystem(Blinkin blinkin) {
+    public ShooterSubsystemOld(Blinkin blinkin) {
 
         m_blinkin = blinkin;
 
@@ -82,6 +86,9 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter1PIDController.setOutputRange(ShooterConstants.kShooter1MinOutput,
                 ShooterConstants.kShooter1MaxOutput);
         m_shooter1PIDController.setIZone(0);
+        // m_shooter1PIDController.setSmartMotionMaxVelocity(5600, 0);
+        // m_shooter1PIDController.setSmartMotionMinOutputVelocity(500, 0);
+        // m_shooter1PIDController.setSmartMotionMaxAccel(3000, 0);
         m_shooter1PIDController.setSmartMotionAllowedClosedLoopError(0, 0);
 
         m_shooter1PIDController.setP(0.0006, 1);
@@ -96,6 +103,9 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter2PIDController.setOutputRange(ShooterConstants.kShooter2MinOutput,
                 ShooterConstants.kShooter2MaxOutput);
         m_shooter2PIDController.setIZone(0);
+        // m_shooter2PIDController.setSmartMotionMaxVelocity(5600, 0);
+        // m_shooter2PIDController.setSmartMotionMinOutputVelocity(500, 0);
+        // m_shooter2PIDController.setSmartMotionMaxAccel(3000, 0);
         m_shooter2PIDController.setSmartMotionAllowedClosedLoopError(0, 0);
 
         m_shooter1Motor.setIdleMode(ShooterConstants.kShooterMotor1IdleMode);
@@ -106,6 +116,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
         m_shooter1Motor.burnFlash();
         m_shooter2Motor.burnFlash();
+
+        if (TUNING_MODE) {
+        }
 
     }
 
@@ -138,57 +151,27 @@ public class ShooterSubsystem extends SubsystemBase {
     public void runResetTrap() {
         setShooter1SetPoint(ShooterConstants.kShooterResetTrap);
         setShooter2SetPoint(ShooterConstants.kShooterResetTrap);
-        if (LoggingConstants.kLogging) {
-            Logger.recordOutput(getName() + DESIRED_SHOOTER1_LOG_ENTRY, ShooterConstants.kShooterResetTrap);
-            Logger.recordOutput(getName() + DESIRED_SHOOTER2_LOG_ENTRY, ShooterConstants.kShooterResetTrap);
-        }
-
     }
 
     public void runTrap() {
-        setShooter1SetPoint(ShooterConstants.kShooterSetPointTrap);
-        setShooter2SetPoint(ShooterConstants.kShooterSetPointTrap);
+        setTrapSetPoint(ShooterConstants.kShooterSetPointTrap);
+        setTrapSetPoint(ShooterConstants.kShooterSetPointTrap);
         System.out.println("Running Trap Score");
-        if (LoggingConstants.kLogging) {
-            Logger.recordOutput(getName() + DESIRED_SHOOTER1_LOG_ENTRY, ShooterConstants.kShooterSetPointTrap);
-            Logger.recordOutput(getName() + DESIRED_SHOOTER2_LOG_ENTRY, ShooterConstants.kShooterSetPointTrap);
-        }
     }
 
     public void runAmp() {
         setShooter1SetPoint(ShooterConstants.kShooterSetPointAmp);
         setShooter2SetPoint(ShooterConstants.kShooterSetPointAmp);
-        if (LoggingConstants.kLogging) {
-            Logger.recordOutput(getName() + DESIRED_SHOOTER1_LOG_ENTRY, ShooterConstants.kShooterSetPointAmp);
-            Logger.recordOutput(getName() + DESIRED_SHOOTER2_LOG_ENTRY, ShooterConstants.kShooterSetPointAmp);
-        }
     }
 
     public void runPickup() {
         setShooter1SetPoint(ShooterConstants.kShooterSetPointPickup);
         setShooter2SetPoint(ShooterConstants.kShooterSetPointPickup);
-        if (LoggingConstants.kLogging) {
-            Logger.recordOutput(getName() + DESIRED_SHOOTER1_LOG_ENTRY, ShooterConstants.kShooterSetPointPickup);
-            Logger.recordOutput(getName() + DESIRED_SHOOTER2_LOG_ENTRY, ShooterConstants.kShooterSetPointPickup);
-        }
-    }
-
-    public void runHold() {
-        setShooter1SetPoint(0);
-        setShooter2SetPoint(0);
-        if (LoggingConstants.kLogging) {
-            Logger.recordOutput(getName() + DESIRED_SHOOTER1_LOG_ENTRY, 0);
-            Logger.recordOutput(getName() + DESIRED_SHOOTER2_LOG_ENTRY, 0);
-        }
     }
 
     public void runFeeder() {
         setShooter1SetPoint(ShooterConstants.kShooterSetPointFeeder);
         setShooter2SetPoint(ShooterConstants.kShooterSetPointFeeder);
-        if (LoggingConstants.kLogging) {
-            Logger.recordOutput(getName() + DESIRED_SHOOTER1_LOG_ENTRY, ShooterConstants.kShooterSetPointFeeder);
-            Logger.recordOutput(getName() + DESIRED_SHOOTER2_LOG_ENTRY, ShooterConstants.kShooterSetPointFeeder);
-        }
     }
 
     public void setShooter1SetPoint(double shooter1SetPoint) {
@@ -199,6 +182,12 @@ public class ShooterSubsystem extends SubsystemBase {
         }
         m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkFlex.ControlType.kVelocity, 0);
         m_blinkin.shooterOn();
+    }
+
+    public void setTrapSetPoint(double shooter1SetPoint) {
+        kShooter1SetPoint = shooter1SetPoint;
+        m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkFlex.ControlType.kVelocity, 1);
+        m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkFlex.ControlType.kVelocity, 1);
     }
 
     public void setShooter2SetPoint(double shooter2SetPoint) {
@@ -227,6 +216,22 @@ public class ShooterSubsystem extends SubsystemBase {
         return withinLimits;
     }
 
+    public boolean shooter2AtPodiumSetpoint() {
+        double encoderValue = m_shooter2Encoder.getVelocity();
+        double setpoint = kShooter2SetPoint;
+        double tolerance = Math.abs(ShooterConstants.kShooter2PodiumToleranceRPMPercent * setpoint);
+
+        double minLimit = setpoint - tolerance;
+
+        boolean shooter2WithinLimits =
+                // Don't consider us at setpoint for the 'motor off' case
+                setpoint != 0 &&
+                // Otherwise check if we're within limits
+                        encoderValue >= minLimit;
+
+        return shooter2WithinLimits;
+    }
+
     public boolean shooter1AtSWSetpoint() {
         double encoderValue = m_shooter1Encoder.getVelocity();
         double setpoint = kShooter1SetPoint;
@@ -245,6 +250,24 @@ public class ShooterSubsystem extends SubsystemBase {
         return withinLimits;
     }
 
+    public boolean shooter2AtSWSetpoint() {
+        double encoderValue = m_shooter2Encoder.getVelocity();
+        double setpoint = kShooter2SetPoint;
+        double tolerance = Math.abs(ShooterConstants.kShooter2SWToleranceRPMPercent * setpoint);
+
+        double minLimit = setpoint - tolerance;
+        double maxLimit = setpoint + tolerance;
+
+        boolean shooter2WithinLimits =
+                // Don't consider us at setpoint for the 'motor off' case
+                setpoint != 0 &&
+                // Otherwise check if we're within limits
+                        encoderValue >= minLimit;
+        // && encoderValue <= maxLimit;
+
+        return shooter2WithinLimits;
+    }
+
     public void shooterAtSetPoint() {
         m_blinkin.shooterAtSetPoint();
     }
@@ -254,7 +277,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public boolean readyToShootSW() {
-        return shooter1AtSWSetpoint();
+        return shooter1AtSWSetpoint() || shooter2AtSWSetpoint();
     }
 
     public boolean isShooterRunning() {
@@ -269,6 +292,13 @@ public class ShooterSubsystem extends SubsystemBase {
             setShooter1SetPoint(kShooter1SetPoint);
             setShooter2SetPoint(kShooter2SetPoint);
         }
+    }
+
+    public void practiceDashboard() {
+        SmartDashboard.putBoolean("Shooter1 at SetPoint", shooter1AtPodiumSetpoint());
+        SmartDashboard.putBoolean("Shooter2 at SetPoint", shooter2AtPodiumSetpoint());
+        SmartDashboard.putNumber("Shooter1 Velocity", m_shooter1Encoder.getVelocity());
+        SmartDashboard.putNumber("Shooter2 Velocity", m_shooter2Encoder.getVelocity());
     }
 
     // This method will be called once per scheduler run
@@ -290,6 +320,11 @@ public class ShooterSubsystem extends SubsystemBase {
             shooterAtSetPoint();
         }
 
+        if (PRACTICE_MODE) {
+            practiceDashboard();
+        }
+        if (TUNING_MODE) {
+        }
     }
 
     public void log() {

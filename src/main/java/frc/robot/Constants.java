@@ -91,8 +91,8 @@ public final class Constants {
 
         public static final class ShooterConstants {
 
-                public static final IdleMode kShooterMotor2IdleMode = IdleMode.kBrake;
-                public static IdleMode kShooterMotor1IdleMode = IdleMode.kBrake;
+                public static final IdleMode kShooterMotor2IdleMode = IdleMode.kCoast;
+                public static IdleMode kShooterMotor1IdleMode = IdleMode.kCoast;
                 public static double kShooter2MaxOutput = 1;
                 public static double kShooter2MinOutput = -0.25;
                 public static double kShooter2FF = 0.000195;
@@ -117,8 +117,8 @@ public final class Constants {
                 public static double kShooter2SetPoint = kShooter1SetPoint * .9;
                 public static double kShooter1PodiumToleranceRPMPercent = .03;
                 public static double kShooter2PodiumToleranceRPMPercent = .035;
-                public static double kShooter1SWToleranceRPMPercent = .03;
-                public static double kShooter2SWToleranceRPMPercent = .04;
+                public static double kShooter1SWToleranceRPMPercent = .1;
+                public static double kShooter2SWToleranceRPMPercent = .1;
 
                 public static double kShooterSetPointTrap = 1000;
                 public static double kShooterSetPointAmp = 1000;
