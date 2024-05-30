@@ -18,7 +18,7 @@ public class TrapScore extends SequentialCommandGroup {
             Blinkin m_blinkin) {
         new SequentialCommandGroup(
                 new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin, Position.TRAP_SCORE),
-                new ConditionalCommand(new NoteCorrection(m_feeder)
+                new ConditionalCommand(new NoteCorrection(m_feeder, m_shooter)
                         .andThen(new InstantCommand(m_shooter::runTrap)),
                         new InstantCommand(m_shooter::runTrap),
                         m_feeder::needNoteCorrection));

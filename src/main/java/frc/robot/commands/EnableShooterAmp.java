@@ -11,7 +11,7 @@ public class EnableShooterAmp extends SequentialCommandGroup {
                         FeederSubsystem m_feeder,
                         ShooterSubsystem m_shooter) {
                 addCommands(
-                                new NoteCorrection(m_feeder),
+                                new NoteCorrection(m_feeder, m_shooter),
                                 new InstantCommand(m_shooter::runAmp));
         }
 }

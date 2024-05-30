@@ -22,11 +22,10 @@ public class PickUpNoteCompleted extends SequentialCommandGroup {
                                 new InstantCommand(m_feeder::notePickedUp),
                                 new ParallelCommandGroup(
                                                 new InstantCommand(m_intake::stop),
-                                                new InstantCommand(m_feeder::stop),
-                                                new InstantCommand(m_shooter::stop)),
+                                                new InstantCommand(m_feeder::stop)),
                                 new WaitCommand(FeederConstants.kLoadWaitTime),
                                 // Check if Note is touching shooter wheels and run backwards if needed
-                                new ConditionalCommand(new NoteCorrection(m_feeder), new InstantCommand(),
+                                new ConditionalCommand(new NoteCorrection(m_feeder, m_shooter), new InstantCommand(),
                                                 m_feeder::needNoteCorrection));
         }
 }

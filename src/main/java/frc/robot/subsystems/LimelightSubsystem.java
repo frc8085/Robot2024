@@ -128,10 +128,11 @@ public class LimelightSubsystem extends SubsystemBase {
 
     // -48.5 * ta + 72
     // -22.5 * ta + 65.3 - hits close and to podium line but misses farther high
+    // return -25.5 * ta + 64; - pre battlecry
     // the + is inverse, higher numbers shoot lower, lower numbers shoot higher
 
     double ta = getArea();
-    return -25.5 * ta + 64;
+    return -25.8 * ta + 67;
   }
 
   public boolean hasTarget() {

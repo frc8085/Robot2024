@@ -380,7 +380,7 @@ public class RobotContainer {
                 toggleShooter.toggleOnTrue(
                                 new ConditionalCommand(new InstantCommand(m_shooter::stop),
                                                 new ConditionalCommand(
-                                                                new NoteCorrection(m_feeder)
+                                                                new NoteCorrection(m_feeder, m_shooter)
                                                                                 .andThen(new InstantCommand(
                                                                                                 m_shooter::run)),
                                                                 new InstantCommand(m_shooter::run),

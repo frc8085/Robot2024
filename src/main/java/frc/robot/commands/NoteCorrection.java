@@ -9,10 +9,12 @@ import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.FeederConstants;
 import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class NoteCorrection extends SequentialCommandGroup {
         public NoteCorrection(
-                        FeederSubsystem m_feeder) {
+                        FeederSubsystem m_feeder,
+                        ShooterSubsystem m_shooter) {
                 addCommands(
                                 new InstantCommand(() -> Logger.recordOutput("Commands/NoteCorrection", false)),
                                 new InstantCommand(m_feeder::stop),
@@ -20,6 +22,7 @@ public class NoteCorrection extends SequentialCommandGroup {
                                 new InstantCommand(m_feeder::runBackwards),
                                 new WaitUntilCommand(
                                                 () -> m_feeder.isNoteNotDetected()),
-                                new InstantCommand(m_feeder::stop));
+                                new InstantCommand(m_feeder::stop),
+                                new InstantCommand(m_shooter::stop));
         }
 }
