@@ -43,7 +43,7 @@ public final class Constants {
 
         public static final class MotorDefaultsConstants {
                 public static final int NeoCurrentLimit = 40;
-                public static final int NeoVortexCurrentLimit = 60;
+                public static final int NeoVortexCurrentLimit = 50;
                 public static final int Neo550CurrentLimit = 20;
                 public static final MotorType NeoMotorType = MotorType.kBrushless;
                 public static final MotorType Neo550MotorType = MotorType.kBrushless;
@@ -579,7 +579,7 @@ public final class Constants {
                 public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
                 public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
-                public static final int kDrivingMotorCurrentLimit = 50; // amps
+                public static final int kDrivingMotorCurrentLimit = 40; // amps
                 public static final int kTurningMotorCurrentLimit = 20; // amps
         }
 

@@ -136,7 +136,7 @@ public class FeederSubsystem extends SubsystemBase {
     }
 
     public void runBackwards() {
-        m_feederMotor.set(-.25);
+        m_feederMotor.set(-.35);
     }
 
     public Boolean isNoteDetected() {
@@ -187,7 +187,7 @@ public class FeederSubsystem extends SubsystemBase {
 
         if (LoggingConstants.kLogging) {
             log();
-
+            logOutputs();
         }
 
         if (PRACTICE_MODE) {

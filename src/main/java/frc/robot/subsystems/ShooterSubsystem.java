@@ -174,8 +174,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void runHold() {
-        setShooter1SetPoint(0);
-        setShooter2SetPoint(0);
+        setShooter1SetPoint(-500);
+        setShooter2SetPoint(-500);
         if (LoggingConstants.kLogging) {
             Logger.recordOutput(getName() + DESIRED_SHOOTER1_LOG_ENTRY, 0);
             Logger.recordOutput(getName() + DESIRED_SHOOTER2_LOG_ENTRY, 0);
