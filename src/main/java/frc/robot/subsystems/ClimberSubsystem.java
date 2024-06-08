@@ -67,7 +67,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public ClimberSubsystem() {
     m_winchMotor.restoreFactoryDefaults();
     m_winchMotor.setIdleMode(ClimberConstants.kWinchMotorIdleMode);
-    m_winchMotor.setSmartCurrentLimit(MotorDefaultsConstants.NeoVortexCurrentLimit);
+    m_winchMotor.setSmartCurrentLimit(60);
 
     // Setup encoders and PID controllers for the arm and shooter arms.
 

@@ -158,7 +158,7 @@ public final class Constants {
                 // PIDS
                 // Arm PID coefficients
                 public static final int kArmPIDSlot = 0;
-                public static final double kArmP = 0.020;
+                public static final double kArmP = 0.018;
                 public static final double kArmI = 0;
                 public static final double kArmD = 0.1;
                 public static final double kArmFF = 0.0012;
@@ -224,7 +224,7 @@ public final class Constants {
                 // Arm Positions - Shooter Pivot lower number aims higher
                 public enum Position {
                         HOME("Home",
-                                        236,
+                                        234,
                                         41,
                                         false,
                                         false,
@@ -448,7 +448,7 @@ public final class Constants {
                 public static final double kWinchMaxAccel = .1;
                 public static final double kWinchMaxVelo = .5;
 
-                public static final double kRaiseSpeed = 1;
+                public static final double kRaiseSpeed = .75;
                 public static final double kLowerSpeed = .5;
 
                 // Encoder SetPoints for different positions - Need to fill with correct values
