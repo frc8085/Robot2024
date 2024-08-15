@@ -1,7 +1,12 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
+/*
+  -----OYSTERFEST CONTROLLS-----
+  - Podium = high
+  - subwoofer = low
 
+ */
 package frc.robot;
 
 import java.time.Instant;
@@ -80,7 +85,7 @@ public class RobotContainer {
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
         private final FeederSubsystem m_feeder = new FeederSubsystem();
         private final ArmSubsystem m_arm = new ArmSubsystem();
-        private final ClimberSubsystem m_climb = new ClimberSubsystem();
+        //private final ClimberSubsystem m_climb = new ClimberSubsystem();
         private final LimelightSubsystem m_limelight = new LimelightSubsystem(m_drive, m_arm);
         private final Blinkin m_blinkin = new Blinkin();
 
@@ -246,26 +251,25 @@ public class RobotContainer {
                  */
 
                 // DRIVER controlled buttons
-                final Trigger shoot = m_driverController.leftTrigger();
-                final Trigger shootInstant = m_driverController.rightBumper();
-                final Trigger lockWheels = m_driverController.povDown();
+                final Trigger shoot = m_driverController.rightBumper();
+                //final Trigger shootInstant = m_driverController.rightBumper();
+                //final Trigger lockWheels = m_driverController.povDown();
 
-                final Trigger autoTarget = m_driverController.leftBumper();
+                //final Trigger autoTarget = m_driverController.leftBumper();
 
-                final Trigger moveToBackSubwooferDriver = m_driverController.x();
-                final Trigger moveToSubwooferDriver = m_driverController.y();
+                //final Trigger moveToBackSubwooferDriver = m_driverController.x();
+                //final Trigger moveToSubwooferDriver = m_driverController.x();
 
-                final Trigger moveToTrapApproachDriver = m_driverController.povLeft();
-                final Trigger oscillate = m_driverController.povUp();
+                //final Trigger moveToTrapApproachDriver = m_driverController.povLeft();
+                final Trigger oscillate = m_operatorController.povUp();
 
                 final Trigger zeroHeadingButton = m_driverController.start();
 
-                autoTarget.onTrue(new LimelightShoot(m_arm, m_limelight, m_drive));
+                //autoTarget.onTrue(new LimelightShoot(m_arm, m_limelight, m_drive));
 
-                shootInstant.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
+                //shootInstant.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
 
-                lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),
-                                m_drive));
+                //lockWheels.toggleOnTrue(new RunCommand(() -> m_drive.lock(),m_drive));
 
                 zeroHeadingButton.onTrue(new InstantCommand(() -> m_drive.zeroHeading(), m_drive));
 
@@ -273,8 +277,8 @@ public class RobotContainer {
 
                 // OPERATOR controlled buttons
                 final Trigger systemsOff = m_operatorController.back();
-                final Trigger toggleShooter = m_operatorController.rightTrigger();
-                final Trigger toggleIntake = m_operatorController.leftTrigger();
+                //final Trigger toggleShooter = m_operatorController.rightTrigger();
+                final Trigger toggleIntake = m_driverController.leftTrigger();
                 // final Trigger everythingOff = m_operatorController.button();
                 final Trigger ejectNote = m_operatorController.start();
 
@@ -282,9 +286,9 @@ public class RobotContainer {
                 final Trigger shootTrap = m_operatorController.rightBumper();
 
                 final Trigger moveToHome = m_operatorController.y();
-                final Trigger moveToSubwoofer = m_operatorController.x();
+                final Trigger moveToSubwoofer = m_driverController.b();
                 final Trigger moveToAmp = m_operatorController.a();
-                final Trigger moveToPodium = m_operatorController.b();
+                final Trigger moveToPodium = m_driverController.x();
                 final Trigger moveToBackSubwoofer = m_operatorController.rightStick();
 
                 // Climb Controls TBD
@@ -333,7 +337,7 @@ public class RobotContainer {
                                 m_intake::isIntakeRunning));
 
                 // Operator Shooter Controls
-                toggleShooter.toggleOnTrue(
+                /*toggleShooter.toggleOnTrue(
                                 new ConditionalCommand(new InstantCommand(m_shooter::stop),
                                                 new ConditionalCommand(
                                                                 new NoteCorrection(m_feeder)
@@ -341,14 +345,14 @@ public class RobotContainer {
                                                                                                 m_shooter::run)),
                                                                 new InstantCommand(m_shooter::run),
                                                                 m_feeder::needNoteCorrection),
-                                                m_shooter::isShooterRunning));
+                                                m_shooter::isShooterRunning));*/
 
-                // moveToHome.onTrue(
-                // new ParallelCommandGroup(
-                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
-                // Position.HOME),
-                // new InstantCommand(m_feeder::stop),
-                // new InstantCommand(m_shooter::stop)));
+                moveToHome.onTrue(
+                new ParallelCommandGroup(
+                new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                Position.HOME),
+                new InstantCommand(m_feeder::stop),
+                new InstantCommand(m_shooter::stop)));
 
                 // moveToTrapApproachDriver.onTrue(new ParallelCommandGroup(
                 // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,

@@ -103,6 +103,7 @@ public final class Constants {
                 public static double kShooter1MaxOutput = 1;
                 public static double kShooter1MinOutput = -1;
                 public static double kShooter1FF = 0.000235;
+                //0.0006
                 public static double kShooter1P = 0.0006;
                 public static double kShooter1I = 0.00;
                 public static double kShooter1D = .6;
@@ -112,7 +113,7 @@ public final class Constants {
                 public static double kShooterEncoder1VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder1PositionFactor = (2 * Math.PI);
 
-                public static double kShooter1SetPoint = 4500;
+                public static double kShooter1SetPoint = 4000;
                 public static double kShooter2SetPoint = kShooter1SetPoint * 1;
                 public static double kShooter1PodiumToleranceRPMPercent = .1;
                 public static double kShooter2PodiumToleranceRPMPercent = .1;
@@ -269,9 +270,9 @@ public final class Constants {
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
                         SUBWOOFER("Subwoofer",
-                                        325,
-                                        114,
-                                        true,
+                                        238,
+                                        41,
+                                        false,
                                         false,
                                         true,
                                         true,
