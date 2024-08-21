@@ -16,13 +16,9 @@ public class ExampleSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
+  public Command drive(double xSpeed, double ySpeed, double rot) {
+
+    return null;
   }
 
   /**
