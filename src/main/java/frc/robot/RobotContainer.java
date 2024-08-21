@@ -143,7 +143,6 @@ public class RobotContainer {
                                 // The left stick controls translation of the robot.
                                 // Turning is controlled by the X axis of the right stick.
                                 new RunCommand(() -> m_drive.drive(
-                                                m_driverController.getRightTriggerAxis(),
                                                 MathUtil.applyDeadband(m_driverController.getLeftY(),
                                                                 OIConstants.kDriveDeadband),
                                                 MathUtil.applyDeadband(m_driverController.getLeftX(),
@@ -251,7 +250,8 @@ public class RobotContainer {
                  */
 
                 // DRIVER controlled buttons
-                final Trigger shoot = m_driverController.rightBumper();
+                final Trigger shoot = m_driverController.rightTrigger();
+                final Trigger altShoot = m_operatorController.rightTrigger();
                 //final Trigger shootInstant = m_driverController.rightBumper();
                 //final Trigger lockWheels = m_driverController.povDown();
 
@@ -261,7 +261,7 @@ public class RobotContainer {
                 //final Trigger moveToSubwooferDriver = m_driverController.x();
 
                 //final Trigger moveToTrapApproachDriver = m_driverController.povLeft();
-                final Trigger oscillate = m_operatorController.povUp();
+                //final Trigger oscillate = m_operatorController.povUp();
 
                 final Trigger zeroHeadingButton = m_driverController.start();
 
@@ -273,12 +273,15 @@ public class RobotContainer {
 
                 zeroHeadingButton.onTrue(new InstantCommand(() -> m_drive.zeroHeading(), m_drive));
 
-                oscillate.onTrue(new Oscillate(m_arm, m_shooter, m_feeder, m_blinkin));
+                //oscillate.onTrue(new Oscillate(m_arm, m_shooter, m_feeder, m_blinkin));
 
                 // OPERATOR controlled buttons
-                final Trigger systemsOff = m_operatorController.back();
+                final Trigger systemsOff = m_driverController.back();
+                final Trigger allSystemsOff = m_operatorController.back();
+
                 //final Trigger toggleShooter = m_operatorController.rightTrigger();
                 final Trigger toggleIntake = m_driverController.leftTrigger();
+                final Trigger altToggleIntake = m_operatorController.leftTrigger();
                 // final Trigger everythingOff = m_operatorController.button();
                 final Trigger ejectNote = m_operatorController.start();
 
@@ -287,9 +290,10 @@ public class RobotContainer {
 
                 final Trigger moveToHome = m_operatorController.y();
                 final Trigger moveToSubwoofer = m_driverController.b();
-                final Trigger moveToAmp = m_operatorController.a();
+                final Trigger moveToAutoSubwoofer = m_operatorController.a();
                 final Trigger moveToPodium = m_driverController.x();
-                final Trigger moveToBackSubwoofer = m_operatorController.rightStick();
+                final Trigger moveToAltPodium = m_operatorController.b();
+                final Trigger moveToBackSubwoofer = m_operatorController.x();
 
                 // Climb Controls TBD
                 final Trigger moveToTrapApproach = m_operatorController.povLeft();
@@ -309,12 +313,18 @@ public class RobotContainer {
                                 new InstantCommand(m_intake::stop),
                                 new InstantCommand(m_feeder::stop),
                                 new InstantCommand(m_shooter::stop)));
+                allSystemsOff.onTrue(new ParallelCommandGroup(
+                                new InstantCommand(m_intake::stop),
+                                new InstantCommand(m_feeder::stop),
+                                new InstantCommand(m_shooter::stop)));
+
                 // Testing conditional, check if shooter is at speed, if it is, shoot, if not,
                 // wait til it is at speed then shoot
 
                 // Add another conditional command to shootnew to check if arm is in amp
                 // position, so it doesn't return home after shooting
-                shoot.onTrue(new ShootChooser(m_feeder, m_arm, m_shooter, m_blinkin));
+                shoot.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
+                altShoot.onTrue(new ShootInstant(m_feeder, m_arm, m_shooter, m_blinkin));
 
                 // intake.onTrue(new PickUpNote(m_intake, m_feeder, m_arm, m_shooter,
                 // m_blinkin));
@@ -336,6 +346,14 @@ public class RobotContainer {
                                                 m_operatorController, m_blinkin),
                                 m_intake::isIntakeRunning));
 
+                altToggleIntake.toggleOnTrue(new ConditionalCommand(
+                                new ParallelCommandGroup(
+                                                new InstantCommand(m_intake::stop),
+                                                new InstantCommand(m_feeder::stop),
+                                                new InstantCommand(m_blinkin::driving)),
+                                new PickUpNote(m_intake, m_feeder, m_arm, m_shooter, m_driverController,
+                                                m_operatorController, m_blinkin),
+                                m_intake::isIntakeRunning));
                 // Operator Shooter Controls
                 /*toggleShooter.toggleOnTrue(
                                 new ConditionalCommand(new InstantCommand(m_shooter::stop),
@@ -368,6 +386,11 @@ public class RobotContainer {
                 moveToPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
                                 Position.PODIUM));
 
+                moveToAltPodium.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                                Position.PODIUM));
+
+                moveToAutoSubwoofer.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                                Position.AUTO_SUBWOOFER));
                 // moveToSubwooferDriver.onTrue(
                 // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
                 // Position.SUBWOOFER));
@@ -387,9 +410,8 @@ public class RobotContainer {
                 // moveToSubwoofer.and(alternatePosition).onTrue(
                 // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
                 // Position.BACK_SUBWOOFER));
-                // moveToBackSubwoofer.onTrue(
-                // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
-                // Position.BACK_SUBWOOFER));
+                moveToBackSubwoofer.onTrue(new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,
+                Position.BACK_SUBWOOFER));
 
                 // moveToBackSubwooferDriver.onTrue(
                 // new MoveToPosition(m_arm, m_shooter, m_feeder, m_blinkin,

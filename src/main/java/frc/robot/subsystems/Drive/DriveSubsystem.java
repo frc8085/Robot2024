@@ -202,14 +202,14 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void stop() {
-        drive(0, 0, 0, 0, false, false);
+        drive(0, 0, 0, false, false);
     }
 
     public void turn(double speed) {
         double direction = speed > 0 ? 1 : -1;
         double speedWithMinimum = Math.max(0.00, Math.abs(speed)) * direction;
 
-        drive(0, 0, 0, speedWithMinimum, true, false);
+        drive(0, 0, speedWithMinimum, true, false);
     }
 
     /**
@@ -223,10 +223,10 @@ public class DriveSubsystem extends SubsystemBase {
      *                      field.
      * @param rateLimit     Whether to enable rate limiting for smoother control.
      */
-    public void drive(double speed, double xSpeed, double ySpeed, double rot, boolean fieldRelative,
+    public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative,
             boolean rateLimit) {
 
-        double speedCommanded = speed;
+        //double speedCommanded = speed;
         double xSpeedCommanded;
         double ySpeedCommanded;
 
@@ -234,19 +234,19 @@ public class DriveSubsystem extends SubsystemBase {
         // turning
 
         // if right joystick is > deadband || right joystick < -deadband
-        if ((speedCommanded < OIConstants.kDriveDeadband)
-                && (OIConstants.kDriveDeadband > rot && rot > -OIConstants.kDriveDeadband)) {
-            speedCommanded = 0;
-            rot = 0;
-            xSpeedCommanded = 0;
-            ySpeedCommanded = 0;
-        }
+        // if ((xSpeed < OIConstants.kDriveDeadband)
+        //         && (OIConstants.kDriveDeadband > rot && rot > -OIConstants.kDriveDeadband)) {
+        //     xSpeed = 0;
+        //     rot = 0;
+        //     xSpeedCommanded = 0;
+        //     ySpeedCommanded = 0;
+        // }
 
         if (rateLimit) {
             // Convert XY to polar for rate limiting
-            double inputTranslationDir = Math.atan2(speedCommanded * ySpeed, speedCommanded * xSpeed);
+            double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
             double inputTranslationMag = Math
-                    .sqrt(Math.pow(speedCommanded * xSpeed, 2) + Math.pow(speedCommanded * ySpeed, 2));
+                    .sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
 
             // Calculate the direction slew rate based on an estimate of the lateral
             // acceleration
@@ -287,7 +287,7 @@ public class DriveSubsystem extends SubsystemBase {
         } else {
             xSpeedCommanded = xSpeed;
             ySpeedCommanded = ySpeed;
-            m_currentRotation = rot;
+            m_currentRotation = -rot;
         }
 
         double xSpeedDelivered = xSpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
@@ -295,8 +295,6 @@ public class DriveSubsystem extends SubsystemBase {
         double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
 
         drive(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered), fieldRelative);
-
-        Logger.recordOutput(getName() + DESIRED_SPEED_LOG_ENTRY, speedCommanded);
     }
 
     private void driveRobotRelative(ChassisSpeeds speeds) {

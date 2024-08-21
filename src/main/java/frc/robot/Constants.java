@@ -95,25 +95,25 @@ public final class Constants {
                 public static IdleMode kShooterMotor1IdleMode = IdleMode.kBrake;
                 public static double kShooter2MaxOutput = 1;
                 public static double kShooter2MinOutput = -1;
-                public static double kShooter2FF = 0.000235;
-                public static double kShooter2P = 0.0006;
+                public static double kShooter2FF = 0.000195;
+                public static double kShooter2P = 0.0024;
                 public static double kShooter2I = 0.00;
                 public static double kShooter2D = .6;
 
                 public static double kShooter1MaxOutput = 1;
                 public static double kShooter1MinOutput = -1;
-                public static double kShooter1FF = 0.000235;
+                public static double kShooter1FF = 0.000195;
                 //0.0006
-                public static double kShooter1P = 0.0006;
+                public static double kShooter1P = 0.0024;
                 public static double kShooter1I = 0.00;
-                public static double kShooter1D = .6;
+                public static double kShooter1D = 0;
 
                 public static double kShooterEncoder2VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder2PositionFactor = (2 * Math.PI);
                 public static double kShooterEncoder1VelocityFactor = (2 * Math.PI) / 60.0;
                 public static double kShooterEncoder1PositionFactor = (2 * Math.PI);
 
-                public static double kShooter1SetPoint = 4000;
+                public static double kShooter1SetPoint = 1000;
                 public static double kShooter2SetPoint = kShooter1SetPoint * 1;
                 public static double kShooter1PodiumToleranceRPMPercent = .1;
                 public static double kShooter2PodiumToleranceRPMPercent = .1;
@@ -238,7 +238,7 @@ public final class Constants {
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
                         PODIUM("Podium",
-                                        260,
+                                        270,
                                         55,
                                         true,
                                         true,
@@ -254,7 +254,7 @@ public final class Constants {
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_PODIUM_SOURCE("Auto Podium Source",
-                                        260,
+                                        270,
                                         55,
                                         true,
                                         true,
@@ -270,21 +270,21 @@ public final class Constants {
                                         false,
                                         ShooterConstants.kShooter1SetPoint),
                         SUBWOOFER("Subwoofer",
-                                        238,
-                                        41,
+                                        260,
+                                        55,
                                         false,
                                         false,
                                         true,
                                         true,
                                         ShooterConstants.kShooter1SetPoint),
                         AUTO_SUBWOOFER("Auto Subwoofer",
-                                        285,
-                                        65,
+                                        265,
+                                        55,
                                         true,
                                         true,
                                         true,
                                         false,
-                                        ShooterConstants.kShooter1SetPoint),
+                                        4000),
                         SIDE_SUBWOOFER("Side Subwoofer",
                                         330,
                                         120,
@@ -352,7 +352,7 @@ public final class Constants {
                                         true,
                                         true,
                                         false,
-                                        ShooterConstants.kShooter1SetPoint),
+                                        1500),
 
                         EJECT_NOTE("Eject Note",
                                         280,
@@ -474,7 +474,7 @@ public final class Constants {
                 public static final double kMaxSpeedMetersPerSecond = 5.75 * kMaxSpeedAdjustment;
 
                 // if you want to slow down the rotation speed, change the adjustment factor
-                public static final double kAngularSpeedAdjustment = .95;
+                public static final double kAngularSpeedAdjustment = .5;
                 public static final double kMaxAngularSpeed = 2 * Math.PI * kAngularSpeedAdjustment; // radians per
                 // second
 
