@@ -43,44 +43,19 @@ public class ExampleSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run during simulation
     }
 
-    public void relativeMotorRot(double d_Direction, double rotation, double rotationSensitivity, double heading) {
+    public void relativeMotorRot(double heading, double d_Direction, double currentWheelSpeed, double d_Rotation, double d_RotationSensitivity) {
         // d_Direction is desired direction as an angle
         // rotation is desired rotation amount (max amount is 1, minimum is -1)
-        // heading is direction robot is facing as an angle
-        double FLMax;
-        double FRMax;
-        double BRMax;
-        double BLMax;
+        // heading is direction robot is facing as an angle (field relative)
 
-        // Max rotation angles
-        if (rotation > 0) {
-            FLMax = 70;
-            FRMax = 140;
-            BRMax = 210;
-            BLMax = 280;
-        } else {
-            FLMax = 140;
-            FRMax = 70;
-            BRMax = 280;
-            BLMax = 210;
-        }
-
-        double wheelOffset = d_Direction - heading;
-
-        double FLRot = (wheelOffset + calculateRot(FLMax, rotation, rotationSensitivity)) / 2;
-        double FRRot = (wheelOffset + calculateRot(FRMax, rotation, rotationSensitivity)) / 2;
-        double BLRot = (wheelOffset + calculateRot(BLMax, rotation, rotationSensitivity)) / 2;
-        double BRRot = (wheelOffset + calculateRot(BRMax, rotation, rotationSensitivity)) / 2;
-
-        // btw this code wont work probably
+        double adjustedWheelRot = d_Direction - heading; // sets wheels to desired direction direction despite robot rotation
+        
+        double individualWheelSpeed = currentWheelSpeed -  
     }
 
-    public double calculateRot(double x, double y, double z) {
-        // x: maxrot
-        // y: rotation
-        // z: rotationSensitivity
-        double rotAngle = x * y * z;
-        return rotAngle;
+    public double calculateRot(double d_Rotation, double LinearVelocity) {
+        double omega = Math.toRadians(d_Rotation);
+
     }
 
 }
