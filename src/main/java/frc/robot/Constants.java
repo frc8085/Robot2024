@@ -16,8 +16,16 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
   public static class DriveConstants {
-        public static final int kMaxspeed = 10;
-        public static final int kPowerToFeet = 10;
+      public static final int kMaxspeed = 10;
+      public static final int kPowerToFeet = 10;
+  }
+  
+  public static class CanIDConstants {
+      public static final int kFrontLeftCanID = 1;
+      public static final int kFrontRightCanID = 2;
+      public static final int kBackLeftCanID = 3;
+      public static final int kBackRightCanID = 4;
   }
 }
