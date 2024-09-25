@@ -6,10 +6,16 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
     /** Creates a new ExampleSubsystem. */
+<<<<<<< Updated upstream:src/main/java/frc/robot/subsystems/DriveSubsystem.java
     public DriveSubsystem() {
+=======
+    public ExampleSubsystem() {
+
+>>>>>>> Stashed changes:src/main/java/frc/robot/subsystems/ExampleSubsystem.java
     }
 
     /**
