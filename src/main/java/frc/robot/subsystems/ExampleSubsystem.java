@@ -43,18 +43,23 @@ public class ExampleSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run during simulation
     }
 
-    public void relativeMotorRot(double heading, double d_Direction, double currentWheelSpeed, double d_Rotation, double d_RotationSensitivity) {
-        // d_Direction is desired direction as an angle
-        // rotation is desired rotation amount (max amount is 1, minimum is -1)
-        // heading is direction robot is facing as an angle (field relative)
+    double vWheel;
 
-        double adjustedWheelRot = d_Direction - heading; // sets wheels to desired direction direction despite robot rotation
-        
-        double individualWheelSpeed = currentWheelSpeed -  
-    }
+    public double calculateWheel(double omega, double LinearVelocity, double heading, double d_Direction,
+            double distance) {
+        // Omega: (-1) - 1
+        // LinearVelocity: 0 - 1
+        double RotationVelocity = omega * distance;
 
-    public double calculateRot(double d_Rotation, double LinearVelocity) {
-        double omega = Math.toRadians(d_Rotation);
+        double vWheelAngle; // Unfinished
+
+        double LinearX = Math.cos(vWheelAngle) * LinearVelocity;
+        double LinearY = Math.sin(vWheelAngle) * LinearVelocity;
+
+        double RotationX = Math.cos(vWheelAngle) * RotationVelocity;
+        double RotationY = Math.sin(vWheelAngle) * RotationVelocity;
+
+        double vWheelSpeed = Math.sqrt(Math.pow((LinearX + RotationX), 2) + Math.pow((LinearY + RotationY), 2));
 
     }
 
