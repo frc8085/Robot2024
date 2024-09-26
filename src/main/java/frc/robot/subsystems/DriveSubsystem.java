@@ -4,18 +4,22 @@
 
 package frc.robot.subsystems;
 
+import org.opencv.core.Mat;
+
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CanIDConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.RobotDimensionConstants;
 
 public class DriveSubsystem extends SubsystemBase {
     /** Creates a new ExampleSubsystem. */
-<<<<<<< Updated upstream:src/main/java/frc/robot/subsystems/DriveSubsystem.java
     public DriveSubsystem() {
-=======
-    public ExampleSubsystem() {
-
->>>>>>> Stashed changes:src/main/java/frc/robot/subsystems/ExampleSubsystem.java
     }
 
     /**
@@ -49,13 +53,44 @@ public class DriveSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run during simulation
     }
 
+    private final Pigeon2 m_gyro = new Pigeon2(CanIDConstants.kGyroCanID);
+
+    public Field2d field = new Field2d();
+
+    // fien fein
+
+    // Slew rate filter variables for controlling lateral acceleration
+    private double m_currentRotation = 0.0;
+    private double m_currentTranslationDir = 0.0;
+    private double m_currentTranslationMag = 0.0;
+
+    private SlewRateLimiter m_magLimiter = new SlewRateLimiter(DriveConstants.kMagnitudeSlewRate);
+    private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
+    private double m_prevTime = WPIUtilJNI.now() * 1e-6;
+
+    // // Odometry class for tracking robot pose
+    // SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+    // DriveConstants.kDriveKinematics,
+    // getYaw(),
+    // getModulePositions());
+
+    SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
+            DriveConstants.kDriveKinematics,
+            getYaw(),
+            getModulePositions(),
+            new Pose2d());
+
     double vWheel;
 
-    public double calculateWheel(double omega, double LinearVelocity, double heading, double d_Direction,
-            double distance) {
+    public double calculateWheel(double omega, double VelocityX, double VelocityY, double heading, double d_Direction) {
         // Omega: (-1) - 1
         // LinearVelocity: 0 - 1
-        double RotationVelocity = omega * distance;
+        double radius = Math.sqrt((Math.pow(kLength, 2) + Math.pow(kWidth, 2)));
+        double RotationVelocity = omega * radius;
+
+        double LinearVelocity = 
+
+
 
         double vWheelAngle; // Unfinished
 
