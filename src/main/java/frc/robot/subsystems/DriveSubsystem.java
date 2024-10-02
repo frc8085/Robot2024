@@ -82,20 +82,20 @@ public class DriveSubsystem extends SubsystemBase {
 
     double vWheel;
 
-    public double calculateWheel(double omega, double VelocityX, double VelocityY, double heading, double d_Direction) {
+    public double calculateWheel(double omega, double VelocityX, double VelocityY, double heading) {
         // Omega: (-1) - 1
-        // LinearVelocity: 0 - 1
-        double radius = Math.sqrt((Math.pow(kLength, 2) + Math.pow(kWidth, 2)));
+        // X/Y Velocity: 0 - 1
+        double radius = Math
+                .sqrt((Math.pow(RobotDimensionConstants.kLength, 2) + Math.pow(RobotDimensionConstants.kWidth, 2)));
         double RotationVelocity = omega * radius;
 
-        double LinearVelocity = 
+        double LinearAngle = Math.atan2(VelocityX, VelocityY);
+        double vWheelAngle = (Math.atan2(RobotDimensionConstants.kWidth, RobotDimensionConstants.kLength) + 90);
 
+        double LinearVelocity = Math.sqrt(Math.pow(VelocityX, 2) + Math.pow(VelocityY, 2));
 
-
-        double vWheelAngle; // Unfinished
-
-        double LinearX = Math.cos(vWheelAngle) * LinearVelocity;
-        double LinearY = Math.sin(vWheelAngle) * LinearVelocity;
+        double LinearX = Math.cos(LinearAngle) * LinearVelocity;
+        double LinearY = Math.sin(LinearAngle) * LinearVelocity;
 
         double RotationX = Math.cos(vWheelAngle) * RotationVelocity;
         double RotationY = Math.sin(vWheelAngle) * RotationVelocity;

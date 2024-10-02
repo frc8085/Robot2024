@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -24,17 +27,31 @@ public final class Constants {
     public static class DriveConstants {
         public static final int kMaxspeed = 10;
         public static final int kPowerToFeet = 10;
+
+        // slew rate values from last year:
+        public static final double kDirectionSlewRate = 1.2; // radians per second
+        public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
+        public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
+
+        public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+                new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
     }
 
     public static class CanIDConstants {
+        public static final int kGyroCanID = 1;
         public static final int kFrontLeftCanID = 1;
         public static final int kFrontRightCanID = 2;
         public static final int kBackLeftCanID = 3;
         public static final int kBackRightCanID = 4;
+
+        // substituted values
     }
 
-    public static class RobotDimension {
-        public static final int kLengthFromCenter = 1;
-        public static final int kWidthFromCenter = 1;
+    public static class RobotDimensionConstants {
+        public static final double kLength = 3 / 2; // change 1 to dimension
+        public static final double kWidth = 3 / 2; // change 1 to dimension
     }
 }
