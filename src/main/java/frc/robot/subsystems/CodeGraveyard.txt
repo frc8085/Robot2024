@@ -1,0 +1,47 @@
+/**
+ * Get the closest angle between the given angles.
+ */
+// private static double closestAngle(double a, double b)
+// {
+//         // get direction
+//         //double dir = modulo(b, 360.0) - modulo(a, 360.0);
+//         double dir = Pigeon
+
+//         // convert from -360 to 360 to -180 to 180
+//         if (Math.abs(dir) > 180.0)
+//         {
+//                 //SIGNUM MOR LIKE SIGMA HARHARHARHAR - frank
+//                 //frank should be removed from programming subteam -liam
+//                 //alex should also be removed from programming subteam - rian
+//                 //im short - totaly alex and not frank
+
+//                 //after further reading of documentation, signum is VERy sigma -liam
+//                 dir = -(Math.signum(dir) * 360.0)+ dir;
+//         }
+//         return dir;
+// }
+
+
+
+/*  public double calculateWheel(double omega, double VelocityX, double VelocityY, double heading) {
+        // Omega: (-1) - 1
+        // X/Y Velocity: 0 - 1
+        double radius = Math
+                .sqrt((Math.pow(RobotDimensionConstants.kLength, 2) + Math.pow(RobotDimensionConstants.kWidth, 2)));
+        double RotationVelocity = omega * radius;
+
+        double LinearAngle = Math.atan2(VelocityX, VelocityY);
+        double vWheelAngle = (Math.atan2(RobotDimensionConstants.kWidth, RobotDimensionConstants.kLength) + 90);
+
+        double LinearVelocity = Math.sqrt(Math.pow(VelocityX, 2) + Math.pow(VelocityY, 2));
+
+        double LinearX = Math.cos(LinearAngle) * LinearVelocity;
+        double LinearY = Math.sin(LinearAngle) * LinearVelocity;
+
+        double RotationX = Math.cos(vWheelAngle) * RotationVelocity;
+        double RotationY = Math.sin(vWheelAngle) * RotationVelocity;
+
+        double vWheelSpeed = Math.sqrt(Math.pow((LinearX + RotationX), 2) + Math.pow((LinearY + RotationY), 2));
+
+    }
+ */

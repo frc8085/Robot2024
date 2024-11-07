@@ -9,38 +9,27 @@ import org.opencv.core.Mat;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.CanIDConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.RobotDimensionConstants;
 
 public class DriveSubsystem extends SubsystemBase {
-    /** Creates a new ExampleSubsystem. */
-    public DriveSubsystem() {
-    }
 
-    /**
-     * Example command factory method.
-     *
-     * @return a command
-     */
     public Command drive(double xSpeed, double ySpeed, double rot) {
 
         return null;
-    }
-
-    /**
-     * An example method querying a boolean state of the subsystem (for example, a
-     * digital sensor).
-     *
-     * @return value of some boolean subsystem state, such as a digital sensor.
-     */
-    public boolean exampleCondition() {
-        // Query some boolean state, such as a digital sensor.
-        return false;
     }
 
     @Override
@@ -53,55 +42,25 @@ public class DriveSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run during simulation
     }
 
-    private final Pigeon2 m_gyro = new Pigeon2(CanIDConstants.kGyroCanID);
+    // Locations for the swerve drive modules relative to the robot center.
+    // NOTE FROM LIAM: Change the x and y inputs
+    Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
+    Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
+    Translation2d m_backLeftLocation = new Translation2d(-0.381, 0.381);
+    Translation2d m_backRightLocation = new Translation2d(-0.381, -0.381);
 
-    public Field2d field = new Field2d();
+    // Creating my kinematics object using the module locations
+    SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+            m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
 
-    // fien fein
+    ChassisSpeeds speeds = new ChassisSpeeds(1.0, 3.0, 1.5);
 
-    // Slew rate filter variables for controlling lateral acceleration
-    private double m_currentRotation = 0.0;
-    private double m_currentTranslationDir = 0.0;
-    private double m_currentTranslationMag = 0.0;
+    CommandXboxController m_CommandXboxController = new CommandXboxController(0);
+    XboxController m_Controller = new XboxController(0);
 
-    private SlewRateLimiter m_magLimiter = new SlewRateLimiter(DriveConstants.kMagnitudeSlewRate);
-    private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
-    private double m_prevTime = WPIUtilJNI.now() * 1e-6;
+    Trigger(Drive, )
 
-    // // Odometry class for tracking robot pose
-    // SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-    // DriveConstants.kDriveKinematics,
-    // getYaw(),
-    // getModulePositions());
-
-    SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
-            DriveConstants.kDriveKinematics,
-            getYaw(),
-            getModulePositions(),
-            new Pose2d());
-
-    double vWheel;
-
-    public double calculateWheel(double omega, double VelocityX, double VelocityY, double heading) {
-        // Omega: (-1) - 1
-        // X/Y Velocity: 0 - 1
-        double radius = Math
-                .sqrt((Math.pow(RobotDimensionConstants.kLength, 2) + Math.pow(RobotDimensionConstants.kWidth, 2)));
-        double RotationVelocity = omega * radius;
-
-        double LinearAngle = Math.atan2(VelocityX, VelocityY);
-        double vWheelAngle = (Math.atan2(RobotDimensionConstants.kWidth, RobotDimensionConstants.kLength) + 90);
-
-        double LinearVelocity = Math.sqrt(Math.pow(VelocityX, 2) + Math.pow(VelocityY, 2));
-
-        double LinearX = Math.cos(LinearAngle) * LinearVelocity;
-        double LinearY = Math.sin(LinearAngle) * LinearVelocity;
-
-        double RotationX = Math.cos(vWheelAngle) * RotationVelocity;
-        double RotationY = Math.sin(vWheelAngle) * RotationVelocity;
-
-        double vWheelSpeed = Math.sqrt(Math.pow((LinearX + RotationX), 2) + Math.pow((LinearY + RotationY), 2));
+    public void Drive() {
 
     }
-
 }
