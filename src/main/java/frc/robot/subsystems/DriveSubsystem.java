@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.CanIDConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.RobotDimensionConstants;
+import frc.robot.Constants.SwerveDriveKinematics;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -44,7 +45,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Locations for the swerve drive modules relative to the robot center.
     // NOTE FROM LIAM: Change the x and y inputs
-    Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
+    Translation2d m_frontLeftLocation = SwerveDriveKinematics.k;
     Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
     Translation2d m_backLeftLocation = new Translation2d(-0.381, 0.381);
     Translation2d m_backRightLocation = new Translation2d(-0.381, -0.381);
@@ -54,10 +55,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
 
     ChassisSpeeds speeds = new ChassisSpeeds(1.0, 3.0, 1.5);
-
-    CommandXboxController m_CommandXboxController = new CommandXboxController(0);
-    XboxController m_Controller = new XboxController(0);
-
+    
     Trigger(Drive, )
 
     public void Drive() {
