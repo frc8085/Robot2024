@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
+//import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -16,8 +16,8 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveSubsystem m_drive = new DriveSubsystem();
 
-    private final CommandXboxController m_driverController = new CommandXboxController(
-            OperatorConstants.kDriverControllerPort);
+    // private final CommandXboxController m_driverController = new
+    // CommandXboxController(OperatorConstants.kDriverControllerPort);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -30,7 +30,7 @@ public class RobotContainer {
     // EXAMPLE BINDINGS
     private void configureButtonBindings() {
         // DRIVER controlled buttons
-        final Trigger shoot = m_driverController.leftTrigger();
-        final Trigger shootInstant = m_driverController.rightBumper();
+        // final Trigger shoot = m_driverController.leftTrigger();
+        // final Trigger shootInstant = m_driverController.rightBumper();
     }
 }
