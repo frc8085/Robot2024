@@ -4,6 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,9 +20,10 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.utils.SwerveUtils;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
     // Create MAXSwerveModules
@@ -146,7 +152,7 @@ public class DriveSubsystem extends SubsystemBase {
             } else if (angleDif > 0.85 * Math.PI) {
                 if (m_currentTranslationMag > 1e-4) { // some small number to avoid floating-point errors with equality
                                                       // checking
-                    // keep currentTranslationDir unchanged
+                                                      // keep currentTranslationDir unchanged
                     m_currentTranslationMag = m_magLimiter.calculate(0.0);
                 } else {
                     m_currentTranslationDir = SwerveUtils.WrapAngle(m_currentTranslationDir + Math.PI);
@@ -198,7 +204,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     /**
-     * Sets the swerve ModuleStates.
+     * Sets the swerve ModuleStates
      *
      * @param desiredStates The desired SwerveModule states.
      */
@@ -241,4 +247,58 @@ public class DriveSubsystem extends SubsystemBase {
     public double getTurnRate() {
         return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
     }
+
+    public class SwerveDriveWheel {
+        private final PIDController directionController;
+        private final CANSparkMax directionMotor;
+        private final RelativeEncoder directionEncoder;
+
+        // Constructor to initialize the PID controller and the motor/encoder
+        public SwerveDriveWheel(double P, double I, double D, CANSparkMax directionMotor,
+                RelativeEncoder directionEncoder) {
+            // Initialize the motor and encoder
+            this.directionMotor = directionMotor;
+            this.directionEncoder = directionEncoder;
+
+            // Create the PID controller with the provided constants
+            this.directionController = new PIDController(P, I, D);
+
+            // Set the PID controller to use the encoder as a feedback source
+            this.directionController.setSetpoint(0.0); // default setpoint (zero position)
+            this.directionController.setTolerance(5.0); // Tolerance in degrees, adjust as needed
+        }
+
+        // Method to set the desired direction of the wheel
+        public void setDirection(double setpoint) {
+            // Set the setpoint for the PID controller
+            directionController.setSetpoint(setpoint);
+
+            // Get the current position from the encoder (in degrees or encoder ticks)
+            double currentPosition = directionEncoder.getPosition(); // or getAngle() depending on your setup
+
+            // Calculate the PID output to adjust the motor
+            double pidOutput = directionController.calculate(currentPosition);
+
+            // Set the motor speed based on the PID output
+            directionMotor.set(pidOutput); // Motor will be controlled by the PID output
+        }
+
+        // You can add more methods like resetting the encoder, getting the position,
+        // etc., as needed
+        public void resetEncoder() {
+            directionEncoder.setPosition(0); // Reset the encoder position
+        }
+
+        public double getCurrentPosition() {
+            return directionEncoder.getPosition(); // Return the current position
+        }
+    }
+
+    public Command exampleMethodCommand() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'exampleMethodCommand'");
+    }
 }
+
+// TODO: apply controller settings
+// TODO:
